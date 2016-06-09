@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="VisaDataSet" targetNamespace="http://tempuri.org/VisaDataSet.xsd" xmlns:mstns="http://tempuri.org/VisaDataSet.xsd" xmlns="http://tempuri.org/VisaDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="VisaDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="VisaDataSet" msprop:Generator_UserDSName="VisaDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ServiceCenter" msprop:Generator_TableClassName="ServiceCenterDataTable" msprop:Generator_TableVarName="tableServiceCenter" msprop:Generator_TablePropName="ServiceCenter" msprop:Generator_RowDeletingName="ServiceCenterRowDeleting" msprop:Generator_RowChangingName="ServiceCenterRowChanging" msprop:Generator_RowEvHandlerName="ServiceCenterRowChangeEventHandler" msprop:Generator_RowDeletedName="ServiceCenterRowDeleted" msprop:Generator_UserTableName="ServiceCenter" msprop:Generator_RowChangedName="ServiceCenterRowChanged" msprop:Generator_RowEvArgName="ServiceCenterRowChangeEvent" msprop:Generator_RowClassName="ServiceCenterRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
+              <xs:element name="Value" msprop:Generator_ColumnVarNameInTable="columnValue" msprop:Generator_ColumnPropNameInRow="Value" msprop:Generator_ColumnPropNameInTable="ValueColumn" msprop:Generator_UserColumnName="Value" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="VisaCategory" msprop:Generator_TableClassName="VisaCategoryDataTable" msprop:Generator_TableVarName="tableVisaCategory" msprop:Generator_RowChangedName="VisaCategoryRowChanged" msprop:Generator_TablePropName="VisaCategory" msprop:Generator_RowDeletingName="VisaCategoryRowDeleting" msprop:Generator_RowChangingName="VisaCategoryRowChanging" msprop:Generator_RowEvHandlerName="VisaCategoryRowChangeEventHandler" msprop:Generator_RowDeletedName="VisaCategoryRowDeleted" msprop:Generator_RowClassName="VisaCategoryRow" msprop:Generator_UserTableName="VisaCategory" msprop:Generator_RowEvArgName="VisaCategoryRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
+              <xs:element name="Value" msprop:Generator_ColumnVarNameInTable="columnValue" msprop:Generator_ColumnPropNameInRow="Value" msprop:Generator_ColumnPropNameInTable="ValueColumn" msprop:Generator_UserColumnName="Value" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
