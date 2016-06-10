@@ -1,16 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 using Visa.Database;
-using Visa.WebCrawler;
+using Visa.WebCrawler.SeleniumCrawler;
 
 namespace Visa.WinForms
 {
     public partial class MainForm : Form
     {
-        private SeleniumCrawler _crawler;
+        private GetFirtAvailableData _crawler;
         private BackgroundWorker _crawlerWorker;
         private BackgroundWorker _progressBarWorker;
         private int startPos = 1;
@@ -19,7 +18,6 @@ namespace Visa.WinForms
         public MainForm()
         {
             InitializeComponent();
-            _crawler = new SeleniumCrawler();
             _crawlerWorker = new BackgroundWorker();
             _progressBarWorker = new BackgroundWorker();
 
@@ -37,6 +35,8 @@ namespace Visa.WinForms
                 InstanceProvider.DataSet.VisaCategory.ToList();
         }
 
+        private int state = 1;
+
         private void buttonShow_Click(object sender, EventArgs e)
         {
             if (!_progressBarWorker.IsBusy)
@@ -51,25 +51,45 @@ namespace Visa.WinForms
 
             if (incomingData == null) return;
 
-            foreach (var count in _crawler.DoWork(incomingData.Item1, incomingData.Item2))
+            switch (state)
             {
-                for (var i = startPos; i <= count; i++)
-                {
-                    // Wait 100 milliseconds.
-                    Thread.Sleep(100);
-                    // Report progress.
-                    _progressBarWorker.ReportProgress(i);
-                }
-                startPos = count;
-                return;
+                case 1:
+                    _crawler = new GetFirtAvailableData();
+                    _crawler.PartOne();
+                    state = 2;
+                    break;
+                case 2:
+                    _crawler.PartTwo(incomingData.Item1, incomingData.Item2);
+                    state = 3;
+                    break;
+                case 3:
+                    _crawler.PartThree();
+                    MessageBox.Show(_crawler.OutData);
+                    break;
+                default:
+                    break;
             }
+
+            //foreach (var count in _crawler.DoWork(incomingData.Item1, incomingData.Item2))
+            //{
+            //    for (var i = startPos; i <= count; i++)
+            //    {
+            //        // Wait 100 milliseconds.
+            //        Thread.Sleep(100);
+            //        // Report progress.
+
+            //        _progressBarWorker.ReportProgress(i);
+            //    }
+            //    startPos = count;
+            //    return;
+            //}
         }
 
         private void progressBarWorker_ProgressChanged(object sender,
             ProgressChangedEventArgs e)
         {
             // Change the value of the ProgressBar to the BackgroundWorker progress.
-            progressBarControl1.EditValue = e.ProgressPercentage;
+            //progressBarControl1.EditValue = e.ProgressPercentage;
         }
 
         private void _crawlerWorker_DoWork(object sender, DoWorkEventArgs e)

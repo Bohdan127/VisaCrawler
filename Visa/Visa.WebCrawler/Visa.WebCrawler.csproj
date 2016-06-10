@@ -45,8 +45,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SeleniumCrawler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SeleniumCrawler\GetFirtAvailableData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
