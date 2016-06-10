@@ -12,13 +12,15 @@ namespace Test
         private static string checkAvailableData = "ctl00_plhMain_lnkChkAppmntAvailability";       //Перевірити доступні для реєстрації дати в кол-центрі
         private static string visaCity = "ctl00_plhMain_cboVAC"; //Візовий Сервіс Центр
         private static string visaCategory = "ctl00_plhMain_cboVisaCategory"; //Візова категорія
-        private static string buttonSubmit = "ctl00_plhMain_btnSubmit";//Підтвердити
-        private static string regData = "ctl00_plhMain_lblAvailableDateMsg";//Найближча доступна дата для реєстрації
+        private static string buttonSubmit = "ctl00_plhMain_btnSubmit";//Підтвердити                                      private static string regData = "ctl00_plhMain_lblAvailableDateMsg";//Найближча доступна дата для реєстрації
 
         static void Main(string[] args)
         {
-            IWebDriver driver = new FirefoxDriver();
+            FirefoxDriver driver = new FirefoxDriver();
+            //new FirefoxDriver(new FirefoxBinary(@"C:\Program Files (x86)\Mozilla Firefox\firefox.exe"),
+            //    new FirefoxProfile(@"C:\Users\BohdanPC\AppData\Roaming\Mozilla\Firefox\Profiles\0igfgrhe.default"));
             driver.Navigate().GoToUrl(mainUrl);
+            Thread.Sleep(3000);
             IWebElement query = driver.FindElement(By.Id(checkAvailableData));
             query.Click();
             Console.WriteLine("Please type Enter when you finish entering Capcha");
@@ -33,7 +35,7 @@ namespace Test
             query = driver.FindElement(By.Id(buttonSubmit));
             query.Click();
             Thread.Sleep(3000);
-            query = driver.FindElement(By.Id(regData));
+            //query = driver.FindElement(By.Id(regData));
             Console.WriteLine(query.Text);
             Console.ReadLine();
             driver.Quit();
