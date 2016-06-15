@@ -27,7 +27,7 @@
     <ProductName>Visa Helper</ProductName>
     <PublisherName>Bohdan Benetskyi</PublisherName>
     <SuiteName>Visa Helper</SuiteName>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>0.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -142,12 +142,19 @@
       <Project>{4FAC9364-BA83-43F8-AA95-57BBC8835F2C}</Project>
       <Name>Visa.Database</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Visa.Resources\Visa.Resources.csproj">
+      <Project>{c29283c8-3fa1-4b26-90bc-09b392e6678c}</Project>
+      <Name>Visa.Resources</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Visa.WebCrawler\Visa.WebCrawler.csproj">
       <Project>{CB18A2ED-776C-4271-A712-A5374B81213B}</Project>
       <Name>Visa.WebCrawler</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\stop.png" />
+    <Content Include="Images\success.png" />
+    <Content Include="Images\warning.png" />
     <Content Include="uk\DevExpress.Charts.Designer.v15.2.resources.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

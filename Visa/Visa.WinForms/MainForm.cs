@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using Visa.Database;
+using Visa.Resources;
 using Visa.WebCrawler.SeleniumCrawler;
 
 namespace Visa.WinForms
@@ -39,6 +40,7 @@ namespace Visa.WinForms
 
         private AlertControl _alertControl;
 
+        private int c = 0;
         #endregion Members
 
         #region CTOR
@@ -46,18 +48,7 @@ namespace Visa.WinForms
         public MainForm()
         {
             InitializeComponent();
-
-            _alertControl = new AlertControl();
-            _crawlerWorker = new BackgroundWorker();
-            _progressBarWorker = new BackgroundWorker();
-
-            _progressBarWorker.DoWork += progressBarWorker_DoWork;
-
-            _crawlerWorker.DoWork += _crawlerWorker_DoWork;
-
-            _alertControl.BeforeFormShow += _alertControl_BeforeFormShow;
-            _alertControl.FormLoad += _alertControl_FormLoad;
-            _alertControl.AlertClick += _alertControl_AlertClick;
+            InitOtherComponentDetails();
         }
 
         #endregion CTOR
@@ -66,12 +57,13 @@ namespace Visa.WinForms
 
         private void _alertControl_BeforeFormShow(object sender, AlertFormEventArgs e)
         {
-            e.Location = new Point(Screen.PrimaryScreen.Bounds.Width / 2, Screen.PrimaryScreen.Bounds.Height / 2);
+            e.Location = new Point((Screen.PrimaryScreen.Bounds.Width + 150) / 2, (Screen.PrimaryScreen.Bounds.Height - 150) / 2);
         }
 
         private void _alertControl_AlertClick(object sender, AlertClickEventArgs e)
         {
             StartNewWorkRound();
+            buttonShow.Enabled = false;
             e.AlertForm.Close();
         }
 
@@ -127,11 +119,13 @@ namespace Visa.WinForms
 
             for (var i = _initVal; i <= maxVal; i++)
             {
+                if (_crawler.Error)
+                    return;
                 Invoke(new Action(() =>
                 {
                     progressBarControl1.EditValue = i;
                 }));
-                Thread.Sleep(300);
+                Thread.Sleep(150);
             }
 
             _initVal = maxVal;
@@ -150,34 +144,72 @@ namespace Visa.WinForms
             switch (_state)
             {
                 case 1:
+                    Invoke(new Action(() =>
+                    {
+                        _alertControl.AlertFormList.ForEach(alert => alert.Close());
+                    }));
                     _crawler = new GetFirtAvailableData();
                     _crawler.PartOne();
                     _state = 2;
-                    ShowMessage();
                     break;
 
                 case 2:
                     _crawler.PartTwo(incomingData.Item1, incomingData.Item2);
                     _state = 3;
-                    ShowMessage();
                     break;
 
                 case 3:
                     _crawler.PartThree();
-                    XtraMessageBox.Show(_crawler.OutData,
-                        "Результати пошуку",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Exclamation);
+                    if (!_crawler.Error)
+                    {
+                        XtraMessageBox.Show(_crawler.OutData,
+                            "Результати пошуку",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Exclamation);
+                        return;
+                    }
                     break;
-
                 default:
                     break;
             }
+            if (_crawler.Error)
+            {
+                ShowAlert("Сервер не відповідає. Щоб поторити спробу запустіть перевірку знову!");
+                Thread.Sleep(500);
+                SetDefaultState();
+                _crawler.CloseBrowser();
+            }
+            else
+                ShowAlert("Випевніть капчу і натисніть ТУТ.");
+        }
+
+        private void MainForm_Closed(object sender, EventArgs e)
+        {
+            _crawler.CloseBrowser();
         }
 
         #endregion Events
 
         #region Functions
+
+
+        private void InitOtherComponentDetails()
+        {
+            ResManager.RegisterResource("uk_UA", new UkUaManager());
+            Closed += MainForm_Closed;
+
+            _progressBarWorker = new BackgroundWorker();
+            _progressBarWorker.WorkerSupportsCancellation = true;
+            _progressBarWorker.DoWork += progressBarWorker_DoWork;
+
+            _crawlerWorker = new BackgroundWorker();
+            _crawlerWorker.DoWork += _crawlerWorker_DoWork;
+
+            _alertControl = new AlertControl();
+            _alertControl.AlertClick += _alertControl_AlertClick;
+            _alertControl.BeforeFormShow += _alertControl_BeforeFormShow;
+            _alertControl.FormLoad += _alertControl_FormLoad;
+        }
 
         private void SetDefaultState()
         {
@@ -192,11 +224,11 @@ namespace Visa.WinForms
         /// <summary>
         /// Show Alert Message about User needed action 
         /// </summary>
-        private void ShowMessage()
+        private void ShowAlert(string message)
         {
             Invoke(new Action(() =>
             {
-                _alertControl.Show(null, "", "Випевніть капчу і натисніть ТУТ.");
+                _alertControl.Show(null, "", message); //ResManager.GetString("FillCaptchaAndPress"));
             }));
         }
 
