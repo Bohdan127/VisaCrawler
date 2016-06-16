@@ -15,10 +15,15 @@ namespace Visa.Resources
         public static void RegisterResource(string sys, ResourceManager mgr)
         {
             if (!Instance.ContainsKey(sys))
-            {
                 Instance.Add(sys, mgr);
-            }
         }
+
+        public static void RemoveResource(string sys)
+        {
+            Instance.Remove(sys);
+        }
+
+        public static void ClearResources() => Instance.Clear();
 
         public static string GetString(string code)
         {
@@ -45,16 +50,16 @@ namespace Visa.Resources
 
         public static string GetString(string sys, string code, params object[] sParams)
         {
-            if (Instance.ContainsKey(sys))
-            {
-                var res = (Instance[sys] as ResourceManager)?.GetString(code);
+            if (!Instance.ContainsKey(sys)) return NoDataSource;
 
-                if (res.IsBlank()) return NoDataSource;
+            var res = (Instance[sys] as ResourceManager)?.GetString(code);
 
-                if (sParams != null && sParams.Length > 0)
-                    // ReSharper disable once AssignNullToNotNullAttribute
-                    return string.Format(res, sParams);
-            }
+            if (res.IsBlank()) return NoDataSource;
+
+            if (sParams != null && sParams.Length > 0)
+                // ReSharper disable once AssignNullToNotNullAttribute
+                return string.Format(res, sParams);
+
             return NoDataSource;
         }
     }

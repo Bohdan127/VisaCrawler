@@ -1,7 +1,6 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using System;
-using System.Threading;
+﻿using System;
+using Visa.Resources;
+using Visa.Resources.uk_UA;
 
 namespace Test
 {
@@ -16,29 +15,31 @@ namespace Test
 
         static void Main(string[] args)
         {
-            FirefoxDriver driver = new FirefoxDriver();
-            //new FirefoxDriver(new FirefoxBinary(@"C:\Program Files (x86)\Mozilla Firefox\firefox.exe"),
-            //    new FirefoxProfile(@"C:\Users\BohdanPC\AppData\Roaming\Mozilla\Firefox\Profiles\0igfgrhe.default"));
-            driver.Navigate().GoToUrl(mainUrl);
-            Thread.Sleep(3000);
-            IWebElement query = driver.FindElement(By.Id(checkAvailableData));
-            query.Click();
-            Console.WriteLine("Please type Enter when you finish entering Capcha");
-            Console.ReadLine();
-            query = driver.FindElement(By.Id(visaCity)).FindElement(By.CssSelector("option[value='5']"));
-            query.Click();
-            Thread.Sleep(3000);
-            query = driver.FindElement(By.Id(visaCategory)).FindElement(By.CssSelector("option[value='235']"));
-            query.Click();
-            Console.WriteLine("Please type Enter when you finish entering Capcha");
-            Console.ReadLine();
-            query = driver.FindElement(By.Id(buttonSubmit));
-            query.Click();
-            Thread.Sleep(3000);
-            //query = driver.FindElement(By.Id(regData));
-            Console.WriteLine(query.Text);
-            Console.ReadLine();
-            driver.Quit();
+            ResManager.RegisterResource("uk_UA", uk_UA.ResourceManager);
+
+            Console.WriteLine(ResManager.GetString("test"));//FirefoxDriver driver = new FirefoxDriver();
+            ////new FirefoxDriver(new FirefoxBinary(@"C:\Program Files (x86)\Mozilla Firefox\firefox.exe"),
+            ////    new FirefoxProfile(@"C:\Users\BohdanPC\AppData\Roaming\Mozilla\Firefox\Profiles\0igfgrhe.default"));
+            //driver.Navigate().GoToUrl(mainUrl);
+            //Thread.Sleep(3000);
+            //IWebElement query = driver.FindElement(By.Id(checkAvailableData));
+            //query.Click();
+            //Console.WriteLine("Please type Enter when you finish entering Capcha");
+            //Console.ReadLine();
+            //query = driver.FindElement(By.Id(visaCity)).FindElement(By.CssSelector("option[value='5']"));
+            //query.Click();
+            //Thread.Sleep(3000);
+            //query = driver.FindElement(By.Id(visaCategory)).FindElement(By.CssSelector("option[value='235']"));
+            //query.Click();
+            //Console.WriteLine("Please type Enter when you finish entering Capcha");
+            //Console.ReadLine();
+            //query = driver.FindElement(By.Id(buttonSubmit));
+            //query.Click();
+            //Thread.Sleep(3000);
+            ////query = driver.FindElement(By.Id(regData));
+            //Console.WriteLine(query.Text);
+            //Console.ReadLine();
+            //driver.Quit();
         }
     }
 }
