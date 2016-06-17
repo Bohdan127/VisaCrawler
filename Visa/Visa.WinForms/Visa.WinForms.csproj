@@ -27,8 +27,8 @@
     <ProductName>Visa Helper</ProductName>
     <PublisherName>Bohdan Benetskyi</PublisherName>
     <SuiteName>Visa Helper</SuiteName>
-    <ApplicationRevision>3</ApplicationRevision>
-    <ApplicationVersion>0.0.1.%2a</ApplicationVersion>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>0.0.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
