@@ -24,9 +24,9 @@ namespace Visa.Database {
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
     public partial class VisaDataSet : global::System.Data.DataSet {
         
-        private ServiceCenterDataTable tableServiceCenter;
+        private ChoiceDataTable tableChoice;
         
-        private VisaCategoryDataTable tableVisaCategory;
+        private ClientDataDataTable tableClientData;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -56,11 +56,11 @@ namespace Visa.Database {
             if ((this.DetermineSchemaSerializationMode(info, context) == global::System.Data.SchemaSerializationMode.IncludeSchema)) {
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXmlSchema(new global::System.Xml.XmlTextReader(new global::System.IO.StringReader(strSchema)));
-                if ((ds.Tables["ServiceCenter"] != null)) {
-                    base.Tables.Add(new ServiceCenterDataTable(ds.Tables["ServiceCenter"]));
+                if ((ds.Tables["Choice"] != null)) {
+                    base.Tables.Add(new ChoiceDataTable(ds.Tables["Choice"]));
                 }
-                if ((ds.Tables["VisaCategory"] != null)) {
-                    base.Tables.Add(new VisaCategoryDataTable(ds.Tables["VisaCategory"]));
+                if ((ds.Tables["ClientData"] != null)) {
+                    base.Tables.Add(new ClientDataDataTable(ds.Tables["ClientData"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -84,9 +84,9 @@ namespace Visa.Database {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public ServiceCenterDataTable ServiceCenter {
+        public ChoiceDataTable Choice {
             get {
-                return this.tableServiceCenter;
+                return this.tableChoice;
             }
         }
         
@@ -94,9 +94,9 @@ namespace Visa.Database {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public VisaCategoryDataTable VisaCategory {
+        public ClientDataDataTable ClientData {
             get {
-                return this.tableVisaCategory;
+                return this.tableClientData;
             }
         }
         
@@ -167,11 +167,11 @@ namespace Visa.Database {
                 this.Reset();
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXml(reader);
-                if ((ds.Tables["ServiceCenter"] != null)) {
-                    base.Tables.Add(new ServiceCenterDataTable(ds.Tables["ServiceCenter"]));
+                if ((ds.Tables["Choice"] != null)) {
+                    base.Tables.Add(new ChoiceDataTable(ds.Tables["Choice"]));
                 }
-                if ((ds.Tables["VisaCategory"] != null)) {
-                    base.Tables.Add(new VisaCategoryDataTable(ds.Tables["VisaCategory"]));
+                if ((ds.Tables["ClientData"] != null)) {
+                    base.Tables.Add(new ClientDataDataTable(ds.Tables["ClientData"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -206,16 +206,16 @@ namespace Visa.Database {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         internal void InitVars(bool initTable) {
-            this.tableServiceCenter = ((ServiceCenterDataTable)(base.Tables["ServiceCenter"]));
+            this.tableChoice = ((ChoiceDataTable)(base.Tables["Choice"]));
             if ((initTable == true)) {
-                if ((this.tableServiceCenter != null)) {
-                    this.tableServiceCenter.InitVars();
+                if ((this.tableChoice != null)) {
+                    this.tableChoice.InitVars();
                 }
             }
-            this.tableVisaCategory = ((VisaCategoryDataTable)(base.Tables["VisaCategory"]));
+            this.tableClientData = ((ClientDataDataTable)(base.Tables["ClientData"]));
             if ((initTable == true)) {
-                if ((this.tableVisaCategory != null)) {
-                    this.tableVisaCategory.InitVars();
+                if ((this.tableClientData != null)) {
+                    this.tableClientData.InitVars();
                 }
             }
         }
@@ -228,21 +228,21 @@ namespace Visa.Database {
             this.Namespace = "http://tempuri.org/VisaDataSet.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
-            this.tableServiceCenter = new ServiceCenterDataTable();
-            base.Tables.Add(this.tableServiceCenter);
-            this.tableVisaCategory = new VisaCategoryDataTable();
-            base.Tables.Add(this.tableVisaCategory);
+            this.tableChoice = new ChoiceDataTable();
+            base.Tables.Add(this.tableChoice);
+            this.tableClientData = new ClientDataDataTable();
+            base.Tables.Add(this.tableClientData);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeServiceCenter() {
+        private bool ShouldSerializeChoice() {
             return false;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeVisaCategory() {
+        private bool ShouldSerializeClientData() {
             return false;
         }
         
@@ -302,26 +302,28 @@ namespace Visa.Database {
         }
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void ServiceCenterRowChangeEventHandler(object sender, ServiceCenterRowChangeEvent e);
+        public delegate void ChoiceRowChangeEventHandler(object sender, ChoiceRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void VisaCategoryRowChangeEventHandler(object sender, VisaCategoryRowChangeEvent e);
+        public delegate void ClientDataRowChangeEventHandler(object sender, ClientDataRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class ServiceCenterDataTable : global::System.Data.TypedTableBase<ServiceCenterRow> {
+        public partial class ChoiceDataTable : global::System.Data.TypedTableBase<ChoiceRow> {
             
             private global::System.Data.DataColumn columnName;
             
             private global::System.Data.DataColumn columnValue;
             
+            private global::System.Data.DataColumn columnType;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ServiceCenterDataTable() {
-                this.TableName = "ServiceCenter";
+            public ChoiceDataTable() {
+                this.TableName = "Choice";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -329,7 +331,7 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal ServiceCenterDataTable(global::System.Data.DataTable table) {
+            internal ChoiceDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -346,7 +348,7 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected ServiceCenterDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected ChoiceDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
@@ -369,6 +371,14 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn TypeColumn {
+                get {
+                    return this.columnType;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -378,46 +388,47 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ServiceCenterRow this[int index] {
+            public ChoiceRow this[int index] {
                 get {
-                    return ((ServiceCenterRow)(this.Rows[index]));
+                    return ((ChoiceRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ServiceCenterRowChangeEventHandler ServiceCenterRowChanging;
+            public event ChoiceRowChangeEventHandler ChoiceRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ServiceCenterRowChangeEventHandler ServiceCenterRowChanged;
+            public event ChoiceRowChangeEventHandler ChoiceRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ServiceCenterRowChangeEventHandler ServiceCenterRowDeleting;
+            public event ChoiceRowChangeEventHandler ChoiceRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ServiceCenterRowChangeEventHandler ServiceCenterRowDeleted;
+            public event ChoiceRowChangeEventHandler ChoiceRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddServiceCenterRow(ServiceCenterRow row) {
+            public void AddChoiceRow(ChoiceRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ServiceCenterRow AddServiceCenterRow(string Name, int Value) {
-                ServiceCenterRow rowServiceCenterRow = ((ServiceCenterRow)(this.NewRow()));
+            public ChoiceRow AddChoiceRow(string Name, string Value, short Type) {
+                ChoiceRow rowChoiceRow = ((ChoiceRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Name,
-                        Value};
-                rowServiceCenterRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowServiceCenterRow);
-                return rowServiceCenterRow;
+                        Value,
+                        Type};
+                rowChoiceRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowChoiceRow);
+                return rowChoiceRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                ServiceCenterDataTable cln = ((ServiceCenterDataTable)(base.Clone()));
+                ChoiceDataTable cln = ((ChoiceDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -425,7 +436,7 @@ namespace Visa.Database {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new ServiceCenterDataTable();
+                return new ChoiceDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -433,6 +444,7 @@ namespace Visa.Database {
             internal void InitVars() {
                 this.columnName = base.Columns["Name"];
                 this.columnValue = base.Columns["Value"];
+                this.columnType = base.Columns["Type"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -440,34 +452,36 @@ namespace Visa.Database {
             private void InitClass() {
                 this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnName);
-                this.columnValue = new global::System.Data.DataColumn("Value", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnValue = new global::System.Data.DataColumn("Value", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnValue);
+                this.columnType = new global::System.Data.DataColumn("Type", typeof(short), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnType);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ServiceCenterRow NewServiceCenterRow() {
-                return ((ServiceCenterRow)(this.NewRow()));
+            public ChoiceRow NewChoiceRow() {
+                return ((ChoiceRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new ServiceCenterRow(builder);
+                return new ChoiceRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(ServiceCenterRow);
+                return typeof(ChoiceRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.ServiceCenterRowChanged != null)) {
-                    this.ServiceCenterRowChanged(this, new ServiceCenterRowChangeEvent(((ServiceCenterRow)(e.Row)), e.Action));
+                if ((this.ChoiceRowChanged != null)) {
+                    this.ChoiceRowChanged(this, new ChoiceRowChangeEvent(((ChoiceRow)(e.Row)), e.Action));
                 }
             }
             
@@ -475,8 +489,8 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.ServiceCenterRowChanging != null)) {
-                    this.ServiceCenterRowChanging(this, new ServiceCenterRowChangeEvent(((ServiceCenterRow)(e.Row)), e.Action));
+                if ((this.ChoiceRowChanging != null)) {
+                    this.ChoiceRowChanging(this, new ChoiceRowChangeEvent(((ChoiceRow)(e.Row)), e.Action));
                 }
             }
             
@@ -484,8 +498,8 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.ServiceCenterRowDeleted != null)) {
-                    this.ServiceCenterRowDeleted(this, new ServiceCenterRowChangeEvent(((ServiceCenterRow)(e.Row)), e.Action));
+                if ((this.ChoiceRowDeleted != null)) {
+                    this.ChoiceRowDeleted(this, new ChoiceRowChangeEvent(((ChoiceRow)(e.Row)), e.Action));
                 }
             }
             
@@ -493,14 +507,14 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.ServiceCenterRowDeleting != null)) {
-                    this.ServiceCenterRowDeleting(this, new ServiceCenterRowChangeEvent(((ServiceCenterRow)(e.Row)), e.Action));
+                if ((this.ChoiceRowDeleting != null)) {
+                    this.ChoiceRowDeleting(this, new ChoiceRowChangeEvent(((ChoiceRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveServiceCenterRow(ServiceCenterRow row) {
+            public void RemoveChoiceRow(ChoiceRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -527,7 +541,7 @@ namespace Visa.Database {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "ServiceCenterDataTable";
+                attribute2.FixedValue = "ChoiceDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -573,16 +587,42 @@ namespace Visa.Database {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class VisaCategoryDataTable : global::System.Data.TypedTableBase<VisaCategoryRow> {
+        public partial class ClientDataDataTable : global::System.Data.TypedTableBase<ClientDataRow> {
+            
+            private global::System.Data.DataColumn columnPeopleCount;
+            
+            private global::System.Data.DataColumn columnChildsCount;
+            
+            private global::System.Data.DataColumn columnNumberOfReceipt;
+            
+            private global::System.Data.DataColumn columnEmail;
+            
+            private global::System.Data.DataColumn columnPassword;
+            
+            private global::System.Data.DataColumn columnEndPassportDate;
+            
+            private global::System.Data.DataColumn columnStatus;
             
             private global::System.Data.DataColumn columnName;
             
-            private global::System.Data.DataColumn columnValue;
+            private global::System.Data.DataColumn columnLastName;
+            
+            private global::System.Data.DataColumn columnBirthday;
+            
+            private global::System.Data.DataColumn columnReturnData;
+            
+            private global::System.Data.DataColumn columnNationality;
+            
+            private global::System.Data.DataColumn columnRegistryFom;
+            
+            private global::System.Data.DataColumn columnRegistryTo;
+            
+            private global::System.Data.DataColumn columnRegistryTime;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public VisaCategoryDataTable() {
-                this.TableName = "VisaCategory";
+            public ClientDataDataTable() {
+                this.TableName = "ClientData";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -590,7 +630,7 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal VisaCategoryDataTable(global::System.Data.DataTable table) {
+            internal ClientDataDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -607,9 +647,65 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected VisaCategoryDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected ClientDataDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn PeopleCountColumn {
+                get {
+                    return this.columnPeopleCount;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ChildsCountColumn {
+                get {
+                    return this.columnChildsCount;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn NumberOfReceiptColumn {
+                get {
+                    return this.columnNumberOfReceipt;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn EmailColumn {
+                get {
+                    return this.columnEmail;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn PasswordColumn {
+                get {
+                    return this.columnPassword;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn EndPassportDateColumn {
+                get {
+                    return this.columnEndPassportDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn StatusColumn {
+                get {
+                    return this.columnStatus;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -622,9 +718,57 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ValueColumn {
+            public global::System.Data.DataColumn LastNameColumn {
                 get {
-                    return this.columnValue;
+                    return this.columnLastName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn BirthdayColumn {
+                get {
+                    return this.columnBirthday;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ReturnDataColumn {
+                get {
+                    return this.columnReturnData;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn NationalityColumn {
+                get {
+                    return this.columnNationality;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn RegistryFomColumn {
+                get {
+                    return this.columnRegistryFom;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn RegistryToColumn {
+                get {
+                    return this.columnRegistryTo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn RegistryTimeColumn {
+                get {
+                    return this.columnRegistryTime;
                 }
             }
             
@@ -639,46 +783,59 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public VisaCategoryRow this[int index] {
+            public ClientDataRow this[int index] {
                 get {
-                    return ((VisaCategoryRow)(this.Rows[index]));
+                    return ((ClientDataRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event VisaCategoryRowChangeEventHandler VisaCategoryRowChanging;
+            public event ClientDataRowChangeEventHandler ClientDataRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event VisaCategoryRowChangeEventHandler VisaCategoryRowChanged;
+            public event ClientDataRowChangeEventHandler ClientDataRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event VisaCategoryRowChangeEventHandler VisaCategoryRowDeleting;
+            public event ClientDataRowChangeEventHandler ClientDataRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event VisaCategoryRowChangeEventHandler VisaCategoryRowDeleted;
+            public event ClientDataRowChangeEventHandler ClientDataRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddVisaCategoryRow(VisaCategoryRow row) {
+            public void AddClientDataRow(ClientDataRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public VisaCategoryRow AddVisaCategoryRow(string Name, int Value) {
-                VisaCategoryRow rowVisaCategoryRow = ((VisaCategoryRow)(this.NewRow()));
+            public ClientDataRow AddClientDataRow(string PeopleCount, string ChildsCount, string NumberOfReceipt, string Email, string Password, string EndPassportDate, string Status, string Name, string LastName, string Birthday, string ReturnData, string Nationality, string RegistryFom, string RegistryTo, string RegistryTime) {
+                ClientDataRow rowClientDataRow = ((ClientDataRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
+                        PeopleCount,
+                        ChildsCount,
+                        NumberOfReceipt,
+                        Email,
+                        Password,
+                        EndPassportDate,
+                        Status,
                         Name,
-                        Value};
-                rowVisaCategoryRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowVisaCategoryRow);
-                return rowVisaCategoryRow;
+                        LastName,
+                        Birthday,
+                        ReturnData,
+                        Nationality,
+                        RegistryFom,
+                        RegistryTo,
+                        RegistryTime};
+                rowClientDataRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowClientDataRow);
+                return rowClientDataRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                VisaCategoryDataTable cln = ((VisaCategoryDataTable)(base.Clone()));
+                ClientDataDataTable cln = ((ClientDataDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -686,49 +843,88 @@ namespace Visa.Database {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new VisaCategoryDataTable();
+                return new ClientDataDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
+                this.columnPeopleCount = base.Columns["PeopleCount"];
+                this.columnChildsCount = base.Columns["ChildsCount"];
+                this.columnNumberOfReceipt = base.Columns["NumberOfReceipt"];
+                this.columnEmail = base.Columns["Email"];
+                this.columnPassword = base.Columns["Password"];
+                this.columnEndPassportDate = base.Columns["EndPassportDate"];
+                this.columnStatus = base.Columns["Status"];
                 this.columnName = base.Columns["Name"];
-                this.columnValue = base.Columns["Value"];
+                this.columnLastName = base.Columns["LastName"];
+                this.columnBirthday = base.Columns["Birthday"];
+                this.columnReturnData = base.Columns["ReturnData"];
+                this.columnNationality = base.Columns["Nationality"];
+                this.columnRegistryFom = base.Columns["RegistryFom"];
+                this.columnRegistryTo = base.Columns["RegistryTo"];
+                this.columnRegistryTime = base.Columns["RegistryTime"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             private void InitClass() {
+                this.columnPeopleCount = new global::System.Data.DataColumn("PeopleCount", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPeopleCount);
+                this.columnChildsCount = new global::System.Data.DataColumn("ChildsCount", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnChildsCount);
+                this.columnNumberOfReceipt = new global::System.Data.DataColumn("NumberOfReceipt", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNumberOfReceipt);
+                this.columnEmail = new global::System.Data.DataColumn("Email", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEmail);
+                this.columnPassword = new global::System.Data.DataColumn("Password", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPassword);
+                this.columnEndPassportDate = new global::System.Data.DataColumn("EndPassportDate", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEndPassportDate);
+                this.columnStatus = new global::System.Data.DataColumn("Status", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnStatus);
                 this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnName);
-                this.columnValue = new global::System.Data.DataColumn("Value", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnValue);
+                this.columnLastName = new global::System.Data.DataColumn("LastName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLastName);
+                this.columnBirthday = new global::System.Data.DataColumn("Birthday", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBirthday);
+                this.columnReturnData = new global::System.Data.DataColumn("ReturnData", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnReturnData);
+                this.columnNationality = new global::System.Data.DataColumn("Nationality", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNationality);
+                this.columnRegistryFom = new global::System.Data.DataColumn("RegistryFom", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRegistryFom);
+                this.columnRegistryTo = new global::System.Data.DataColumn("RegistryTo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRegistryTo);
+                this.columnRegistryTime = new global::System.Data.DataColumn("RegistryTime", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRegistryTime);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public VisaCategoryRow NewVisaCategoryRow() {
-                return ((VisaCategoryRow)(this.NewRow()));
+            public ClientDataRow NewClientDataRow() {
+                return ((ClientDataRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new VisaCategoryRow(builder);
+                return new ClientDataRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(VisaCategoryRow);
+                return typeof(ClientDataRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.VisaCategoryRowChanged != null)) {
-                    this.VisaCategoryRowChanged(this, new VisaCategoryRowChangeEvent(((VisaCategoryRow)(e.Row)), e.Action));
+                if ((this.ClientDataRowChanged != null)) {
+                    this.ClientDataRowChanged(this, new ClientDataRowChangeEvent(((ClientDataRow)(e.Row)), e.Action));
                 }
             }
             
@@ -736,8 +932,8 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.VisaCategoryRowChanging != null)) {
-                    this.VisaCategoryRowChanging(this, new VisaCategoryRowChangeEvent(((VisaCategoryRow)(e.Row)), e.Action));
+                if ((this.ClientDataRowChanging != null)) {
+                    this.ClientDataRowChanging(this, new ClientDataRowChangeEvent(((ClientDataRow)(e.Row)), e.Action));
                 }
             }
             
@@ -745,8 +941,8 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.VisaCategoryRowDeleted != null)) {
-                    this.VisaCategoryRowDeleted(this, new VisaCategoryRowChangeEvent(((VisaCategoryRow)(e.Row)), e.Action));
+                if ((this.ClientDataRowDeleted != null)) {
+                    this.ClientDataRowDeleted(this, new ClientDataRowChangeEvent(((ClientDataRow)(e.Row)), e.Action));
                 }
             }
             
@@ -754,14 +950,14 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.VisaCategoryRowDeleting != null)) {
-                    this.VisaCategoryRowDeleting(this, new VisaCategoryRowChangeEvent(((VisaCategoryRow)(e.Row)), e.Action));
+                if ((this.ClientDataRowDeleting != null)) {
+                    this.ClientDataRowDeleting(this, new ClientDataRowChangeEvent(((ClientDataRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveVisaCategoryRow(VisaCategoryRow row) {
+            public void RemoveClientDataRow(ClientDataRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -788,7 +984,7 @@ namespace Visa.Database {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "VisaCategoryDataTable";
+                attribute2.FixedValue = "ClientDataDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -832,15 +1028,15 @@ namespace Visa.Database {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class ServiceCenterRow : global::System.Data.DataRow {
+        public partial class ChoiceRow : global::System.Data.DataRow {
             
-            private ServiceCenterDataTable tableServiceCenter;
+            private ChoiceDataTable tableChoice;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal ServiceCenterRow(global::System.Data.DataRowBuilder rb) : 
+            internal ChoiceRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableServiceCenter = ((ServiceCenterDataTable)(this.Table));
+                this.tableChoice = ((ChoiceDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -848,70 +1044,210 @@ namespace Visa.Database {
             public string Name {
                 get {
                     try {
-                        return ((string)(this[this.tableServiceCenter.NameColumn]));
+                        return ((string)(this[this.tableChoice.NameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Name\' in table \'ServiceCenter\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Name\' in table \'Choice\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableServiceCenter.NameColumn] = value;
+                    this[this.tableChoice.NameColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int Value {
+            public string Value {
                 get {
                     try {
-                        return ((int)(this[this.tableServiceCenter.ValueColumn]));
+                        return ((string)(this[this.tableChoice.ValueColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Value\' in table \'ServiceCenter\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Value\' in table \'Choice\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableServiceCenter.ValueColumn] = value;
+                    this[this.tableChoice.ValueColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public short Type {
+                get {
+                    try {
+                        return ((short)(this[this.tableChoice.TypeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Type\' in table \'Choice\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableChoice.TypeColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsNameNull() {
-                return this.IsNull(this.tableServiceCenter.NameColumn);
+                return this.IsNull(this.tableChoice.NameColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetNameNull() {
-                this[this.tableServiceCenter.NameColumn] = global::System.Convert.DBNull;
+                this[this.tableChoice.NameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsValueNull() {
-                return this.IsNull(this.tableServiceCenter.ValueColumn);
+                return this.IsNull(this.tableChoice.ValueColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetValueNull() {
-                this[this.tableServiceCenter.ValueColumn] = global::System.Convert.DBNull;
+                this[this.tableChoice.ValueColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsTypeNull() {
+                return this.IsNull(this.tableChoice.TypeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetTypeNull() {
+                this[this.tableChoice.TypeColumn] = global::System.Convert.DBNull;
             }
         }
         
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class VisaCategoryRow : global::System.Data.DataRow {
+        public partial class ClientDataRow : global::System.Data.DataRow {
             
-            private VisaCategoryDataTable tableVisaCategory;
+            private ClientDataDataTable tableClientData;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal VisaCategoryRow(global::System.Data.DataRowBuilder rb) : 
+            internal ClientDataRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableVisaCategory = ((VisaCategoryDataTable)(this.Table));
+                this.tableClientData = ((ClientDataDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string PeopleCount {
+                get {
+                    try {
+                        return ((string)(this[this.tableClientData.PeopleCountColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PeopleCount\' in table \'ClientData\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableClientData.PeopleCountColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string ChildsCount {
+                get {
+                    try {
+                        return ((string)(this[this.tableClientData.ChildsCountColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ChildsCount\' in table \'ClientData\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableClientData.ChildsCountColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string NumberOfReceipt {
+                get {
+                    try {
+                        return ((string)(this[this.tableClientData.NumberOfReceiptColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NumberOfReceipt\' in table \'ClientData\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableClientData.NumberOfReceiptColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Email {
+                get {
+                    try {
+                        return ((string)(this[this.tableClientData.EmailColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Email\' in table \'ClientData\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableClientData.EmailColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Password {
+                get {
+                    try {
+                        return ((string)(this[this.tableClientData.PasswordColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Password\' in table \'ClientData\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableClientData.PasswordColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string EndPassportDate {
+                get {
+                    try {
+                        return ((string)(this[this.tableClientData.EndPassportDateColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EndPassportDate\' in table \'ClientData\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableClientData.EndPassportDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Status {
+                get {
+                    try {
+                        return ((string)(this[this.tableClientData.StatusColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Status\' in table \'ClientData\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableClientData.StatusColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -919,55 +1255,307 @@ namespace Visa.Database {
             public string Name {
                 get {
                     try {
-                        return ((string)(this[this.tableVisaCategory.NameColumn]));
+                        return ((string)(this[this.tableClientData.NameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Name\' in table \'VisaCategory\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Name\' in table \'ClientData\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableVisaCategory.NameColumn] = value;
+                    this[this.tableClientData.NameColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int Value {
+            public string LastName {
                 get {
                     try {
-                        return ((int)(this[this.tableVisaCategory.ValueColumn]));
+                        return ((string)(this[this.tableClientData.LastNameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Value\' in table \'VisaCategory\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'LastName\' in table \'ClientData\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableVisaCategory.ValueColumn] = value;
+                    this[this.tableClientData.LastNameColumn] = value;
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Birthday {
+                get {
+                    try {
+                        return ((string)(this[this.tableClientData.BirthdayColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Birthday\' in table \'ClientData\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableClientData.BirthdayColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string ReturnData {
+                get {
+                    try {
+                        return ((string)(this[this.tableClientData.ReturnDataColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ReturnData\' in table \'ClientData\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableClientData.ReturnDataColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Nationality {
+                get {
+                    try {
+                        return ((string)(this[this.tableClientData.NationalityColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Nationality\' in table \'ClientData\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableClientData.NationalityColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string RegistryFom {
+                get {
+                    try {
+                        return ((string)(this[this.tableClientData.RegistryFomColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RegistryFom\' in table \'ClientData\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableClientData.RegistryFomColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string RegistryTo {
+                get {
+                    try {
+                        return ((string)(this[this.tableClientData.RegistryToColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RegistryTo\' in table \'ClientData\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableClientData.RegistryToColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string RegistryTime {
+                get {
+                    try {
+                        return ((string)(this[this.tableClientData.RegistryTimeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RegistryTime\' in table \'ClientData\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableClientData.RegistryTimeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsPeopleCountNull() {
+                return this.IsNull(this.tableClientData.PeopleCountColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetPeopleCountNull() {
+                this[this.tableClientData.PeopleCountColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsChildsCountNull() {
+                return this.IsNull(this.tableClientData.ChildsCountColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetChildsCountNull() {
+                this[this.tableClientData.ChildsCountColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsNumberOfReceiptNull() {
+                return this.IsNull(this.tableClientData.NumberOfReceiptColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetNumberOfReceiptNull() {
+                this[this.tableClientData.NumberOfReceiptColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsEmailNull() {
+                return this.IsNull(this.tableClientData.EmailColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetEmailNull() {
+                this[this.tableClientData.EmailColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsPasswordNull() {
+                return this.IsNull(this.tableClientData.PasswordColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetPasswordNull() {
+                this[this.tableClientData.PasswordColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsEndPassportDateNull() {
+                return this.IsNull(this.tableClientData.EndPassportDateColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetEndPassportDateNull() {
+                this[this.tableClientData.EndPassportDateColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsStatusNull() {
+                return this.IsNull(this.tableClientData.StatusColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetStatusNull() {
+                this[this.tableClientData.StatusColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsNameNull() {
-                return this.IsNull(this.tableVisaCategory.NameColumn);
+                return this.IsNull(this.tableClientData.NameColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetNameNull() {
-                this[this.tableVisaCategory.NameColumn] = global::System.Convert.DBNull;
+                this[this.tableClientData.NameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsValueNull() {
-                return this.IsNull(this.tableVisaCategory.ValueColumn);
+            public bool IsLastNameNull() {
+                return this.IsNull(this.tableClientData.LastNameColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetValueNull() {
-                this[this.tableVisaCategory.ValueColumn] = global::System.Convert.DBNull;
+            public void SetLastNameNull() {
+                this[this.tableClientData.LastNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsBirthdayNull() {
+                return this.IsNull(this.tableClientData.BirthdayColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetBirthdayNull() {
+                this[this.tableClientData.BirthdayColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsReturnDataNull() {
+                return this.IsNull(this.tableClientData.ReturnDataColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetReturnDataNull() {
+                this[this.tableClientData.ReturnDataColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsNationalityNull() {
+                return this.IsNull(this.tableClientData.NationalityColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetNationalityNull() {
+                this[this.tableClientData.NationalityColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsRegistryFomNull() {
+                return this.IsNull(this.tableClientData.RegistryFomColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetRegistryFomNull() {
+                this[this.tableClientData.RegistryFomColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsRegistryToNull() {
+                return this.IsNull(this.tableClientData.RegistryToColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetRegistryToNull() {
+                this[this.tableClientData.RegistryToColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsRegistryTimeNull() {
+                return this.IsNull(this.tableClientData.RegistryTimeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetRegistryTimeNull() {
+                this[this.tableClientData.RegistryTimeColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -975,22 +1563,22 @@ namespace Visa.Database {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class ServiceCenterRowChangeEvent : global::System.EventArgs {
+        public class ChoiceRowChangeEvent : global::System.EventArgs {
             
-            private ServiceCenterRow eventRow;
+            private ChoiceRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ServiceCenterRowChangeEvent(ServiceCenterRow row, global::System.Data.DataRowAction action) {
+            public ChoiceRowChangeEvent(ChoiceRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ServiceCenterRow Row {
+            public ChoiceRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -1009,22 +1597,22 @@ namespace Visa.Database {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class VisaCategoryRowChangeEvent : global::System.EventArgs {
+        public class ClientDataRowChangeEvent : global::System.EventArgs {
             
-            private VisaCategoryRow eventRow;
+            private ClientDataRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public VisaCategoryRowChangeEvent(VisaCategoryRow row, global::System.Data.DataRowAction action) {
+            public ClientDataRowChangeEvent(ClientDataRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public VisaCategoryRow Row {
+            public ClientDataRow Row {
                 get {
                     return this.eventRow;
                 }

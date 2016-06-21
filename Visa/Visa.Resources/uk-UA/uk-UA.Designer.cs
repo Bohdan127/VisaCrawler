@@ -61,6 +61,24 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to В програмі була сгенерована помилка яка не була належним чином оброблена. Будь-ласка пришліть детальний опис ваших дій  і опис помилки що є внизу..
+        /// </summary>
+        public static string ExceptionHanler_Text {
+            get {
+                return ResourceManager.GetString("ExceptionHanler_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Помилка.
+        /// </summary>
+        public static string ExceptionHanler_Title {
+            get {
+                return ResourceManager.GetString("ExceptionHanler_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Випевніть капчу і натисніть ТУТ..
         /// </summary>
         public static string FillCaptchaAndPress {

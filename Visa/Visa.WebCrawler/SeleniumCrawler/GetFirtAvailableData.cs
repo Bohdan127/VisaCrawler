@@ -111,7 +111,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public void CloseBrowser()
         {
             _logger.Trace("CloseBrowser");
-            _driver?.Close();
+            _driver?.Quit();
         }
     }
 }

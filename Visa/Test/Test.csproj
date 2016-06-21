@@ -68,9 +68,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Visa.Resources\Visa.Resources.csproj">
       <Project>{C29283C8-3FA1-4B26-90BC-09B392E6678C}</Project>
       <Name>Visa.Resources</Name>

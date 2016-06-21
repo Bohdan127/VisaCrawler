@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using Visa.Database;
+using Visa.Database.Enums;
 using Visa.Resources;
 using Visa.Resources.uk_UA;
 using Visa.WebCrawler.SeleniumCrawler;
@@ -83,17 +84,20 @@ namespace Visa.WinForms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            _logger.Trace($"Start MainForm_Load");
+            _logger.Trace("Start MainForm_Load");
             lookUpEditServiceCenter.Properties.DataSource =
-                InstanceProvider.DataSet.ServiceCenter.ToList();
+                InstanceProvider.DataSet.Choice.Where(c => c.Type == (short)ChoicesType.ServiceCenter).ToList();
             lookUpEditVisaCategory.Properties.DataSource =
-                InstanceProvider.DataSet.VisaCategory.ToList();
-            _logger.Trace($"End MainForm_Load");
+                InstanceProvider.DataSet.Choice.Where(c => c.Type == (short)ChoicesType.VisaCategory).ToList();
+            //todo here should be binding to column with ReasonType and other
+            //lookUpEditVisaCategory.Properties.DataSource =
+            //    InstanceProvider.DataSet.Choice.Where(c => c.Type == (short)ChoicesType.ReasonType).ToList();
+            _logger.Trace("End MainForm_Load");
         }
 
         private void buttonShow_Click(object sender, EventArgs e)
         {
-            _logger.Trace($"Start buttonShow_Click");
+            _logger.Trace("Start buttonShow_Click");
             if (ValidateControls())
             {
                 _logger.Info("Validation Pass.");
@@ -135,7 +139,7 @@ namespace Visa.WinForms
 
             for (var i = _initVal; i <= maxVal; i++)
             {
-                if (_crawler.Error)
+                if (_crawler?.Error ?? false)
                 {
                     _logger.Warn("return progressBarWorker_DoWork. _crawler.Error = true");
                     return;
@@ -194,6 +198,7 @@ namespace Visa.WinForms
                             ResManager.GetString(ResKeys.SearchResult),
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Exclamation);
+                        _crawler.CloseBrowser();
                         return;
                     }
                     break;
@@ -216,7 +221,7 @@ namespace Visa.WinForms
         private void MainForm_Closed(object sender, EventArgs e)
         {
             _logger.Info($"MainForm_Closed. State = {_state}.");
-            _crawler.CloseBrowser();
+            _crawler?.CloseBrowser();
         }
 
         #endregion Events
@@ -293,8 +298,8 @@ namespace Visa.WinForms
             {
                 _logger.Info("Start _crawlerWorker.RunWorkerAsync");
                 _crawlerWorker.RunWorkerAsync(new Tuple<int, int>(
-                    ((VisaDataSet.ServiceCenterRow)lookUpEditServiceCenter.GetSelectedDataRow()).Value,
-                    ((VisaDataSet.VisaCategoryRow)lookUpEditVisaCategory.GetSelectedDataRow()).Value));
+                    Convert.ToInt32(((VisaDataSet.ChoiceRow)lookUpEditServiceCenter.GetSelectedDataRow()).Value),
+                    Convert.ToInt32(((VisaDataSet.ChoiceRow)lookUpEditVisaCategory.GetSelectedDataRow()).Value)));
             }
             _logger.Trace("End StartNewWorkRound");
         }

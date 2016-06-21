@@ -1,12 +1,16 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
+using Visa.WinForms.ErrorProvider;
 
 namespace Visa.WinForms
 {
     static class Program
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -29,7 +33,30 @@ namespace Visa.WinForms
             CultureInfo.DefaultThreadCurrentCulture = culture;
             CultureInfo.DefaultThreadCurrentUICulture = culture;
 
+            Application.ThreadException += new
+                ThreadExceptionEventHandler(Application_ThreadException);
+
+            // Set the unhandled exception mode to force all Windows Forms 
+            // errors to go through our handler.
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+
+            // Add the event handler for handling non-UI thread exceptions to the event. 
+            AppDomain.CurrentDomain.UnhandledException +=
+                new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+
             Application.Run(new MainForm());
+        }
+
+        static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        {
+            _logger.Error(e.Exception.Message);
+            ExceptionHandlerForm.ShowException(e.Exception);
+        }
+
+
+        public static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs args)
+        {
+            Exception e = (Exception)args.ExceptionObject;
         }
     }
 }
