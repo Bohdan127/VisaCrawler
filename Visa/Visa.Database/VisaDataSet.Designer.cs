@@ -809,7 +809,7 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ClientDataRow AddClientDataRow(string PeopleCount, string ChildsCount, string NumberOfReceipt, string Email, string Password, string EndPassportDate, string Status, string Name, string LastName, string Birthday, string ReturnData, string Nationality, string RegistryFom, string RegistryTo, string RegistryTime) {
+            public ClientDataRow AddClientDataRow(string PeopleCount, string ChildsCount, string NumberOfReceipt, string Email, string Password, System.DateTime EndPassportDate, string Status, string Name, string LastName, System.DateTime Birthday, System.DateTime ReturnData, string Nationality, string RegistryFom, string RegistryTo, string RegistryTime) {
                 ClientDataRow rowClientDataRow = ((ClientDataRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         PeopleCount,
@@ -879,7 +879,7 @@ namespace Visa.Database {
                 base.Columns.Add(this.columnEmail);
                 this.columnPassword = new global::System.Data.DataColumn("Password", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPassword);
-                this.columnEndPassportDate = new global::System.Data.DataColumn("EndPassportDate", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnEndPassportDate = new global::System.Data.DataColumn("EndPassportDate", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnEndPassportDate);
                 this.columnStatus = new global::System.Data.DataColumn("Status", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnStatus);
@@ -887,9 +887,9 @@ namespace Visa.Database {
                 base.Columns.Add(this.columnName);
                 this.columnLastName = new global::System.Data.DataColumn("LastName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnLastName);
-                this.columnBirthday = new global::System.Data.DataColumn("Birthday", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnBirthday = new global::System.Data.DataColumn("Birthday", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnBirthday);
-                this.columnReturnData = new global::System.Data.DataColumn("ReturnData", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnReturnData = new global::System.Data.DataColumn("ReturnData", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnReturnData);
                 this.columnNationality = new global::System.Data.DataColumn("Nationality", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNationality);
@@ -1220,10 +1220,10 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string EndPassportDate {
+            public System.DateTime EndPassportDate {
                 get {
                     try {
-                        return ((string)(this[this.tableClientData.EndPassportDateColumn]));
+                        return ((global::System.DateTime)(this[this.tableClientData.EndPassportDateColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'EndPassportDate\' in table \'ClientData\' is DBNull.", e);
@@ -1284,10 +1284,10 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Birthday {
+            public System.DateTime Birthday {
                 get {
                     try {
-                        return ((string)(this[this.tableClientData.BirthdayColumn]));
+                        return ((global::System.DateTime)(this[this.tableClientData.BirthdayColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'Birthday\' in table \'ClientData\' is DBNull.", e);
@@ -1300,10 +1300,10 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string ReturnData {
+            public System.DateTime ReturnData {
                 get {
                     try {
-                        return ((string)(this[this.tableClientData.ReturnDataColumn]));
+                        return ((global::System.DateTime)(this[this.tableClientData.ReturnDataColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'ReturnData\' in table \'ClientData\' is DBNull.", e);

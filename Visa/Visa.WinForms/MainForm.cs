@@ -14,7 +14,7 @@ using Visa.Resources.uk_UA;
 using Visa.WebCrawler.SeleniumCrawler;
 
 namespace Visa.WinForms
-{
+{//todo all provided functionality should be separated into two parts
     public partial class MainForm : Form
     {
         #region Members
@@ -228,10 +228,9 @@ namespace Visa.WinForms
 
         #region Functions
 
-
         private void InitOtherComponentDetails()
         {
-            _logger.Trace($"Start InitOtherComponentDetails.");
+            _logger.Trace("Start InitOtherComponentDetails.");
             ResManager.RegisterResource("uk_UA", uk_UA.ResourceManager);
             _logger.Trace("InitOtherComponentDetails. ResManager = uk_UA");
             Closed += MainForm_Closed;
@@ -247,7 +246,33 @@ namespace Visa.WinForms
             _alertControl.AlertClick += _alertControl_AlertClick;
             _alertControl.BeforeFormShow += _alertControl_BeforeFormShow;
             _alertControl.FormLoad += _alertControl_FormLoad;
-            _logger.Trace($"End InitOtherComponentDetails.");
+
+            clientDataRowBindingSource.DataSource = InstanceProvider.DataSet.ClientData;
+            repositoryItemTextEditPassword.PasswordChar = '*';
+
+            InitColumnNames();
+            _logger.Trace("End InitOtherComponentDetails.");
+        }
+
+        private void InitColumnNames()
+        {
+            _logger.Trace("Start InitColumnNames");
+            colPeopleCount.Caption = ResManager.GetString(ResKeys.colPeopleCount);
+            colChildsCount.Caption = ResManager.GetString(ResKeys.colChildsCount);
+            colNumberOfReceipt.Caption = ResManager.GetString(ResKeys.colNumberOfReceipt);
+            colEmail.Caption = ResManager.GetString(ResKeys.colEmail);
+            colPassword.Caption = ResManager.GetString(ResKeys.colPassword);
+            colEndPassportDate.Caption = ResManager.GetString(ResKeys.colEndPassportDate);
+            colStatus.Caption = ResManager.GetString(ResKeys.colStatus);
+            colName.Caption = ResManager.GetString(ResKeys.colName);
+            colLastName.Caption = ResManager.GetString(ResKeys.colLastName);
+            colBirthday.Caption = ResManager.GetString(ResKeys.colBirthday);
+            colReturnData.Caption = ResManager.GetString(ResKeys.colReturnData);
+            colNationality.Caption = ResManager.GetString(ResKeys.colNationality);
+            colRegistryFom.Caption = ResManager.GetString(ResKeys.colRegistryFom);
+            colRegistryTo.Caption = ResManager.GetString(ResKeys.colRegistryTo);
+            colRegistryTime.Caption = ResManager.GetString(ResKeys.colRegistryTime);
+            _logger.Trace("End InitColumnNames");
         }
 
         private void SetDefaultState()

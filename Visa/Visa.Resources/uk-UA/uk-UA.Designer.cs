@@ -61,6 +61,141 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Дата народження.
+        /// </summary>
+        public static string colBirthday {
+            get {
+                return ResourceManager.GetString("colBirthday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to К-ть дітей вписаний у паспорт батьків.
+        /// </summary>
+        public static string colChildsCount {
+            get {
+                return ResourceManager.GetString("colChildsCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to E-mail адрес.
+        /// </summary>
+        public static string colEmail {
+            get {
+                return ResourceManager.GetString("colEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дата закінчення терміну дії паспорту.
+        /// </summary>
+        public static string colEndPassportDate {
+            get {
+                return ResourceManager.GetString("colEndPassportDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Прізвище.
+        /// </summary>
+        public static string colLastName {
+            get {
+                return ResourceManager.GetString("colLastName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ім&apos;я.
+        /// </summary>
+        public static string colName {
+            get {
+                return ResourceManager.GetString("colName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Національність.
+        /// </summary>
+        public static string colNationality {
+            get {
+                return ResourceManager.GetString("colNationality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to № квитанції.
+        /// </summary>
+        public static string colNumberOfReceipt {
+            get {
+                return ResourceManager.GetString("colNumberOfReceipt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Пароль.
+        /// </summary>
+        public static string colPassword {
+            get {
+                return ResourceManager.GetString("colPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Кількість заявників.
+        /// </summary>
+        public static string colPeopleCount {
+            get {
+                return ResourceManager.GetString("colPeopleCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Реєстрація З.
+        /// </summary>
+        public static string colRegistryFom {
+            get {
+                return ResourceManager.GetString("colRegistryFom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Час реєстрації.
+        /// </summary>
+        public static string colRegistryTime {
+            get {
+                return ResourceManager.GetString("colRegistryTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Реєстрація До.
+        /// </summary>
+        public static string colRegistryTo {
+            get {
+                return ResourceManager.GetString("colRegistryTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дата повернення.
+        /// </summary>
+        public static string colReturnData {
+            get {
+                return ResourceManager.GetString("colReturnData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Статус.
+        /// </summary>
+        public static string colStatus {
+            get {
+                return ResourceManager.GetString("colStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to В програмі була сгенерована помилка яка не була належним чином оброблена. Будь-ласка пришліть детальний опис ваших дій  і опис помилки що є внизу..
         /// </summary>
         public static string ExceptionHanler_Text {
