@@ -55,8 +55,18 @@ namespace Visa.WebCrawler.SeleniumCrawler
         private void CheckForError()
         {
             _logger.Trace($"Start CheckForError. Error = {Error}");
-            var erQuery = _driver.FindElement(By.Id(_errorMessage));
-            if (erQuery.Text.IsNotBlank())
+            IWebElement erQuery = null;
+
+            try
+            {
+                erQuery = _driver.FindElement(By.Id(_errorMessage));
+            }
+            catch (NoSuchElementException ex)
+            {
+                _logger.Info($"Error element not found. Error ={Error}");
+            }
+
+            if (erQuery != null && erQuery.Text.IsNotBlank())
             {
                 _logger.Error($"throw new NoSuchElementException. Reason erQuery.Text.IsNotBlank = {erQuery.Text}");
                 throw new NoSuchElementException();
