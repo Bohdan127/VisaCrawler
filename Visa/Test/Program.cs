@@ -1,5 +1,8 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Test
 {
@@ -8,14 +11,27 @@ namespace Test
         //main link - https://polandonline.vfsglobal.com/poland-ukraine-appointment/%28S%28vvzibb45kxnimzfrnhuavib1%29%29/AppScheduling/AppWelcome.aspx?P=s2x6znRcBRv7WQQK7h4MTjZiPRbOsXKqJzddYBh3qCA=
         private static string mainUrl = "https://polandonline.vfsglobal.com/poland-ukraine-appointment/%28S%28vvzibb45kxnimzfrnhuavib1%29%29/AppScheduling/AppWelcome.aspx?P=s2x6znRcBRv7WQQK7h4MTjZiPRbOsXKqJzddYBh3qCA=";
         private static string checkAvailableData = "ctl00_plhMain_lnkChkAppmntAvailability";       //Перевірити доступні для реєстрації дати в кол-центрі
-        private static string visaCity = "ctl00_plhMain_cboVAC"; //Візовий Сервіс Центр
+        private static string visaCity = "ctl00_plhMain_cboVAC"; //Візовий Сервіс Центр i Пункт Прийому Візових Анкетx
         private static string visaCategory = "ctl00_plhMain_cboVisaCategory"; //Візова категорія
         private static string buttonSubmit = "ctl00_plhMain_btnSubmit";//Підтвердити                                      private static string regData = "ctl00_plhMain_lblAvailableDateMsg";//Найближча доступна дата для реєстрації
+        //second part
+        private static string registryId = "ctl00_plhMain_lnkSchApp";// Призначити дату подачі документів
+        private static string reason = "ctl00_plhMain_cboPurpose";//Мета візиту
+        private static string numOfApplicants = "ctl00_plhMain_tbxNumOfApplicants";//Кількість заявників
+        private static string numOfChildrens = "ctl00_plhMain_txtChildren";//К-сть дітей вписаних у паспорт батьків
+        private static string receiptNumber = "ctl00_plhMain_repAppReceiptDetails_ctl01_txtReceiptNumber";//Номер квитанції
+        private static string buttonSubmitEmail = "ctl00_plhMain_btnSubmitDetails";//Підтвердити імейл
+        private static string email = "ctl00_plhMain_txtEmailID";
+        private static string passForMail = "ctl00_plhMain_lblPassword";
+        private static string infoText = "ctl00_plhMain_lblMsg";//Ок текст - на коли можна зареєструватись
+
+
+
 
         static void Main(string[] args)
         {
-            Countries();
-
+            //Countries();
+            SecondPart();
             //ResManager.RegisterResource("uk_UA", uk_UA.ResourceManager);
             //Console.WriteLine(ResManager.GetString("test"));
             //FirefoxDriver driver = new FirefoxDriver();
@@ -40,6 +56,95 @@ namespace Test
             //Console.WriteLine(query.Text);
             //Console.ReadLine();
             //driver.Quit();
+        }
+
+        private static void SecondPart()
+        {
+            var driver = new FirefoxDriver();
+            driver.Navigate().GoToUrl(mainUrl);
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(registryId));
+                query.Click();
+            }
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(visaCity)).FindElement(By.CssSelector("option[value='13']"));
+                query.Click();
+            }
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(reason)).FindElement(By.CssSelector("option[value='1']"));
+                query.Click();
+            }
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(buttonSubmit));
+                query.Click();
+            }
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(numOfApplicants));
+                query.Clear();
+                query.SendKeys("1");
+            }
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(numOfChildrens));
+                query.Clear();
+                query.SendKeys("0");
+            }
+            Thread.Sleep(2000);
+            //Console.WriteLine("Capcha");
+            //Console.ReadLine();
+            {
+                var query = driver.FindElement(By.Id(visaCategory)).FindElement(By.CssSelector("option[value='235']"));
+                query.Click();
+            }
+            //Thread.Sleep(2000);
+            //{
+            //    var query = driver.FindElement(By.Id(infoText));
+            //    Console.WriteLine(query.Text);
+            //}
+            Console.WriteLine("Capcha");
+            Console.ReadLine();
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(buttonSubmit));
+                query.Click();
+            }
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(receiptNumber));
+                query.SendKeys("1736/0162/6679");
+            }
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(buttonSubmit));
+                query.Click();
+            }
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(infoText));
+                Console.WriteLine(query.Text);
+                Console.ReadLine();
+            }
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(email));
+                query.SendKeys("deputat93@i.ua");
+            }
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(passForMail));
+                query.SendKeys("QWE1@3ewq");
+            }
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(buttonSubmitEmail));
+                query.Click();
+            }
+            Thread.Sleep(2000);
         }
 
         static void Countries()

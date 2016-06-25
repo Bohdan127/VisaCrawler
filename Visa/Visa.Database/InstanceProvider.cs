@@ -30,7 +30,39 @@ namespace Visa.Database
             InitReasonType();
             InitStatusType();
             InitCountries();
+            InitRegistryTime();
             Initialized = true;
+        }
+
+        /// <summary>
+        /// Insert into dataset all default times for Registry
+        /// </summary>
+        private static void InitRegistryTime()
+        {
+            var countryRow = _dataSet.Choice.NewChoiceRow();
+            countryRow.Name = "08:30";
+            countryRow.Value = "ctl00_plhMain_gvSlot_ctl02_lnkTimeSlot";
+            countryRow.Type = (short)ChoicesType.RegistryTime;
+            _dataSet.Choice.AddChoiceRow(countryRow);
+
+            countryRow = _dataSet.Choice.NewChoiceRow();
+            countryRow.Name = "09:00";
+            countryRow.Value = "ctl00_plhMain_gvSlot_ctl03_lnkTimeSlot";
+            countryRow.Type = (short)ChoicesType.RegistryTime;
+            _dataSet.Choice.AddChoiceRow(countryRow);
+
+            countryRow = _dataSet.Choice.NewChoiceRow();
+            countryRow.Name = "09:30";
+            countryRow.Value = "ctl00_plhMain_gvSlot_ctl04_lnkTimeSlot";
+            countryRow.Type = (short)ChoicesType.RegistryTime;
+            _dataSet.Choice.AddChoiceRow(countryRow);
+
+            countryRow = _dataSet.Choice.NewChoiceRow();
+            countryRow.Name = "10:00";
+            countryRow.Value = "ctl00_plhMain_gvSlot_ctl05_lnkTimeSlot";
+            countryRow.Type = (short)ChoicesType.RegistryTime;
+            _dataSet.Choice.AddChoiceRow(countryRow);
+            _dataSet.AcceptChanges();
         }
 
         /// <summary>

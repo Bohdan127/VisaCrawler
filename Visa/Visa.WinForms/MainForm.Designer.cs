@@ -46,14 +46,18 @@
             this.colEndPassportDate = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemDateEditDateOnly = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
             this.colStatus = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemLookUpEditStatus = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.colName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemTextEditNotNull = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.colLastName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colBirthday = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colReturnData = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colNationality = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemLookUpEditNationality = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.colRegistryFom = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colRegistryTo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colRegistryTime = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemLookUpEditRegistryTime = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.progressBarControl1 = new DevExpress.XtraEditors.ProgressBarControl();
             this.lookUpEditVisaCategory = new DevExpress.XtraEditors.LookUpEdit();
             this.lookUpEditServiceCenter = new DevExpress.XtraEditors.LookUpEdit();
@@ -67,10 +71,14 @@
             this.layoutControlGroupSecond = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItemClientRegistry = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
-            this.repositoryItemLookUpEditStatus = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
-            this.repositoryItemTextEditNotNull = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.repositoryItemLookUpEditNationality = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
-            this.repositoryItemLookUpEditRegistryTime = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
+            this.layoutControlGroupClientData = new DevExpress.XtraLayout.LayoutControlGroup();
+            this.lookUpEditServiceCenterSecond = new DevExpress.XtraEditors.LookUpEdit();
+            this.layoutControlItemServiceCenterSecond = new DevExpress.XtraLayout.LayoutControlItem();
+            this.buttonRegistry = new DevExpress.XtraEditors.SimpleButton();
+            this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.progressBarControl2 = new DevExpress.XtraEditors.ProgressBarControl();
+            this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.emptySpaceItem2 = new DevExpress.XtraLayout.EmptySpaceItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataLayoutControl1)).BeginInit();
             this.dataLayoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
@@ -82,6 +90,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditPassword)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEditDateOnly)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEditDateOnly.CalendarTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditStatus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditNotNull)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditNationality)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditRegistryTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.progressBarControl1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpEditVisaCategory.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpEditServiceCenter.Properties)).BeginInit();
@@ -94,14 +106,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroupSecond)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemClientRegistry)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditStatus)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditNotNull)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditNationality)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditRegistryTime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroupClientData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lookUpEditServiceCenterSecond.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemServiceCenterSecond)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.progressBarControl2.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).BeginInit();
             this.SuspendLayout();
             // 
             // dataLayoutControl1
             // 
+            this.dataLayoutControl1.Controls.Add(this.progressBarControl2);
+            this.dataLayoutControl1.Controls.Add(this.buttonRegistry);
+            this.dataLayoutControl1.Controls.Add(this.lookUpEditServiceCenterSecond);
             this.dataLayoutControl1.Controls.Add(this.gridControl1);
             this.dataLayoutControl1.Controls.Add(this.progressBarControl1);
             this.dataLayoutControl1.Controls.Add(this.lookUpEditVisaCategory);
@@ -272,6 +290,14 @@
             this.colStatus.Visible = true;
             this.colStatus.VisibleIndex = 6;
             // 
+            // repositoryItemLookUpEditStatus
+            // 
+            this.repositoryItemLookUpEditStatus.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
+            this.repositoryItemLookUpEditStatus.AutoHeight = false;
+            this.repositoryItemLookUpEditStatus.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemLookUpEditStatus.Name = "repositoryItemLookUpEditStatus";
+            // 
             // colName
             // 
             this.colName.ColumnEdit = this.repositoryItemTextEditNotNull;
@@ -279,6 +305,12 @@
             this.colName.Name = "colName";
             this.colName.Visible = true;
             this.colName.VisibleIndex = 7;
+            // 
+            // repositoryItemTextEditNotNull
+            // 
+            this.repositoryItemTextEditNotNull.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
+            this.repositoryItemTextEditNotNull.AutoHeight = false;
+            this.repositoryItemTextEditNotNull.Name = "repositoryItemTextEditNotNull";
             // 
             // colLastName
             // 
@@ -312,6 +344,14 @@
             this.colNationality.Visible = true;
             this.colNationality.VisibleIndex = 11;
             // 
+            // repositoryItemLookUpEditNationality
+            // 
+            this.repositoryItemLookUpEditNationality.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
+            this.repositoryItemLookUpEditNationality.AutoHeight = false;
+            this.repositoryItemLookUpEditNationality.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemLookUpEditNationality.Name = "repositoryItemLookUpEditNationality";
+            // 
             // colRegistryFom
             // 
             this.colRegistryFom.ColumnEdit = this.repositoryItemDateEditDateOnly;
@@ -335,6 +375,14 @@
             this.colRegistryTime.Name = "colRegistryTime";
             this.colRegistryTime.Visible = true;
             this.colRegistryTime.VisibleIndex = 14;
+            // 
+            // repositoryItemLookUpEditRegistryTime
+            // 
+            this.repositoryItemLookUpEditRegistryTime.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
+            this.repositoryItemLookUpEditRegistryTime.AutoHeight = false;
+            this.repositoryItemLookUpEditRegistryTime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemLookUpEditRegistryTime.Name = "repositoryItemLookUpEditRegistryTime";
             // 
             // progressBarControl1
             // 
@@ -391,8 +439,9 @@
             this.layoutControlGroup1.GroupBordersVisible = false;
             this.layoutControlGroup1.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlGroupFirst,
-            this.layoutControlGroupSecond,
-            this.emptySpaceItem1});
+            this.emptySpaceItem1,
+            this.layoutControlGroupClientData,
+            this.layoutControlGroupSecond});
             this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Size = new System.Drawing.Size(955, 498);
@@ -453,10 +502,13 @@
             // layoutControlGroupSecond
             // 
             this.layoutControlGroupSecond.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
-            this.layoutControlItemClientRegistry});
-            this.layoutControlGroupSecond.Location = new System.Drawing.Point(0, 116);
+            this.layoutControlItemServiceCenterSecond,
+            this.layoutControlItem1,
+            this.layoutControlItem3,
+            this.emptySpaceItem2});
+            this.layoutControlGroupSecond.Location = new System.Drawing.Point(343, 0);
             this.layoutControlGroupSecond.Name = "layoutControlGroupSecond";
-            this.layoutControlGroupSecond.Size = new System.Drawing.Size(935, 362);
+            this.layoutControlGroupSecond.Size = new System.Drawing.Size(304, 116);
             this.layoutControlGroupSecond.Text = "Реєстрація клієнтів";
             // 
             // layoutControlItemClientRegistry
@@ -472,38 +524,82 @@
             // emptySpaceItem1
             // 
             this.emptySpaceItem1.AllowHotTrack = false;
-            this.emptySpaceItem1.Location = new System.Drawing.Point(343, 0);
+            this.emptySpaceItem1.Location = new System.Drawing.Point(647, 0);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(592, 116);
+            this.emptySpaceItem1.Size = new System.Drawing.Size(288, 116);
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
-            // repositoryItemLookUpEditStatus
+            // layoutControlGroupClientData
             // 
-            this.repositoryItemLookUpEditStatus.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
-            this.repositoryItemLookUpEditStatus.AutoHeight = false;
-            this.repositoryItemLookUpEditStatus.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.layoutControlGroupClientData.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
+            this.layoutControlItemClientRegistry});
+            this.layoutControlGroupClientData.Location = new System.Drawing.Point(0, 116);
+            this.layoutControlGroupClientData.Name = "layoutControlGroupClientData";
+            this.layoutControlGroupClientData.Size = new System.Drawing.Size(935, 362);
+            this.layoutControlGroupClientData.Text = "Дані клієнтів";
+            // 
+            // lookUpEditServiceCenterSecond
+            // 
+            this.lookUpEditServiceCenterSecond.Location = new System.Drawing.Point(457, 42);
+            this.lookUpEditServiceCenterSecond.Name = "lookUpEditServiceCenterSecond";
+            this.lookUpEditServiceCenterSecond.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemLookUpEditStatus.Name = "repositoryItemLookUpEditStatus";
+            this.lookUpEditServiceCenterSecond.Size = new System.Drawing.Size(186, 20);
+            this.lookUpEditServiceCenterSecond.StyleController = this.dataLayoutControl1;
+            this.lookUpEditServiceCenterSecond.TabIndex = 5;
             // 
-            // repositoryItemTextEditNotNull
+            // layoutControlItemServiceCenterSecond
             // 
-            this.repositoryItemTextEditNotNull.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
-            this.repositoryItemTextEditNotNull.AutoHeight = false;
-            this.repositoryItemTextEditNotNull.Name = "repositoryItemTextEditNotNull";
+            this.layoutControlItemServiceCenterSecond.Control = this.lookUpEditServiceCenterSecond;
+            this.layoutControlItemServiceCenterSecond.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlItemServiceCenterSecond.Name = "layoutControlItemServiceCenterSecond";
+            this.layoutControlItemServiceCenterSecond.Size = new System.Drawing.Size(280, 24);
+            this.layoutControlItemServiceCenterSecond.Text = "Сервісний ценрт:";
+            this.layoutControlItemServiceCenterSecond.TextSize = new System.Drawing.Size(87, 13);
             // 
-            // repositoryItemLookUpEditNationality
+            // buttonRegistry
             // 
-            this.repositoryItemLookUpEditNationality.AutoHeight = false;
-            this.repositoryItemLookUpEditNationality.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemLookUpEditNationality.Name = "repositoryItemLookUpEditNationality";
+            this.buttonRegistry.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonRegistry.Image")));
+            this.buttonRegistry.Location = new System.Drawing.Point(507, 88);
+            this.buttonRegistry.Name = "buttonRegistry";
+            this.buttonRegistry.Size = new System.Drawing.Size(136, 22);
+            this.buttonRegistry.StyleController = this.dataLayoutControl1;
+            this.buttonRegistry.TabIndex = 7;
+            this.buttonRegistry.Text = "Запустити перевірку";
             // 
-            // repositoryItemLookUpEditRegistryTime
+            // layoutControlItem3
             // 
-            this.repositoryItemLookUpEditRegistryTime.AutoHeight = false;
-            this.repositoryItemLookUpEditRegistryTime.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemLookUpEditRegistryTime.Name = "repositoryItemLookUpEditRegistryTime";
+            this.layoutControlItem3.Control = this.buttonRegistry;
+            this.layoutControlItem3.Location = new System.Drawing.Point(140, 46);
+            this.layoutControlItem3.Name = "layoutControlItem3";
+            this.layoutControlItem3.Size = new System.Drawing.Size(140, 28);
+            this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem3.TextVisible = false;
+            // 
+            // progressBarControl2
+            // 
+            this.progressBarControl2.Location = new System.Drawing.Point(367, 66);
+            this.progressBarControl2.Name = "progressBarControl2";
+            this.progressBarControl2.Size = new System.Drawing.Size(276, 18);
+            this.progressBarControl2.StyleController = this.dataLayoutControl1;
+            this.progressBarControl2.TabIndex = 8;
+            // 
+            // layoutControlItem1
+            // 
+            this.layoutControlItem1.Control = this.progressBarControl2;
+            this.layoutControlItem1.Location = new System.Drawing.Point(0, 24);
+            this.layoutControlItem1.Name = "layoutControlItem1";
+            this.layoutControlItem1.Size = new System.Drawing.Size(280, 22);
+            this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem1.TextVisible = false;
+            // 
+            // emptySpaceItem2
+            // 
+            this.emptySpaceItem2.AllowHotTrack = false;
+            this.emptySpaceItem2.Location = new System.Drawing.Point(0, 46);
+            this.emptySpaceItem2.Name = "emptySpaceItem2";
+            this.emptySpaceItem2.Size = new System.Drawing.Size(140, 28);
+            this.emptySpaceItem2.TextSize = new System.Drawing.Size(0, 0);
             // 
             // MainForm
             // 
@@ -526,6 +622,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditPassword)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEditDateOnly.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEditDateOnly)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditStatus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditNotNull)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditNationality)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditRegistryTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.progressBarControl1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpEditVisaCategory.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpEditServiceCenter.Properties)).EndInit();
@@ -538,10 +638,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroupSecond)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemClientRegistry)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditStatus)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditNotNull)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditNationality)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditRegistryTime)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroupClientData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lookUpEditServiceCenterSecond.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemServiceCenterSecond)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.progressBarControl2.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -589,6 +692,14 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEditNotNull;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repositoryItemLookUpEditNationality;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repositoryItemLookUpEditRegistryTime;
+        private DevExpress.XtraEditors.ProgressBarControl progressBarControl2;
+        private DevExpress.XtraEditors.SimpleButton buttonRegistry;
+        private DevExpress.XtraEditors.LookUpEdit lookUpEditServiceCenterSecond;
+        private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroupClientData;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItemServiceCenterSecond;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
+        private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem2;
     }
 }
 

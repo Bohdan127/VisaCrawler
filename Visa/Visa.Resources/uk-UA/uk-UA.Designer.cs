@@ -243,9 +243,18 @@ namespace Visa.Resources.uk_UA {
         /// <summary>
         ///   Looks up a localized string similar to Будь-ласка випевніть візовий ценрт і візову категорію.
         /// </summary>
-        public static string ValidationError_Message {
+        public static string ValidationError_Message_FirstPart {
             get {
-                return ResourceManager.GetString("ValidationError_Message", resourceCulture);
+                return ResourceManager.GetString("ValidationError_Message_FirstPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Будь-ласка перевірте введені вами дані у таблиці та випевніть візовий центр.
+        /// </summary>
+        public static string ValidationError_Message_SecondPart {
+            get {
+                return ResourceManager.GetString("ValidationError_Message_SecondPart", resourceCulture);
             }
         }
         

@@ -1,35 +1,26 @@
 ﻿using DevExpress.XtraBars.Alerter;
-using DevExpress.XtraEditors;
 using NLog;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 using Visa.Database;
 using Visa.Database.Enums;
 using Visa.Resources;
 using Visa.Resources.uk_UA;
-using Visa.WebCrawler.SeleniumCrawler;
 
 namespace Visa.WinForms
-{//todo all provided functionality should be separated into two parts
+{
     public partial class MainForm : Form
     {
         #region Members
 
-        private GetFirtAvailableData _crawler;
+        private AlertControl _alertControl;
 
-        /// <summary>
-        /// Thread for crawler logic
-        /// </summary>
-        private BackgroundWorker _crawlerWorker;
+        private bool? isFirstPart;
 
-        /// <summary>
-        /// Thread for ProgressBar logic
-        /// </summary>
-        private BackgroundWorker _progressBarWorker;
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Field used for getting part of program
@@ -40,10 +31,6 @@ namespace Visa.WinForms
         /// Field used for showing progress in ProgressBar
         /// </summary>
         private int _initVal = 1;
-
-        private AlertControl _alertControl;
-
-        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         #endregion Members
 
@@ -70,10 +57,11 @@ namespace Visa.WinForms
         private void _alertControl_AlertClick(object sender, AlertClickEventArgs e)
         {
             _logger.Info($"Start _alertControl_AlertClick. Alert Text - {e.AlertForm.Text}. State - {_state}");
-            StartNewWorkRound();
+            StartNewWorkRoundFirst();
             buttonShow.Enabled = false;
+            buttonRegistry.Enabled = false;
             e.AlertForm.Close();
-            _logger.Trace($"End _alertControl_AlertClick. buttonShow.Enabled = {buttonShow.Enabled}. e.AlertForm.IsAccessible = {e.AlertForm.IsAccessible}");
+            _logger.Trace($"End _alertControl_AlertClick. buttonShow.Enabled = {buttonShow.Enabled}. e.AlertForm.IsAccessible = {e.AlertForm.IsAccessible}.  buttonRegistry.Enabled ={ buttonRegistry.Enabled }");
         }
 
         private void _alertControl_FormLoad(object sender, AlertFormLoadEventArgs e)
@@ -85,137 +73,8 @@ namespace Visa.WinForms
         private void MainForm_Load(object sender, EventArgs e)
         {
             _logger.Trace("Start MainForm_Load");
-            lookUpEditServiceCenter.Properties.DataSource =
-                InstanceProvider.DataSet.Choice.Where(c => c.Type == (short)ChoicesType.ServiceCenter).ToList();
-            lookUpEditVisaCategory.Properties.DataSource =
-                InstanceProvider.DataSet.Choice.Where(c => c.Type == (short)ChoicesType.VisaCategory).ToList();
-            //todo here should be binding to column with ReasonType and other
-            //lookUpEditVisaCategory.Properties.DataSource =
-            //    InstanceProvider.DataSet.Choice.Where(c => c.Type == (short)ChoicesType.ReasonType).ToList();
+            SetDataSourceForLookUps();
             _logger.Trace("End MainForm_Load");
-        }
-
-        private void buttonShow_Click(object sender, EventArgs e)
-        {
-            _logger.Trace("Start buttonShow_Click");
-            if (ValidateControls())
-            {
-                _logger.Info("Validation Pass.");
-                StartNewWorkRound();
-                buttonShow.Enabled = false;
-            }
-            else
-            {
-                _logger.Warn($"Validation Failed. Error Message is shown.");
-                XtraMessageBox.Show(ResManager.GetString(ResKeys.ValidationError_Message),
-                    ResManager.GetString(ResKeys.ValidationError_Title),
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Stop);
-            }
-            _logger.Trace($"End buttonShow_Click. buttonShow.Enabled = {buttonShow.Enabled}");
-        }
-
-        private void progressBarWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            _logger.Trace($"Start progressBarWorker_DoWork. State = {_state}. InitValue = {_initVal}");
-            var maxVal = 0;
-            switch (_state)
-            {
-                case 1:
-                    maxVal = 30;
-                    break;
-
-                case 2:
-                    maxVal = 60;
-                    break;
-
-                case 3:
-                    maxVal = 100;
-                    break;
-
-                default:
-                    break;
-            }
-
-            for (var i = _initVal; i <= maxVal; i++)
-            {
-                if (_crawler?.Error ?? false)
-                {
-                    _logger.Warn("return progressBarWorker_DoWork. _crawler.Error = true");
-                    return;
-                }
-                Invoke(new Action(() =>
-                {
-                    progressBarControl1.EditValue = i;
-                }));
-                Thread.Sleep(150);
-            }
-
-            _initVal = maxVal;
-            if (maxVal == 100)
-            {
-                _logger.Info("progressBarWorker_DoWork. maxVal == 100");
-                SetDefaultState();
-            }
-            _logger.Info($"End progressBarWorker_DoWork. State = {_state}. InitValue = {_initVal}");
-
-        }
-
-        private void _crawlerWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            _logger.Trace($"Start _crawlerWorker_DoWork. State = {_state}");
-            var incomingData = e.Argument as Tuple<int, int>;
-
-            if (incomingData == null)
-            {
-                _logger.Error("return _crawlerWorker_DoWork incomingData == null");
-                return;
-            }
-
-            switch (_state)
-            {
-                case 1:
-                    Invoke(new Action(() =>
-                    {
-                        _alertControl.AlertFormList.ForEach(alert => alert.Close());
-                    }));
-                    _crawler = new GetFirtAvailableData();
-                    _crawler.PartOne();
-                    _state = 2;
-                    break;
-
-                case 2:
-                    _crawler.PartTwo(incomingData.Item1, incomingData.Item2);
-                    _state = 3;
-                    break;
-
-                case 3:
-                    _crawler.PartThree();
-                    if (!_crawler.Error)
-                    {
-                        _logger.Info($"return _crawlerWorker_DoWork. State = {_state}. OutData = {_crawler.OutData}. _crawler.Error = false ");
-                        XtraMessageBox.Show(_crawler.OutData,
-                            ResManager.GetString(ResKeys.SearchResult),
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Exclamation);
-                        _crawler.CloseBrowser();
-                        return;
-                    }
-                    break;
-                default:
-                    break;
-            }
-            if (_crawler.Error)
-            {
-                _logger.Warn($"return _crawlerWorker_DoWork. State = {_state}. OutData = {_crawler.OutData}. _crawler.Error = true ");
-                ShowAlert(ResManager.GetString(ResKeys.ServerError));
-                Thread.Sleep(500);
-                SetDefaultState();
-                _crawler.CloseBrowser();
-            }
-            else
-                ShowAlert(ResManager.GetString(ResKeys.FillCaptchaAndPress));
-            _logger.Trace($"End _crawlerWorker_DoWork. State = {_state}. _crawler.Error = {_crawler.Error} ");
         }
 
         private void MainForm_Closed(object sender, EventArgs e)
@@ -224,9 +83,46 @@ namespace Visa.WinForms
             _crawler?.CloseBrowser();
         }
 
+        private void _crawlerWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            _logger.Trace($"Start _crawlerWorker_DoWork. State = {_state}");
+
+            if (isFirstPart == null)
+            {
+                _logger.Error($"_crawlerWorker_DoWork isFirstPart == null. State = {_state}. _crawler.Error = {_crawler.Error}");
+                return;//todo enable search button
+            }
+
+            if (isFirstPart.Value)
+                CrawlerWorkFirstPart(e.Argument);
+            else
+                //CrawlerWorkSecondPart
+                CrawlerWorkFirstPart(e.Argument);
+
+            _logger.Trace($"End _crawlerWorker_DoWork. State = {_state}. _crawler.Error = {_crawler.Error}");
+        }
+
         #endregion Events
 
         #region Functions
+
+        private void SetDataSourceForLookUps()
+        {
+            _logger.Trace("Start SetDataSourceForLookUps");
+            var timeStart = DateTime.Now;
+            lookUpEditServiceCenter.Properties.DataSource =
+                           InstanceProvider.DataSet.Choice.Where(c => c.Type == (short)ChoicesType.ServiceCenter).ToList();
+            lookUpEditVisaCategory.Properties.DataSource =
+                InstanceProvider.DataSet.Choice.Where(c => c.Type == (short)ChoicesType.VisaCategory).ToList();
+            repositoryItemLookUpEditNationality.DataSource =
+                InstanceProvider.DataSet.Choice.Where(c => c.Type == (short)ChoicesType.Country).ToList();
+            repositoryItemLookUpEditRegistryTime.DataSource =
+                InstanceProvider.DataSet.Choice.Where(c => c.Type == (short)ChoicesType.RegistryTime).ToList();
+            repositoryItemLookUpEditStatus.DataSource =
+                InstanceProvider.DataSet.Choice.Where(c => c.Type == (short)ChoicesType.StatusType).ToList();
+            _logger.Info($"Time for initialize datasets = {timeStart - DateTime.Now}");
+            _logger.Trace("End SetDataSourceForLookUps.");
+        }
 
         private void InitOtherComponentDetails()
         {
@@ -249,6 +145,7 @@ namespace Visa.WinForms
 
             clientDataRowBindingSource.DataSource = InstanceProvider.DataSet.ClientData;
             repositoryItemTextEditPassword.PasswordChar = '*';
+            isFirstPart = null;
 
             InitColumnNames();
             _logger.Trace("End InitOtherComponentDetails.");
@@ -277,14 +174,16 @@ namespace Visa.WinForms
 
         private void SetDefaultState()
         {
-            _logger.Trace($"Start SetDefaultState. State = {_state}. InitValue = {_initVal}. buttonShow.Enabled = {buttonShow.Enabled}");
+            _logger.Trace($"Start SetDefaultState. State = {_state}. InitValue = {_initVal}. buttonShow.Enabled = {buttonShow.Enabled}.  buttonRegistry.Enabled = { buttonRegistry.Enabled }");
             _state = 1;
             _initVal = 1;
+            isFirstPart = null;
             Invoke(new Action(() =>
             {
                 buttonShow.Enabled = true;
+                buttonRegistry.Enabled = true;
             }));
-            _logger.Trace($"End SetDefaultState. State = {_state}. InitValue = {_initVal}. buttonShow.Enabled = {buttonShow.Enabled}");
+            _logger.Trace($"End SetDefaultState. State = {_state}. InitValue = {_initVal}. buttonShow.Enabled = {buttonShow.Enabled}.  buttonRegistry.Enabled = { buttonRegistry.Enabled }");
         }
 
         /// <summary>
@@ -299,20 +198,16 @@ namespace Visa.WinForms
             }));
         }
 
-        private bool ValidateControls()
+        private void StartNewWorkRoundBase()
         {
-            var bRes = true;
+            _logger.Trace("Start StartNewWorkRoundBase");
 
-            bRes &= lookUpEditServiceCenter.GetSelectedDataRow() != null;
-            bRes &= lookUpEditVisaCategory.GetSelectedDataRow() != null;
+            if (isFirstPart == null)
+            {
+                _logger.Error($"StartNewWorkRoundBase isFirstPart == null. State = {_state}. _crawler.Error = {_crawler.Error}");
+                return;//todo enable search button
+            }
 
-            _logger.Info($"ValidateControls = {bRes}");
-            return bRes;
-        }
-
-        private void StartNewWorkRound()
-        {
-            _logger.Trace("Start StartNewWorkRound");
             if (!_progressBarWorker.IsBusy)
             {
                 _logger.Info("Start _progressBarWorker.RunWorkerAsync");
@@ -322,11 +217,14 @@ namespace Visa.WinForms
             if (!_crawlerWorker.IsBusy)
             {
                 _logger.Info("Start _crawlerWorker.RunWorkerAsync");
-                _crawlerWorker.RunWorkerAsync(new Tuple<int, int>(
-                    Convert.ToInt32(((VisaDataSet.ChoiceRow)lookUpEditServiceCenter.GetSelectedDataRow()).Value),
-                    Convert.ToInt32(((VisaDataSet.ChoiceRow)lookUpEditVisaCategory.GetSelectedDataRow()).Value)));
+                if (isFirstPart.Value)
+                    _crawlerWorker.RunWorkerAsync(new Tuple<int, int>(
+                        Convert.ToInt32(((VisaDataSet.ChoiceRow)lookUpEditServiceCenter.GetSelectedDataRow()).Value),
+                        Convert.ToInt32(((VisaDataSet.ChoiceRow)lookUpEditVisaCategory.GetSelectedDataRow()).Value)));
+                else
+                    _crawlerWorker.RunWorkerAsync(gridControl1.DataSource);
             }
-            _logger.Trace("End StartNewWorkRound");
+            _logger.Trace("End StartNewWorkRoundBase");
         }
 
         #endregion Functions

@@ -899,6 +899,21 @@ namespace Visa.Database {
                 base.Columns.Add(this.columnRegistryTo);
                 this.columnRegistryTime = new global::System.Data.DataColumn("RegistryTime", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRegistryTime);
+                this.columnPeopleCount.AllowDBNull = false;
+                this.columnChildsCount.AllowDBNull = false;
+                this.columnNumberOfReceipt.AllowDBNull = false;
+                this.columnEmail.AllowDBNull = false;
+                this.columnPassword.AllowDBNull = false;
+                this.columnEndPassportDate.AllowDBNull = false;
+                this.columnStatus.AllowDBNull = false;
+                this.columnName.AllowDBNull = false;
+                this.columnLastName.AllowDBNull = false;
+                this.columnBirthday.AllowDBNull = false;
+                this.columnReturnData.AllowDBNull = false;
+                this.columnNationality.AllowDBNull = false;
+                this.columnRegistryFom.AllowDBNull = false;
+                this.columnRegistryTo.AllowDBNull = false;
+                this.columnRegistryTime.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1142,12 +1157,7 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string PeopleCount {
                 get {
-                    try {
-                        return ((string)(this[this.tableClientData.PeopleCountColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'PeopleCount\' in table \'ClientData\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableClientData.PeopleCountColumn]));
                 }
                 set {
                     this[this.tableClientData.PeopleCountColumn] = value;
@@ -1158,12 +1168,7 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string ChildsCount {
                 get {
-                    try {
-                        return ((string)(this[this.tableClientData.ChildsCountColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ChildsCount\' in table \'ClientData\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableClientData.ChildsCountColumn]));
                 }
                 set {
                     this[this.tableClientData.ChildsCountColumn] = value;
@@ -1174,12 +1179,7 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string NumberOfReceipt {
                 get {
-                    try {
-                        return ((string)(this[this.tableClientData.NumberOfReceiptColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'NumberOfReceipt\' in table \'ClientData\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableClientData.NumberOfReceiptColumn]));
                 }
                 set {
                     this[this.tableClientData.NumberOfReceiptColumn] = value;
@@ -1190,12 +1190,7 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Email {
                 get {
-                    try {
-                        return ((string)(this[this.tableClientData.EmailColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Email\' in table \'ClientData\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableClientData.EmailColumn]));
                 }
                 set {
                     this[this.tableClientData.EmailColumn] = value;
@@ -1206,12 +1201,7 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Password {
                 get {
-                    try {
-                        return ((string)(this[this.tableClientData.PasswordColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Password\' in table \'ClientData\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableClientData.PasswordColumn]));
                 }
                 set {
                     this[this.tableClientData.PasswordColumn] = value;
@@ -1222,12 +1212,7 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public System.DateTime EndPassportDate {
                 get {
-                    try {
-                        return ((global::System.DateTime)(this[this.tableClientData.EndPassportDateColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'EndPassportDate\' in table \'ClientData\' is DBNull.", e);
-                    }
+                    return ((global::System.DateTime)(this[this.tableClientData.EndPassportDateColumn]));
                 }
                 set {
                     this[this.tableClientData.EndPassportDateColumn] = value;
@@ -1238,12 +1223,7 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Status {
                 get {
-                    try {
-                        return ((string)(this[this.tableClientData.StatusColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Status\' in table \'ClientData\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableClientData.StatusColumn]));
                 }
                 set {
                     this[this.tableClientData.StatusColumn] = value;
@@ -1254,12 +1234,7 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Name {
                 get {
-                    try {
-                        return ((string)(this[this.tableClientData.NameColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Name\' in table \'ClientData\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableClientData.NameColumn]));
                 }
                 set {
                     this[this.tableClientData.NameColumn] = value;
@@ -1270,12 +1245,7 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string LastName {
                 get {
-                    try {
-                        return ((string)(this[this.tableClientData.LastNameColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'LastName\' in table \'ClientData\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableClientData.LastNameColumn]));
                 }
                 set {
                     this[this.tableClientData.LastNameColumn] = value;
@@ -1286,12 +1256,7 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public System.DateTime Birthday {
                 get {
-                    try {
-                        return ((global::System.DateTime)(this[this.tableClientData.BirthdayColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Birthday\' in table \'ClientData\' is DBNull.", e);
-                    }
+                    return ((global::System.DateTime)(this[this.tableClientData.BirthdayColumn]));
                 }
                 set {
                     this[this.tableClientData.BirthdayColumn] = value;
@@ -1302,12 +1267,7 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public System.DateTime ReturnData {
                 get {
-                    try {
-                        return ((global::System.DateTime)(this[this.tableClientData.ReturnDataColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ReturnData\' in table \'ClientData\' is DBNull.", e);
-                    }
+                    return ((global::System.DateTime)(this[this.tableClientData.ReturnDataColumn]));
                 }
                 set {
                     this[this.tableClientData.ReturnDataColumn] = value;
@@ -1318,12 +1278,7 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Nationality {
                 get {
-                    try {
-                        return ((string)(this[this.tableClientData.NationalityColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Nationality\' in table \'ClientData\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableClientData.NationalityColumn]));
                 }
                 set {
                     this[this.tableClientData.NationalityColumn] = value;
@@ -1334,12 +1289,7 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string RegistryFom {
                 get {
-                    try {
-                        return ((string)(this[this.tableClientData.RegistryFomColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'RegistryFom\' in table \'ClientData\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableClientData.RegistryFomColumn]));
                 }
                 set {
                     this[this.tableClientData.RegistryFomColumn] = value;
@@ -1350,12 +1300,7 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string RegistryTo {
                 get {
-                    try {
-                        return ((string)(this[this.tableClientData.RegistryToColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'RegistryTo\' in table \'ClientData\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableClientData.RegistryToColumn]));
                 }
                 set {
                     this[this.tableClientData.RegistryToColumn] = value;
@@ -1366,196 +1311,11 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string RegistryTime {
                 get {
-                    try {
-                        return ((string)(this[this.tableClientData.RegistryTimeColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'RegistryTime\' in table \'ClientData\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableClientData.RegistryTimeColumn]));
                 }
                 set {
                     this[this.tableClientData.RegistryTimeColumn] = value;
                 }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsPeopleCountNull() {
-                return this.IsNull(this.tableClientData.PeopleCountColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetPeopleCountNull() {
-                this[this.tableClientData.PeopleCountColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsChildsCountNull() {
-                return this.IsNull(this.tableClientData.ChildsCountColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetChildsCountNull() {
-                this[this.tableClientData.ChildsCountColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsNumberOfReceiptNull() {
-                return this.IsNull(this.tableClientData.NumberOfReceiptColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetNumberOfReceiptNull() {
-                this[this.tableClientData.NumberOfReceiptColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsEmailNull() {
-                return this.IsNull(this.tableClientData.EmailColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetEmailNull() {
-                this[this.tableClientData.EmailColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsPasswordNull() {
-                return this.IsNull(this.tableClientData.PasswordColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetPasswordNull() {
-                this[this.tableClientData.PasswordColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsEndPassportDateNull() {
-                return this.IsNull(this.tableClientData.EndPassportDateColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetEndPassportDateNull() {
-                this[this.tableClientData.EndPassportDateColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsStatusNull() {
-                return this.IsNull(this.tableClientData.StatusColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetStatusNull() {
-                this[this.tableClientData.StatusColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsNameNull() {
-                return this.IsNull(this.tableClientData.NameColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetNameNull() {
-                this[this.tableClientData.NameColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsLastNameNull() {
-                return this.IsNull(this.tableClientData.LastNameColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetLastNameNull() {
-                this[this.tableClientData.LastNameColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsBirthdayNull() {
-                return this.IsNull(this.tableClientData.BirthdayColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetBirthdayNull() {
-                this[this.tableClientData.BirthdayColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsReturnDataNull() {
-                return this.IsNull(this.tableClientData.ReturnDataColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetReturnDataNull() {
-                this[this.tableClientData.ReturnDataColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsNationalityNull() {
-                return this.IsNull(this.tableClientData.NationalityColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetNationalityNull() {
-                this[this.tableClientData.NationalityColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsRegistryFomNull() {
-                return this.IsNull(this.tableClientData.RegistryFomColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetRegistryFomNull() {
-                this[this.tableClientData.RegistryFomColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsRegistryToNull() {
-                return this.IsNull(this.tableClientData.RegistryToColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetRegistryToNull() {
-                this[this.tableClientData.RegistryToColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsRegistryTimeNull() {
-                return this.IsNull(this.tableClientData.RegistryTimeColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetRegistryTimeNull() {
-                this[this.tableClientData.RegistryTimeColumn] = global::System.Convert.DBNull;
             }
         }
         

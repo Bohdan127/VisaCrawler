@@ -6,6 +6,7 @@
         VisaCategory,
         ReasonType,
         StatusType,
-        Country
+        Country,
+        RegistryTime
     }
 }

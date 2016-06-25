@@ -177,10 +177,13 @@
   <data name="ServerError" xml:space="preserve">
     <value>Сервер не відповідає. Щоб поторити спробу запустіть перевірку знову!</value>
   </data>
-  <data name="ValidationError_Message" xml:space="preserve">
+  <data name="ValidationError_Message_FirstPart" xml:space="preserve">
     <value>Будь-ласка випевніть візовий ценрт і візову категорію</value>
   </data>
   <data name="ValidationError_Title" xml:space="preserve">
     <value>Валідація не пройдена</value>
+  </data>
+  <data name="ValidationError_Message_SecondPart" xml:space="preserve">
+    <value>Будь-ласка перевірте введені вами дані у таблиці та випевніть візовий центр</value>
   </data>
 </root>
