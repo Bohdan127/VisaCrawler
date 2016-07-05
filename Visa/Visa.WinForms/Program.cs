@@ -40,23 +40,15 @@ namespace Visa.WinForms
             // errors to go through our handler.
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 
-            // Add the event handler for handling non-UI thread exceptions to the event. 
-            AppDomain.CurrentDomain.UnhandledException +=
-                new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-
             Application.Run(new MainForm());
         }
 
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
             _logger.Error(e.Exception.Message);
+            _logger.Error(e.Exception.StackTrace);
             ExceptionHandlerForm.ShowException(e.Exception);
         }
 
-
-        public static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs args)
-        {
-            Exception e = (Exception)args.ExceptionObject;
-        }
     }
 }

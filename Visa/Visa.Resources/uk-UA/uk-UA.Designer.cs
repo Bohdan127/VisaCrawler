@@ -61,6 +61,15 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Запустити перевірку.
+        /// </summary>
+        public static string ButtonRegistry_Text {
+            get {
+                return ResourceManager.GetString("ButtonRegistry_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Дата народження.
         /// </summary>
         public static string colBirthday {
@@ -223,6 +232,24 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to -Оберіть Національніть-.
+        /// </summary>
+        public static string Nationality_NullText {
+            get {
+                return ResourceManager.GetString("Nationality_NullText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -Час Реєстрації-.
+        /// </summary>
+        public static string RegistryTime_NullText {
+            get {
+                return ResourceManager.GetString("RegistryTime_NullText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Результати пошуку.
         /// </summary>
         public static string SearchResult {
@@ -241,11 +268,38 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to -Оберіть ППВА-.
+        /// </summary>
+        public static string ServiceCenter_NullText {
+            get {
+                return ResourceManager.GetString("ServiceCenter_NullText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -Оберіть Статус-.
+        /// </summary>
+        public static string Status_NullText {
+            get {
+                return ResourceManager.GetString("Status_NullText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Будь-ласка випевніть візовий ценрт і візову категорію.
         /// </summary>
         public static string ValidationError_Message_FirstPart {
             get {
                 return ResourceManager.GetString("ValidationError_Message_FirstPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Це поле повинно містити в собі значення.
+        /// </summary>
+        public static string ValidationError_Message_NullText {
+            get {
+                return ResourceManager.GetString("ValidationError_Message_NullText", resourceCulture);
             }
         }
         
@@ -264,6 +318,15 @@ namespace Visa.Resources.uk_UA {
         public static string ValidationError_Title {
             get {
                 return ResourceManager.GetString("ValidationError_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -Оберіть візову категорію-.
+        /// </summary>
+        public static string VisaCategory_NullText {
+            get {
+                return ResourceManager.GetString("VisaCategory_NullText", resourceCulture);
             }
         }
     }

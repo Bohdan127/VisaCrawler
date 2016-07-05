@@ -186,4 +186,25 @@
   <data name="ValidationError_Message_SecondPart" xml:space="preserve">
     <value>Будь-ласка перевірте введені вами дані у таблиці та випевніть візовий центр</value>
   </data>
+  <data name="ButtonRegistry_Text" xml:space="preserve">
+    <value>Запустити перевірку</value>
+  </data>
+  <data name="Nationality_NullText" xml:space="preserve">
+    <value>-Оберіть Національніть-</value>
+  </data>
+  <data name="RegistryTime_NullText" xml:space="preserve">
+    <value>-Час Реєстрації-</value>
+  </data>
+  <data name="ServiceCenter_NullText" xml:space="preserve">
+    <value>-Оберіть ППВА-</value>
+  </data>
+  <data name="Status_NullText" xml:space="preserve">
+    <value>-Оберіть Статус-</value>
+  </data>
+  <data name="ValidationError_Message_NullText" xml:space="preserve">
+    <value>Це поле повинно містити в собі значення</value>
+  </data>
+  <data name="VisaCategory_NullText" xml:space="preserve">
+    <value>-Оберіть візову категорію-</value>
+  </data>
 </root>

@@ -3,6 +3,7 @@ using OpenQA.Selenium.Firefox;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using ToolsPortable;
 
 namespace Test
 {
@@ -22,11 +23,17 @@ namespace Test
         private static string receiptNumber = "ctl00_plhMain_repAppReceiptDetails_ctl01_txtReceiptNumber";//Номер квитанції
         private static string buttonSubmitEmail = "ctl00_plhMain_btnSubmitDetails";//Підтвердити імейл
         private static string email = "ctl00_plhMain_txtEmailID";
-        private static string passForMail = "ctl00_plhMain_lblPassword";
+        private static string passForMail = "ctl00_plhMain_txtPassword";
         private static string infoText = "ctl00_plhMain_lblMsg";//Ок текст - на коли можна зареєструватись
-
-
-
+        private static string endPassportDate = "ctl00_plhMain_repAppVisaDetails_ctl01_tbxPPTEXPDT";//Дата закінчення терміну дії паспорту
+        private static string statusField = "ctl00_plhMain_repAppVisaDetails_ctl01_cboTitle";//Статус
+        private static string personName = "ctl00_plhMain_repAppVisaDetails_ctl01_tbxFName";//Ім'я
+        private static string personLastName = "ctl00_plhMain_repAppVisaDetails_ctl01_tbxLName";//Прізвище
+        private static string personBirthday = "ctl00_plhMain_repAppVisaDetails_ctl01_tbxDOB";//Дата народження
+        private static string returnDate = "ctl00_plhMain_repAppVisaDetails_ctl01_tbxReturn";//Дата повернення
+        private static string nationality = "ctl00_plhMain_repAppVisaDetails_ctl01_cboNationality";//Національність
+        private static string availableData = "OpenDateAllocated";//Будь ласка, оберіть Вільну дату
+        private static string registryTime = "ctl00_plhMain_gvSlot_ctl02_lnkTimeSlot";//Будь ласка, оберіть Час
 
         static void Main(string[] args)
         {
@@ -116,23 +123,23 @@ namespace Test
             Thread.Sleep(2000);
             {
                 var query = driver.FindElement(By.Id(receiptNumber));
-                query.SendKeys("1736/0162/6679");
+                query.SendKeys("1409/0164/1651");
             }
             Thread.Sleep(2000);
             {
                 var query = driver.FindElement(By.Id(buttonSubmit));
                 query.Click();
             }
-            Thread.Sleep(2000);
-            {
-                var query = driver.FindElement(By.Id(infoText));
-                Console.WriteLine(query.Text);
-                Console.ReadLine();
-            }
+            //Thread.Sleep(2000);//todo this is need to be checked in release version
+            //{
+            //var query = driver.FindElement(By.Id(infoText));
+            //    Console.WriteLine(query.Text);
+            //    Console.ReadLine();
+            //}
             Thread.Sleep(2000);
             {
                 var query = driver.FindElement(By.Id(email));
-                query.SendKeys("deputat93@i.ua");
+                query.SendKeys("savko76@i.ua");
             }
             Thread.Sleep(2000);
             {
@@ -142,6 +149,78 @@ namespace Test
             Thread.Sleep(2000);
             {
                 var query = driver.FindElement(By.Id(buttonSubmitEmail));
+                query.Click();
+            }
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(endPassportDate));
+                query.SendKeys("18/01/2022");
+            }
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(statusField)).FindElement(By.CssSelector("option[value='Mr.']"));
+                query.Click();
+            }
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(personName));
+                query.SendKeys("SERHII");
+            }
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(personLastName));
+                query.SendKeys("SAVKO");
+            }
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(personBirthday));
+                query.SendKeys("02/09/1976");
+            }
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(returnDate));
+                query.SendKeys("30/06/2017");
+            }
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(nationality));
+                query.SendKeys("UKRAINE");
+            }
+            Console.WriteLine("Capcha");
+            Console.ReadLine();
+            Thread.Sleep(2000);
+            {
+                var query = driver.FindElement(By.Id(buttonSubmit));
+                query.Click();
+            }
+            Thread.Sleep(2000);
+            Console.WriteLine("Capcha");
+            Console.ReadLine();
+            Thread.Sleep(2000);
+            {
+                var queryCollection = driver.FindElements(By.ClassName(availableData));
+                foreach (var element in queryCollection)
+                {
+                    var date = element.Text.ConvertToIntOrNull();
+                    if (date != null && date.Value >= 12)
+                    {
+                        element.Click();
+                        break;
+                    }
+                }
+            }
+            Thread.Sleep(2000);
+            Console.WriteLine("Capcha");
+            Console.ReadLine();
+            Thread.Sleep(2000);
+            //Thread.Sleep(2000);//todo this is need to be checked in release version
+            //{
+            //var query = driver.FindElement(By.Id(infoText));
+            //    Console.WriteLine(query.Text);
+            //    Console.ReadLine();
+            //}
+            {
+                var query = driver.FindElement(By.Id(registryTime));
                 query.Click();
             }
             Thread.Sleep(2000);

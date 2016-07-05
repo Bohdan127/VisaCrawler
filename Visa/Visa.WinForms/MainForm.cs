@@ -96,8 +96,7 @@ namespace Visa.WinForms
             if (isFirstPart.Value)
                 CrawlerWorkFirstPart(e.Argument);
             else
-                //CrawlerWorkSecondPart
-                CrawlerWorkFirstPart(e.Argument);
+                CrawlerWorkSecondPart(e.Argument);
 
             _logger.Trace($"End _crawlerWorker_DoWork. State = {_state}. _crawler.Error = {_crawler.Error}");
         }
@@ -110,8 +109,13 @@ namespace Visa.WinForms
         {
             _logger.Trace("Start SetDataSourceForLookUps");
             var timeStart = DateTime.Now;
-            lookUpEditServiceCenter.Properties.DataSource =
-                           InstanceProvider.DataSet.Choice.Where(c => c.Type == (short)ChoicesType.ServiceCenter).ToList();
+
+            var servCenters = InstanceProvider.DataSet.Choice.
+                Where(c => c.Type == (short)ChoicesType.ServiceCenter).ToList(); ;
+
+            lookUpEditServiceCenter.Properties.DataSource = servCenters;
+            lookUpEditServiceCenterSecond.Properties.DataSource = servCenters;
+
             lookUpEditVisaCategory.Properties.DataSource =
                 InstanceProvider.DataSet.Choice.Where(c => c.Type == (short)ChoicesType.VisaCategory).ToList();
             repositoryItemLookUpEditNationality.DataSource =
@@ -128,8 +132,12 @@ namespace Visa.WinForms
         {
             _logger.Trace("Start InitOtherComponentDetails.");
             ResManager.RegisterResource("uk_UA", uk_UA.ResourceManager);
-            _logger.Trace("InitOtherComponentDetails. ResManager = uk_UA");
+            _logger.Info("InitOtherComponentDetails. ResManager = uk_UA");
             Closed += MainForm_Closed;
+            Load += MainForm_Load;
+
+            buttonShow.Click += buttonShow_Click;
+            buttonRegistry.Click += buttonShowSecond_Click;
 
             _progressBarWorker = new BackgroundWorker();
             _progressBarWorker.WorkerSupportsCancellation = true;
@@ -147,8 +155,36 @@ namespace Visa.WinForms
             repositoryItemTextEditPassword.PasswordChar = '*';
             isFirstPart = null;
 
+            gridView1.ValidateRow += GridView1_ValidateRow;
+            gridView1.InvalidRowException += GridView1_InvalidRowException;
+            gridView1.CustomDrawRowIndicator += gridView1_CustomDrawRowIndicator;
+            gridView1.Images = imageCollection1.Images;
+            gridView1.BestFitColumns();
+
             InitColumnNames();
+            InitFieldNames();
+            InitRepositoryNames();
             _logger.Trace("End InitOtherComponentDetails.");
+        }
+
+        private void InitRepositoryNames()
+        {
+            _logger.Trace("Start InitRepositoryNames");
+            repositoryItemLookUpEditStatus.NullText = ResManager.GetString(ResKeys.Status_NullText);
+            lookUpEditServiceCenterSecond.Properties.NullText = ResManager.GetString(ResKeys.ServiceCenter_NullText);
+            repositoryItemLookUpEditNationality.NullText = ResManager.GetString(ResKeys.Nationality_NullText);
+            repositoryItemLookUpEditRegistryTime.NullText = ResManager.GetString(ResKeys.RegistryTime_NullText);
+            lookUpEditVisaCategory.Properties.NullText = ResManager.GetString(ResKeys.VisaCategory_NullText);
+            lookUpEditServiceCenter.Properties.NullText = ResManager.GetString(ResKeys.ServiceCenter_NullText);
+            _logger.Trace("End InitRepositoryNames");
+        }
+
+        private void InitFieldNames()
+        {
+            _logger.Trace("Start InitFieldNames");
+            buttonRegistry.Text = ResManager.GetString(ResKeys.ButtonRegistry_Text);
+            buttonShow.Text = ResManager.GetString(ResKeys.ButtonRegistry_Text);
+            _logger.Trace("End InitFieldNames");
         }
 
         private void InitColumnNames()
@@ -168,7 +204,6 @@ namespace Visa.WinForms
             colNationality.Caption = ResManager.GetString(ResKeys.colNationality);
             colRegistryFom.Caption = ResManager.GetString(ResKeys.colRegistryFom);
             colRegistryTo.Caption = ResManager.GetString(ResKeys.colRegistryTo);
-            colRegistryTime.Caption = ResManager.GetString(ResKeys.colRegistryTime);
             _logger.Trace("End InitColumnNames");
         }
 

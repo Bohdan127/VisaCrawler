@@ -617,7 +617,7 @@ namespace Visa.Database {
             
             private global::System.Data.DataColumn columnRegistryTo;
             
-            private global::System.Data.DataColumn columnRegistryTime;
+            private global::System.Data.DataColumn columnRegistryState;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -766,9 +766,9 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn RegistryTimeColumn {
+            public global::System.Data.DataColumn RegistryStateColumn {
                 get {
-                    return this.columnRegistryTime;
+                    return this.columnRegistryState;
                 }
             }
             
@@ -809,7 +809,7 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ClientDataRow AddClientDataRow(string PeopleCount, string ChildsCount, string NumberOfReceipt, string Email, string Password, System.DateTime EndPassportDate, string Status, string Name, string LastName, System.DateTime Birthday, System.DateTime ReturnData, string Nationality, string RegistryFom, string RegistryTo, string RegistryTime) {
+            public ClientDataRow AddClientDataRow(string PeopleCount, string ChildsCount, string NumberOfReceipt, string Email, string Password, System.DateTime EndPassportDate, string Status, string Name, string LastName, System.DateTime Birthday, System.DateTime ReturnData, string Nationality, System.DateTime RegistryFom, System.DateTime RegistryTo, byte RegistryState) {
                 ClientDataRow rowClientDataRow = ((ClientDataRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         PeopleCount,
@@ -826,7 +826,7 @@ namespace Visa.Database {
                         Nationality,
                         RegistryFom,
                         RegistryTo,
-                        RegistryTime};
+                        RegistryState};
                 rowClientDataRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowClientDataRow);
                 return rowClientDataRow;
@@ -863,7 +863,7 @@ namespace Visa.Database {
                 this.columnNationality = base.Columns["Nationality"];
                 this.columnRegistryFom = base.Columns["RegistryFom"];
                 this.columnRegistryTo = base.Columns["RegistryTo"];
-                this.columnRegistryTime = base.Columns["RegistryTime"];
+                this.columnRegistryState = base.Columns["RegistryState"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -893,15 +893,16 @@ namespace Visa.Database {
                 base.Columns.Add(this.columnReturnData);
                 this.columnNationality = new global::System.Data.DataColumn("Nationality", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNationality);
-                this.columnRegistryFom = new global::System.Data.DataColumn("RegistryFom", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnRegistryFom = new global::System.Data.DataColumn("RegistryFom", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRegistryFom);
-                this.columnRegistryTo = new global::System.Data.DataColumn("RegistryTo", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnRegistryTo = new global::System.Data.DataColumn("RegistryTo", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRegistryTo);
-                this.columnRegistryTime = new global::System.Data.DataColumn("RegistryTime", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnRegistryTime);
+                this.columnRegistryState = new global::System.Data.DataColumn("RegistryState", typeof(byte), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRegistryState);
                 this.columnPeopleCount.AllowDBNull = false;
                 this.columnChildsCount.AllowDBNull = false;
                 this.columnNumberOfReceipt.AllowDBNull = false;
+                this.columnNumberOfReceipt.DefaultValue = ((string)(""));
                 this.columnEmail.AllowDBNull = false;
                 this.columnPassword.AllowDBNull = false;
                 this.columnEndPassportDate.AllowDBNull = false;
@@ -913,7 +914,8 @@ namespace Visa.Database {
                 this.columnNationality.AllowDBNull = false;
                 this.columnRegistryFom.AllowDBNull = false;
                 this.columnRegistryTo.AllowDBNull = false;
-                this.columnRegistryTime.AllowDBNull = false;
+                this.columnRegistryState.AllowDBNull = false;
+                this.columnRegistryState.DefaultValue = ((byte)(0));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1287,9 +1289,9 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string RegistryFom {
+            public System.DateTime RegistryFom {
                 get {
-                    return ((string)(this[this.tableClientData.RegistryFomColumn]));
+                    return ((global::System.DateTime)(this[this.tableClientData.RegistryFomColumn]));
                 }
                 set {
                     this[this.tableClientData.RegistryFomColumn] = value;
@@ -1298,9 +1300,9 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string RegistryTo {
+            public System.DateTime RegistryTo {
                 get {
-                    return ((string)(this[this.tableClientData.RegistryToColumn]));
+                    return ((global::System.DateTime)(this[this.tableClientData.RegistryToColumn]));
                 }
                 set {
                     this[this.tableClientData.RegistryToColumn] = value;
@@ -1309,12 +1311,12 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string RegistryTime {
+            public byte RegistryState {
                 get {
-                    return ((string)(this[this.tableClientData.RegistryTimeColumn]));
+                    return ((byte)(this[this.tableClientData.RegistryStateColumn]));
                 }
                 set {
-                    this[this.tableClientData.RegistryTimeColumn] = value;
+                    this[this.tableClientData.RegistryStateColumn] = value;
                 }
             }
         }

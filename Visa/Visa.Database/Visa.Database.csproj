@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\ChoicesType.cs" />
+    <Compile Include="Enums\RegistryState.cs" />
     <Compile Include="InstanceProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VisaDataSet.Designer.cs">

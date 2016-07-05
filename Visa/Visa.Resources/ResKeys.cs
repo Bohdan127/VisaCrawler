@@ -25,5 +25,12 @@
         public const string colRegistryFom = "colRegistryFom";
         public const string colRegistryTo = "colRegistryTo";
         public const string colRegistryTime = "colRegistryTime";
+        public const string ValidationError_Message_NullText = "ValidationError_Message_NullText";
+        public const string ButtonRegistry_Text = "ButtonRegistry_Text";
+        public const string Status_NullText = "Status_NullText";
+        public const string ServiceCenter_NullText = "ServiceCenter_NullText";
+        public const string Nationality_NullText = "Nationality_NullText";
+        public const string RegistryTime_NullText = "RegistryTime_NullText";
+        public const string VisaCategory_NullText = "VisaCategory_NullText";
     }
 }
