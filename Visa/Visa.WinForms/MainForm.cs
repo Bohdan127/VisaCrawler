@@ -96,9 +96,11 @@ namespace Visa.WinForms
             if (isFirstPart.Value)
                 CrawlerWorkFirstPart(e.Argument);
             else
-                CrawlerWorkSecondPart(e.Argument);
+            {
+                CrawlerWorkSecondPart(e.Argument ?? gridView1.GetDataRow(0));//todo later here should be changed for collecting all rows instead first one like now
+            }
 
-            _logger.Trace($"End _crawlerWorker_DoWork. State = {_state}. _crawler.Error = {_crawler.Error}");
+            _logger.Trace($"End _crawlerWorker_DoWork. State = {_state}. _crawler.Error = {_crawler?.Error}");
         }
 
         #endregion Events
@@ -114,7 +116,6 @@ namespace Visa.WinForms
                 Where(c => c.Type == (short)ChoicesType.ServiceCenter).ToList(); ;
 
             lookUpEditServiceCenter.Properties.DataSource = servCenters;
-            lookUpEditServiceCenterSecond.Properties.DataSource = servCenters;
 
             lookUpEditVisaCategory.Properties.DataSource =
                 InstanceProvider.DataSet.Choice.Where(c => c.Type == (short)ChoicesType.VisaCategory).ToList();
@@ -131,6 +132,7 @@ namespace Visa.WinForms
         private void InitOtherComponentDetails()
         {
             _logger.Trace("Start InitOtherComponentDetails.");
+            var timeStart = DateTime.Now;
             ResManager.RegisterResource("uk_UA", uk_UA.ResourceManager);
             _logger.Info("InitOtherComponentDetails. ResManager = uk_UA");
             Closed += MainForm_Closed;
@@ -139,9 +141,9 @@ namespace Visa.WinForms
             buttonShow.Click += buttonShow_Click;
             buttonRegistry.Click += buttonShowSecond_Click;
 
+            // ReSharper disable once UseObjectOrCollectionInitializer
             _progressBarWorker = new BackgroundWorker();
             _progressBarWorker.WorkerSupportsCancellation = true;
-            _progressBarWorker.DoWork += progressBarWorker_DoWork;
 
             _crawlerWorker = new BackgroundWorker();
             _crawlerWorker.DoWork += _crawlerWorker_DoWork;
@@ -158,12 +160,12 @@ namespace Visa.WinForms
             gridView1.ValidateRow += GridView1_ValidateRow;
             gridView1.InvalidRowException += GridView1_InvalidRowException;
             gridView1.CustomDrawRowIndicator += gridView1_CustomDrawRowIndicator;
-            gridView1.Images = imageCollection1.Images;
             gridView1.BestFitColumns();
 
             InitColumnNames();
             InitFieldNames();
             InitRepositoryNames();
+            _logger.Info($"Time for InitOtherComponentDetails = {timeStart - DateTime.Now}");
             _logger.Trace("End InitOtherComponentDetails.");
         }
 
@@ -171,7 +173,6 @@ namespace Visa.WinForms
         {
             _logger.Trace("Start InitRepositoryNames");
             repositoryItemLookUpEditStatus.NullText = ResManager.GetString(ResKeys.Status_NullText);
-            lookUpEditServiceCenterSecond.Properties.NullText = ResManager.GetString(ResKeys.ServiceCenter_NullText);
             repositoryItemLookUpEditNationality.NullText = ResManager.GetString(ResKeys.Nationality_NullText);
             repositoryItemLookUpEditRegistryTime.NullText = ResManager.GetString(ResKeys.RegistryTime_NullText);
             lookUpEditVisaCategory.Properties.NullText = ResManager.GetString(ResKeys.VisaCategory_NullText);
@@ -213,12 +214,19 @@ namespace Visa.WinForms
             _state = 1;
             _initVal = 1;
             isFirstPart = null;
+            SetReadOnly(false);
+            _logger.Trace($"End SetDefaultState. State = {_state}. InitValue = {_initVal}. buttonShow.Enabled = {buttonShow.Enabled}.  buttonRegistry.Enabled = { buttonRegistry.Enabled }");
+        }
+
+        private void SetReadOnly(bool readOnly)
+        {
+            _logger.Trace($"Makes all controls ReadOnly => {readOnly}");
             Invoke(new Action(() =>
             {
-                buttonShow.Enabled = true;
-                buttonRegistry.Enabled = true;
+                buttonShow.Enabled = !readOnly;
+                buttonRegistry.Enabled = !readOnly;
+                gridView1.OptionsBehavior.Editable = !readOnly;
             }));
-            _logger.Trace($"End SetDefaultState. State = {_state}. InitValue = {_initVal}. buttonShow.Enabled = {buttonShow.Enabled}.  buttonRegistry.Enabled = { buttonRegistry.Enabled }");
         }
 
         /// <summary>
@@ -240,13 +248,20 @@ namespace Visa.WinForms
             if (isFirstPart == null)
             {
                 _logger.Error($"StartNewWorkRoundBase isFirstPart == null. State = {_state}. _crawler.Error = {_crawler.Error}");
-                return;//todo enable search button
+                return;
             }
+
+            SetProgressBarWorkerEvents(true);
+            SetReadOnly(true);
 
             if (!_progressBarWorker.IsBusy)
             {
                 _logger.Info("Start _progressBarWorker.RunWorkerAsync");
                 _progressBarWorker.RunWorkerAsync();
+            }
+            else
+            {
+                _logger.Warn("_progressBarWorker.IsBusy = true");
             }
 
             if (!_crawlerWorker.IsBusy)
@@ -254,12 +269,40 @@ namespace Visa.WinForms
                 _logger.Info("Start _crawlerWorker.RunWorkerAsync");
                 if (isFirstPart.Value)
                     _crawlerWorker.RunWorkerAsync(new Tuple<int, int>(
-                        Convert.ToInt32(((VisaDataSet.ChoiceRow)lookUpEditServiceCenter.GetSelectedDataRow()).Value),
-                        Convert.ToInt32(((VisaDataSet.ChoiceRow)lookUpEditVisaCategory.GetSelectedDataRow()).Value)));
+                        Convert.ToInt32(lookUpEditServiceCenter.EditValue),
+                        Convert.ToInt32(lookUpEditVisaCategory.EditValue)));
                 else
-                    _crawlerWorker.RunWorkerAsync(gridControl1.DataSource);
+                    _crawlerWorker.RunWorkerAsync();
+            }
+            else
+            {
+                _logger.Warn("_crawlerWorker.IsBusy = true");
             }
             _logger.Trace("End StartNewWorkRoundBase");
+        }
+
+        private void ClearProgressBarWorkerEvents()
+        {
+            _logger.Trace("De-initialize all events for _progressBarWorker");
+            _progressBarWorker.DoWork -= progressBarWorker_DoWorkSecondPart;
+            _progressBarWorker.DoWork -= progressBarWorker_DoWorkFirstPart;
+        }
+
+        private void SetProgressBarWorkerEvents(bool clearEvents)
+        {
+            _logger.Trace($"Start SetProgressBarWorkerEvents. clearEvents = {clearEvents}. isFirstPart = {isFirstPart}");
+            if (clearEvents) ClearProgressBarWorkerEvents();
+
+            switch (isFirstPart)
+            {
+                case true:
+                    _progressBarWorker.DoWork += progressBarWorker_DoWorkFirstPart;
+                    break;
+                case false:
+                    _progressBarWorker.DoWork += progressBarWorker_DoWorkSecondPart;
+                    break;
+            }
+            _logger.Trace($"End SetProgressBarWorkerEvents.");
         }
 
         #endregion Functions

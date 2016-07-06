@@ -107,7 +107,7 @@ namespace Visa.Database
             _dataSet.Choice.AddChoiceRow(countryRow);
 
             countryRow = _dataSet.Choice.NewChoiceRow();
-            countryRow.Name = "ANTIGUA &amp; BARBUDA";
+            countryRow.Name = "ANTIGUA-BARBUDA";
             countryRow.Value = "7";
             countryRow.Type = (short)ChoicesType.Country;
             _dataSet.Choice.AddChoiceRow(countryRow);
@@ -1127,7 +1127,7 @@ namespace Visa.Database
             _dataSet.Choice.AddChoiceRow(countryRow);
 
             countryRow = _dataSet.Choice.NewChoiceRow();
-            countryRow.Name = "SAO TOMÉ &amp; PRINCIPE";
+            countryRow.Name = "SAO TOMÉ-PRINCIPE";
             countryRow.Value = "179";
             countryRow.Type = (short)ChoicesType.Country;
             _dataSet.Choice.AddChoiceRow(countryRow);
@@ -1211,7 +1211,7 @@ namespace Visa.Database
             _dataSet.Choice.AddChoiceRow(countryRow);
 
             countryRow = _dataSet.Choice.NewChoiceRow();
-            countryRow.Name = "ST. KITTS &amp; NEVIS";
+            countryRow.Name = "ST. KITTS-NEVIS";
             countryRow.Value = "193";
             countryRow.Type = (short)ChoicesType.Country;
             _dataSet.Choice.AddChoiceRow(countryRow);
@@ -1223,7 +1223,7 @@ namespace Visa.Database
             _dataSet.Choice.AddChoiceRow(countryRow);
 
             countryRow = _dataSet.Choice.NewChoiceRow();
-            countryRow.Name = "ST. VINCENT &amp; THE";
+            countryRow.Name = "ST. VINCENT-THE";
             countryRow.Value = "195";
             countryRow.Type = (short)ChoicesType.Country;
             _dataSet.Choice.AddChoiceRow(countryRow);
@@ -1325,7 +1325,7 @@ namespace Visa.Database
             _dataSet.Choice.AddChoiceRow(countryRow);
 
             countryRow = _dataSet.Choice.NewChoiceRow();
-            countryRow.Name = "TRINIDAD &amp; TOBAGO";
+            countryRow.Name = "TRINIDAD-TOBAGO";
             countryRow.Value = "212";
             countryRow.Type = (short)ChoicesType.Country;
             _dataSet.Choice.AddChoiceRow(countryRow);
