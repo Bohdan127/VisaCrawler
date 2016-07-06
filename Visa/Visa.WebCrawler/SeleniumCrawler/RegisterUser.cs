@@ -14,7 +14,6 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         private const string visaCategory = "ctl00_plhMain_cboVisaCategory"; //Візова категорія
         private const string buttonSubmit = "ctl00_plhMain_btnSubmit";//Підтвердити          
-        //private static string regData = "ctl00_plhMain_lblAvailableDateMsg";//Найближча доступна дата для реєстрації
         private const string visaCity = "ctl00_plhMain_cboVAC"; //Візовий Сервіс Центр i Пункт Прийому Візових Анкетx
         private const string mainUrl = "https://polandonline.vfsglobal.com/poland-ukraine-appointment/%28S%28vvzibb45kxnimzfrnhuavib1%29%29/AppScheduling/AppWelcome.aspx?P=s2x6znRcBRv7WQQK7h4MTjZiPRbOsXKqJzddYBh3qCA=";
         private const string registryId = "ctl00_plhMain_lnkSchApp"; // Призначити дату подачі документів
@@ -67,23 +66,24 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 }
                 Thread.Sleep(2000);
                 {
-                    var query =
-                        _driver.FindElement(By.Id(visaCity)).FindElement(By.CssSelector($"option[value={serCenId}]"));
+                    _driver.FindElement(By.Id(visaCity))
+                        .FindElement(By.CssSelector($"option[value=\"{serCenId}\"]"))
+                        .Click();
                     _logger.Info($"PartOne. visaCity option[value={serCenId}]  Click");
-                    query.Click();
                 }
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
                 {
-                    var query = _driver.FindElement(By.Id(reason)).FindElement(By.CssSelector("option[value='1']"));
                     //always be 1 - Подача документів
+                    _driver.FindElement(By.Id(reason))
+                        .FindElement(By.CssSelector("option[value='1']"))
+                        .Click();
                     _logger.Info("PartOne. reason option[value='1'] Click");
-                    query.Click();
                 }
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
                 {
-                    var query = _driver.FindElement(By.Id(buttonSubmit));
+                    _driver.FindElement(By.Id(buttonSubmit))
+                        .Click();
                     _logger.Info("PartOne. buttonSubmit Click");
-                    query.Click();
                 }
                 Thread.Sleep(2000);
                 {
@@ -92,19 +92,19 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     query.Clear();
                     query.SendKeys(dataRow.PeopleCount);
                 }
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
                 {
                     var query = _driver.FindElement(By.Id(numOfChildrens));
                     _logger.Info($"PartOne. numOfChildrens Clear and set {dataRow.ChildsCount}");
                     query.Clear();
                     query.SendKeys(dataRow.ChildsCount);
                 }
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
                 {
-                    var query =
-                        _driver.FindElement(By.Id(visaCategory)).FindElement(By.CssSelector($"option[value={visaCatId}]"));
+                    _driver.FindElement(By.Id(visaCategory))
+                        .FindElement(By.CssSelector($"option[value=\"{visaCatId}\"]"))
+                        .Click();
                     _logger.Info($"PartOne. visaCategory option[value={visaCatId}]  Click");
-                    query.Click();
                 }
             }
             catch (NoSuchElementException ex)
@@ -120,86 +120,84 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info($"Start PartTwo. Error = {Error}. dataRow.NumberOfReceipt = {dataRow.NumberOfReceipt}");
             try
             {
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
                 {
-                    var query = _driver.FindElement(By.Id(buttonSubmit));
+                    _driver.FindElement(By.Id(buttonSubmit)).Click();
                     _logger.Info("PartTwo. buttonSubmit Click");
-                    query.Click();
                 }
                 Thread.Sleep(2000);
                 {
-                    var query = _driver.FindElement(By.Id(receiptNumber));
+                    _driver.FindElement(By.Id(receiptNumber))
+                        .SendKeys(dataRow.NumberOfReceipt);
                     _logger.Info($"PartTwo. receiptNumber set text {dataRow.NumberOfReceipt}");
-                    query.SendKeys(dataRow.NumberOfReceipt);
                 }
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
                 {
-                    var query = _driver.FindElement(By.Id(buttonSubmit));
+                    _driver.FindElement(By.Id(buttonSubmit))
+                        .Click();
                     _logger.Info("PartTwo. buttonSubmit Click");
-                    query.Click();
                 }
                 CheckForError();
                 Thread.Sleep(2000);
                 {
-                    var query = _driver.FindElement(By.Id(email));
+                    _driver.FindElement(By.Id(email))
+                        .SendKeys(dataRow.Email);
                     _logger.Info($"PartTwo. email set text {dataRow.Email}");
-                    query.SendKeys(dataRow.Email);
                 }
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
                 {
-                    var query = _driver.FindElement(By.Id(passForMail));
+                    _driver.FindElement(By.Id(passForMail))
+                        .SendKeys(dataRow.Password);
                     _logger.Info($"PartTwo. passForMail set text {dataRow.Password}");
-                    query.SendKeys(dataRow.Password);
                 }
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
                 {
-                    var query = _driver.FindElement(By.Id(buttonSubmitEmail));
+                    _driver.FindElement(By.Id(buttonSubmitEmail))
+                        .Click();
                     _logger.Info("PartTwo. buttonSubmitEmail Click");
-                    query.Click();
                 }
                 Thread.Sleep(2000);
                 {
-                    var query = _driver.FindElement(By.Id(endPassportDate));
+                    _driver.FindElement(By.Id(endPassportDate))
+                        .SendKeys(dataRow.EndPassportDate.ToString(CultureInfo.CurrentCulture));
                     _logger.Info($"PartTwo. endPassportDate set text {dataRow.EndPassportDate.ToString(CultureInfo.CurrentCulture)}");
-                    query.SendKeys(dataRow.EndPassportDate.ToString(CultureInfo.CurrentCulture));
                 }
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
                 {
-                    var query =
-                        _driver.FindElement(By.Id(statusField))
-                            .FindElement(By.CssSelector($"option[value={dataRow.Status}]"));
+                    _driver.FindElement(By.Id(statusField))
+                        .FindElement(By.CssSelector($"option[value=\"{dataRow.Status}\"]"))
+                        .Click();
                     _logger.Info($"PartTwo. statusField option[value={dataRow.Status}] Click");
-                    query.Click();
                 }
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
                 {
-                    var query = _driver.FindElement(By.Id(personName));
+                    _driver.FindElement(By.Id(personName))
+                        .SendKeys(dataRow.Name);
                     _logger.Info($"PartTwo. personName set text {dataRow.Name}");
-                    query.SendKeys(dataRow.Name);
                 }
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
                 {
-                    var query = _driver.FindElement(By.Id(personLastName));
+                    _driver.FindElement(By.Id(personLastName))
+                        .SendKeys(dataRow.LastName);
                     _logger.Info($"PartTwo. personLastName set text {dataRow.LastName}");
-                    query.SendKeys(dataRow.LastName);
                 }
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
                 {
-                    var query = _driver.FindElement(By.Id(personBirthday));
+                    _driver.FindElement(By.Id(personBirthday))
+                        .SendKeys(dataRow.Birthday.ToString(CultureInfo.CurrentCulture));
                     _logger.Info($"PartTwo. personBirthday set text {dataRow.Birthday.ToString(CultureInfo.CurrentCulture)}");
-                    query.SendKeys(dataRow.Birthday.ToString(CultureInfo.CurrentCulture));
                 }
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
                 {
-                    var query = _driver.FindElement(By.Id(returnDate));
+                    _driver.FindElement(By.Id(returnDate))
+                        .SendKeys(dataRow.ReturnData.ToString(CultureInfo.CurrentCulture));
                     _logger.Info($"PartTwo. returnDate set text {dataRow.ReturnData.ToString(CultureInfo.CurrentCulture)}");
-                    query.SendKeys(dataRow.ReturnData.ToString(CultureInfo.CurrentCulture));
                 }
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
                 {
-                    var query = _driver.FindElement(By.Id(nationality));
+                    _driver.FindElement(By.Id(nationality))
+                        .SendKeys(dataRow.Nationality);
                     _logger.Info($"PartTwo. nationality set text {dataRow.Nationality}");
-                    query.SendKeys(dataRow.Nationality);
                 }
             }
             catch (NoSuchElementException ex)
@@ -218,18 +216,12 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 Thread.Sleep(2000);
                 {
                     var queryCollection = _driver.FindElements(By.ClassName(availableData));
-                    var minDate = dataRow.RegistryFom.Day < dataRow.RegistryTo.Day
-                           ? dataRow.RegistryFom.Day
-                           : dataRow.RegistryTo.Day;
-                    var maxDate = dataRow.RegistryFom.Day == minDate
-                        ? dataRow.RegistryTo.Day
-                        : dataRow.RegistryFom.Day;
-                    _logger.Info($"PartThree. maxDate = {maxDate}. minDate = {minDate}");
+                    _logger.Info($"PartThree. maxDate = { dataRow.RegistryFom.Day}. minDate = {dataRow.RegistryTo.Day}");
                     foreach (var element in queryCollection)
                     {
                         var date = element.Text.ConvertToIntOrNull();
 
-                        if (date == null || (date.Value < maxDate && date.Value > minDate)) continue;
+                        if (date == null || (date.Value < dataRow.RegistryTo.Day && date.Value > dataRow.RegistryFom.Day)) continue;
 
                         _logger.Info($"PartThree. date.Value = {date.Value} element Click");
                         element.Click();
@@ -253,9 +245,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
             {
                 Thread.Sleep(2000);
                 {
-                    var query = _driver.FindElement(By.Id(registryTime));
+                    _driver.FindElement(By.Id(registryTime)).Click();
                     _logger.Info("PartFour. registryTime Click");
-                    query.Click();
                 }
             }
             catch (NoSuchElementException ex)
@@ -282,6 +273,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
             if (erQuery != null && erQuery.Text.IsNotBlank())
             {
+                OutData = erQuery.Text;
                 _logger.Error($"throw new NoSuchElementException. Reason erQuery.Text.IsNotBlank = {erQuery.Text}");
                 throw new NoSuchElementException();
             }

@@ -16,7 +16,6 @@ namespace Visa.WebCrawler.SeleniumCrawler
         private const string _regData = "ctl00_plhMain_lblAvailableDateMsg";//Найближча доступна дата для реєстрації
         private const string _errorMessage = "ctl00_plhMain_lblMsg";
         private IWebDriver _driver;
-        private IWebElement _query;
 
 
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
@@ -38,8 +37,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             Error = false;
             try
             {
-                _query = _driver.FindElement(By.Id(_checkAvailableData));
-                _query.Click();
+                _driver.FindElement(By.Id(_checkAvailableData)).Click();
                 _logger.Info("PartOne._checkAvailableData Click");
                 CheckForError();
             }
@@ -78,12 +76,10 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info($"Start PartTwo. Error = {Error}. Service Center Id = {serCenId}. Visa Category Id = {visaCatId}");
             try
             {
-                _query = _driver.FindElement(By.Id(_visaCity)).FindElement(By.CssSelector($"option[value='{serCenId}']"));
-                _query.Click();
+                _driver.FindElement(By.Id(_visaCity)).FindElement(By.CssSelector($"option[value='{serCenId}']")).Click();
                 _logger.Info($"PartTwo. _visaCity option[value='{serCenId}'] Click");
                 Thread.Sleep(1000);
-                _query = _driver.FindElement(By.Id(_visaCategory)).FindElement(By.CssSelector($"option[value='{visaCatId}']"));
-                _query.Click();
+                _driver.FindElement(By.Id(_visaCategory)).FindElement(By.CssSelector($"option[value='{visaCatId}']")).Click();
                 _logger.Info($"PartTwo. _visaCategory option[value='{visaCatId}'] Click");
                 CheckForError();
             }
@@ -100,12 +96,10 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info($"Start PartThree. Error = {Error}");
             try
             {
-                _query = _driver.FindElement(By.Id(_buttonSubmit));
-                _query.Click();
+                _driver.FindElement(By.Id(_buttonSubmit)).Click();
                 _logger.Info("PartThree. _buttonSubmit Click");
                 Thread.Sleep(1000);
-                _query = _driver.FindElement(By.Id(_regData));
-                OutData = _query.Text;
+                OutData = _driver.FindElement(By.Id(_regData)).Text;
                 _logger.Info($"PartThree. OutData = {OutData}");
                 CheckForError();
             }

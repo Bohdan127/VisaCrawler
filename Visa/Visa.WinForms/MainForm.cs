@@ -57,9 +57,7 @@ namespace Visa.WinForms
         private void _alertControl_AlertClick(object sender, AlertClickEventArgs e)
         {
             _logger.Info($"Start _alertControl_AlertClick. Alert Text - {e.AlertForm.Text}. State - {_state}");
-            StartNewWorkRoundFirst();
-            buttonShow.Enabled = false;
-            buttonRegistry.Enabled = false;
+            StartNewWorkRoundBase();
             e.AlertForm.Close();
             _logger.Trace($"End _alertControl_AlertClick. buttonShow.Enabled = {buttonShow.Enabled}. e.AlertForm.IsAccessible = {e.AlertForm.IsAccessible}.  buttonRegistry.Enabled ={ buttonRegistry.Enabled }");
         }
@@ -89,8 +87,8 @@ namespace Visa.WinForms
 
             if (isFirstPart == null)
             {
-                _logger.Error($"_crawlerWorker_DoWork isFirstPart == null. State = {_state}. _crawler.Error = {_crawler.Error}");
-                return;//todo enable search button
+                _logger.Error($"_crawlerWorker_DoWork isFirstPart == null. State = {_state}. _crawler.Error = {_crawler.Error}. _crawlerRegistry.Error = {_crawlerRegistry?.Error}");
+                return;//todo enable search button -- probably all ok, after all tests remove this comment
             }
 
             if (isFirstPart.Value)
@@ -100,7 +98,7 @@ namespace Visa.WinForms
                 CrawlerWorkSecondPart(e.Argument ?? gridView1.GetDataRow(0));//todo later here should be changed for collecting all rows instead first one like now
             }
 
-            _logger.Trace($"End _crawlerWorker_DoWork. State = {_state}. _crawler.Error = {_crawler?.Error}");
+            _logger.Trace($"End _crawlerWorker_DoWork. State = {_state}. _crawler.Error = {_crawler?.Error}. _crawlerRegistry.Error = {_crawlerRegistry?.Error}");
         }
 
         #endregion Events
@@ -247,7 +245,7 @@ namespace Visa.WinForms
 
             if (isFirstPart == null)
             {
-                _logger.Error($"StartNewWorkRoundBase isFirstPart == null. State = {_state}. _crawler.Error = {_crawler.Error}");
+                _logger.Error($"StartNewWorkRoundBase isFirstPart == null. State = {_state}. _crawler.Error = {_crawler?.Error}. _crawlerRegistry.Error = {_crawlerRegistry?.Error}");
                 return;
             }
 
