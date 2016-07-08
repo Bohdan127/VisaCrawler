@@ -139,10 +139,6 @@ namespace Visa.WinForms
             buttonShow.Click += buttonShow_Click;
             buttonRegistry.Click += buttonShowSecond_Click;
 
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            _progressBarWorker = new BackgroundWorker();
-            _progressBarWorker.WorkerSupportsCancellation = true;
-
             _crawlerWorker = new BackgroundWorker();
             _crawlerWorker.DoWork += _crawlerWorker_DoWork;
 
@@ -182,7 +178,7 @@ namespace Visa.WinForms
         {
             _logger.Trace("Start InitFieldNames");
             buttonRegistry.Text = ResManager.GetString(ResKeys.ButtonRegistry_Text);
-            buttonShow.Text = ResManager.GetString(ResKeys.ButtonRegistry_Text);
+            buttonShow.Text = ResManager.GetString(ResKeys.ButtonShow_Text);
             _logger.Trace("End InitFieldNames");
         }
 
@@ -249,18 +245,7 @@ namespace Visa.WinForms
                 return;
             }
 
-            SetProgressBarWorkerEvents(true);
             SetReadOnly(true);
-
-            if (!_progressBarWorker.IsBusy)
-            {
-                _logger.Info("Start _progressBarWorker.RunWorkerAsync");
-                _progressBarWorker.RunWorkerAsync();
-            }
-            else
-            {
-                _logger.Warn("_progressBarWorker.IsBusy = true");
-            }
 
             if (!_crawlerWorker.IsBusy)
             {
@@ -277,30 +262,6 @@ namespace Visa.WinForms
                 _logger.Warn("_crawlerWorker.IsBusy = true");
             }
             _logger.Trace("End StartNewWorkRoundBase");
-        }
-
-        private void ClearProgressBarWorkerEvents()
-        {
-            _logger.Trace("De-initialize all events for _progressBarWorker");
-            _progressBarWorker.DoWork -= progressBarWorker_DoWorkSecondPart;
-            _progressBarWorker.DoWork -= progressBarWorker_DoWorkFirstPart;
-        }
-
-        private void SetProgressBarWorkerEvents(bool clearEvents)
-        {
-            _logger.Trace($"Start SetProgressBarWorkerEvents. clearEvents = {clearEvents}. isFirstPart = {isFirstPart}");
-            if (clearEvents) ClearProgressBarWorkerEvents();
-
-            switch (isFirstPart)
-            {
-                case true:
-                    _progressBarWorker.DoWork += progressBarWorker_DoWorkFirstPart;
-                    break;
-                case false:
-                    _progressBarWorker.DoWork += progressBarWorker_DoWorkSecondPart;
-                    break;
-            }
-            _logger.Trace($"End SetProgressBarWorkerEvents.");
         }
 
         #endregion Functions

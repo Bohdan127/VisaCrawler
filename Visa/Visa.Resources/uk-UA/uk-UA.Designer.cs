@@ -61,11 +61,20 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Запустити перевірку.
+        ///   Looks up a localized string similar to Запустити реєстрацію.
         /// </summary>
         public static string ButtonRegistry_Text {
             get {
                 return ResourceManager.GetString("ButtonRegistry_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Запустити перевірку.
+        /// </summary>
+        public static string ButtonShow_Text {
+            get {
+                return ResourceManager.GetString("ButtonShow_Text", resourceCulture);
             }
         }
         

@@ -187,7 +187,7 @@
     <value>Будь-ласка перевірте введені вами дані у таблиці та випевніть візовий центр</value>
   </data>
   <data name="ButtonRegistry_Text" xml:space="preserve">
-    <value>Запустити перевірку</value>
+    <value>Запустити реєстрацію</value>
   </data>
   <data name="Nationality_NullText" xml:space="preserve">
     <value>-Оберіть Національніть-</value>
@@ -206,5 +206,8 @@
   </data>
   <data name="VisaCategory_NullText" xml:space="preserve">
     <value>-Оберіть візову категорію-</value>
+  </data>
+  <data name="ButtonShow_Text" xml:space="preserve">
+    <value>Запустити перевірку</value>
   </data>
 </root>

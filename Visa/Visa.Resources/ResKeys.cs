@@ -32,5 +32,6 @@
         public const string Nationality_NullText = "Nationality_NullText";
         public const string RegistryTime_NullText = "RegistryTime_NullText";
         public const string VisaCategory_NullText = "VisaCategory_NullText";
+        public const string ButtonShow_Text = "ButtonShow_Text";
     }
 }

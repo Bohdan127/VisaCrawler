@@ -1,7 +1,6 @@
 ﻿using NLog;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
-using System.Globalization;
 using System.Threading;
 using ToolsPortable;
 using Visa.Database;
@@ -86,7 +85,16 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     _logger.Info("PartOne. buttonSubmit Click");
                 }
                 Thread.Sleep(2000);
+                try
                 {
+                    var query = _driver.FindElement(By.Id(numOfApplicants));
+                    _logger.Info($"PartOne. numOfApplicants Clear and set {dataRow.PeopleCount}");
+                    query.Clear();
+                    query.SendKeys(dataRow.PeopleCount);
+                }
+                catch (NoSuchElementException ex)
+                {
+                    Thread.Sleep(2000);
                     var query = _driver.FindElement(By.Id(numOfApplicants));
                     _logger.Info($"PartOne. numOfApplicants Clear and set {dataRow.PeopleCount}");
                     query.Clear();
@@ -159,8 +167,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 Thread.Sleep(2000);
                 {
                     _driver.FindElement(By.Id(endPassportDate))
-                        .SendKeys(dataRow.EndPassportDate.ToString(CultureInfo.CurrentCulture));
-                    _logger.Info($"PartTwo. endPassportDate set text {dataRow.EndPassportDate.ToString(CultureInfo.CurrentCulture)}");
+                        .SendKeys(dataRow.EndPassportDate.ToShortDateString().Replace(".", "/"));
+                    _logger.Info($"PartTwo. endPassportDate set text {dataRow.EndPassportDate.ToShortDateString().Replace(".", "/")}");
                 }
                 //Thread.Sleep(2000);
                 {
@@ -184,20 +192,21 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 //Thread.Sleep(2000);
                 {
                     _driver.FindElement(By.Id(personBirthday))
-                        .SendKeys(dataRow.Birthday.ToString(CultureInfo.CurrentCulture));
-                    _logger.Info($"PartTwo. personBirthday set text {dataRow.Birthday.ToString(CultureInfo.CurrentCulture)}");
+                        .SendKeys(dataRow.Birthday.ToShortDateString().Replace(".", "/"));
+                    _logger.Info($"PartTwo. personBirthday set text {dataRow.Birthday.ToShortDateString().Replace(".", "/")}");
                 }
                 //Thread.Sleep(2000);
                 {
                     _driver.FindElement(By.Id(returnDate))
-                        .SendKeys(dataRow.ReturnData.ToString(CultureInfo.CurrentCulture));
-                    _logger.Info($"PartTwo. returnDate set text {dataRow.ReturnData.ToString(CultureInfo.CurrentCulture)}");
+                        .SendKeys(dataRow.ReturnData.ToShortDateString().Replace(".", "/"));
+                    _logger.Info($"PartTwo. returnDate set text {dataRow.ReturnData.ToShortDateString().Replace(".", "/")}");
                 }
                 //Thread.Sleep(2000);
                 {
                     _driver.FindElement(By.Id(nationality))
-                        .SendKeys(dataRow.Nationality);
-                    _logger.Info($"PartTwo. nationality set text {dataRow.Nationality}");
+                        .FindElement(By.CssSelector($"option[value=\"{dataRow.Nationality}\"]"))
+                        .Click();
+                    _logger.Info($"PartTwo. nationality option[value=\"{dataRow.Nationality}\"] Click");
                 }
             }
             catch (NoSuchElementException ex)
@@ -208,22 +217,40 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info($"End PartTwo. Error = {Error}");
         }
 
-        public void PartThree(VisaDataSet.ClientDataRow dataRow)
+        public void PartThree()
         {
-            _logger.Info($"Start PartThree. Error = {Error}. dataRow.NumberOfReceipt = {dataRow.NumberOfReceipt}");
+            _logger.Info($"Start PartThree. Error = {Error}.");
+            try
+            {
+                _driver.FindElement(By.Id(buttonSubmit))
+                    .Click();
+                _logger.Info("PartThree. buttonSubmit Click");
+            }
+            catch (NoSuchElementException ex)
+            {
+                _logger.Error($"NoSuchElementException with message = {ex.Message}");
+                Error = true;
+            }
+            _logger.Info($"End PartThree. Error = {Error}");
+        }
+
+        public void PartFour(VisaDataSet.ClientDataRow dataRow)
+
+        {
+            _logger.Info($"Start PartFour. Error = {Error}. dataRow.NumberOfReceipt = {dataRow.NumberOfReceipt}");
             try
             {
                 Thread.Sleep(2000);
                 {
                     var queryCollection = _driver.FindElements(By.ClassName(availableData));
-                    _logger.Info($"PartThree. maxDate = { dataRow.RegistryFom.Day}. minDate = {dataRow.RegistryTo.Day}");
+                    _logger.Info($"PartFour. maxDate = { dataRow.RegistryFom.Day}. minDate = {dataRow.RegistryTo.Day}");
                     foreach (var element in queryCollection)
                     {
                         var date = element.Text.ConvertToIntOrNull();
 
-                        if (date == null || (date.Value < dataRow.RegistryTo.Day && date.Value > dataRow.RegistryFom.Day)) continue;
+                        if (date == null || date.Value > dataRow.RegistryTo.Day || date.Value < dataRow.RegistryFom.Day) continue;
 
-                        _logger.Info($"PartThree. date.Value = {date.Value} element Click");
+                        _logger.Info($"PartFour. date.Value = {date.Value} element Click");
                         element.Click();
                         break;
                     }
@@ -238,15 +265,15 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info($"End PartThree. Error = {Error}");
         }
 
-        public void PartFour()
+        public void PartFive()
         {
-            _logger.Info($"Start PartFour. Error = {Error}.");
+            _logger.Info($"Start PartFive. Error = {Error}.");
             try
             {
                 Thread.Sleep(2000);
                 {
                     _driver.FindElement(By.Id(registryTime)).Click();
-                    _logger.Info("PartFour. registryTime Click");
+                    _logger.Info("PartFive. registryTime Click");
                 }
             }
             catch (NoSuchElementException ex)
@@ -254,7 +281,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 _logger.Error($"NoSuchElementException with message = {ex.Message}");
                 Error = true;
             }
-            _logger.Info($"End PartFour. Error = {Error}");
+            _logger.Info($"End PartFive. Error = {Error}");
         }
 
         private void CheckForError()
