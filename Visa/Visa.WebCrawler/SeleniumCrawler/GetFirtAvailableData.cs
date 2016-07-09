@@ -1,12 +1,14 @@
 ﻿using NLog;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
+using System;
 using System.Threading;
 using ToolsPortable;
+using Visa.WebCrawler.Interfaces;
 
 namespace Visa.WebCrawler.SeleniumCrawler
 {
-    public class GetFirtAvailableData
+    public class GetFirtAvailableData : ICrawler
     {
         private const string _mainUrl = "https://polandonline.vfsglobal.com/poland-ukraine-appointment/%28S%28vvzibb45kxnimzfrnhuavib1%29%29/AppScheduling/AppWelcome.aspx?P=s2x6znRcBRv7WQQK7h4MTjZiPRbOsXKqJzddYBh3qCA=";
         private const string _checkAvailableData = "ctl00_plhMain_lnkChkAppmntAvailability";       //Перевірити доступні для реєстрації дати в кол-центрі
@@ -22,6 +24,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         public bool Error { get; private set; }
         public string OutData { get; private set; }
+        public bool Canceled { get; set; }
 
         public GetFirtAvailableData()
         {
@@ -37,14 +40,19 @@ namespace Visa.WebCrawler.SeleniumCrawler
             Error = false;
             try
             {
-                _driver.FindElement(By.Id(_checkAvailableData)).Click();
+                FindElementWithChecking(By.Id(_checkAvailableData)).Click();
                 _logger.Info("PartOne._checkAvailableData Click");
                 CheckForError();
             }
-            catch (NoSuchElementException ex)
+            catch (Exception ex) when (ex is NoSuchElementException || ex is WebDriverException)
             {
-                _logger.Error($"NoSuchElementException with message = {ex.Message}");
-                Error = true;
+                if (Canceled)
+                    _logger.Warn($"Canceled by User. Error  = {Error}");
+                else
+                {
+                    _logger.Error($"NoSuchElementException with message = {ex.Message}");
+                    Error = true;
+                }
             }
             _logger.Info($"End PartOne. Error = {Error}");
         }
@@ -56,7 +64,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
             try
             {
-                erQuery = _driver.FindElement(By.Id(_errorMessage));
+                erQuery = FindElementWithChecking(By.Id(_errorMessage));
             }
             catch (NoSuchElementException ex)
             {
@@ -76,17 +84,22 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info($"Start PartTwo. Error = {Error}. Service Center Id = {serCenId}. Visa Category Id = {visaCatId}");
             try
             {
-                _driver.FindElement(By.Id(_visaCity)).FindElement(By.CssSelector($"option[value='{serCenId}']")).Click();
+                FindElementWithChecking(By.Id(_visaCity)).FindElement(By.CssSelector($"option[value='{serCenId}']")).Click();
                 _logger.Info($"PartTwo. _visaCity option[value='{serCenId}'] Click");
                 Thread.Sleep(1000);
-                _driver.FindElement(By.Id(_visaCategory)).FindElement(By.CssSelector($"option[value='{visaCatId}']")).Click();
+                FindElementWithChecking(By.Id(_visaCategory)).FindElement(By.CssSelector($"option[value='{visaCatId}']")).Click();
                 _logger.Info($"PartTwo. _visaCategory option[value='{visaCatId}'] Click");
                 CheckForError();
             }
-            catch (NoSuchElementException ex)
+            catch (Exception ex) when (ex is NoSuchElementException || ex is WebDriverException)
             {
-                _logger.Error($"NoSuchElementException with message = {ex.Message}");
-                Error = true;
+                if (Canceled)
+                    _logger.Warn($"Canceled by User. Error  = {Error}");
+                else
+                {
+                    _logger.Error($"NoSuchElementException with message = {ex.Message}");
+                    Error = true;
+                }
             }
             _logger.Info($"End PartTwo. Error = {Error}. Service Center Id = {serCenId}. Visa Category Id = {_visaCategory}");
         }
@@ -96,19 +109,34 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info($"Start PartThree. Error = {Error}");
             try
             {
-                _driver.FindElement(By.Id(_buttonSubmit)).Click();
+                FindElementWithChecking(By.Id(_buttonSubmit)).Click();
                 _logger.Info("PartThree. _buttonSubmit Click");
                 Thread.Sleep(1000);
-                OutData = _driver.FindElement(By.Id(_regData)).Text;
+                OutData = FindElementWithChecking(By.Id(_regData)).Text;
                 _logger.Info($"PartThree. OutData = {OutData}");
                 CheckForError();
             }
-            catch (NoSuchElementException ex)
+            catch (Exception ex) when (ex is NoSuchElementException || ex is WebDriverException)
             {
-                _logger.Error($"NoSuchElementException with message = {ex.Message}");
-                Error = true;
+                if (Canceled)
+                    _logger.Warn($"Canceled by User. Error  = {Error}");
+                else
+                {
+                    _logger.Error($"NoSuchElementException with message = {ex.Message}");
+                    Error = true;
+                }
             }
             _logger.Info($"End PartThree. Error = {Error}");
+        }
+
+        public IWebElement FindElementWithChecking(By by)
+        {
+            if (Canceled)
+            {
+                _logger.Info("Interrupted by Canceled flag. throw new WebDriverException");
+                throw new WebDriverException();
+            }
+            return _driver?.FindElement(by);
         }
 
         public void CloseBrowser()

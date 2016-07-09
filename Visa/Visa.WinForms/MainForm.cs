@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraBars.Alerter;
+using DevExpress.XtraGrid.Views.Grid;
 using NLog;
 using System;
 using System.ComponentModel;
@@ -49,6 +50,18 @@ namespace Visa.WinForms
 
         #region Events
 
+        private void simpleButtonCancelAction_Click(object sender, EventArgs e)
+        {
+            _logger.Trace("Start simpleButtonCancelAction_Click");
+            if (_crawler != null)
+                _crawler.Canceled = true;
+            if (_crawlerRegistry != null)
+                _crawlerRegistry.Canceled = true;
+            _crawler?.CloseBrowser();
+            _crawlerRegistry?.CloseBrowser();
+            _logger.Trace("End simpleButtonCancelAction_Click");
+        }
+
         private void _alertControl_BeforeFormShow(object sender, AlertFormEventArgs e)
         {
             _logger.Trace($"Calculate Alert Location. X- {(Screen.PrimaryScreen.Bounds.Width + 150) / 2}; Y - {(Screen.PrimaryScreen.Bounds.Height - 150) / 2};");
@@ -73,6 +86,7 @@ namespace Visa.WinForms
         {
             _logger.Trace("Start MainForm_Load");
             SetDataSourceForLookUps();
+            SetReadOnly(false);
             _logger.Trace("End MainForm_Load");
         }
 
@@ -227,12 +241,12 @@ namespace Visa.WinForms
 
         private void SetDefaultState()
         {
-            _logger.Trace($"Start SetDefaultState. State = {_state}. InitValue = {_initVal}. buttonShow.Enabled = {buttonShow.Enabled}.  buttonRegistry.Enabled = { buttonRegistry.Enabled }");
+            _logger.Trace($"Start SetDefaultState. State = {_state}. InitValue = {_initVal}. buttonShow.Enabled = {buttonShow.Enabled}.  buttonRegistry.Enabled = { buttonRegistry.Enabled }. buttonCancelAction.Enabled = {buttonCancelAction.Enabled}.");
             _state = 1;
             _initVal = 1;
             isFirstPart = null;
             SetReadOnly(false);
-            _logger.Trace($"End SetDefaultState. State = {_state}. InitValue = {_initVal}. buttonShow.Enabled = {buttonShow.Enabled}.  buttonRegistry.Enabled = { buttonRegistry.Enabled }");
+            _logger.Trace($"End SetDefaultState. State = {_state}. InitValue = {_initVal}. buttonShow.Enabled = {buttonShow.Enabled}.  buttonRegistry.Enabled = { buttonRegistry.Enabled }. buttonCancelAction.Enabled = {buttonCancelAction.Enabled}.");
         }
 
         private void SetReadOnly(bool readOnly)
@@ -243,6 +257,10 @@ namespace Visa.WinForms
                 buttonShow.Enabled = !readOnly;
                 buttonRegistry.Enabled = !readOnly;
                 gridView1.OptionsBehavior.Editable = !readOnly;
+                gridView1.OptionsView.NewItemRowPosition = !gridView1.OptionsBehavior.Editable
+                    ? NewItemRowPosition.None
+                    : NewItemRowPosition.Bottom;
+                buttonCancelAction.Enabled = readOnly;
             }));
         }
 
@@ -288,10 +306,5 @@ namespace Visa.WinForms
         }
 
         #endregion Functions
-
-        private void simpleButtonCancelAction_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

@@ -45,8 +45,8 @@ namespace Visa.WinForms
 
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
-            _logger.Error(e.Exception.Message);
-            _logger.Error(e.Exception.StackTrace);
+            _logger.Fatal(e.Exception.Message);
+            _logger.Fatal(e.Exception.StackTrace);
             ExceptionHandlerForm.ShowException(e.Exception);
         }
 
