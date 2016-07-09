@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using ToolsPortable;
 using Visa.Database;
 using Visa.Database.Enums;
 using Visa.Resources;
@@ -78,7 +79,7 @@ namespace Visa.WinForms
         private void MainForm_Closed(object sender, EventArgs e)
         {
             _logger.Info($"MainForm_Closed. State = {_state}.");
-            _crawler?.CloseBrowser();
+            CloseBrowsers(true);
         }
 
         private void _crawlerWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -88,7 +89,7 @@ namespace Visa.WinForms
             if (isFirstPart == null)
             {
                 _logger.Error($"_crawlerWorker_DoWork isFirstPart == null. State = {_state}. _crawler.Error = {_crawler.Error}. _crawlerRegistry.Error = {_crawlerRegistry?.Error}");
-                return;//todo enable search button -- probably all ok, after all tests remove this comment
+                return;
             }
 
             if (isFirstPart.Value)
@@ -104,6 +105,18 @@ namespace Visa.WinForms
         #endregion Events
 
         #region Functions
+
+        /// <summary>
+        /// Close Browsers for all Crawler workers
+        /// </summary>
+        /// <param name="forceClose">Should it be closed without looking for toggleSwitchCloseBrowser flag? </param>
+        protected virtual void CloseBrowsers(bool forceClose)
+        {
+            if (!forceClose && !toggleSwitchCloseBrowser.EditValue.ConvertToBool())
+                return;
+            _crawler?.CloseBrowser();
+            _crawlerRegistry?.CloseBrowser();
+        }
 
         private void SetDataSourceForLookUps()
         {
@@ -150,6 +163,7 @@ namespace Visa.WinForms
             clientDataRowBindingSource.DataSource = InstanceProvider.DataSet.ClientData;
             repositoryItemTextEditPassword.PasswordChar = '*';
             isFirstPart = null;
+            toggleSwitchCloseBrowser.EditValue = true;
 
             gridView1.ValidateRow += GridView1_ValidateRow;
             gridView1.InvalidRowException += GridView1_InvalidRowException;
@@ -169,16 +183,25 @@ namespace Visa.WinForms
             repositoryItemLookUpEditStatus.NullText = ResManager.GetString(ResKeys.Status_NullText);
             repositoryItemLookUpEditNationality.NullText = ResManager.GetString(ResKeys.Nationality_NullText);
             repositoryItemLookUpEditRegistryTime.NullText = ResManager.GetString(ResKeys.RegistryTime_NullText);
-            lookUpEditVisaCategory.Properties.NullText = ResManager.GetString(ResKeys.VisaCategory_NullText);
-            lookUpEditServiceCenter.Properties.NullText = ResManager.GetString(ResKeys.ServiceCenter_NullText);
             _logger.Trace("End InitRepositoryNames");
         }
 
         private void InitFieldNames()
         {
             _logger.Trace("Start InitFieldNames");
+            lookUpEditVisaCategory.Properties.NullText = ResManager.GetString(ResKeys.VisaCategory_NullText);
+            lookUpEditServiceCenter.Properties.NullText = ResManager.GetString(ResKeys.ServiceCenter_NullText);
             buttonRegistry.Text = ResManager.GetString(ResKeys.ButtonRegistry_Text);
             buttonShow.Text = ResManager.GetString(ResKeys.ButtonShow_Text);
+            layoutControlGroupFirst.Text = ResManager.GetString(ResKeys.lblFirstAvailableGroup);
+            layoutControlGroupSecond.Text = ResManager.GetString(ResKeys.lblClientRegostrationGroup);
+            layoutControlGroupClientData.Text = ResManager.GetString(ResKeys.lblClientDataGroup);
+            layoutControlItemVisaCategory.Text = ResManager.GetString(ResKeys.lblVisaCategory);
+            layoutControlGroupCancel.Text = ResManager.GetString(ResKeys.lblCancelGroup);
+            layoutControlItemCloseBrower.Text = ResManager.GetString(ResKeys.lblCloseBrowser);
+            buttonCancelAction.Text = ResManager.GetString(ResKeys.ButtonCancelAction_Text);
+            toggleSwitchCloseBrowser.Properties.OnText = ResManager.GetString(ResKeys.ToggleSwitch_OnText);
+            toggleSwitchCloseBrowser.Properties.OffText = ResManager.GetString(ResKeys.ToggleSwitch_OffText);
             _logger.Trace("End InitFieldNames");
         }
 
@@ -265,5 +288,10 @@ namespace Visa.WinForms
         }
 
         #endregion Functions
+
+        private void simpleButtonCancelAction_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

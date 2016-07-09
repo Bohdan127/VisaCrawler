@@ -15,7 +15,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         private const string _buttonSubmit = "ctl00_plhMain_btnSubmit";//Підтвердити
         private const string _regData = "ctl00_plhMain_lblAvailableDateMsg";//Найближча доступна дата для реєстрації
         private const string _errorMessage = "ctl00_plhMain_lblMsg";
-        private IWebDriver _driver;
+        private readonly IWebDriver _driver;
 
 
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();

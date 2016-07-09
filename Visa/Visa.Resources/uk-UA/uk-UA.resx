@@ -210,4 +210,34 @@
   <data name="ButtonShow_Text" xml:space="preserve">
     <value>Запустити перевірку</value>
   </data>
+  <data name="lblClientDataGroup" xml:space="preserve">
+    <value>Дані клієнтів</value>
+  </data>
+  <data name="lblClientRegostrationGroup" xml:space="preserve">
+    <value>Реєстрація клієнтів</value>
+  </data>
+  <data name="lblFirstAvailableGroup" xml:space="preserve">
+    <value>Перевірка найближчої доступної дати</value>
+  </data>
+  <data name="lblServiceCenter" xml:space="preserve">
+    <value>Сервісний центр:</value>
+  </data>
+  <data name="lblVisaCategory" xml:space="preserve">
+    <value>Візова категорія:</value>
+  </data>
+  <data name="ButtonCancelAction_Text" xml:space="preserve">
+    <value>Відмінити процес</value>
+  </data>
+  <data name="lblCancelGroup" xml:space="preserve">
+    <value>Відміна команди</value>
+  </data>
+  <data name="lblCloseBrowser" xml:space="preserve">
+    <value>Закрити бравзер після закінчення?</value>
+  </data>
+  <data name="ToggleSwitch_OffText" xml:space="preserve">
+    <value>Ні</value>
+  </data>
+  <data name="ToggleSwitch_OnText" xml:space="preserve">
+    <value>Так</value>
+  </data>
 </root>

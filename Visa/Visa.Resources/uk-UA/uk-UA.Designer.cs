@@ -61,6 +61,15 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Відмінити процес.
+        /// </summary>
+        public static string ButtonCancelAction_Text {
+            get {
+                return ResourceManager.GetString("ButtonCancelAction_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Запустити реєстрацію.
         /// </summary>
         public static string ButtonRegistry_Text {
@@ -241,6 +250,69 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Відміна команди.
+        /// </summary>
+        public static string lblCancelGroup {
+            get {
+                return ResourceManager.GetString("lblCancelGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дані клієнтів.
+        /// </summary>
+        public static string lblClientDataGroup {
+            get {
+                return ResourceManager.GetString("lblClientDataGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Реєстрація клієнтів.
+        /// </summary>
+        public static string lblClientRegostrationGroup {
+            get {
+                return ResourceManager.GetString("lblClientRegostrationGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Закрити бравзер після закінчення?.
+        /// </summary>
+        public static string lblCloseBrowser {
+            get {
+                return ResourceManager.GetString("lblCloseBrowser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Перевірка найближчої доступної дати.
+        /// </summary>
+        public static string lblFirstAvailableGroup {
+            get {
+                return ResourceManager.GetString("lblFirstAvailableGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сервісний центр:.
+        /// </summary>
+        public static string lblServiceCenter {
+            get {
+                return ResourceManager.GetString("lblServiceCenter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Візова категорія:.
+        /// </summary>
+        public static string lblVisaCategory {
+            get {
+                return ResourceManager.GetString("lblVisaCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to -Оберіть Національніть-.
         /// </summary>
         public static string Nationality_NullText {
@@ -291,6 +363,24 @@ namespace Visa.Resources.uk_UA {
         public static string Status_NullText {
             get {
                 return ResourceManager.GetString("Status_NullText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ні.
+        /// </summary>
+        public static string ToggleSwitch_OffText {
+            get {
+                return ResourceManager.GetString("ToggleSwitch_OffText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Так.
+        /// </summary>
+        public static string ToggleSwitch_OnText {
+            get {
+                return ResourceManager.GetString("ToggleSwitch_OnText", resourceCulture);
             }
         }
         

@@ -33,5 +33,15 @@
         public const string RegistryTime_NullText = "RegistryTime_NullText";
         public const string VisaCategory_NullText = "VisaCategory_NullText";
         public const string ButtonShow_Text = "ButtonShow_Text";
+        public const string lblServiceCenter = "lblServiceCenter";
+        public const string lblVisaCategory = "lblVisaCategory";
+        public const string lblFirstAvailableGroup = "lblFirstAvailableGroup";
+        public const string lblClientRegostrationGroup = "lblClientRegostrationGroup";
+        public const string lblCancelGroup = "lblCancelGroup";
+        public const string lblCloseBrowser = "lblCloseBrowser";
+        public const string ButtonCancelAction_Text = "ButtonCancelAction_Text";
+        public const string ToggleSwitch_OnText = "ToggleSwitch_OnText";
+        public const string ToggleSwitch_OffText = "ToggleSwitch_OffText";
+        public const string lblClientDataGroup = "lblClientDataGroup";
     }
 }

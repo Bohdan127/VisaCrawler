@@ -36,7 +36,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        private IWebDriver _driver;
+        private readonly IWebDriver _driver;
 
         #endregion
 
