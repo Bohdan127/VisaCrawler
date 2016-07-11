@@ -1,10 +1,13 @@
 ﻿using DevExpress.XtraBars.Alerter;
 using DevExpress.XtraGrid.Views.Grid;
+using License.Logic;
 using NLog;
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using ToolsPortable;
 using Visa.Database;
@@ -85,6 +88,7 @@ namespace Visa.WinForms
         private void MainForm_Load(object sender, EventArgs e)
         {
             _logger.Trace("Start MainForm_Load");
+            CheckLicense();
             SetDataSourceForLookUps();
             SetReadOnly(false);
             _logger.Trace("End MainForm_Load");
@@ -119,6 +123,25 @@ namespace Visa.WinForms
         #endregion Events
 
         #region Functions
+
+        private void CheckLicense()
+        {
+            var key = string.Empty;
+            const string filePath = @".\Visa.key";
+            try
+            {
+                key = File.ReadAllLines(filePath).FirstOrDefault() ?? string.Empty;
+            }
+            finally
+            {
+                var licenseForm = new LicenseForm();
+                if (!licenseForm.CheckInstance(key))
+                    licenseForm.ShowDialog();
+                if (!licenseForm.IsRegistered)
+                    Close();
+                File.WriteAllText(filePath, licenseForm.LicenseKey, Encoding.UTF8);
+            }
+        }
 
         /// <summary>
         /// Close Browsers for all Crawler workers

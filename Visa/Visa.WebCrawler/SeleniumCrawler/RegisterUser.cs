@@ -264,6 +264,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                         if (date == null || date.Value > dataRow.RegistryTo.Day || date.Value < dataRow.RegistryFom.Day) continue;
 
                         _logger.Info($"PartFour. date.Value = {date.Value} element Click");
+                        OutData = date.Value.ToString();
                         element.Click();
                         break;
                     }
@@ -288,6 +289,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info($"Start PartFive. Error = {Error}.");
             try
             {
+                OutData = string.Empty;
                 Thread.Sleep(2000);
                 {
                     FindElementWithChecking(By.Id(registryTime)).Click();
