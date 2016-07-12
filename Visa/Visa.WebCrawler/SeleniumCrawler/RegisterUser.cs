@@ -49,7 +49,10 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public RegisterUser()
         {
             _logger.Trace("Start RegisterUser constructor");
-            _driver = new FirefoxDriver();
+            var prof = new FirefoxProfile();
+            prof.SetPreference("browser.startup.homepage_override.mstone", "ignore");
+            prof.SetPreference("startup.homepage_welcome_url.additional", "about:blank");
+            _driver = new FirefoxDriver(prof);
             _logger.Trace("End RegisterUser constructor");
         }
 

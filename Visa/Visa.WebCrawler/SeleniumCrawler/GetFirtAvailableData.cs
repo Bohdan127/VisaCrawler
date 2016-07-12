@@ -29,7 +29,10 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public GetFirtAvailableData()
         {
             _logger.Trace("Start GetFirtAvailableData constructor");
-            _driver = new FirefoxDriver();
+            var prof = new FirefoxProfile();
+            prof.SetPreference("browser.startup.homepage_override.mstone", "ignore");
+            prof.SetPreference("startup.homepage_welcome_url.additional", "about:blank");
+            _driver = new FirefoxDriver(prof);
             _logger.Trace("End GetFirtAvailableData constructor");
         }
 
