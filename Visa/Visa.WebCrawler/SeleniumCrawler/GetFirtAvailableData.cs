@@ -134,12 +134,10 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         public IWebElement FindElementWithChecking(By by)
         {
-            if (Canceled)
-            {
-                _logger.Info("Interrupted by Canceled flag. throw new WebDriverException");
-                throw new WebDriverException();
-            }
-            return _driver?.FindElement(by);
+            if (!Canceled) return _driver?.FindElement(by);
+
+            _logger.Info("Interrupted by Canceled flag. throw new WebDriverException");
+            throw new WebDriverException();
         }
 
         public void CloseBrowser()
