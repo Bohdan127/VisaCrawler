@@ -126,20 +126,31 @@ namespace Visa.WinForms
 
         private void CheckLicense()
         {
-            var key = string.Empty;
             const string filePath = @".\Visa.key";
+            var key = string.Empty;
+            var licenseForm = new LicenseForm();
             try
             {
                 key = File.ReadAllLines(filePath).FirstOrDefault() ?? string.Empty;
             }
             finally
             {
-                var licenseForm = new LicenseForm();
                 if (!licenseForm.CheckInstance(key))
                     licenseForm.ShowDialog();
                 if (!licenseForm.IsRegistered)
                     Close();
+            }
+            if (licenseForm.LicenseKey == key) return;
+
+            try
+            {
+                if (File.Exists(filePath))
+                    File.Delete(filePath);
                 File.WriteAllText(filePath, licenseForm.LicenseKey, Encoding.UTF8);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Exception during saving license key");
             }
         }
 
