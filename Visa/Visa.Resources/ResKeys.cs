@@ -13,8 +13,6 @@
         public const string colPeopleCount = "colPeopleCount";
         public const string colChildsCount = "colChildsCount";
         public const string colNumberOfReceipt = "colNumberOfReceipt";
-        public const string colEmail = "colEmail";
-        public const string colPassword = "colPassword";
         public const string colEndPassportDate = "colEndPassportDate";
         public const string colStatus = "colStatus";
         public const string colName = "colName";
@@ -32,16 +30,15 @@
         public const string Nationality_NullText = "Nationality_NullText";
         public const string RegistryTime_NullText = "RegistryTime_NullText";
         public const string VisaCategory_NullText = "VisaCategory_NullText";
-        public const string ButtonShow_Text = "ButtonShow_Text";
         public const string lblServiceCenter = "lblServiceCenter";
         public const string lblVisaCategory = "lblVisaCategory";
-        public const string lblFirstAvailableGroup = "lblFirstAvailableGroup";
-        public const string lblClientRegostrationGroup = "lblClientRegostrationGroup";
         public const string lblCancelGroup = "lblCancelGroup";
         public const string lblCloseBrowser = "lblCloseBrowser";
         public const string ButtonCancelAction_Text = "ButtonCancelAction_Text";
         public const string ToggleSwitch_OnText = "ToggleSwitch_OnText";
         public const string ToggleSwitch_OffText = "ToggleSwitch_OffText";
         public const string lblClientDataGroup = "lblClientDataGroup";
+        public const string BarButtonItemImport_Caption = "BarButtonItemImport_Caption";
+        public const string BarButtonItemSetup_Caption = "BarButtonItemSetup_Caption";
     }
 }

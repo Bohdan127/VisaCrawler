@@ -23,6 +23,11 @@ namespace Visa.WinForms
 
         private AlertControl _alertControl;
 
+        /// <summary>
+        /// Thread for crawler logic
+        /// </summary>
+        private BackgroundWorker _crawlerWorker;
+
         private bool? isFirstPart;
 
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
@@ -56,11 +61,8 @@ namespace Visa.WinForms
         private void simpleButtonCancelAction_Click(object sender, EventArgs e)
         {
             _logger.Trace("Start simpleButtonCancelAction_Click");
-            if (_crawler != null)
-                _crawler.Canceled = true;
             if (_crawlerRegistry != null)
                 _crawlerRegistry.Canceled = true;
-            _crawler?.CloseBrowser();
             _crawlerRegistry?.CloseBrowser();
             _logger.Trace("End simpleButtonCancelAction_Click");
         }
@@ -76,7 +78,7 @@ namespace Visa.WinForms
             _logger.Info($"Start _alertControl_AlertClick. Alert Text - {e.AlertForm.Text}. State - {_state}");
             StartNewWorkRoundBase();
             e.AlertForm.Close();
-            _logger.Trace($"End _alertControl_AlertClick. buttonShow.Enabled = {buttonShow.Enabled}. e.AlertForm.IsAccessible = {e.AlertForm.IsAccessible}.  buttonRegistry.Enabled ={ buttonRegistry.Enabled }");
+            _logger.Trace($"End _alertControl_AlertClick. e.AlertForm.IsAccessible = {e.AlertForm.IsAccessible}.  buttonRegistry.Enabled ={ buttonRegistry.Enabled }");
         }
 
         private void _alertControl_FormLoad(object sender, AlertFormLoadEventArgs e)
@@ -106,18 +108,13 @@ namespace Visa.WinForms
 
             if (isFirstPart == null)
             {
-                _logger.Error($"_crawlerWorker_DoWork isFirstPart == null. State = {_state}. _crawler.Error = {_crawler.Error}. _crawlerRegistry.Error = {_crawlerRegistry?.Error}");
+                _logger.Error($"_crawlerWorker_DoWork isFirstPart == null. State = {_state}. _crawlerRegistry.Error = {_crawlerRegistry?.Error}");
                 return;
             }
 
-            if (isFirstPart.Value)
-                CrawlerWorkFirstPart(e.Argument);
-            else
-            {
-                CrawlerWorkSecondPart(e.Argument ?? gridView1.GetDataRow(0));//todo later here should be changed for collecting all rows instead first one like now
-            }
+            CrawlerWorkSecondPart(e.Argument ?? gridView1.GetDataRow(0));//todo later here should be changed for collecting all rows instead first one like now
 
-            _logger.Trace($"End _crawlerWorker_DoWork. State = {_state}. _crawler.Error = {_crawler?.Error}. _crawlerRegistry.Error = {_crawlerRegistry?.Error}");
+            _logger.Trace($"End _crawlerWorker_DoWork. State = {_state}. _crawlerRegistry.Error = {_crawlerRegistry?.Error}");
         }
 
         #endregion Events
@@ -162,7 +159,6 @@ namespace Visa.WinForms
         {
             if (!forceClose && !toggleSwitchCloseBrowser.EditValue.ConvertToBool())
                 return;
-            _crawler?.CloseBrowser();
             _crawlerRegistry?.CloseBrowser();
         }
 
@@ -197,7 +193,6 @@ namespace Visa.WinForms
             Closed += MainForm_Closed;
             Load += MainForm_Load;
 
-            buttonShow.Click += buttonShow_Click;
             buttonRegistry.Click += buttonShowSecond_Click;
 
             _crawlerWorker = new BackgroundWorker();
@@ -216,13 +211,31 @@ namespace Visa.WinForms
             gridView1.ValidateRow += GridView1_ValidateRow;
             gridView1.InvalidRowException += GridView1_InvalidRowException;
             gridView1.CustomDrawRowIndicator += gridView1_CustomDrawRowIndicator;
+            gridView1.InitNewRow += GridView1_InitNewRow;
             gridView1.BestFitColumns();
 
             InitColumnNames();
             InitFieldNames();
             InitRepositoryNames();
+            InitBarButtonNames();
             _logger.Info($"Time for InitOtherComponentDetails = {timeStart - DateTime.Now}");
             _logger.Trace("End InitOtherComponentDetails.");
+        }
+
+        private void GridView1_InitNewRow(object sender, InitNewRowEventArgs e)
+        {
+            var newRow = (VisaDataSet.ClientDataRow)gridView1.GetFocusedDataRow();
+            newRow.Nationality = "219";//todo should be selected from Setup
+            newRow.Password = "QWE1@3ewq";//todo should be selected from Setup
+            gridControl1.Refresh();
+        }
+
+        private void InitBarButtonNames()
+        {
+            _logger.Trace("Start InitBarButtonNames");
+            barButtonItemImport.Caption = ResManager.GetString(ResKeys.BarButtonItemImport_Caption);
+            barButtonItemSetup.Caption = ResManager.GetString(ResKeys.BarButtonItemSetup_Caption);
+            _logger.Trace("End InitBarButtonNames");
         }
 
         private void InitRepositoryNames()
@@ -240,9 +253,6 @@ namespace Visa.WinForms
             lookUpEditVisaCategory.Properties.NullText = ResManager.GetString(ResKeys.VisaCategory_NullText);
             lookUpEditServiceCenter.Properties.NullText = ResManager.GetString(ResKeys.ServiceCenter_NullText);
             buttonRegistry.Text = ResManager.GetString(ResKeys.ButtonRegistry_Text);
-            buttonShow.Text = ResManager.GetString(ResKeys.ButtonShow_Text);
-            layoutControlGroupFirst.Text = ResManager.GetString(ResKeys.lblFirstAvailableGroup);
-            layoutControlGroupSecond.Text = ResManager.GetString(ResKeys.lblClientRegostrationGroup);
             layoutControlGroupClientData.Text = ResManager.GetString(ResKeys.lblClientDataGroup);
             layoutControlItemVisaCategory.Text = ResManager.GetString(ResKeys.lblVisaCategory);
             layoutControlGroupCancel.Text = ResManager.GetString(ResKeys.lblCancelGroup);
@@ -259,8 +269,6 @@ namespace Visa.WinForms
             colPeopleCount.Caption = ResManager.GetString(ResKeys.colPeopleCount);
             colChildsCount.Caption = ResManager.GetString(ResKeys.colChildsCount);
             colNumberOfReceipt.Caption = ResManager.GetString(ResKeys.colNumberOfReceipt);
-            colEmail.Caption = ResManager.GetString(ResKeys.colEmail);
-            colPassword.Caption = ResManager.GetString(ResKeys.colPassword);
             colEndPassportDate.Caption = ResManager.GetString(ResKeys.colEndPassportDate);
             colStatus.Caption = ResManager.GetString(ResKeys.colStatus);
             colName.Caption = ResManager.GetString(ResKeys.colName);
@@ -275,12 +283,12 @@ namespace Visa.WinForms
 
         private void SetDefaultState()
         {
-            _logger.Trace($"Start SetDefaultState. State = {_state}. InitValue = {_initVal}. buttonShow.Enabled = {buttonShow.Enabled}.  buttonRegistry.Enabled = { buttonRegistry.Enabled }. buttonCancelAction.Enabled = {buttonCancelAction.Enabled}.");
+            _logger.Trace($"Start SetDefaultState. State = {_state}. InitValue = {_initVal}.  buttonRegistry.Enabled = { buttonRegistry.Enabled }. buttonCancelAction.Enabled = {buttonCancelAction.Enabled}.");
             _state = 1;
             _initVal = 1;
             isFirstPart = null;
             SetReadOnly(false);
-            _logger.Trace($"End SetDefaultState. State = {_state}. InitValue = {_initVal}. buttonShow.Enabled = {buttonShow.Enabled}.  buttonRegistry.Enabled = { buttonRegistry.Enabled }. buttonCancelAction.Enabled = {buttonCancelAction.Enabled}.");
+            _logger.Trace($"End SetDefaultState. State = {_state}. InitValue = {_initVal}. buttonRegistry.Enabled = { buttonRegistry.Enabled }. buttonCancelAction.Enabled = {buttonCancelAction.Enabled}.");
         }
 
         private void SetReadOnly(bool readOnly)
@@ -288,7 +296,6 @@ namespace Visa.WinForms
             _logger.Trace($"Makes all controls ReadOnly => {readOnly}");
             Invoke(new Action(() =>
             {
-                buttonShow.Enabled = !readOnly;
                 buttonRegistry.Enabled = !readOnly;
                 gridView1.OptionsBehavior.Editable = !readOnly;
                 gridView1.OptionsView.NewItemRowPosition = !gridView1.OptionsBehavior.Editable
@@ -316,7 +323,7 @@ namespace Visa.WinForms
 
             if (isFirstPart == null)
             {
-                _logger.Error($"StartNewWorkRoundBase isFirstPart == null. State = {_state}. _crawler.Error = {_crawler?.Error}. _crawlerRegistry.Error = {_crawlerRegistry?.Error}");
+                _logger.Error($"StartNewWorkRoundBase isFirstPart == null. State = {_state}.  _crawlerRegistry.Error = {_crawlerRegistry?.Error}");
                 return;
             }
 
@@ -340,5 +347,15 @@ namespace Visa.WinForms
         }
 
         #endregion Functions
+
+        private void barButtonItem2_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+
+        }
+
+        private void barButtonItem3_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+
+        }
     }
 }

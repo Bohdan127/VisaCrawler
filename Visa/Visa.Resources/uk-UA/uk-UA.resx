@@ -123,9 +123,6 @@
   <data name="colChildsCount" xml:space="preserve">
     <value>К-ть дітей вписаний у паспорт батьків</value>
   </data>
-  <data name="colEmail" xml:space="preserve">
-    <value>E-mail адрес</value>
-  </data>
   <data name="colEndPassportDate" xml:space="preserve">
     <value>Дата закінчення терміну дії паспорту</value>
   </data>
@@ -140,9 +137,6 @@
   </data>
   <data name="colNumberOfReceipt" xml:space="preserve">
     <value>№ квитанції</value>
-  </data>
-  <data name="colPassword" xml:space="preserve">
-    <value>Пароль</value>
   </data>
   <data name="colPeopleCount" xml:space="preserve">
     <value>Кількість заявників</value>
@@ -207,17 +201,8 @@
   <data name="VisaCategory_NullText" xml:space="preserve">
     <value>-Оберіть візову категорію-</value>
   </data>
-  <data name="ButtonShow_Text" xml:space="preserve">
-    <value>Запустити перевірку</value>
-  </data>
   <data name="lblClientDataGroup" xml:space="preserve">
     <value>Дані клієнтів</value>
-  </data>
-  <data name="lblClientRegostrationGroup" xml:space="preserve">
-    <value>Реєстрація клієнтів</value>
-  </data>
-  <data name="lblFirstAvailableGroup" xml:space="preserve">
-    <value>Перевірка найближчої доступної дати</value>
   </data>
   <data name="lblServiceCenter" xml:space="preserve">
     <value>Сервісний центр:</value>
@@ -239,5 +224,11 @@
   </data>
   <data name="ToggleSwitch_OnText" xml:space="preserve">
     <value>Так</value>
+  </data>
+  <data name="BarButtonItemImport_Caption" xml:space="preserve">
+    <value>Імпорт клієнтів</value>
+  </data>
+  <data name="BarButtonItemSetup_Caption" xml:space="preserve">
+    <value>Налаштування</value>
   </data>
 </root>

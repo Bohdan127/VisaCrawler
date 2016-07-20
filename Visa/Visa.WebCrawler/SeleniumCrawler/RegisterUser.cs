@@ -56,10 +56,9 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Trace("End RegisterUser constructor");
         }
 
-        public void PartOne(VisaDataSet.ClientDataRow dataRow, int serCenId, int visaCatId)
+        public void PartOne(VisaDataSet.ClientDataRow dataRow, int serCenId)
         {
-            _logger.Info(
-                $"Start PartOne. Error = {Error}. Service Center Id = {serCenId}.  Visa Category Id = {visaCatId}. dataRow.NumberOfReceipt = {dataRow.NumberOfReceipt}");
+            _logger.Info($"Start PartOne. Error = {Error}. Service Center Id = {serCenId}. dataRow.NumberOfReceipt = {dataRow.NumberOfReceipt}");
             try
             {
                 _driver.Navigate().GoToUrl(mainUrl);
@@ -76,7 +75,6 @@ namespace Visa.WebCrawler.SeleniumCrawler
                         .Click();
                     _logger.Info($"PartOne. visaCity option[value={serCenId}]  Click");
                 }
-                //Thread.Sleep(2000);
                 {
                     //always be 1 - Подача документів
                     FindElementWithChecking(By.Id(reason))
@@ -84,7 +82,6 @@ namespace Visa.WebCrawler.SeleniumCrawler
                         .Click();
                     _logger.Info("PartOne. reason option[value='1'] Click");
                 }
-                //Thread.Sleep(2000);
                 {
                     FindElementWithChecking(By.Id(buttonSubmit))
                         .Click();
@@ -106,20 +103,35 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     query.Clear();
                     query.SendKeys(dataRow.PeopleCount);
                 }
-                //Thread.Sleep(2000);
                 {
                     var query = FindElementWithChecking(By.Id(numOfChildrens));
                     _logger.Info($"PartOne. numOfChildrens Clear and set {dataRow.ChildsCount}");
                     query.Clear();
                     query.SendKeys(dataRow.ChildsCount);
                 }
-                //Thread.Sleep(2000);
+            }
+            catch (Exception ex) when (ex is NoSuchElementException || ex is WebDriverException)
+            {
+                if (Canceled)
+                    _logger.Warn($"Canceled by User. Error  = {Error}");
+                else
                 {
-                    FindElementWithChecking(By.Id(visaCategory))
-                        .FindElement(By.CssSelector($"option[value=\"{visaCatId}\"]"))
-                        .Click();
-                    _logger.Info($"PartOne. visaCategory option[value={visaCatId}]  Click");
+                    _logger.Error($"NoSuchElementException with message = {ex.Message}");
+                    Error = true;
                 }
+            }
+            _logger.Info($"End PartOne. Error = {Error}");
+        }
+
+        public void PartOneAndHalf(int visaCatId)
+        {
+            _logger.Info($"Start PartOneAndHalf. Error = {Error}. Visa Category Id = {visaCatId}.");
+            try
+            {
+                FindElementWithChecking(By.Id(visaCategory))
+                    .FindElement(By.CssSelector($"option[value=\"{visaCatId}\"]"))
+                    .Click();
+                _logger.Info($"PartOne. visaCategory option[value={visaCatId}]  Click");
             }
             catch (Exception ex) when (ex is NoSuchElementException || ex is WebDriverException)
             {

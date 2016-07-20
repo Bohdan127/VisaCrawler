@@ -45,6 +45,16 @@ namespace Visa.WinForms
 
             currRow.ClearErrors();
 
+            try
+            {
+                currRow.Email = currRow.LastName + currRow.Birthday.Year.ToString().Remove(0, 2) + "@i.ua";
+
+            }
+            catch
+            {
+                // ignored
+            }
+
             foreach (var column in currRow.Table.Columns.Cast<DataColumn>().
                 Where(column => currRow[column].ConvertToStringOrNull().IsBlank()))
             {
@@ -112,7 +122,7 @@ namespace Visa.WinForms
                 _logger.Warn("Validation Failed. Error Message is shown.");
                 XtraMessageBox.Show(ResManager.GetString(ResKeys.ValidationError_Message_SecondPart), ResManager.GetString(ResKeys.ValidationError_Title), MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
-            _logger.Trace($"End buttonShowSecond_Click. buttonShow.Enabled = {buttonShow.Enabled}.  buttonRegistry.Enabled = {buttonRegistry.Enabled}");
+            _logger.Trace($"End buttonShowSecond_Click. buttonRegistry.Enabled = {buttonRegistry.Enabled}");
         }
 
         private void progressBarWorker_DoWorkSecondPart(object sender, DoWorkEventArgs e)
@@ -137,7 +147,7 @@ namespace Visa.WinForms
 
             for (var i = _initVal; i <= maxVal; i++)
             {
-                if (_crawler?.Error ?? false)
+                if (_crawlerRegistry?.Error ?? false)
                 {
                     _logger.Warn("return progressBarWorker_DoWorkSecondPart. _crawlerRegistry.Error = true");
                     return;
@@ -180,11 +190,14 @@ namespace Visa.WinForms
                     }));
                     _crawlerRegistry = new RegisterUser();
                     _crawlerRegistry.PartOne(dataRow,
-                        Convert.ToInt32(lookUpEditServiceCenter.EditValue),
+                        Convert.ToInt32(lookUpEditServiceCenter.EditValue));
+                    _state = 105;
+                    break;
+                case 105:
+                    _crawlerRegistry.PartOneAndHalf(
                         Convert.ToInt32(lookUpEditVisaCategory.EditValue));
                     _state = 2;
                     break;
-
                 case 2:
                     _crawlerRegistry.PartTwo(dataRow);
                     _state = 3;
@@ -230,7 +243,7 @@ namespace Visa.WinForms
                 SetDefaultState();
                 CloseBrowsers(true);
                 // ReSharper disable once PossibleNullReferenceException
-                _crawler.Canceled = false;
+                _crawlerRegistry.Canceled = false;
             }
             else if (_crawlerRegistry?.Error ?? false)
             {
@@ -252,7 +265,6 @@ namespace Visa.WinForms
         {
             var bRes = true;
 
-            bRes &= ValidateControlsFirst();
             bRes &= !gridView1.HasColumnErrors;
             bRes &= ((BindingSource)gridControl1.DataSource).Count > 0;
             if (bRes)

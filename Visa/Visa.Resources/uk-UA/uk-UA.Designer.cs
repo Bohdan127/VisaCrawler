@@ -61,6 +61,24 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Імпорт клієнтів.
+        /// </summary>
+        public static string BarButtonItemImport_Caption {
+            get {
+                return ResourceManager.GetString("BarButtonItemImport_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Налаштування.
+        /// </summary>
+        public static string BarButtonItemSetup_Caption {
+            get {
+                return ResourceManager.GetString("BarButtonItemSetup_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Відмінити процес.
         /// </summary>
         public static string ButtonCancelAction_Text {
@@ -79,15 +97,6 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Запустити перевірку.
-        /// </summary>
-        public static string ButtonShow_Text {
-            get {
-                return ResourceManager.GetString("ButtonShow_Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Дата народження.
         /// </summary>
         public static string colBirthday {
@@ -102,15 +111,6 @@ namespace Visa.Resources.uk_UA {
         public static string colChildsCount {
             get {
                 return ResourceManager.GetString("colChildsCount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to E-mail адрес.
-        /// </summary>
-        public static string colEmail {
-            get {
-                return ResourceManager.GetString("colEmail", resourceCulture);
             }
         }
         
@@ -156,15 +156,6 @@ namespace Visa.Resources.uk_UA {
         public static string colNumberOfReceipt {
             get {
                 return ResourceManager.GetString("colNumberOfReceipt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Пароль.
-        /// </summary>
-        public static string colPassword {
-            get {
-                return ResourceManager.GetString("colPassword", resourceCulture);
             }
         }
         
@@ -268,29 +259,11 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Реєстрація клієнтів.
-        /// </summary>
-        public static string lblClientRegostrationGroup {
-            get {
-                return ResourceManager.GetString("lblClientRegostrationGroup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Закрити бравзер після закінчення?.
         /// </summary>
         public static string lblCloseBrowser {
             get {
                 return ResourceManager.GetString("lblCloseBrowser", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Перевірка найближчої доступної дати.
-        /// </summary>
-        public static string lblFirstAvailableGroup {
-            get {
-                return ResourceManager.GetString("lblFirstAvailableGroup", resourceCulture);
             }
         }
         
