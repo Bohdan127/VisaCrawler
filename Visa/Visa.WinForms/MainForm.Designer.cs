@@ -71,12 +71,9 @@
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.imageCollection1 = new DevExpress.Utils.ImageCollection(this.components);
             this.applicationMenu1 = new DevExpress.XtraBars.Ribbon.ApplicationMenu(this.components);
-            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
-            this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.barButtonItemImport = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItemSetup = new DevExpress.XtraBars.BarButtonItem();
-            this.ribbonPageMain = new DevExpress.XtraBars.Ribbon.RibbonPage();
-            this.ribbonPageGroupMain = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.ribbonStatusBar1 = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             ((System.ComponentModel.ISupportInitialize)(this.dataLayoutControl1)).BeginInit();
             this.dataLayoutControl1.SuspendLayout();
@@ -119,10 +116,10 @@
             this.dataLayoutControl1.Controls.Add(this.lookUpEditVisaCategory);
             this.dataLayoutControl1.Controls.Add(this.lookUpEditServiceCenter);
             this.dataLayoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataLayoutControl1.Location = new System.Drawing.Point(0, 141);
+            this.dataLayoutControl1.Location = new System.Drawing.Point(0, 22);
             this.dataLayoutControl1.Name = "dataLayoutControl1";
             this.dataLayoutControl1.Root = this.layoutControlGroup1;
-            this.dataLayoutControl1.Size = new System.Drawing.Size(955, 330);
+            this.dataLayoutControl1.Size = new System.Drawing.Size(955, 449);
             this.dataLayoutControl1.TabIndex = 0;
             this.dataLayoutControl1.Text = "dataLayoutControl1";
             // 
@@ -173,7 +170,7 @@
             this.repositoryItemTextEditNotNull,
             this.repositoryItemLookUpEditNationality,
             this.repositoryItemLookUpEditRegistryTime});
-            this.gridControl1.Size = new System.Drawing.Size(907, 168);
+            this.gridControl1.Size = new System.Drawing.Size(907, 287);
             this.gridControl1.TabIndex = 4;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -438,7 +435,7 @@
             this.layoutControlItem3});
             this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlGroup1.Name = "Root";
-            this.layoutControlGroup1.Size = new System.Drawing.Size(955, 330);
+            this.layoutControlGroup1.Size = new System.Drawing.Size(955, 449);
             this.layoutControlGroup1.TextVisible = false;
             // 
             // layoutControlGroupClientData
@@ -447,7 +444,7 @@
             this.layoutControlItemClientRegistry});
             this.layoutControlGroupClientData.Location = new System.Drawing.Point(0, 96);
             this.layoutControlGroupClientData.Name = "layoutControlGroupClientData";
-            this.layoutControlGroupClientData.Size = new System.Drawing.Size(935, 214);
+            this.layoutControlGroupClientData.Size = new System.Drawing.Size(935, 333);
             this.layoutControlGroupClientData.Text = "Дані клієнтів";
             // 
             // layoutControlItemClientRegistry
@@ -455,7 +452,7 @@
             this.layoutControlItemClientRegistry.Control = this.gridControl1;
             this.layoutControlItemClientRegistry.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItemClientRegistry.Name = "layoutControlItemClientRegistry";
-            this.layoutControlItemClientRegistry.Size = new System.Drawing.Size(911, 172);
+            this.layoutControlItemClientRegistry.Size = new System.Drawing.Size(911, 291);
             this.layoutControlItemClientRegistry.Text = "Реєстрація клієнтів";
             this.layoutControlItemClientRegistry.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItemClientRegistry.TextVisible = false;
@@ -529,32 +526,10 @@
             // 
             // applicationMenu1
             // 
-            this.applicationMenu1.ItemLinks.Add(this.barButtonItem1);
+            this.applicationMenu1.ItemLinks.Add(this.barButtonItemImport);
+            this.applicationMenu1.ItemLinks.Add(this.barButtonItemSetup);
             this.applicationMenu1.Name = "applicationMenu1";
             this.applicationMenu1.Ribbon = this.ribbonControl1;
-            // 
-            // barButtonItem1
-            // 
-            this.barButtonItem1.Caption = "barButtonItem1";
-            this.barButtonItem1.Id = 1;
-            this.barButtonItem1.Name = "barButtonItem1";
-            // 
-            // ribbonControl1
-            // 
-            this.ribbonControl1.ApplicationButtonDropDownControl = this.applicationMenu1;
-            this.ribbonControl1.ExpandCollapseItem.Id = 0;
-            this.ribbonControl1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
-            this.ribbonControl1.ExpandCollapseItem,
-            this.barButtonItem1,
-            this.barButtonItemImport,
-            this.barButtonItemSetup});
-            this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 4;
-            this.ribbonControl1.Name = "ribbonControl1";
-            this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
-            this.ribbonPageMain});
-            this.ribbonControl1.Size = new System.Drawing.Size(955, 141);
-            this.ribbonControl1.StatusBar = this.ribbonStatusBar1;
             // 
             // barButtonItemImport
             // 
@@ -574,19 +549,20 @@
             this.barButtonItemSetup.Name = "barButtonItemSetup";
             this.barButtonItemSetup.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem3_ItemClick);
             // 
-            // ribbonPageMain
+            // ribbonControl1
             // 
-            this.ribbonPageMain.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
-            this.ribbonPageGroupMain});
-            this.ribbonPageMain.Name = "ribbonPageMain";
-            this.ribbonPageMain.Text = "ribbonPageMain";
-            // 
-            // ribbonPageGroupMain
-            // 
-            this.ribbonPageGroupMain.ItemLinks.Add(this.barButtonItemImport);
-            this.ribbonPageGroupMain.ItemLinks.Add(this.barButtonItemSetup);
-            this.ribbonPageGroupMain.Name = "ribbonPageGroupMain";
-            this.ribbonPageGroupMain.Text = "ribbonPageGroupMain";
+            this.ribbonControl1.ApplicationButtonDropDownControl = this.applicationMenu1;
+            this.ribbonControl1.ExpandCollapseItem.Id = 0;
+            this.ribbonControl1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
+            this.ribbonControl1.ExpandCollapseItem,
+            this.barButtonItemImport,
+            this.barButtonItemSetup});
+            this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
+            this.ribbonControl1.MaxItemId = 4;
+            this.ribbonControl1.Name = "ribbonControl1";
+            this.ribbonControl1.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.OfficeUniversal;
+            this.ribbonControl1.Size = new System.Drawing.Size(955, 22);
+            this.ribbonControl1.StatusBar = this.ribbonStatusBar1;
             // 
             // ribbonStatusBar1
             // 
@@ -681,12 +657,9 @@
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItemCloseBrower;
         private DevExpress.XtraBars.Ribbon.ApplicationMenu applicationMenu1;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraBars.Ribbon.RibbonControl ribbonControl1;
         private DevExpress.XtraBars.BarButtonItem barButtonItemImport;
         private DevExpress.XtraBars.BarButtonItem barButtonItemSetup;
-        private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPageMain;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroupMain;
         private DevExpress.XtraBars.Ribbon.RibbonStatusBar ribbonStatusBar1;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItemServiceCenter;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItemVisaCategory;

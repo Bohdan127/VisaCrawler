@@ -14,6 +14,7 @@ using Visa.Database;
 using Visa.Database.Enums;
 using Visa.Resources;
 using Visa.Resources.uk_UA;
+using Visa.WinForms.Views;
 
 namespace Visa.WinForms
 {
@@ -130,6 +131,10 @@ namespace Visa.WinForms
             {
                 key = File.ReadAllLines(filePath).FirstOrDefault() ?? string.Empty;
             }
+            catch (Exception ex)
+            {
+                _logger.Error("Exception during opening license key");
+            }
             finally
             {
                 if (!licenseForm.CheckInstance(key))
@@ -233,6 +238,7 @@ namespace Visa.WinForms
         private void InitBarButtonNames()
         {
             _logger.Trace("Start InitBarButtonNames");
+            applicationMenu1.MenuCaption = ResManager.GetString(ResKeys.ApplicationMenu_Caption);
             barButtonItemImport.Caption = ResManager.GetString(ResKeys.BarButtonItemImport_Caption);
             barButtonItemSetup.Caption = ResManager.GetString(ResKeys.BarButtonItemSetup_Caption);
             _logger.Trace("End InitBarButtonNames");
@@ -275,7 +281,7 @@ namespace Visa.WinForms
             colLastName.Caption = ResManager.GetString(ResKeys.colLastName);
             colBirthday.Caption = ResManager.GetString(ResKeys.colBirthday);
             colReturnData.Caption = ResManager.GetString(ResKeys.colReturnData);
-            colNationality.Caption = ResManager.GetString(ResKeys.colNationality);
+            colNationality.Caption = ResManager.GetString(ResKeys.Nationality_Text);
             colRegistryFom.Caption = ResManager.GetString(ResKeys.colRegistryFom);
             colRegistryTo.Caption = ResManager.GetString(ResKeys.colRegistryTo);
             _logger.Trace("End InitColumnNames");
@@ -355,7 +361,7 @@ namespace Visa.WinForms
 
         private void barButtonItem3_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-
+            new SetupForm().ShowDialog();
         }
     }
 }

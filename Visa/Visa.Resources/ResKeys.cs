@@ -19,7 +19,7 @@
         public const string colLastName = "colLastName";
         public const string colBirthday = "colBirthday";
         public const string colReturnData = "colReturnData";
-        public const string colNationality = "colNationality";
+        public const string Nationality_Text = "Nationality_Text";
         public const string colRegistryFom = "colRegistryFom";
         public const string colRegistryTo = "colRegistryTo";
         public const string colRegistryTime = "colRegistryTime";
@@ -40,5 +40,10 @@
         public const string lblClientDataGroup = "lblClientDataGroup";
         public const string BarButtonItemImport_Caption = "BarButtonItemImport_Caption";
         public const string BarButtonItemSetup_Caption = "BarButtonItemSetup_Caption";
+        public const string ApplicationMenu_Caption = "ApplicationMenu_Caption";
+        public const string RepeatIfCrash = "RepeatIfCrash";
+        public const string Password_Text = "Password_Text";
+        public const string ButtonOk_Text = "ButtonOk_Text";
+        public const string ButtonCancel_Text = "ButtonCancel_Text";
     }
 }

@@ -117,133 +117,49 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="colBirthday" xml:space="preserve">
-    <value>Дата народження</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="simpleButtonCancel.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACN0RVh0VGl0
+        bGUAQ2FuY2VsO1N0b3A7RXhpdDtCYXJzO1JpYmJvbjtMlpayAAADmklEQVQ4TyWTf1CTdRzHvwim2KS6
+        0k5iXWAbIg6GbG2gHmPGhMEs+CMsT70yE1BGx3F5kCReFE7uNAMu7og6MBFk/LCEOZ15WUkXw8aAcgsE
+        +SHC9mzABtuR3rvv8/C9ez33vs/n834/3+9zz5d4TK3Ec7uDeO9cJXQF/pZ7RGQrKqh6cKLQMl5c9ISF
+        1X8XamsMHxwU05kgSoDHpCcLxhZCA/SsMYCy2qrNKx799BP/7Ldfw93eAM/tTngp7vZGzNRXYezkCb/5
+        2NFSOruWsooLoCtAK5fxho7nmcYryuC51Y757ouY66iHq6UGruYauNvqMPdTI+jLMHH2cwwcz/1FEyl8
+        gQ1hA4LMHx7+ZrS8lBovwVKUj7pwEYyZmXA2noOz4RxuZmVxNUvhMS5o7Msy/HH4/cvUu5Z0ZmVKrbk5
+        Txj9d7hXkIMG1TswdZvRnFOCbnUGDOkaTpu6ermeOf8juK7UwZqf97Q+NTWJmDI0tSNfnMTj2grU8aPw
+        wD4Fh2sJ9lEGLdrTHPepnnZ6MWyb4mamq8sxcroEhrR0Pbm5Rz1sP/ouRrT7cUPzFv7UnYd36T84532w
+        PWRgG2MwO+fDwuIy1zNq9mI4Lxu2I9m4oUp7SK4rVMv/ZKdg6O0dsB+iW969Gz26C5hx+zBDd/LYTWF8
+        +L3iKxiUStw/kIbBjAQMZiXBoEhZJlflScuW1DcwoJZhaG8irkm2w3jqLN3yEh45FzHl8FKWcL1Uh2vx
+        2zGQLod1jxT9KglYL2kSy8d6lSuFrthtaPu4DAP/OjA56wWz4AMz78f4jBf99lnoC06hKyYaljfj0KsQ
+        oylWNkVqheLvTTtksCjFuBQuhHPaiUnHIlwLfvRfqOZYCfHA8cjJzfyVFIOfEyWoFsR2kqLQiF0Xo+Ke
+        mnduw12lHLcOHIKfYXBPVwmjLJ4i4TRbY3t3k2XoS4zGD1vEyH/5NTX7IwVXviK8fCVyKyzJsehJlqJV
+        GAmTLI5+Fzl3ZlaztR6FFBZFDPSRUTizScBenvVswKqta9ZtqNy4ua8pQgDzLhE1JaA/RYK+hCjKFnrm
+        eAyqE9C3U4TmzQKc2RhhFa15lk+9gWSi4D02JDD+Gd6msuf4LVUbwtEuiMAd8evoldJAyq9Ud9BaNe19
+        9jz/x+jVwa9ST9C4dh8h7IMTKxeDd3DdS6oSXmhreUjYhC6ED11IGMrXh00W80Lb9ge/qKEzIZTAFd8+
+        8j91kUbX3K/WKgAAAABJRU5ErkJggg==
+</value>
   </data>
-  <data name="colChildsCount" xml:space="preserve">
-    <value>К-ть дітей вписаний у паспорт батьків</value>
-  </data>
-  <data name="colEndPassportDate" xml:space="preserve">
-    <value>Дата закінчення терміну дії паспорту</value>
-  </data>
-  <data name="colLastName" xml:space="preserve">
-    <value>Прізвище</value>
-  </data>
-  <data name="colName" xml:space="preserve">
-    <value>Ім'я</value>
-  </data>
-  <data name="Nationality_Text" xml:space="preserve">
-    <value>Національність</value>
-  </data>
-  <data name="colNumberOfReceipt" xml:space="preserve">
-    <value>№ квитанції</value>
-  </data>
-  <data name="colPeopleCount" xml:space="preserve">
-    <value>Кількість заявників</value>
-  </data>
-  <data name="colRegistryFom" xml:space="preserve">
-    <value>Реєстрація З</value>
-  </data>
-  <data name="colRegistryTime" xml:space="preserve">
-    <value>Час реєстрації</value>
-  </data>
-  <data name="colRegistryTo" xml:space="preserve">
-    <value>Реєстрація До</value>
-  </data>
-  <data name="colReturnData" xml:space="preserve">
-    <value>Дата повернення</value>
-  </data>
-  <data name="colStatus" xml:space="preserve">
-    <value>Статус</value>
-  </data>
-  <data name="ExceptionHanler_Text" xml:space="preserve">
-    <value>В програмі була сгенерована помилка яка не була належним чином оброблена. Будь-ласка пришліть детальний опис ваших дій  і опис помилки що є внизу.</value>
-  </data>
-  <data name="ExceptionHanler_Title" xml:space="preserve">
-    <value>Помилка</value>
-  </data>
-  <data name="FillCaptchaAndPress" xml:space="preserve">
-    <value>Випевніть капчу і натисніть ТУТ.</value>
-  </data>
-  <data name="SearchResult" xml:space="preserve">
-    <value>Результати пошуку</value>
-  </data>
-  <data name="ServerError" xml:space="preserve">
-    <value>Сервер не відповідає. Щоб поторити спробу запустіть перевірку знову!</value>
-  </data>
-  <data name="ValidationError_Message_FirstPart" xml:space="preserve">
-    <value>Будь-ласка випевніть візовий ценрт і візову категорію</value>
-  </data>
-  <data name="ValidationError_Title" xml:space="preserve">
-    <value>Валідація не пройдена</value>
-  </data>
-  <data name="ValidationError_Message_SecondPart" xml:space="preserve">
-    <value>Будь-ласка перевірте введені вами дані у таблиці та випевніть візовий центр</value>
-  </data>
-  <data name="ButtonRegistry_Text" xml:space="preserve">
-    <value>Запустити реєстрацію</value>
-  </data>
-  <data name="Nationality_NullText" xml:space="preserve">
-    <value>-Оберіть Національніть-</value>
-  </data>
-  <data name="RegistryTime_NullText" xml:space="preserve">
-    <value>-Час Реєстрації-</value>
-  </data>
-  <data name="ServiceCenter_NullText" xml:space="preserve">
-    <value>-Оберіть ППВА-</value>
-  </data>
-  <data name="Status_NullText" xml:space="preserve">
-    <value>-Оберіть Статус-</value>
-  </data>
-  <data name="ValidationError_Message_NullText" xml:space="preserve">
-    <value>Це поле повинно містити в собі значення</value>
-  </data>
-  <data name="VisaCategory_NullText" xml:space="preserve">
-    <value>-Оберіть візову категорію-</value>
-  </data>
-  <data name="lblClientDataGroup" xml:space="preserve">
-    <value>Дані клієнтів</value>
-  </data>
-  <data name="lblServiceCenter" xml:space="preserve">
-    <value>Сервісний центр:</value>
-  </data>
-  <data name="lblVisaCategory" xml:space="preserve">
-    <value>Візова категорія:</value>
-  </data>
-  <data name="ButtonCancelAction_Text" xml:space="preserve">
-    <value>Відмінити процес</value>
-  </data>
-  <data name="lblCancelGroup" xml:space="preserve">
-    <value>Відміна команди</value>
-  </data>
-  <data name="lblCloseBrowser" xml:space="preserve">
-    <value>Закрити бравзер після закінчення?</value>
-  </data>
-  <data name="ToggleSwitch_OffText" xml:space="preserve">
-    <value>Ні</value>
-  </data>
-  <data name="ToggleSwitch_OnText" xml:space="preserve">
-    <value>Так</value>
-  </data>
-  <data name="BarButtonItemImport_Caption" xml:space="preserve">
-    <value>Імпорт клієнтів</value>
-  </data>
-  <data name="BarButtonItemSetup_Caption" xml:space="preserve">
-    <value>Налаштування</value>
-  </data>
-  <data name="ApplicationMenu_Caption" xml:space="preserve">
-    <value>Додатково</value>
-  </data>
-  <data name="Password_Text" xml:space="preserve">
-    <value>Пароль</value>
-  </data>
-  <data name="RepeatIfCrash" xml:space="preserve">
-    <value>Повторно запускати при помилці</value>
-  </data>
-  <data name="ButtonCancel_Text" xml:space="preserve">
-    <value>Скасувати</value>
-  </data>
-  <data name="ButtonOk_Text" xml:space="preserve">
-    <value>Зберегти</value>
+  <data name="simpleButtonOk.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACF0RVh0VGl0
+        bGUAQXBwbHk7T0s7Q2hlY2s7QmFycztSaWJib247ZGPIaAAAA6ZJREFUOE9Nk31Q03Ucx3+iqwzOhE6t
+        MxsDOcbDhgPtziPoCGXkJIq6FQsn0WSOjRKIpzTmgRMfuKwpA2zLjFUzIPAIXCDIIiYPTWyDxThQntp4
+        iAeBjP569/3Nuut397r73X0/79fn87n7fqnJlQZq7qGJIt86wvqMC+yYXG2o7ng1p19pCFtQfsvtP6Hn
+        NGSVBwvJ+WMEj/m/zJTrzxvU1Eo9RblWje5wUhZrW6Y6yFhasw+tVhXsTgPmVrswNFMD09BZqJsFKPgy
+        tE9U6BdIN5p9eOuRgA4L0pnPZHwaPGwwHcPkchOGlyoxMK/Cnblc2BfPYHRZC9dqCxotBcjXcWeT8/24
+        JOcxsVznFmx47zS7qc5cAMfCZXT8fgSdLgnMLhm6p+XomVGgZ1aOZrsYv81XoNV2GorPQqzbd3p60c2p
+        pGw//nFtLOx/lKPlvghtE2LcmnoXJqcEXU4pbk9LUXR1Lw5kMiE5z4ZjsRJltQk4VBSQSTen3v4ooKah
+        Ox83x9JwY1RIJMloG09BOxGZpg5DWsZG3icyjIw7wZdvww9Dh9E2WII0VaCZCDZSwkL/kXZHAa4PJ0Hd
+        EoUY2UbkacNgvPcWcqo4KNLkwDW7BMWZRFxuFeHHe+/g9oQSaaXsNSLwot7M8182OtJhsMUhRuqJPqsV
+        +RcyECv3docnpx/g/FfZUH0TR6YTo95xED9NyJF6KhAhkd7PUq9l+97X9wpgsO6DujERGcWvwjmzhKbO
+        DoxOLmJg9A4Sc7fDOJKK2qF4fGfno3bgdYg+DqAn2EQlKFjNZY1RuGLZi2uDAhRXx6K4QoaFB2tYWPkb
+        h5R7cPVnIQyDsdDboqH/9UWU34zBGzksCxF4Ui+Ld4jTz3HxhSUSFb27cM0mQFb5bujqS2Hqv47Uc/5k
+        vf240v8CPrdEoPpuNI5d4oEveV5JBI8TqCcFct+7J77moqo3AppuLlnnIFJKfBEppaBp34+qPh4qCdpf
+        dqOkjofED1g2Lx/G0yTrQQvWR8Rv5SVk+s1/qAsigjBoerhkTyGaho9CRybT9Owi8nAU6kOQlOO/Fh63
+        JYrkGJ0T71OUaVxGSxjh8Vv3HJD5jqSc3Imi2iCou0JxqZuDi2YOTn4fjFRVAF45yhzgPQrTo69zZzvG
+        JLSAfokbyFg+0cnPFcZJmGaBnAU3Chb4R5jWl0Q7Tnk+xdhC6hh0PZ1zZ//7+VdE70Tb6Xu+meBD8CZs
+        IjxB8Ph/fceYhPoHAkQRj5PgdPMAAAAASUVORK5CYII=
+</value>
   </data>
 </root>
