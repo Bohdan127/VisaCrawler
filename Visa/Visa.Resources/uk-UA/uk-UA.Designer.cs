@@ -342,9 +342,9 @@ namespace Visa.Resources.uk_UA {
         /// <summary>
         ///   Looks up a localized string similar to Повторно запускати при помилці.
         /// </summary>
-        public static string RepeatIfCrash {
+        public static string RepeatIfCrash_Text {
             get {
-                return ResourceManager.GetString("RepeatIfCrash", resourceCulture);
+                return ResourceManager.GetString("RepeatIfCrash_Text", resourceCulture);
             }
         }
         

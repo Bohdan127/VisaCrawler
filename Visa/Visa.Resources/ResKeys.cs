@@ -41,7 +41,7 @@
         public const string BarButtonItemImport_Caption = "BarButtonItemImport_Caption";
         public const string BarButtonItemSetup_Caption = "BarButtonItemSetup_Caption";
         public const string ApplicationMenu_Caption = "ApplicationMenu_Caption";
-        public const string RepeatIfCrash = "RepeatIfCrash";
+        public const string RepeatIfCrash_Text = "RepeatIfCrash_Text";
         public const string Password_Text = "Password_Text";
         public const string ButtonOk_Text = "ButtonOk_Text";
         public const string ButtonCancel_Text = "ButtonCancel_Text";

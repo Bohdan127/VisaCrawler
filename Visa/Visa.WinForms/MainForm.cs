@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ToolsPortable;
+using Visa.BusinessLogic.Managers;
 using Visa.Database;
 using Visa.Database.Enums;
 using Visa.Resources;
@@ -230,8 +231,8 @@ namespace Visa.WinForms
         private void GridView1_InitNewRow(object sender, InitNewRowEventArgs e)
         {
             var newRow = (VisaDataSet.ClientDataRow)gridView1.GetFocusedDataRow();
-            newRow.Nationality = "219";//todo should be selected from Setup
-            newRow.Password = "QWE1@3ewq";//todo should be selected from Setup
+            newRow.Nationality = SetupManager.GetOptions().Nationality;
+            newRow.Password = SetupManager.GetOptions().Password;
             gridControl1.Refresh();
         }
 
@@ -356,7 +357,7 @@ namespace Visa.WinForms
 
         private void barButtonItem2_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-
+            //todo import should be here
         }
 
         private void barButtonItem3_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)

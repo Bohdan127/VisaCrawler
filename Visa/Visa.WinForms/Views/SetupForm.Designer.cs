@@ -102,7 +102,11 @@
             this.lookUpEditNationality.Name = "lookUpEditNationality";
             this.lookUpEditNationality.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.lookUpEditNationality.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name", "Національність")});//todo map it later to ResMan
             this.lookUpEditNationality.Size = new System.Drawing.Size(173, 20);
+            this.lookUpEditNationality.Properties.DisplayMember = "Name";
+            this.lookUpEditNationality.Properties.ValueMember = "Value";
             this.lookUpEditNationality.StyleController = this.layoutControl1;
             this.lookUpEditNationality.TabIndex = 7;
             // 
@@ -207,7 +211,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(358, 150);
             this.Controls.Add(this.layoutControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SetupForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SetupForm";
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);

@@ -237,7 +237,7 @@
   <data name="Password_Text" xml:space="preserve">
     <value>Пароль</value>
   </data>
-  <data name="RepeatIfCrash" xml:space="preserve">
+  <data name="RepeatIfCrash_Text" xml:space="preserve">
     <value>Повторно запускати при помилці</value>
   </data>
   <data name="ButtonCancel_Text" xml:space="preserve">

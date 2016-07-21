@@ -48,7 +48,8 @@ namespace Visa.WinForms
             try
             {
                 currRow.Email = currRow.LastName + currRow.Birthday.Year.ToString().Remove(0, 2) + "@i.ua";
-
+                currRow.PeopleCount = "1";//todo maybe it should be hard-coded here, need to be discussed with client
+                currRow.ChildsCount = "0";
             }
             catch
             {
