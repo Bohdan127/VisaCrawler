@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace Visa.WinForms.Models
+namespace Visa.BusinessLogic.SVN_Model
 {
     [Serializable]
     public class SetupOptions

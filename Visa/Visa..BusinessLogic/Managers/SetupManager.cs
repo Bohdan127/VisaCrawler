@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 using System.Xml.Serialization;
-using Visa.BusinessLogic.Models;
+using Visa.BusinessLogic.SVN_Model;
 
 namespace Visa.BusinessLogic.Managers
 {

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using ToolsPortable;
 using Visa.BusinessLogic.Managers;
-using Visa.BusinessLogic.Models;
+using Visa.BusinessLogic.SVN_Model;
 using Visa.Database;
 using Visa.Database.Enums;
 using Visa.Resources;
