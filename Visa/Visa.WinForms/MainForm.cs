@@ -287,23 +287,24 @@ namespace Visa.WinForms
                     }
                     ShowAlert(_crawlerRegistry.OutData.IsNotBlank()
                         ? _crawlerRegistry.OutData
-                        : ResManager.GetString(ResKeys.ServerError));
+                        : ResManager.GetString(ResKeys.ServerError), true);
                     Thread.Sleep(500);
                     CloseBrowsers(false);
                     _crawlerRegistry.Error = false;
                 }
                 else if (_state == 7 && _crawlerRegistry != null)
                 {
-                    ShowAlert(_crawlerRegistry.OutData);
+                    ShowAlert(_crawlerRegistry.OutData, true);
+                    bBreak = !SetupManager.GetOptions().RepeatIfCrash;
                 }
                 else if (_state == 6)
                 {
-                    ShowAlert(ResManager.GetString(ResKeys.FillCaptchaAndPress));
+                    ShowAlert(ResManager.GetString(ResKeys.FillCaptchaAndPress), false);
                     bBreak = true;
                 }
                 else if (_state == 1)
                 {
-                    ShowAlert(ResManager.GetString(ResKeys.FillCaptchaAndComplete));
+                    ShowAlert(ResManager.GetString(ResKeys.FillCaptchaAndComplete), true);
                     bBreak = true;
                 }
             } while (!bBreak);
@@ -637,12 +638,15 @@ namespace Visa.WinForms
         /// <summary>
         /// Show Alert Message about User needed action 
         /// </summary>
-        private void ShowAlert(string message)
+        private void ShowAlert(string message, bool title)
         {
-            _logger.Info($"ShowAlert with message = {message}");
+            _logger.Info($"ShowAlert with message = {message}. title = {title}");
             Invoke(new Action(() =>
             {
-                _alertControl.Show(null, "", message);
+                if (title)
+                    _alertControl.Show(null, message, "");
+                else
+                    _alertControl.Show(null, "", message);
             }));
         }
 
