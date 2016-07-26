@@ -36,6 +36,8 @@
             this.textEditPassword = new DevExpress.XtraEditors.TextEdit();
             this.toggleSwitchCloseBrowser = new DevExpress.XtraEditors.ToggleSwitch();
             this.toggleSwitchRepeatIfCrash = new DevExpress.XtraEditors.ToggleSwitch();
+            this.spinEditPeopleCount = new DevExpress.XtraEditors.SpinEdit();
+            this.spinEditChildCount = new DevExpress.XtraEditors.SpinEdit();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItemPassword = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItemNationality = new DevExpress.XtraLayout.LayoutControlItem();
@@ -43,12 +45,16 @@
             this.layoutControlItemRepeatIfCrash = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItemChildCount = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItemPeopleCount = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpEditNationality.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditPassword.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitchCloseBrowser.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitchRepeatIfCrash.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinEditPeopleCount.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinEditChildCount.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemPassword)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemNationality)).BeginInit();
@@ -56,6 +62,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemRepeatIfCrash)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemChildCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemPeopleCount)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
@@ -66,18 +74,20 @@
             this.layoutControl1.Controls.Add(this.textEditPassword);
             this.layoutControl1.Controls.Add(this.toggleSwitchCloseBrowser);
             this.layoutControl1.Controls.Add(this.toggleSwitchRepeatIfCrash);
+            this.layoutControl1.Controls.Add(this.spinEditPeopleCount);
+            this.layoutControl1.Controls.Add(this.spinEditChildCount);
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutControl1.Location = new System.Drawing.Point(0, 0);
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.Root = this.layoutControlGroup1;
-            this.layoutControl1.Size = new System.Drawing.Size(358, 150);
+            this.layoutControl1.Size = new System.Drawing.Size(358, 198);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
             // simpleButtonCancel
             // 
             this.simpleButtonCancel.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonCancel.Image")));
-            this.simpleButtonCancel.Location = new System.Drawing.Point(180, 116);
+            this.simpleButtonCancel.Location = new System.Drawing.Point(180, 164);
             this.simpleButtonCancel.Name = "simpleButtonCancel";
             this.simpleButtonCancel.Size = new System.Drawing.Size(166, 22);
             this.simpleButtonCancel.StyleController = this.layoutControl1;
@@ -88,7 +98,7 @@
             // simpleButtonOk
             // 
             this.simpleButtonOk.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonOk.Image")));
-            this.simpleButtonOk.Location = new System.Drawing.Point(12, 116);
+            this.simpleButtonOk.Location = new System.Drawing.Point(12, 164);
             this.simpleButtonOk.Name = "simpleButtonOk";
             this.simpleButtonOk.Size = new System.Drawing.Size(164, 22);
             this.simpleButtonOk.StyleController = this.layoutControl1;
@@ -98,21 +108,21 @@
             // 
             // lookUpEditNationality
             // 
-            this.lookUpEditNationality.Location = new System.Drawing.Point(173, 36);
+            this.lookUpEditNationality.Location = new System.Drawing.Point(173, 84);
             this.lookUpEditNationality.Name = "lookUpEditNationality";
             this.lookUpEditNationality.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.lookUpEditNationality.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name", "Національність")});//todo map it later to ResMan
-            this.lookUpEditNationality.Size = new System.Drawing.Size(173, 20);
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name", "Національність")});
             this.lookUpEditNationality.Properties.DisplayMember = "Name";
             this.lookUpEditNationality.Properties.ValueMember = "Value";
+            this.lookUpEditNationality.Size = new System.Drawing.Size(173, 20);
             this.lookUpEditNationality.StyleController = this.layoutControl1;
             this.lookUpEditNationality.TabIndex = 7;
             // 
             // textEditPassword
             // 
-            this.textEditPassword.Location = new System.Drawing.Point(173, 12);
+            this.textEditPassword.Location = new System.Drawing.Point(173, 60);
             this.textEditPassword.Name = "textEditPassword";
             this.textEditPassword.Size = new System.Drawing.Size(173, 20);
             this.textEditPassword.StyleController = this.layoutControl1;
@@ -120,7 +130,7 @@
             // 
             // toggleSwitchCloseBrowser
             // 
-            this.toggleSwitchCloseBrowser.Location = new System.Drawing.Point(173, 60);
+            this.toggleSwitchCloseBrowser.Location = new System.Drawing.Point(173, 108);
             this.toggleSwitchCloseBrowser.Name = "toggleSwitchCloseBrowser";
             this.toggleSwitchCloseBrowser.Properties.OffText = "Off";
             this.toggleSwitchCloseBrowser.Properties.OnText = "On";
@@ -130,13 +140,47 @@
             // 
             // toggleSwitchRepeatIfCrash
             // 
-            this.toggleSwitchRepeatIfCrash.Location = new System.Drawing.Point(173, 88);
+            this.toggleSwitchRepeatIfCrash.Location = new System.Drawing.Point(173, 136);
             this.toggleSwitchRepeatIfCrash.Name = "toggleSwitchRepeatIfCrash";
             this.toggleSwitchRepeatIfCrash.Properties.OffText = "Off";
             this.toggleSwitchRepeatIfCrash.Properties.OnText = "On";
             this.toggleSwitchRepeatIfCrash.Size = new System.Drawing.Size(173, 24);
             this.toggleSwitchRepeatIfCrash.StyleController = this.layoutControl1;
             this.toggleSwitchRepeatIfCrash.TabIndex = 4;
+            // 
+            // spinEditPeopleCount
+            // 
+            this.spinEditPeopleCount.EditValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.spinEditPeopleCount.Location = new System.Drawing.Point(173, 12);
+            this.spinEditPeopleCount.Name = "spinEditPeopleCount";
+            this.spinEditPeopleCount.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.spinEditPeopleCount.Properties.EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Default;
+            this.spinEditPeopleCount.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.None;
+            this.spinEditPeopleCount.Size = new System.Drawing.Size(173, 20);
+            this.spinEditPeopleCount.StyleController = this.layoutControl1;
+            this.spinEditPeopleCount.TabIndex = 11;
+            // 
+            // spinEditChildCount
+            // 
+            this.spinEditChildCount.EditValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.spinEditChildCount.Location = new System.Drawing.Point(173, 36);
+            this.spinEditChildCount.Name = "spinEditChildCount";
+            this.spinEditChildCount.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.spinEditChildCount.Properties.EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Default;
+            this.spinEditChildCount.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.None;
+            this.spinEditChildCount.Size = new System.Drawing.Size(173, 20);
+            this.spinEditChildCount.StyleController = this.layoutControl1;
+            this.spinEditChildCount.TabIndex = 10;
             // 
             // layoutControlGroup1
             // 
@@ -148,16 +192,18 @@
             this.layoutControlItemCloseBrower,
             this.layoutControlItemRepeatIfCrash,
             this.layoutControlItem1,
-            this.layoutControlItem2});
+            this.layoutControlItem2,
+            this.layoutControlItemChildCount,
+            this.layoutControlItemPeopleCount});
             this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlGroup1.Name = "Root";
-            this.layoutControlGroup1.Size = new System.Drawing.Size(358, 150);
+            this.layoutControlGroup1.Size = new System.Drawing.Size(358, 198);
             this.layoutControlGroup1.TextVisible = false;
             // 
             // layoutControlItemPassword
             // 
             this.layoutControlItemPassword.Control = this.textEditPassword;
-            this.layoutControlItemPassword.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlItemPassword.Location = new System.Drawing.Point(0, 48);
             this.layoutControlItemPassword.Name = "layoutControlItemPassword";
             this.layoutControlItemPassword.Size = new System.Drawing.Size(338, 24);
             this.layoutControlItemPassword.TextSize = new System.Drawing.Size(158, 13);
@@ -165,7 +211,7 @@
             // layoutControlItemNationality
             // 
             this.layoutControlItemNationality.Control = this.lookUpEditNationality;
-            this.layoutControlItemNationality.Location = new System.Drawing.Point(0, 24);
+            this.layoutControlItemNationality.Location = new System.Drawing.Point(0, 72);
             this.layoutControlItemNationality.Name = "layoutControlItemNationality";
             this.layoutControlItemNationality.Size = new System.Drawing.Size(338, 24);
             this.layoutControlItemNationality.TextSize = new System.Drawing.Size(158, 13);
@@ -173,7 +219,7 @@
             // layoutControlItemCloseBrower
             // 
             this.layoutControlItemCloseBrower.Control = this.toggleSwitchCloseBrowser;
-            this.layoutControlItemCloseBrower.Location = new System.Drawing.Point(0, 48);
+            this.layoutControlItemCloseBrower.Location = new System.Drawing.Point(0, 96);
             this.layoutControlItemCloseBrower.Name = "layoutControlItemCloseBrower";
             this.layoutControlItemCloseBrower.Size = new System.Drawing.Size(338, 28);
             this.layoutControlItemCloseBrower.TextSize = new System.Drawing.Size(158, 13);
@@ -182,7 +228,7 @@
             // 
             this.layoutControlItemRepeatIfCrash.Control = this.toggleSwitchRepeatIfCrash;
             this.layoutControlItemRepeatIfCrash.CustomizationFormText = "layoutControlItemRepeatIfCrash";
-            this.layoutControlItemRepeatIfCrash.Location = new System.Drawing.Point(0, 76);
+            this.layoutControlItemRepeatIfCrash.Location = new System.Drawing.Point(0, 124);
             this.layoutControlItemRepeatIfCrash.Name = "layoutControlItemRepeatIfCrash";
             this.layoutControlItemRepeatIfCrash.Size = new System.Drawing.Size(338, 28);
             this.layoutControlItemRepeatIfCrash.TextSize = new System.Drawing.Size(158, 13);
@@ -190,7 +236,7 @@
             // layoutControlItem1
             // 
             this.layoutControlItem1.Control = this.simpleButtonOk;
-            this.layoutControlItem1.Location = new System.Drawing.Point(0, 104);
+            this.layoutControlItem1.Location = new System.Drawing.Point(0, 152);
             this.layoutControlItem1.Name = "layoutControlItem1";
             this.layoutControlItem1.Size = new System.Drawing.Size(168, 26);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
@@ -199,17 +245,33 @@
             // layoutControlItem2
             // 
             this.layoutControlItem2.Control = this.simpleButtonCancel;
-            this.layoutControlItem2.Location = new System.Drawing.Point(168, 104);
+            this.layoutControlItem2.Location = new System.Drawing.Point(168, 152);
             this.layoutControlItem2.Name = "layoutControlItem2";
             this.layoutControlItem2.Size = new System.Drawing.Size(170, 26);
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 
+            // layoutControlItemChildCount
+            // 
+            this.layoutControlItemChildCount.Control = this.spinEditChildCount;
+            this.layoutControlItemChildCount.Location = new System.Drawing.Point(0, 24);
+            this.layoutControlItemChildCount.Name = "layoutControlItemChildCount";
+            this.layoutControlItemChildCount.Size = new System.Drawing.Size(338, 24);
+            this.layoutControlItemChildCount.TextSize = new System.Drawing.Size(158, 13);
+            // 
+            // layoutControlItemPeopleCount
+            // 
+            this.layoutControlItemPeopleCount.Control = this.spinEditPeopleCount;
+            this.layoutControlItemPeopleCount.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlItemPeopleCount.Name = "layoutControlItemPeopleCount";
+            this.layoutControlItemPeopleCount.Size = new System.Drawing.Size(338, 24);
+            this.layoutControlItemPeopleCount.TextSize = new System.Drawing.Size(158, 13);
+            // 
             // SetupForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(358, 150);
+            this.ClientSize = new System.Drawing.Size(358, 198);
             this.Controls.Add(this.layoutControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SetupForm";
@@ -221,6 +283,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.textEditPassword.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitchCloseBrowser.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitchRepeatIfCrash.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinEditPeopleCount.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinEditChildCount.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemPassword)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemNationality)).EndInit();
@@ -228,6 +292,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemRepeatIfCrash)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemChildCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemPeopleCount)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -248,5 +314,9 @@
         private DevExpress.XtraEditors.SimpleButton simpleButtonOk;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItemChildCount;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItemPeopleCount;
+        private DevExpress.XtraEditors.SpinEdit spinEditPeopleCount;
+        private DevExpress.XtraEditors.SpinEdit spinEditChildCount;
     }
 }

@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Firefox;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using ToolsPortable;
 
@@ -34,11 +35,23 @@ namespace Test
         private static string nationality = "ctl00_plhMain_repAppVisaDetails_ctl01_cboNationality";//Національність
         private static string availableData = "OpenDateAllocated";//Будь ласка, оберіть Вільну дату
         private static string registryTime = "ctl00_plhMain_gvSlot_ctl02_lnkTimeSlot";//Будь ласка, оберіть Час
-
+        private static string btnCancel = "ctl00_plhMain_btnCancel";
         static void Main(string[] args)
         {
+            CultureInfo culture = CultureInfo.CreateSpecificCulture("uk-UA");
+
+            // The following line provides localization for the application's user interface.  
+            Thread.CurrentThread.CurrentUICulture = culture;
+
+            // The following line provides localization for data formats.  
+            Thread.CurrentThread.CurrentCulture = culture;
+
+            // Set this culture as the default culture for all threads in this application.  
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+            DateTime dt = DateTime.ParseExact("01.Сер.2016", "d.MMM.yyyy", CultureInfo.CurrentCulture);
             //Countries();
-            SecondPart();
+            //SecondPart();
             //ResManager.RegisterResource("uk_UA", uk_UA.ResourceManager);
             //Console.WriteLine(ResManager.GetString("test"));
             //FirefoxDriver driver = new FirefoxDriver();
@@ -476,12 +489,13 @@ namespace Test
                 var splitOne = line.Split(new[] { '>' }, StringSplitOptions.RemoveEmptyEntries);
                 var value = splitOne[0].Split(new[] { '=', '"' }, StringSplitOptions.RemoveEmptyEntries)[1];
                 var name = splitOne[1].Split(new[] { '<' }, StringSplitOptions.RemoveEmptyEntries)[0];
-                resList.Add(" countryRow = _dataSet.Choice.NewChoiceRow();");
-                resList.Add($" countryRow.Name = \"{name}\";");
-                resList.Add($" countryRow.Value = \"{value}\";");
-                resList.Add(" countryRow.Type = (short)ChoicesType.Country;");
-                resList.Add(" _dataSet.Choice.AddChoiceRow(countryRow);");
-                resList.Add(" ");
+                //resList.Add(" countryRow = _dataSet.Choice.NewChoiceRow();");
+                //resList.Add($" countryRow.Name = \"{name}\";");
+                //resList.Add($" countryRow.Value = \"{value}\";");
+                //resList.Add(" countryRow.Type = (short)ChoicesType.Country;");
+                //resList.Add(" _dataSet.Choice.AddChoiceRow(countryRow);");
+                //resList.Add(" ");
+                resList.Add(name);
             }
             System.IO.File.WriteAllLines(@".\out.txt", resList);
         }

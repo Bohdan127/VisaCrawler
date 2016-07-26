@@ -232,6 +232,15 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Дата не відповідає діапазону {0}.
+        /// </summary>
+        public static string DateIncorrect_Message {
+            get {
+                return ResourceManager.GetString("DateIncorrect_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to В програмі була сгенерована помилка яка не була належним чином оброблена. Будь-ласка пришліть детальний опис ваших дій  і опис помилки що є внизу..
         /// </summary>
         public static string ExceptionHanler_Text {
@@ -246,6 +255,15 @@ namespace Visa.Resources.uk_UA {
         public static string ExceptionHanler_Title {
             get {
                 return ResourceManager.GetString("ExceptionHanler_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Реєстрацію завершено, випевніть капчу і виберіть дату.
+        /// </summary>
+        public static string FillCaptchaAndComplete {
+            get {
+                return ResourceManager.GetString("FillCaptchaAndComplete", resourceCulture);
             }
         }
         
@@ -318,6 +336,15 @@ namespace Visa.Resources.uk_UA {
         public static string Nationality_Text {
             get {
                 return ResourceManager.GetString("Nationality_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Будь-ласка виберіть Excel документ з даними по шаблону.
+        /// </summary>
+        public static string OpenFileDialog_Title {
+            get {
+                return ResourceManager.GetString("OpenFileDialog_Title", resourceCulture);
             }
         }
         

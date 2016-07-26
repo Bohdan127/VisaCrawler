@@ -39,6 +39,8 @@ namespace Visa.WinForms.Views
             lookUpEditNationality.EditValue = options.Nationality;
             toggleSwitchCloseBrowser.IsOn = options.CloseBrowser;
             toggleSwitchRepeatIfCrash.IsOn = options.RepeatIfCrash;
+            spinEditPeopleCount.EditValue = options.PeopleCount;
+            spinEditChildCount.EditValue = options.ChildCount;
             _logger.Trace("End MapData");
         }
 
@@ -47,6 +49,8 @@ namespace Visa.WinForms.Views
             _logger.Trace("Start InitNames");
             Text = ResManager.GetString(ResKeys.BarButtonItemSetup_Caption);
 
+            layoutControlItemPeopleCount.Text = ResManager.GetString(ResKeys.colPeopleCount);
+            layoutControlItemChildCount.Text = ResManager.GetString(ResKeys.colChildsCount);
             layoutControlItemPassword.Text = ResManager.GetString(ResKeys.Password_Text);
             layoutControlItemNationality.Text = ResManager.GetString(ResKeys.Nationality_Text);
             layoutControlItemRepeatIfCrash.Text = ResManager.GetString(ResKeys.RepeatIfCrash_Text);
@@ -82,7 +86,9 @@ namespace Visa.WinForms.Views
                 CloseBrowser = toggleSwitchCloseBrowser.IsOn,
                 RepeatIfCrash = toggleSwitchRepeatIfCrash.IsOn,
                 Nationality = lookUpEditNationality.EditValue.ConvertToStringOrNull(),
-                Password = textEditPassword.Text
+                Password = textEditPassword.Text,
+                PeopleCount = spinEditPeopleCount.EditValue.ConvertToStringOrNull(),
+                ChildCount = spinEditChildCount.EditValue.ConvertToStringOrNull()
             };
             SetupManager.SaveOptions(options);
             Close();

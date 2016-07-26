@@ -45,5 +45,9 @@
         public const string Password_Text = "Password_Text";
         public const string ButtonOk_Text = "ButtonOk_Text";
         public const string ButtonCancel_Text = "ButtonCancel_Text";
+        public const string OpenFileDialog_Title = "OpenFileDialog_Title";
+        public const string FillCaptchaAndComplete = "FillCaptchaAndComplete";
+        public const string DateIncorrect_Message = "DateIncorrect_Message";
     }
 }
+

@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.dataLayoutControl1 = new DevExpress.XtraDataLayout.DataLayoutControl();
             this.buttonCancelAction = new DevExpress.XtraEditors.SimpleButton();
-            this.toggleSwitchCloseBrowser = new DevExpress.XtraEditors.ToggleSwitch();
             this.buttonRegistry = new DevExpress.XtraEditors.SimpleButton();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.clientDataRowBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -55,20 +54,19 @@
             this.repositoryItemLookUpEditNationality = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.colRegistryFom = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colRegistryTo = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colVisaCity = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemLookUpEditVisaCity = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
+            this.colVisaType = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemLookUpEditVisaType = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.repositoryItemTextEditEmail = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.repositoryItemTextEditPassword = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.repositoryItemLookUpEditRegistryTime = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
-            this.lookUpEditVisaCategory = new DevExpress.XtraEditors.LookUpEdit();
-            this.lookUpEditServiceCenter = new DevExpress.XtraEditors.LookUpEdit();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlGroupClientData = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItemClientRegistry = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlGroupCancel = new DevExpress.XtraLayout.LayoutControlGroup();
-            this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItemCloseBrower = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItemServiceCenter = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItemVisaCategory = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.imageCollection1 = new DevExpress.Utils.ImageCollection(this.components);
             this.applicationMenu1 = new DevExpress.XtraBars.Ribbon.ApplicationMenu(this.components);
             this.barButtonItemImport = new DevExpress.XtraBars.BarButtonItem();
@@ -77,7 +75,6 @@
             this.ribbonStatusBar1 = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             ((System.ComponentModel.ISupportInitialize)(this.dataLayoutControl1)).BeginInit();
             this.dataLayoutControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.toggleSwitchCloseBrowser.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.clientDataRowBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
@@ -88,20 +85,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditNotNull)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditNationality)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditVisaCity)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditVisaType)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditEmail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditPassword)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditRegistryTime)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lookUpEditVisaCategory.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lookUpEditServiceCenter.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroupClientData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemClientRegistry)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroupCancel)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemCloseBrower)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemServiceCenter)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemVisaCategory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageCollection1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.applicationMenu1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
@@ -110,14 +104,12 @@
             // dataLayoutControl1
             // 
             this.dataLayoutControl1.Controls.Add(this.buttonCancelAction);
-            this.dataLayoutControl1.Controls.Add(this.toggleSwitchCloseBrowser);
             this.dataLayoutControl1.Controls.Add(this.buttonRegistry);
             this.dataLayoutControl1.Controls.Add(this.gridControl1);
-            this.dataLayoutControl1.Controls.Add(this.lookUpEditVisaCategory);
-            this.dataLayoutControl1.Controls.Add(this.lookUpEditServiceCenter);
             this.dataLayoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataLayoutControl1.Location = new System.Drawing.Point(0, 22);
             this.dataLayoutControl1.Name = "dataLayoutControl1";
+            this.dataLayoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(832, 273, 250, 350);
             this.dataLayoutControl1.Root = this.layoutControlGroup1;
             this.dataLayoutControl1.Size = new System.Drawing.Size(955, 449);
             this.dataLayoutControl1.TabIndex = 0;
@@ -126,30 +118,20 @@
             // buttonCancelAction
             // 
             this.buttonCancelAction.Image = ((System.Drawing.Image)(resources.GetObject("buttonCancelAction.Image")));
-            this.buttonCancelAction.Location = new System.Drawing.Point(475, 70);
+            this.buttonCancelAction.Location = new System.Drawing.Point(159, 12);
             this.buttonCancelAction.Name = "buttonCancelAction";
-            this.buttonCancelAction.Size = new System.Drawing.Size(456, 22);
+            this.buttonCancelAction.Size = new System.Drawing.Size(94, 22);
             this.buttonCancelAction.StyleController = this.dataLayoutControl1;
             this.buttonCancelAction.TabIndex = 9;
             this.buttonCancelAction.Text = "buttonCancel";
             this.buttonCancelAction.Click += new System.EventHandler(this.simpleButtonCancelAction_Click);
             // 
-            // toggleSwitchCloseBrowser
-            // 
-            this.toggleSwitchCloseBrowser.Location = new System.Drawing.Point(627, 42);
-            this.toggleSwitchCloseBrowser.Name = "toggleSwitchCloseBrowser";
-            this.toggleSwitchCloseBrowser.Properties.OffText = "Off";
-            this.toggleSwitchCloseBrowser.Properties.OnText = "On";
-            this.toggleSwitchCloseBrowser.Size = new System.Drawing.Size(304, 24);
-            this.toggleSwitchCloseBrowser.StyleController = this.dataLayoutControl1;
-            this.toggleSwitchCloseBrowser.TabIndex = 8;
-            // 
             // buttonRegistry
             // 
             this.buttonRegistry.Image = ((System.Drawing.Image)(resources.GetObject("buttonRegistry.Image")));
-            this.buttonRegistry.Location = new System.Drawing.Point(12, 60);
+            this.buttonRegistry.Location = new System.Drawing.Point(12, 12);
             this.buttonRegistry.Name = "buttonRegistry";
-            this.buttonRegistry.Size = new System.Drawing.Size(447, 22);
+            this.buttonRegistry.Size = new System.Drawing.Size(143, 22);
             this.buttonRegistry.StyleController = this.dataLayoutControl1;
             this.buttonRegistry.TabIndex = 7;
             this.buttonRegistry.Text = "Запустити реєстрацію";
@@ -157,7 +139,7 @@
             // gridControl1
             // 
             this.gridControl1.DataSource = this.clientDataRowBindingSource;
-            this.gridControl1.Location = new System.Drawing.Point(24, 138);
+            this.gridControl1.Location = new System.Drawing.Point(24, 68);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
             this.gridControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
@@ -169,8 +151,10 @@
             this.repositoryItemLookUpEditStatus,
             this.repositoryItemTextEditNotNull,
             this.repositoryItemLookUpEditNationality,
-            this.repositoryItemLookUpEditRegistryTime});
-            this.gridControl1.Size = new System.Drawing.Size(907, 287);
+            this.repositoryItemLookUpEditRegistryTime,
+            this.repositoryItemLookUpEditVisaType,
+            this.repositoryItemLookUpEditVisaCity});
+            this.gridControl1.Size = new System.Drawing.Size(907, 357);
             this.gridControl1.TabIndex = 4;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -193,7 +177,9 @@
             this.colReturnData,
             this.colNationality,
             this.colRegistryFom,
-            this.colRegistryTo});
+            this.colRegistryTo,
+            this.colVisaCity,
+            this.colVisaType});
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.Name = "gridView1";
             this.gridView1.OptionsCustomization.AllowSort = false;
@@ -364,6 +350,46 @@
             this.colRegistryTo.Visible = true;
             this.colRegistryTo.VisibleIndex = 11;
             // 
+            // colVisaCity
+            // 
+            this.colVisaCity.Caption = "Service Center";
+            this.colVisaCity.ColumnEdit = this.repositoryItemLookUpEditVisaCity;
+            this.colVisaCity.FieldName = "VisaCity";
+            this.colVisaCity.Name = "colVisaCity";
+            this.colVisaCity.Visible = true;
+            this.colVisaCity.VisibleIndex = 12;
+            // 
+            // repositoryItemLookUpEditVisaCity
+            // 
+            this.repositoryItemLookUpEditVisaCity.AutoHeight = false;
+            this.repositoryItemLookUpEditVisaCity.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemLookUpEditVisaCity.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name", "Візовий центр")});
+            this.repositoryItemLookUpEditVisaCity.DisplayMember = "Name";
+            this.repositoryItemLookUpEditVisaCity.Name = "repositoryItemLookUpEditVisaCity";
+            this.repositoryItemLookUpEditVisaCity.ValueMember = "Value";
+            // 
+            // colVisaType
+            // 
+            this.colVisaType.Caption = "Visa Type";
+            this.colVisaType.ColumnEdit = this.repositoryItemLookUpEditVisaType;
+            this.colVisaType.FieldName = "VisaType";
+            this.colVisaType.Name = "colVisaType";
+            this.colVisaType.Visible = true;
+            this.colVisaType.VisibleIndex = 13;
+            // 
+            // repositoryItemLookUpEditVisaType
+            // 
+            this.repositoryItemLookUpEditVisaType.AutoHeight = false;
+            this.repositoryItemLookUpEditVisaType.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemLookUpEditVisaType.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name", "Тип візи")});
+            this.repositoryItemLookUpEditVisaType.DisplayMember = "Name";
+            this.repositoryItemLookUpEditVisaType.Name = "repositoryItemLookUpEditVisaType";
+            this.repositoryItemLookUpEditVisaType.ValueMember = "Value";
+            // 
             // repositoryItemTextEditEmail
             // 
             this.repositoryItemTextEditEmail.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
@@ -393,46 +419,15 @@
             this.repositoryItemLookUpEditRegistryTime.NullText = "-Час Реєстрації-";
             this.repositoryItemLookUpEditRegistryTime.ValueMember = "Value";
             // 
-            // lookUpEditVisaCategory
-            // 
-            this.lookUpEditVisaCategory.Location = new System.Drawing.Point(110, 36);
-            this.lookUpEditVisaCategory.Name = "lookUpEditVisaCategory";
-            this.lookUpEditVisaCategory.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.lookUpEditVisaCategory.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name", "Категорія Візи")});
-            this.lookUpEditVisaCategory.Properties.DisplayMember = "Name";
-            this.lookUpEditVisaCategory.Properties.NullText = "-Оберіть візову категорію-";
-            this.lookUpEditVisaCategory.Properties.ValueMember = "Value";
-            this.lookUpEditVisaCategory.Size = new System.Drawing.Size(349, 20);
-            this.lookUpEditVisaCategory.StyleController = this.dataLayoutControl1;
-            this.lookUpEditVisaCategory.TabIndex = 2;
-            // 
-            // lookUpEditServiceCenter
-            // 
-            this.lookUpEditServiceCenter.Location = new System.Drawing.Point(110, 12);
-            this.lookUpEditServiceCenter.Name = "lookUpEditServiceCenter";
-            this.lookUpEditServiceCenter.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.lookUpEditServiceCenter.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name", "Візовий Сервіс Центр")});
-            this.lookUpEditServiceCenter.Properties.DisplayMember = "Name";
-            this.lookUpEditServiceCenter.Properties.NullText = "-Оберіть ППВА-";
-            this.lookUpEditServiceCenter.Properties.ValueMember = "Value";
-            this.lookUpEditServiceCenter.Size = new System.Drawing.Size(349, 20);
-            this.lookUpEditServiceCenter.StyleController = this.dataLayoutControl1;
-            this.lookUpEditServiceCenter.TabIndex = 0;
-            // 
             // layoutControlGroup1
             // 
             this.layoutControlGroup1.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
             this.layoutControlGroup1.GroupBordersVisible = false;
             this.layoutControlGroup1.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlGroupClientData,
-            this.layoutControlGroupCancel,
-            this.layoutControlItemServiceCenter,
-            this.layoutControlItemVisaCategory,
-            this.layoutControlItem3});
+            this.emptySpaceItem1,
+            this.layoutControlItem3,
+            this.layoutControlItem2});
             this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Size = new System.Drawing.Size(955, 449);
@@ -442,9 +437,9 @@
             // 
             this.layoutControlGroupClientData.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlItemClientRegistry});
-            this.layoutControlGroupClientData.Location = new System.Drawing.Point(0, 96);
+            this.layoutControlGroupClientData.Location = new System.Drawing.Point(0, 26);
             this.layoutControlGroupClientData.Name = "layoutControlGroupClientData";
-            this.layoutControlGroupClientData.Size = new System.Drawing.Size(935, 333);
+            this.layoutControlGroupClientData.Size = new System.Drawing.Size(935, 403);
             this.layoutControlGroupClientData.Text = "Дані клієнтів";
             // 
             // layoutControlItemClientRegistry
@@ -452,67 +447,36 @@
             this.layoutControlItemClientRegistry.Control = this.gridControl1;
             this.layoutControlItemClientRegistry.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItemClientRegistry.Name = "layoutControlItemClientRegistry";
-            this.layoutControlItemClientRegistry.Size = new System.Drawing.Size(911, 291);
+            this.layoutControlItemClientRegistry.Size = new System.Drawing.Size(911, 361);
             this.layoutControlItemClientRegistry.Text = "Реєстрація клієнтів";
             this.layoutControlItemClientRegistry.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItemClientRegistry.TextVisible = false;
             // 
-            // layoutControlGroupCancel
+            // layoutControlItem3
             // 
-            this.layoutControlGroupCancel.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
-            this.layoutControlItem2,
-            this.layoutControlItemCloseBrower});
-            this.layoutControlGroupCancel.Location = new System.Drawing.Point(451, 0);
-            this.layoutControlGroupCancel.Name = "layoutControlGroupCancel";
-            this.layoutControlGroupCancel.Size = new System.Drawing.Size(484, 96);
+            this.layoutControlItem3.Control = this.buttonRegistry;
+            this.layoutControlItem3.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlItem3.Name = "layoutControlItem3";
+            this.layoutControlItem3.Size = new System.Drawing.Size(147, 26);
+            this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem3.TextVisible = false;
             // 
             // layoutControlItem2
             // 
             this.layoutControlItem2.Control = this.buttonCancelAction;
-            this.layoutControlItem2.Location = new System.Drawing.Point(0, 28);
+            this.layoutControlItem2.Location = new System.Drawing.Point(147, 0);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(460, 26);
+            this.layoutControlItem2.Size = new System.Drawing.Size(98, 26);
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 
-            // layoutControlItemCloseBrower
+            // emptySpaceItem1
             // 
-            this.layoutControlItemCloseBrower.Control = this.toggleSwitchCloseBrowser;
-            this.layoutControlItemCloseBrower.Location = new System.Drawing.Point(0, 0);
-            this.layoutControlItemCloseBrower.Name = "layoutControlItemCloseBrower";
-            this.layoutControlItemCloseBrower.Size = new System.Drawing.Size(460, 28);
-            this.layoutControlItemCloseBrower.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.AutoSize;
-            this.layoutControlItemCloseBrower.TextSize = new System.Drawing.Size(147, 13);
-            this.layoutControlItemCloseBrower.TextToControlDistance = 5;
-            // 
-            // layoutControlItemServiceCenter
-            // 
-            this.layoutControlItemServiceCenter.Control = this.lookUpEditServiceCenter;
-            this.layoutControlItemServiceCenter.Location = new System.Drawing.Point(0, 0);
-            this.layoutControlItemServiceCenter.Name = "layoutControlItemServiceCenter";
-            this.layoutControlItemServiceCenter.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 2, 2, 2);
-            this.layoutControlItemServiceCenter.Size = new System.Drawing.Size(451, 24);
-            this.layoutControlItemServiceCenter.Text = "Сервісний центр:";
-            this.layoutControlItemServiceCenter.TextSize = new System.Drawing.Size(87, 13);
-            // 
-            // layoutControlItemVisaCategory
-            // 
-            this.layoutControlItemVisaCategory.Control = this.lookUpEditVisaCategory;
-            this.layoutControlItemVisaCategory.Location = new System.Drawing.Point(0, 24);
-            this.layoutControlItemVisaCategory.Name = "layoutControlItemVisaCategory";
-            this.layoutControlItemVisaCategory.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 2, 2, 2);
-            this.layoutControlItemVisaCategory.Size = new System.Drawing.Size(451, 24);
-            this.layoutControlItemVisaCategory.Text = "Візова категорія:";
-            this.layoutControlItemVisaCategory.TextSize = new System.Drawing.Size(87, 13);
-            // 
-            // layoutControlItem3
-            // 
-            this.layoutControlItem3.Control = this.buttonRegistry;
-            this.layoutControlItem3.Location = new System.Drawing.Point(0, 48);
-            this.layoutControlItem3.Name = "layoutControlItem3";
-            this.layoutControlItem3.Size = new System.Drawing.Size(451, 48);
-            this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem3.TextVisible = false;
+            this.emptySpaceItem1.AllowHotTrack = false;
+            this.emptySpaceItem1.Location = new System.Drawing.Point(245, 0);
+            this.emptySpaceItem1.Name = "emptySpaceItem1";
+            this.emptySpaceItem1.Size = new System.Drawing.Size(690, 26);
+            this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
             // imageCollection1
             // 
@@ -584,7 +548,6 @@
             this.Text = "Visa Helper";
             ((System.ComponentModel.ISupportInitialize)(this.dataLayoutControl1)).EndInit();
             this.dataLayoutControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.toggleSwitchCloseBrowser.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.clientDataRowBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
@@ -595,20 +558,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditStatus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditNotNull)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditNationality)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditVisaCity)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditVisaType)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditEmail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditPassword)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditRegistryTime)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lookUpEditVisaCategory.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lookUpEditServiceCenter.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroupClientData)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemClientRegistry)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroupCancel)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemCloseBrower)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemServiceCenter)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemVisaCategory)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageCollection1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.applicationMenu1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).EndInit();
@@ -621,8 +581,6 @@
 
         private DevExpress.XtraDataLayout.DataLayoutControl dataLayoutControl1;
         private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
-        private DevExpress.XtraEditors.LookUpEdit lookUpEditVisaCategory;
-        private DevExpress.XtraEditors.LookUpEdit lookUpEditServiceCenter;
         private DevExpress.XtraGrid.GridControl gridControl1;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItemClientRegistry;
@@ -652,18 +610,18 @@
         private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroupClientData;
         private DevExpress.Utils.ImageCollection imageCollection1;
         private DevExpress.XtraEditors.SimpleButton buttonCancelAction;
-        private DevExpress.XtraEditors.ToggleSwitch toggleSwitchCloseBrowser;
-        private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroupCancel;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItemCloseBrower;
         private DevExpress.XtraBars.Ribbon.ApplicationMenu applicationMenu1;
         private DevExpress.XtraBars.Ribbon.RibbonControl ribbonControl1;
         private DevExpress.XtraBars.BarButtonItem barButtonItemImport;
         private DevExpress.XtraBars.BarButtonItem barButtonItemSetup;
         private DevExpress.XtraBars.Ribbon.RibbonStatusBar ribbonStatusBar1;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItemServiceCenter;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItemVisaCategory;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
+        private DevExpress.XtraGrid.Columns.GridColumn colVisaCity;
+        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repositoryItemLookUpEditVisaCity;
+        private DevExpress.XtraGrid.Columns.GridColumn colVisaType;
+        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repositoryItemLookUpEditVisaType;
+        private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
     }
 }
 

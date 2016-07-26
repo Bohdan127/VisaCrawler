@@ -73,8 +73,10 @@ namespace Visa.BusinessLogic.Managers
             {
                 CloseBrowser = true,
                 RepeatIfCrash = true,
-                Nationality = "219",
-                Password = "QWE1@3ewq"
+                Nationality = "219",//UKRAINE code
+                Password = "QWE1@3ewq",
+                PeopleCount = "1",
+                ChildCount = "0"
             };
         }
     }

@@ -619,6 +619,10 @@ namespace Visa.Database {
             
             private global::System.Data.DataColumn columnRegistryState;
             
+            private global::System.Data.DataColumn columnVisaType;
+            
+            private global::System.Data.DataColumn columnVisaCity;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public ClientDataDataTable() {
@@ -774,6 +778,22 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn VisaTypeColumn {
+                get {
+                    return this.columnVisaType;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn VisaCityColumn {
+                get {
+                    return this.columnVisaCity;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -809,7 +829,24 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ClientDataRow AddClientDataRow(string PeopleCount, string ChildsCount, string NumberOfReceipt, string Email, string Password, System.DateTime EndPassportDate, string Status, string Name, string LastName, System.DateTime Birthday, System.DateTime ReturnData, string Nationality, System.DateTime RegistryFom, System.DateTime RegistryTo, byte RegistryState) {
+            public ClientDataRow AddClientDataRow(
+                        string PeopleCount, 
+                        string ChildsCount, 
+                        string NumberOfReceipt, 
+                        string Email, 
+                        string Password, 
+                        System.DateTime EndPassportDate, 
+                        string Status, 
+                        string Name, 
+                        string LastName, 
+                        System.DateTime Birthday, 
+                        System.DateTime ReturnData, 
+                        string Nationality, 
+                        System.DateTime RegistryFom, 
+                        System.DateTime RegistryTo, 
+                        byte RegistryState, 
+                        string VisaType, 
+                        string VisaCity) {
                 ClientDataRow rowClientDataRow = ((ClientDataRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         PeopleCount,
@@ -826,7 +863,9 @@ namespace Visa.Database {
                         Nationality,
                         RegistryFom,
                         RegistryTo,
-                        RegistryState};
+                        RegistryState,
+                        VisaType,
+                        VisaCity};
                 rowClientDataRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowClientDataRow);
                 return rowClientDataRow;
@@ -864,6 +903,8 @@ namespace Visa.Database {
                 this.columnRegistryFom = base.Columns["RegistryFom"];
                 this.columnRegistryTo = base.Columns["RegistryTo"];
                 this.columnRegistryState = base.Columns["RegistryState"];
+                this.columnVisaType = base.Columns["VisaType"];
+                this.columnVisaCity = base.Columns["VisaCity"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -899,6 +940,10 @@ namespace Visa.Database {
                 base.Columns.Add(this.columnRegistryTo);
                 this.columnRegistryState = new global::System.Data.DataColumn("RegistryState", typeof(byte), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRegistryState);
+                this.columnVisaType = new global::System.Data.DataColumn("VisaType", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnVisaType);
+                this.columnVisaCity = new global::System.Data.DataColumn("VisaCity", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnVisaCity);
                 this.columnPeopleCount.AllowDBNull = false;
                 this.columnChildsCount.AllowDBNull = false;
                 this.columnNumberOfReceipt.AllowDBNull = false;
@@ -1318,6 +1363,62 @@ namespace Visa.Database {
                 set {
                     this[this.tableClientData.RegistryStateColumn] = value;
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string VisaType {
+                get {
+                    try {
+                        return ((string)(this[this.tableClientData.VisaTypeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'VisaType\' in table \'ClientData\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableClientData.VisaTypeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string VisaCity {
+                get {
+                    try {
+                        return ((string)(this[this.tableClientData.VisaCityColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'VisaCity\' in table \'ClientData\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableClientData.VisaCityColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsVisaTypeNull() {
+                return this.IsNull(this.tableClientData.VisaTypeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetVisaTypeNull() {
+                this[this.tableClientData.VisaTypeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsVisaCityNull() {
+                return this.IsNull(this.tableClientData.VisaCityColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetVisaCityNull() {
+                this[this.tableClientData.VisaCityColumn] = global::System.Convert.DBNull;
             }
         }
         

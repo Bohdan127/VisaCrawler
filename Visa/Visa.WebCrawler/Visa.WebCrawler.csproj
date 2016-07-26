@@ -75,6 +75,10 @@
       <Project>{4FAC9364-BA83-43F8-AA95-57BBC8835F2C}</Project>
       <Name>Visa.Database</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Visa.Resources\Visa.Resources.csproj">
+      <Project>{C29283C8-3FA1-4B26-90BC-09B392E6678C}</Project>
+      <Name>Visa.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

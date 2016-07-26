@@ -39,6 +39,8 @@
               <xs:element name="RegistryFom" msprop:Generator_ColumnVarNameInTable="columnRegistryFom" msprop:Generator_ColumnPropNameInRow="RegistryFom" msprop:Generator_ColumnPropNameInTable="RegistryFomColumn" msprop:Generator_UserColumnName="RegistryFom" type="xs:dateTime" />
               <xs:element name="RegistryTo" msprop:Generator_ColumnVarNameInTable="columnRegistryTo" msprop:Generator_ColumnPropNameInRow="RegistryTo" msprop:Generator_ColumnPropNameInTable="RegistryToColumn" msprop:Generator_UserColumnName="RegistryTo" type="xs:dateTime" />
               <xs:element name="RegistryState" msprop:Generator_ColumnVarNameInTable="columnRegistryState" msprop:Generator_ColumnPropNameInRow="RegistryState" msprop:Generator_ColumnPropNameInTable="RegistryStateColumn" msprop:Generator_UserColumnName="RegistryState" type="xs:unsignedByte" default="0" />
+              <xs:element name="VisaType" msprop:Generator_ColumnVarNameInTable="columnVisaType" msprop:Generator_ColumnPropNameInRow="VisaType" msprop:Generator_ColumnPropNameInTable="VisaTypeColumn" msprop:Generator_UserColumnName="VisaType" type="xs:string" minOccurs="0" />
+              <xs:element name="VisaCity" msprop:Generator_ColumnVarNameInTable="columnVisaCity" msprop:Generator_ColumnPropNameInRow="VisaCity" msprop:Generator_ColumnPropNameInTable="VisaCityColumn" msprop:Generator_UserColumnName="VisaCity" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
