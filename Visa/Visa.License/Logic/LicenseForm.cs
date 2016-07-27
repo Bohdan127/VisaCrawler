@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using ToolsPortable;
+using Visa.License.DB;
+using Visa.Resources;
 
 namespace Visa.License.Logic
 {
     public partial class LicenseForm : System.Windows.Forms.Form
     {
-        private ModelLicenseDBDataContext context = new ModelLicenseDBDataContext();
+        private readonly ModelLicenseDBDataContext _context = new ModelLicenseDBDataContext();
 
         public LicenseForm()
         {
@@ -18,49 +22,44 @@ namespace Visa.License.Logic
         public bool IsUsed { get; set; }
         public bool IsRegistered { get; set; }
 
-        public string LicenseKey { get { return textEdit1.EditValue.ToString(); } }
+        public string LicenseKey => textEdit1.EditValue.ToString();
 
         public bool CheckInstance(string guid)
         {
-            bool bRes = false;
+            var bRes = false;
 
             var isMatched = Regex.IsMatch(guid, textEdit1.Properties.Mask.EditMask);
 
             textEdit1.EditValue = guid;
 
             if (isMatched)
-            {
                 bRes = CheckIsRegistered();
-            }
+
 
             return bRes;
         }
 
         protected bool CheckIsRegistered()
         {
-            bool bRes = true;
+            var bRes = true;
 
-            var isMatched = Regex.IsMatch(textEdit1.EditValue.ToString(), textEdit1.Properties.Mask.EditMask);
+            var isMatched = Regex.IsMatch(textEdit1.EditValue.ConvertToStringOrNull() ?? string.Empty, textEdit1.Properties.Mask.EditMask);
 
             if (isMatched)
             {
                 Instance inst = null;
-                bool complete = false;
 
-                for (int j = 0; j < 3; j++)
+                for (var j = 0; j < 3; j++)
                 {
-                    if (!complete)
+                    try
                     {
-                        try
-                        {
-                            inst = context.Instances
-                                .FirstOrDefault(i => i.Guid == textEdit1.EditValue.ToString());
-                            complete = true;
-                        }
-                        catch
-                        {
-                            //ignored
-                        }
+                        inst = _context.Instances
+                            .FirstOrDefault(i => i.Guid == textEdit1.EditValue.ToString());
+                        break;
+                    }
+                    catch
+                    {
+                        //ignored
                     }
                 }
 
@@ -69,12 +68,12 @@ namespace Visa.License.Logic
                     if (string.IsNullOrWhiteSpace(inst.PcName))
                     {
                         inst.PcName = Environment.MachineName;
-                        context.SubmitChanges();
+                        _context.SubmitChanges();
                     }
                     else if (inst.PcName != Environment.MachineName)
                     {
                         bRes = false;
-                        MessageBox.Show("Данный ключ уже используется для другого компьютера!", "Error");
+                        MessageBox.Show(ResManager.GetString(ResKeys.Key_Used), "Error");
                     }
                 }
                 else

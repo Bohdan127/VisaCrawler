@@ -48,6 +48,8 @@
         public const string OpenFileDialog_Title = "OpenFileDialog_Title";
         public const string FillCaptchaAndComplete = "FillCaptchaAndComplete";
         public const string DateIncorrect_Message = "DateIncorrect_Message";
+        public const string Key_Used = "Key_Used";
     }
 }
+
 

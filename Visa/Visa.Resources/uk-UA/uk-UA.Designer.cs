@@ -277,6 +277,15 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Цей ключ уже використовуєтся іншим комп&apos;ютером.
+        /// </summary>
+        public static string Key_Used {
+            get {
+                return ResourceManager.GetString("Key_Used", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Відміна команди.
         /// </summary>
         public static string lblCancelGroup {

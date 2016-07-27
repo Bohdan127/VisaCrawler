@@ -238,7 +238,8 @@ namespace Visa.WinForms
         private void _alertControl_FormLoad(object sender, AlertFormLoadEventArgs e)
         {
             _logger.Info("_alertControl_FormLoad");
-            e.Buttons.PinButton.SetDown(true);
+            if (e.AlertForm.AlertInfo.Text.IsNotBlank())
+                e.Buttons.PinButton.SetDown(true);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -297,7 +298,7 @@ namespace Visa.WinForms
                     ShowAlert(_crawlerRegistry.OutData, true);
                     bBreak = !SetupManager.GetOptions().RepeatIfCrash;
                 }
-                else if (_state == 6)
+                else if (_state == 6 || _state == 8)
                 {
                     ShowAlert(ResManager.GetString(ResKeys.FillCaptchaAndPress), false);
                     bBreak = true;

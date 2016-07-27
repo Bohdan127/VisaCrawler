@@ -178,7 +178,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         /// <summary>
         /// Select visa Type and check for date
         /// </summary>
-        /// <returns>False - if data was to hight or not available, True - data is good for using</returns>
+        /// <returns>False - if data was to hight or not available, True - data is good for using and Capthca is needed</returns>
         public bool SelectVisaTypeAndCheckForDate(VisaDataSet.ClientDataRow dataRow)
         {
             _logger.Info($"Start SelectVisaTypeAndCheckForDate. Error = {Error}. ");
@@ -198,9 +198,11 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 {
                     var availableDate = DateTime.ParseExact(infoText, "d.MMM.yyyy", CultureInfo.CurrentCulture);
                     _logger.Info($"First date for Registration => {availableDate}");
-                    if (availableDate < dataRow.RegistryTo)
+                    //if (availableDate <= dataRow.RegistryTo && availableDate >= dataRow.RegistryFom)
+                    if (availableDate <= dataRow.RegistryTo)
                     {
-                        _logger.Info($"availableDate < dataRow.RegistryTo => {availableDate.ToShortDateString()} < {dataRow.RegistryTo}");
+                        //_logger.Info($"availableDate <= dataRow.RegistryTo && availableDate >= dataRow.RegistryFom => {availableDate} <= {dataRow.RegistryTo} && {availableDate} >= {dataRow.RegistryFom}");
+                        _logger.Info($"availableDate <= dataRow.RegistryTo => {availableDate} <= {dataRow.RegistryTo}");
                         bRes = true;
                     }
                     else
@@ -216,12 +218,6 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     _logger.Warn(ex.StackTrace);
                 }
 
-                if (bRes)
-                {
-                    FindElementWithChecking(By.Id(buttonSubmit)).Click();
-                    _logger.Info("SelectVisaTypeAndCheckForDate. buttonSubmit Click");
-                    Thread.Sleep(2000);
-                }
             }
             catch (Exception ex) when (ex is NoSuchElementException || ex is WebDriverException)
             {
@@ -262,6 +258,10 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info($"Start Receipt. Error = {Error}.");
             try
             {
+                FindElementWithChecking(By.Id(buttonSubmit)).Click();
+                _logger.Info("SelectVisaTypeAndCheckForDate. buttonSubmit Click");
+                Thread.Sleep(2000);
+
                 FindElementWithChecking(By.Id(receiptNumber))
                     .SendKeys(dataRow.NumberOfReceipt);
                 _logger.Info($"Receipt. receiptNumber set text {dataRow.NumberOfReceipt}");

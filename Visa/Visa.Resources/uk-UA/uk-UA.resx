@@ -255,4 +255,7 @@
   <data name="DateIncorrect_Message" xml:space="preserve">
     <value>Дата не відповідає діапазону {0}</value>
   </data>
+  <data name="Key_Used" xml:space="preserve">
+    <value>Цей ключ уже використовуєтся іншим комп'ютером</value>
+  </data>
 </root>
