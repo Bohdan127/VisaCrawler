@@ -73,6 +73,10 @@
       <Project>{C29283C8-3FA1-4B26-90BC-09B392E6678C}</Project>
       <Name>Visa.Resources</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Visa.WinForms\Visa.WinForms.csproj">
+      <Project>{AB4E74E6-D7B4-419C-A05B-AEB04C328BAD}</Project>
+      <Name>Visa.WinForms</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\packages\Selenium.Mozilla.Firefox.Webdriver.0.6.0.1\driver\wires-0.6.0-win.exe">

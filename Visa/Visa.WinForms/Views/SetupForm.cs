@@ -1,4 +1,5 @@
 ﻿using NLog;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 using ToolsPortable;
@@ -12,7 +13,8 @@ namespace Visa.WinForms.Views
 {
     public partial class SetupForm : Form
     {
-        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _logger =
+            LogManager.GetCurrentClassLogger();
 
         public SetupForm()
         {
@@ -22,7 +24,8 @@ namespace Visa.WinForms.Views
             _logger.Trace("End Setup Form CTOR");
         }
 
-        private void SetupForm_Load(object sender, System.EventArgs e)
+        private void SetupForm_Load(object sender,
+            EventArgs e)
         {
             _logger.Trace("Start SetupForm_Load");
             InitNames();
@@ -49,24 +52,37 @@ namespace Visa.WinForms.Views
             _logger.Trace("Start InitNames");
             Text = ResManager.GetString(ResKeys.BarButtonItemSetup_Caption);
 
-            layoutControlItemPeopleCount.Text = ResManager.GetString(ResKeys.colPeopleCount);
-            layoutControlItemChildCount.Text = ResManager.GetString(ResKeys.colChildsCount);
-            layoutControlItemPassword.Text = ResManager.GetString(ResKeys.Password_Text);
-            layoutControlItemNationality.Text = ResManager.GetString(ResKeys.Nationality_Text);
-            layoutControlItemRepeatIfCrash.Text = ResManager.GetString(ResKeys.RepeatIfCrash_Text);
-            layoutControlItemCloseBrower.Text = ResManager.GetString(ResKeys.lblCloseBrowser);
+            layoutControlItemPeopleCount.Text =
+                ResManager.GetString(ResKeys.colPeopleCount);
+            layoutControlItemChildCount.Text =
+                ResManager.GetString(ResKeys.colChildsCount);
+            layoutControlItemPassword.Text =
+                ResManager.GetString(ResKeys.Password_Text);
+            layoutControlItemNationality.Text =
+                ResManager.GetString(ResKeys.Nationality_Text);
+            layoutControlItemRepeatIfCrash.Text =
+                ResManager.GetString(ResKeys.RepeatIfCrash_Text);
+            layoutControlItemCloseBrower.Text =
+                ResManager.GetString(ResKeys.lblCloseBrowser);
 
-            lookUpEditNationality.Properties.NullText = ResManager.GetString(ResKeys.Nationality_NullText);
+            lookUpEditNationality.Properties.NullText =
+                ResManager.GetString(ResKeys.Nationality_NullText);
 
-            toggleSwitchCloseBrowser.Properties.OnText = ResManager.GetString(ResKeys.ToggleSwitch_OnText);
-            toggleSwitchCloseBrowser.Properties.OffText = ResManager.GetString(ResKeys.ToggleSwitch_OffText);
-            toggleSwitchRepeatIfCrash.Properties.OnText = ResManager.GetString(ResKeys.ToggleSwitch_OnText);
-            toggleSwitchRepeatIfCrash.Properties.OffText = ResManager.GetString(ResKeys.ToggleSwitch_OffText);
+            toggleSwitchCloseBrowser.Properties.OnText =
+                ResManager.GetString(ResKeys.ToggleSwitch_OnText);
+            toggleSwitchCloseBrowser.Properties.OffText =
+                ResManager.GetString(ResKeys.ToggleSwitch_OffText);
+            toggleSwitchRepeatIfCrash.Properties.OnText =
+                ResManager.GetString(ResKeys.ToggleSwitch_OnText);
+            toggleSwitchRepeatIfCrash.Properties.OffText =
+                ResManager.GetString(ResKeys.ToggleSwitch_OffText);
 
             simpleButtonOk.Text = ResManager.GetString(ResKeys.ButtonOk_Text);
-            simpleButtonCancel.Text = ResManager.GetString(ResKeys.ButtonCancel_Text);
+            simpleButtonCancel.Text =
+                ResManager.GetString(ResKeys.ButtonCancel_Text);
 
-            lookUpEditNationality.Properties.NullText = ResManager.GetString(ResKeys.Nationality_NullText);
+            lookUpEditNationality.Properties.NullText =
+                ResManager.GetString(ResKeys.Nationality_NullText);
             _logger.Trace("End InitNames");
         }
 
@@ -74,28 +90,34 @@ namespace Visa.WinForms.Views
         {
             _logger.Trace("Start SetDataSourceForLookUps");
             lookUpEditNationality.Properties.DataSource =
-                InstanceProvider.DataSet.Choice.Where(c => c.Type == (short)ChoicesType.Country).ToList();
+                InstanceProvider.DataSet.Choice.Where(
+                    c => c.Type == (short) ChoicesType.Country).ToList();
             _logger.Trace("End SetDataSourceForLookUps");
         }
 
-        private void simpleButton1_Click(object sender, System.EventArgs e)
+        private void simpleButton1_Click(object sender,
+            EventArgs e)
         {
             _logger.Trace("Start simpleButton1_Click");
             var options = new SetupOptions
             {
                 CloseBrowser = toggleSwitchCloseBrowser.IsOn,
                 RepeatIfCrash = toggleSwitchRepeatIfCrash.IsOn,
-                Nationality = lookUpEditNationality.EditValue.ConvertToStringOrNull(),
+                Nationality =
+                    lookUpEditNationality.EditValue.ConvertToStringOrNull(),
                 Password = textEditPassword.Text,
-                PeopleCount = spinEditPeopleCount.EditValue.ConvertToStringOrNull(),
-                ChildCount = spinEditChildCount.EditValue.ConvertToStringOrNull()
+                PeopleCount =
+                    spinEditPeopleCount.EditValue.ConvertToStringOrNull(),
+                ChildCount =
+                    spinEditChildCount.EditValue.ConvertToStringOrNull()
             };
             SetupManager.SaveOptions(options);
             Close();
             _logger.Trace("End simpleButton1_Click");
         }
 
-        private void simpleButton2_Click(object sender, System.EventArgs e)
+        private void simpleButton2_Click(object sender,
+            EventArgs e)
         {
             _logger.Trace("Start simpleButton2_Click");
             Close();

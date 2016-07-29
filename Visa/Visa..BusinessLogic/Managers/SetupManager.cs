@@ -8,7 +8,9 @@ namespace Visa.BusinessLogic.Managers
 {
     public static class SetupManager
     {
-        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _logger =
+            LogManager.GetCurrentClassLogger();
+
         private static SetupOptions _options;
 
         public static bool RefreshNeeded { get; set; }
@@ -16,7 +18,7 @@ namespace Visa.BusinessLogic.Managers
         public static SetupOptions GetOptions()
         {
             _logger.Trace($"Start GetOptions RefreshNeeded = {RefreshNeeded}");
-            var xs = new XmlSerializer(typeof(SetupOptions));
+            var xs = new XmlSerializer(typeof (SetupOptions));
             if (_options == null || RefreshNeeded)
             {
                 _logger.Info("Read current options from file");
@@ -24,8 +26,9 @@ namespace Visa.BusinessLogic.Managers
                 {
                     using (var sr = new StreamReader(@".\SetupOptions.xml"))
                     {
-                        _options = (SetupOptions)xs.Deserialize(sr);
-                        _logger.Info(@"Read successfully from file .\SetupOptions.xml");
+                        _options = (SetupOptions) xs.Deserialize(sr);
+                        _logger.Info(
+                            @"Read successfully from file .\SetupOptions.xml");
                     }
                 }
                 catch (Exception ex)
@@ -44,11 +47,12 @@ namespace Visa.BusinessLogic.Managers
         public static void SaveOptions(SetupOptions options)
         {
             _logger.Trace("Start SaveOptions");
-            var xs = new XmlSerializer(typeof(SetupOptions));
+            var xs = new XmlSerializer(typeof (SetupOptions));
             try
             {
                 TextWriter tw = new StreamWriter(@".\SetupOptions.xml");
-                xs.Serialize(tw, options);
+                xs.Serialize(tw,
+                    options);
             }
             catch (Exception ex)
             {
@@ -65,7 +69,6 @@ namespace Visa.BusinessLogic.Managers
             _logger.Trace("End SaveOptions");
         }
 
-
         private static void SetDefaultOptions()
         {
             _logger.Trace("_options set to default parameters");
@@ -73,7 +76,7 @@ namespace Visa.BusinessLogic.Managers
             {
                 CloseBrowser = true,
                 RepeatIfCrash = true,
-                Nationality = "219",//UKRAINE code
+                Nationality = "219", //UKRAINE code
                 Password = "QWE1@3ewq",
                 PeopleCount = "1",
                 ChildCount = "0"

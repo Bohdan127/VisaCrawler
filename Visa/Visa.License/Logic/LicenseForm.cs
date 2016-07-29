@@ -2,15 +2,23 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using DevExpress.Xpo.Exceptions;
+using DevExpress.Xpo.Logger;
 using ToolsPortable;
 using Visa.License.DB;
 using Visa.Resources;
+using NLog;
+using LogManager = NLog.LogManager;
 
 namespace Visa.License.Logic
 {
-    public partial class LicenseForm : System.Windows.Forms.Form
+    public partial class LicenseForm : Form
     {
-        private readonly ModelLicenseDBDataContext _context = new ModelLicenseDBDataContext();
+        private readonly ModelLicenseDBDataContext _context =
+            new ModelLicenseDBDataContext();
+
+        private static readonly Logger _logger =
+            LogManager.GetCurrentClassLogger();
 
         public LicenseForm()
         {
@@ -28,13 +36,13 @@ namespace Visa.License.Logic
         {
             var bRes = false;
 
-            var isMatched = Regex.IsMatch(guid, textEdit1.Properties.Mask.EditMask);
+            var isMatched = Regex.IsMatch(guid,
+                textEdit1.Properties.Mask.EditMask);
 
             textEdit1.EditValue = guid;
 
             if (isMatched)
                 bRes = CheckIsRegistered();
-
 
             return bRes;
         }
@@ -43,23 +51,30 @@ namespace Visa.License.Logic
         {
             var bRes = true;
 
-            var isMatched = Regex.IsMatch(textEdit1.EditValue.ConvertToStringOrNull() ?? string.Empty, textEdit1.Properties.Mask.EditMask);
+            var isMatched =
+                Regex.IsMatch(
+                    textEdit1.EditValue.ConvertToStringOrNull() ?? string.Empty,
+                    textEdit1.Properties.Mask.EditMask);
 
             if (isMatched)
             {
                 Instance inst = null;
 
-                for (var j = 0; j < 3; j++)
+                for (var j = 0;
+                    j < 3;
+                    j++)
                 {
                     try
                     {
                         inst = _context.Instances
-                            .FirstOrDefault(i => i.Guid == textEdit1.EditValue.ToString());
+                            .FirstOrDefault(
+                                i => i.Guid == textEdit1.EditValue.ToString());
                         break;
                     }
-                    catch
+                    catch(Exception ex)
                     {
-                        //ignored
+                        _logger.Error(ex.Message);
+                        _logger.Error(ex.StackTrace);
                     }
                 }
 
@@ -73,25 +88,27 @@ namespace Visa.License.Logic
                     else if (inst.PcName != Environment.MachineName)
                     {
                         bRes = false;
-                        MessageBox.Show(ResManager.GetString(ResKeys.Key_Used), "Error");
+                        MessageBox.Show(ResManager.GetString(ResKeys.Key_Used),
+                            "Error");
                     }
                 }
                 else
                 {
                     bRes = false;
-                    MessageBox.Show("Данный ключ не найден!", "Error");
+                    MessageBox.Show("Данный ключ не найден!",
+                        "Error");
                 }
-
             }
             IsRegistered = bRes;
             return bRes;
         }
 
-        private void applyButton_Click(object sender, EventArgs e)
+        private void applyButton_Click(object sender,
+            EventArgs e)
         {
             if (CheckIsRegistered())
             {
-                this.Close();
+                Close();
             }
         }
     }

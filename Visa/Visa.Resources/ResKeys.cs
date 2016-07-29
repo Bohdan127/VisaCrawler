@@ -4,8 +4,13 @@
     {
         public const string FillCaptchaAndPress = "FillCaptchaAndPress";
         public const string ServerError = "ServerError";
-        public const string ValidationError_Message_FirstPart = "ValidationError_Message_FirstPart";
-        public const string ValidationError_Message_SecondPart = "ValidationError_Message_SecondPart";
+
+        public const string ValidationError_Message_FirstPart =
+            "ValidationError_Message_FirstPart";
+
+        public const string ValidationError_Message_SecondPart =
+            "ValidationError_Message_SecondPart";
+
         public const string ValidationError_Title = "ValidationError_Title";
         public const string SearchResult = "SearchResult";
         public const string ExceptionHanler_Text = "ExceptionHanler_Text";
@@ -23,7 +28,10 @@
         public const string colRegistryFom = "colRegistryFom";
         public const string colRegistryTo = "colRegistryTo";
         public const string colRegistryTime = "colRegistryTime";
-        public const string ValidationError_Message_NullText = "ValidationError_Message_NullText";
+
+        public const string ValidationError_Message_NullText =
+            "ValidationError_Message_NullText";
+
         public const string ButtonRegistry_Text = "ButtonRegistry_Text";
         public const string Status_NullText = "Status_NullText";
         public const string ServiceCenter_NullText = "ServiceCenter_NullText";
@@ -38,8 +46,13 @@
         public const string ToggleSwitch_OnText = "ToggleSwitch_OnText";
         public const string ToggleSwitch_OffText = "ToggleSwitch_OffText";
         public const string lblClientDataGroup = "lblClientDataGroup";
-        public const string BarButtonItemImport_Caption = "BarButtonItemImport_Caption";
-        public const string BarButtonItemSetup_Caption = "BarButtonItemSetup_Caption";
+
+        public const string BarButtonItemImport_Caption =
+            "BarButtonItemImport_Caption";
+
+        public const string BarButtonItemSetup_Caption =
+            "BarButtonItemSetup_Caption";
+
         public const string ApplicationMenu_Caption = "ApplicationMenu_Caption";
         public const string RepeatIfCrash_Text = "RepeatIfCrash_Text";
         public const string Password_Text = "Password_Text";
@@ -51,5 +64,3 @@
         public const string Key_Used = "Key_Used";
     }
 }
-
-

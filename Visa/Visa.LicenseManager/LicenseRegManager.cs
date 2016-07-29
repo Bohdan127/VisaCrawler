@@ -1,32 +1,36 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using System;
 using System.Data;
 using System.Windows.Forms;
 using Visa.License.DB;
 
 namespace Visa.LicenseManager
 {
-    public partial class LicenseRegManager : DevExpress.XtraEditors.XtraForm
+    public partial class LicenseRegManager : XtraForm
     {
-        private ModelLicenseDBDataContext _context = new ModelLicenseDBDataContext();
+        private ModelLicenseDBDataContext _context =
+            new ModelLicenseDBDataContext();
 
         public LicenseRegManager()
         {
             InitializeComponent();
         }
 
-        private void LicenseRegManager_Load(object sender, EventArgs e)
+        private void LicenseRegManager_Load(object sender,
+            EventArgs e)
         {
             // TODO: This line of code loads data into the 'licenseDBDataSet.Instances' table. You can move, or remove it, as needed.
-            this.instancesTableAdapter.Fill(this.licenseDBDataSet.Instances);
+            instancesTableAdapter.Fill(licenseDBDataSet.Instances);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-
         }
 
-        private void butPcName_Click(object sender, EventArgs e)
+        private void butPcName_Click(object sender,
+            EventArgs e)
         {
             var row = gridView2.GetFocusedDataRow();
 
-            if (row["PcName"] != null && !string.IsNullOrWhiteSpace(row["PcName"].ToString()))
+            if (row["PcName"] != null
+                && !string.IsNullOrWhiteSpace(row["PcName"].ToString()))
             {
                 row["PcName"] = DBNull.Value;
                 instancesTableAdapter.Update(licenseDBDataSet);
@@ -34,7 +38,8 @@ namespace Visa.LicenseManager
             }
         }
 
-        private void butAll_Click(object sender, EventArgs e)
+        private void butAll_Click(object sender,
+            EventArgs e)
         {
             instancesTableAdapter.Delete(
                 gridView2.GetFocusedDataRow()["Guid"].ToString());
@@ -42,7 +47,8 @@ namespace Visa.LicenseManager
             gridView2.RefreshData();
         }
 
-        private void butAdd_Click(object sender, EventArgs e)
+        private void butAdd_Click(object sender,
+            EventArgs e)
         {
             var newRow = licenseDBDataSet.Instances.NewRow();
 
@@ -52,7 +58,8 @@ namespace Visa.LicenseManager
             gridView2.RefreshData();
         }
 
-        private void butAllKeys_Click(object sender, EventArgs e)
+        private void butAllKeys_Click(object sender,
+            EventArgs e)
         {
             foreach (DataRow row in licenseDBDataSet.Instances.Rows)
                 row.Delete();
@@ -60,15 +67,17 @@ namespace Visa.LicenseManager
             gridView2.RefreshData();
         }
 
-        private void butCopyKey_Click(object sender, EventArgs e)
+        private void butCopyKey_Click(object sender,
+            EventArgs e)
         {
             var row = gridView2.GetFocusedDataRow();
             Clipboard.SetText(row["Guid"].ToString());
         }
 
-        private void butUpdateNow_Click(object sender, EventArgs e)
+        private void butUpdateNow_Click(object sender,
+            EventArgs e)
         {
-            this.instancesTableAdapter.Fill(this.licenseDBDataSet.Instances);
+            instancesTableAdapter.Fill(licenseDBDataSet.Instances);
             gridView2.RefreshData();
         }
     }

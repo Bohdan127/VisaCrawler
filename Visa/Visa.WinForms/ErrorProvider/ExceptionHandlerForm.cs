@@ -14,20 +14,15 @@ namespace Visa.WinForms.ErrorProvider
             if (!DesignMode)
             {
                 Text = ResManager.GetString(ResKeys.ExceptionHanler_Title);
-                textBox2.Text = ResManager.GetString(ResKeys.ExceptionHanler_Text);
+                textBox2.Text =
+                    ResManager.GetString(ResKeys.ExceptionHanler_Text);
             }
         }
 
         public string StackTrace
         {
-            get
-            {
-                return textBox1.Text;
-            }
-            set
-            {
-                textBox1.Text = value;
-            }
+            get { return textBox1.Text; }
+            set { textBox1.Text = value; }
         }
 
         public static void ShowException(Exception ex)
@@ -39,7 +34,8 @@ namespace Visa.WinForms.ErrorProvider
             form.ShowDialog();
         }
 
-        private void simpleButton1_Click(object sender, System.EventArgs e)
+        private void simpleButton1_Click(object sender,
+            EventArgs e)
         {
             Close();
         }
