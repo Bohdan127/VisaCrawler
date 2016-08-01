@@ -180,9 +180,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Visa..BusinessLogic\Visa..BusinessLogic.csproj">
+    <ProjectReference Include="..\Visa..BusinessLogic\Visa.BusinessLogic.csproj">
       <Project>{224F4561-576F-4880-850C-F01E2CCE89FE}</Project>
-      <Name>Visa..BusinessLogic</Name>
+      <Name>Visa.BusinessLogic</Name>
     </ProjectReference>
     <ProjectReference Include="..\Visa.Database\Visa.Database.csproj">
       <Project>{4FAC9364-BA83-43F8-AA95-57BBC8835F2C}</Project>

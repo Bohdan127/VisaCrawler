@@ -22,7 +22,6 @@ using Visa.License.Logic;
 using Visa.Resources;
 using Visa.Resources.uk_UA;
 using Visa.WebCrawler.SeleniumCrawler;
-using Visa.WinForms.Managers;
 using Visa.WinForms.Views;
 
 namespace Visa.WinForms

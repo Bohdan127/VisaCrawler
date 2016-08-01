@@ -1,11 +1,4 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Threading;
-using ToolsPortable;
-using Visa.WinForms.Managers;
+﻿using Visa.BusinessLogic.Managers;
 
 namespace Test
 {

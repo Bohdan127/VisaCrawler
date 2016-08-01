@@ -69,6 +69,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Visa..BusinessLogic\Visa.BusinessLogic.csproj">
+      <Project>{224F4561-576F-4880-850C-F01E2CCE89FE}</Project>
+      <Name>Visa.BusinessLogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Visa.Resources\Visa.Resources.csproj">
       <Project>{C29283C8-3FA1-4B26-90BC-09B392E6678C}</Project>
       <Name>Visa.Resources</Name>

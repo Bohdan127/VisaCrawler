@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visa.WebCrawler", "Visa.Web
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visa.Resources", "Visa.Resources\Visa.Resources.csproj", "{C29283C8-3FA1-4B26-90BC-09B392E6678C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visa..BusinessLogic", "Visa..BusinessLogic\Visa..BusinessLogic.csproj", "{224F4561-576F-4880-850C-F01E2CCE89FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visa.BusinessLogic", "Visa..BusinessLogic\Visa.BusinessLogic.csproj", "{224F4561-576F-4880-850C-F01E2CCE89FE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visa.License", "Visa.License\Visa.License.csproj", "{F2608D24-A0E2-4BF8-8E58-C3B931DF08A6}"
 EndProject
