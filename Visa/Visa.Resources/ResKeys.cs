@@ -42,6 +42,7 @@
         public const string lblVisaCategory = "lblVisaCategory";
         public const string lblCancelGroup = "lblCancelGroup";
         public const string lblCloseBrowser = "lblCloseBrowser";
+        public const string lblAvailabilityUrl = "lblAvailabilityUrl";
         public const string ButtonCancelAction_Text = "ButtonCancelAction_Text";
         public const string ToggleSwitch_OnText = "ToggleSwitch_OnText";
         public const string ToggleSwitch_OffText = "ToggleSwitch_OffText";
@@ -62,5 +63,7 @@
         public const string FillCaptchaAndComplete = "FillCaptchaAndComplete";
         public const string DateIncorrect_Message = "DateIncorrect_Message";
         public const string Key_Used = "Key_Used";
+        public const string PageAvailable = "PageAvailable";
+        public const string PageNotAvailable = "PageNotAvailable";
     }
 }
