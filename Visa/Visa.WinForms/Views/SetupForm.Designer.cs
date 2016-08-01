@@ -38,6 +38,7 @@
             this.toggleSwitchRepeatIfCrash = new DevExpress.XtraEditors.ToggleSwitch();
             this.spinEditPeopleCount = new DevExpress.XtraEditors.SpinEdit();
             this.spinEditChildCount = new DevExpress.XtraEditors.SpinEdit();
+            this.textEditUrl = new DevExpress.XtraEditors.HyperLinkEdit();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItemPassword = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItemNationality = new DevExpress.XtraLayout.LayoutControlItem();
@@ -47,6 +48,7 @@
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItemChildCount = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItemPeopleCount = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItemUrl = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpEditNationality.Properties)).BeginInit();
@@ -55,6 +57,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitchRepeatIfCrash.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinEditPeopleCount.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinEditChildCount.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEditUrl.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemPassword)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemNationality)).BeginInit();
@@ -64,6 +67,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemChildCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemPeopleCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemUrl)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
@@ -76,18 +80,20 @@
             this.layoutControl1.Controls.Add(this.toggleSwitchRepeatIfCrash);
             this.layoutControl1.Controls.Add(this.spinEditPeopleCount);
             this.layoutControl1.Controls.Add(this.spinEditChildCount);
+            this.layoutControl1.Controls.Add(this.textEditUrl);
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutControl1.Location = new System.Drawing.Point(0, 0);
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.Root = this.layoutControlGroup1;
-            this.layoutControl1.Size = new System.Drawing.Size(358, 198);
+            this.layoutControl1.Size = new System.Drawing.Size(358, 223);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
             // simpleButtonCancel
             // 
+            this.simpleButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.simpleButtonCancel.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonCancel.Image")));
-            this.simpleButtonCancel.Location = new System.Drawing.Point(180, 164);
+            this.simpleButtonCancel.Location = new System.Drawing.Point(180, 188);
             this.simpleButtonCancel.Name = "simpleButtonCancel";
             this.simpleButtonCancel.Size = new System.Drawing.Size(166, 22);
             this.simpleButtonCancel.StyleController = this.layoutControl1;
@@ -98,7 +104,7 @@
             // simpleButtonOk
             // 
             this.simpleButtonOk.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonOk.Image")));
-            this.simpleButtonOk.Location = new System.Drawing.Point(12, 164);
+            this.simpleButtonOk.Location = new System.Drawing.Point(12, 188);
             this.simpleButtonOk.Name = "simpleButtonOk";
             this.simpleButtonOk.Size = new System.Drawing.Size(164, 22);
             this.simpleButtonOk.StyleController = this.layoutControl1;
@@ -182,6 +188,18 @@
             this.spinEditChildCount.StyleController = this.layoutControl1;
             this.spinEditChildCount.TabIndex = 10;
             // 
+            // textEditUrl
+            // 
+            this.textEditUrl.EditValue = "";
+            this.textEditUrl.Location = new System.Drawing.Point(173, 164);
+            this.textEditUrl.Name = "textEditUrl";
+            this.textEditUrl.Properties.Mask.EditMask = "http.+";
+            this.textEditUrl.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.textEditUrl.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
+            this.textEditUrl.Size = new System.Drawing.Size(173, 20);
+            this.textEditUrl.StyleController = this.layoutControl1;
+            this.textEditUrl.TabIndex = 12;
+            // 
             // layoutControlGroup1
             // 
             this.layoutControlGroup1.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
@@ -194,10 +212,11 @@
             this.layoutControlItem1,
             this.layoutControlItem2,
             this.layoutControlItemChildCount,
-            this.layoutControlItemPeopleCount});
+            this.layoutControlItemPeopleCount,
+            this.layoutControlItemUrl});
             this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlGroup1.Name = "Root";
-            this.layoutControlGroup1.Size = new System.Drawing.Size(358, 198);
+            this.layoutControlGroup1.Size = new System.Drawing.Size(358, 223);
             this.layoutControlGroup1.TextVisible = false;
             // 
             // layoutControlItemPassword
@@ -236,18 +255,18 @@
             // layoutControlItem1
             // 
             this.layoutControlItem1.Control = this.simpleButtonOk;
-            this.layoutControlItem1.Location = new System.Drawing.Point(0, 152);
+            this.layoutControlItem1.Location = new System.Drawing.Point(0, 176);
             this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(168, 26);
+            this.layoutControlItem1.Size = new System.Drawing.Size(168, 27);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
             // 
             // layoutControlItem2
             // 
             this.layoutControlItem2.Control = this.simpleButtonCancel;
-            this.layoutControlItem2.Location = new System.Drawing.Point(168, 152);
+            this.layoutControlItem2.Location = new System.Drawing.Point(168, 176);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(170, 26);
+            this.layoutControlItem2.Size = new System.Drawing.Size(170, 27);
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 
@@ -267,11 +286,22 @@
             this.layoutControlItemPeopleCount.Size = new System.Drawing.Size(338, 24);
             this.layoutControlItemPeopleCount.TextSize = new System.Drawing.Size(158, 13);
             // 
+            // layoutControlItemUrl
+            // 
+            this.layoutControlItemUrl.Control = this.textEditUrl;
+            this.layoutControlItemUrl.CustomizationFormText = "layoutControlItemUrl";
+            this.layoutControlItemUrl.Location = new System.Drawing.Point(0, 152);
+            this.layoutControlItemUrl.Name = "layoutControlItemUrl";
+            this.layoutControlItemUrl.Size = new System.Drawing.Size(338, 24);
+            this.layoutControlItemUrl.TextSize = new System.Drawing.Size(158, 13);
+            // 
             // SetupForm
             // 
+            this.AcceptButton = this.simpleButtonOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(358, 198);
+            this.CancelButton = this.simpleButtonCancel;
+            this.ClientSize = new System.Drawing.Size(358, 223);
             this.Controls.Add(this.layoutControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SetupForm";
@@ -285,6 +315,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitchRepeatIfCrash.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinEditPeopleCount.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinEditChildCount.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEditUrl.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemPassword)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemNationality)).EndInit();
@@ -294,6 +325,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemChildCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemPeopleCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemUrl)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -318,5 +350,7 @@
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItemPeopleCount;
         private DevExpress.XtraEditors.SpinEdit spinEditPeopleCount;
         private DevExpress.XtraEditors.SpinEdit spinEditChildCount;
+        private DevExpress.XtraEditors.HyperLinkEdit textEditUrl;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItemUrl;
     }
 }

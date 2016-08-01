@@ -8,9 +8,9 @@ namespace Visa.BusinessLogic.Managers
     {
         private static readonly Logger _logger =
             LogManager.GetCurrentClassLogger();
-
-        //todo maybe better to move this link into options???
-        protected string ScriptUrl = "http://wiknaopen.esy.es/visa/out.json";
+        
+        protected string ScriptUrl = SetupManager.GetOptions().AvailabilityUrl;
+        /* //  "http://wiknaopen.esy.es/visa/out.json";  */
 
         public bool GetCurrentSiteAvailability()
         {

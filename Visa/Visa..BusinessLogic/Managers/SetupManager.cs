@@ -79,7 +79,8 @@ namespace Visa.BusinessLogic.Managers
                 Nationality = "219", //UKRAINE code
                 Password = "QWE1@3ewq",
                 PeopleCount = "1",
-                ChildCount = "0"
+                ChildCount = "0",
+                AvailabilityUrl = "http://wiknaopen.esy.es/visa/out.json"
             };
         }
     }

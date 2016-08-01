@@ -11,5 +11,6 @@ namespace Visa.BusinessLogic.SVN_Model
         public string Nationality { get; set; }
         public bool CloseBrowser { get; set; }
         public bool RepeatIfCrash { get; set; }
+        public string AvailabilityUrl { get; set; }
     }
 }

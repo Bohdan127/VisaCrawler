@@ -44,6 +44,7 @@ namespace Visa.WinForms.Views
             toggleSwitchRepeatIfCrash.IsOn = options.RepeatIfCrash;
             spinEditPeopleCount.EditValue = options.PeopleCount;
             spinEditChildCount.EditValue = options.ChildCount;
+            textEditUrl.EditValue = options.AvailabilityUrl;
             _logger.Trace("End MapData");
         }
 
@@ -64,6 +65,8 @@ namespace Visa.WinForms.Views
                 ResManager.GetString(ResKeys.RepeatIfCrash_Text);
             layoutControlItemCloseBrower.Text =
                 ResManager.GetString(ResKeys.lblCloseBrowser);
+            layoutControlItemUrl.Text =
+                ResManager.GetString(ResKeys.lblAvailabilityUrl);
 
             lookUpEditNationality.Properties.NullText =
                 ResManager.GetString(ResKeys.Nationality_NullText);
@@ -109,7 +112,8 @@ namespace Visa.WinForms.Views
                 PeopleCount =
                     spinEditPeopleCount.EditValue.ConvertToStringOrNull(),
                 ChildCount =
-                    spinEditChildCount.EditValue.ConvertToStringOrNull()
+                    spinEditChildCount.EditValue.ConvertToStringOrNull(),
+                AvailabilityUrl = textEditUrl.EditValue.ConvertToStringOrNull()
             };
             SetupManager.SaveOptions(options);
             Close();
