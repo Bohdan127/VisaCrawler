@@ -292,6 +292,15 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to URL для провірки доступності сайту.
+        /// </summary>
+        public static string lblAvailabilityUrl {
+            get {
+                return ResourceManager.GetString("lblAvailabilityUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Відміна команди.
         /// </summary>
         public static string lblCancelGroup {
@@ -361,6 +370,25 @@ namespace Visa.Resources.uk_UA {
         public static string OpenFileDialog_Title {
             get {
                 return ResourceManager.GetString("OpenFileDialog_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сторінка польського візового центру доступна.
+        /// </summary>
+        public static string PageAvailabile {
+            get {
+                return ResourceManager.GetString("PageAvailabile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сторінка польського візового центру 
+        ///в даний момент недоступна.
+        /// </summary>
+        public static string PageNotAvailable {
+            get {
+                return ResourceManager.GetString("PageNotAvailable", resourceCulture);
             }
         }
         

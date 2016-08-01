@@ -268,4 +268,14 @@
     <value>Цей ключ уже використовуєтся 
 іншим комп'ютером</value>
   </data>
+  <data name="PageAvailabile" xml:space="preserve">
+    <value>Сторінка польського візового центру доступна</value>
+  </data>
+  <data name="PageNotAvailable" xml:space="preserve">
+    <value>Сторінка польського візового центру 
+в даний момент недоступна</value>
+  </data>
+  <data name="lblAvailabilityUrl" xml:space="preserve">
+    <value>URL для провірки доступності сайту</value>
+  </data>
 </root>
