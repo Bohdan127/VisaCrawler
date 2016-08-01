@@ -157,7 +157,10 @@
     <value>Статус</value>
   </data>
   <data name="ExceptionHanler_Text" xml:space="preserve">
-    <value>В програмі була сгенерована помилка яка не була належним чином оброблена. Будь-ласка пришліть детальний опис ваших дій  і опис помилки що є внизу.</value>
+    <value>В програмі була згенерована помилка 
+яка не була належним чином оброблена. 
+Будь-ласка пришліть детальний опис 
+ваших дій  і опис помилки що є внизу.</value>
   </data>
   <data name="ExceptionHanler_Title" xml:space="preserve">
     <value>Помилка</value>
@@ -169,16 +172,19 @@
     <value>Результати пошуку</value>
   </data>
   <data name="ServerError" xml:space="preserve">
-    <value>Сервер не відповідає. Щоб поторити спробу запустіть перевірку знову!</value>
+    <value>Сервер не відповідає. Щоб поторити
+ спробу запустіть перевірку знову!</value>
   </data>
   <data name="ValidationError_Message_FirstPart" xml:space="preserve">
-    <value>Будь-ласка випевніть візовий ценрт і візову категорію</value>
+    <value>Будь-ласка випевніть візовий ценрт
+ і візову категорію</value>
   </data>
   <data name="ValidationError_Title" xml:space="preserve">
     <value>Валідація не пройдена</value>
   </data>
   <data name="ValidationError_Message_SecondPart" xml:space="preserve">
-    <value>Будь-ласка перевірте введені вами дані у таблиці та випевніть візовий центр</value>
+    <value>Будь-ласка перевірте введені вами дані
+ у таблиці та випевніть візовий центр</value>
   </data>
   <data name="ButtonRegistry_Text" xml:space="preserve">
     <value>Запустити реєстрацію</value>
@@ -247,15 +253,19 @@
     <value>Зберегти</value>
   </data>
   <data name="OpenFileDialog_Title" xml:space="preserve">
-    <value>Будь-ласка виберіть Excel документ з даними по шаблону</value>
+    <value>Будь-ласка виберіть Excel документ 
+з даними по шаблону</value>
   </data>
   <data name="FillCaptchaAndComplete" xml:space="preserve">
-    <value>Реєстрацію завершено, випевніть капчу і виберіть дату</value>
+    <value>Реєстрацію завершено, 
+випевніть капчу і виберіть дату</value>
   </data>
   <data name="DateIncorrect_Message" xml:space="preserve">
-    <value>Дата не відповідає діапазону {0}</value>
+    <value>Дата не відповідає діапазону 
+{0}</value>
   </data>
   <data name="Key_Used" xml:space="preserve">
-    <value>Цей ключ уже використовуєтся іншим комп'ютером</value>
+    <value>Цей ключ уже використовуєтся 
+іншим комп'ютером</value>
   </data>
 </root>
