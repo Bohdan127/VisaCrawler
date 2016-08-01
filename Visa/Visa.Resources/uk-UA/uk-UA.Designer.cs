@@ -232,7 +232,8 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата не відповідає діапазону {0}.
+        ///   Looks up a localized string similar to Дата не відповідає діапазону 
+        ///{0}.
         /// </summary>
         public static string DateIncorrect_Message {
             get {
@@ -241,7 +242,10 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to В програмі була сгенерована помилка яка не була належним чином оброблена. Будь-ласка пришліть детальний опис ваших дій  і опис помилки що є внизу..
+        ///   Looks up a localized string similar to В програмі була згенерована помилка 
+        ///яка не була належним чином оброблена. 
+        ///Будь-ласка пришліть детальний опис 
+        ///ваших дій  і опис помилки що є внизу..
         /// </summary>
         public static string ExceptionHanler_Text {
             get {
@@ -259,7 +263,8 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Реєстрацію завершено, випевніть капчу і виберіть дату.
+        ///   Looks up a localized string similar to Реєстрацію завершено, 
+        ///випевніть капчу і виберіть дату.
         /// </summary>
         public static string FillCaptchaAndComplete {
             get {
@@ -277,7 +282,8 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Цей ключ уже використовуєтся іншим комп&apos;ютером.
+        ///   Looks up a localized string similar to Цей ключ уже використовуєтся 
+        ///іншим комп&apos;ютером.
         /// </summary>
         public static string Key_Used {
             get {
@@ -349,7 +355,8 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Будь-ласка виберіть Excel документ з даними по шаблону.
+        ///   Looks up a localized string similar to Будь-ласка виберіть Excel документ 
+        ///з даними по шаблону.
         /// </summary>
         public static string OpenFileDialog_Title {
             get {
@@ -394,7 +401,8 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сервер не відповідає. Щоб поторити спробу запустіть перевірку знову!.
+        ///   Looks up a localized string similar to Сервер не відповідає. Щоб поторити
+        /// спробу запустіть перевірку знову!.
         /// </summary>
         public static string ServerError {
             get {
@@ -439,7 +447,8 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Будь-ласка випевніть візовий ценрт і візову категорію.
+        ///   Looks up a localized string similar to Будь-ласка випевніть візовий ценрт
+        /// і візову категорію.
         /// </summary>
         public static string ValidationError_Message_FirstPart {
             get {
@@ -457,7 +466,8 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Будь-ласка перевірте введені вами дані у таблиці та випевніть візовий центр.
+        ///   Looks up a localized string similar to Будь-ласка перевірте введені вами дані
+        /// у таблиці та випевніть візовий центр.
         /// </summary>
         public static string ValidationError_Message_SecondPart {
             get {
