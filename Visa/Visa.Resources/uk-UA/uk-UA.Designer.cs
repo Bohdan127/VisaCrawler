@@ -70,6 +70,16 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Перевіряємо доступність сайту.
+        ///Якщо бажаєте відмінити натисніть Скасувати..
+        /// </summary>
+        public static string AvailabilityError_Message {
+            get {
+                return ResourceManager.GetString("AvailabilityError_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Імпорт клієнтів.
         /// </summary>
         public static string BarButtonItemImport_Caption {
@@ -376,9 +386,9 @@ namespace Visa.Resources.uk_UA {
         /// <summary>
         ///   Looks up a localized string similar to Сторінка польського візового центру доступна.
         /// </summary>
-        public static string PageAvailabile {
+        public static string PageAvailable {
             get {
-                return ResourceManager.GetString("PageAvailabile", resourceCulture);
+                return ResourceManager.GetString("PageAvailable", resourceCulture);
             }
         }
         

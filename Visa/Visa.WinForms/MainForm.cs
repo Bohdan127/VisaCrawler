@@ -183,8 +183,8 @@ namespace Visa.WinForms
             _logger.Trace("Start buttonShowSecond_Click");
             if (ValidateControlsSecond())
             {
-                _logger.Info("Validation Pass.");
-                StartNewWorkRoundSecond();
+                    _logger.Info("Validation Pass.");
+                    StartNewWorkRoundSecond();
             }
             else
             {
@@ -315,12 +315,52 @@ namespace Visa.WinForms
             CloseBrowsers(true);
         }
 
+        private bool _crawlerWorker_CheckSiteAvailability()
+        {
+            bool Break = false;
+            var serverAvailable = _stateManager.GetCurrentSiteAvailability();
+            if (!serverAvailable)
+            {
+                _logger.Warn("Site is Unavailable. Error Message is shown.");
+                DialogResult dResult = XtraMessageBox.Show(
+                    ResManager.GetString(ResKeys.AvailabilityError_Message),
+                    ResManager.GetString(ResKeys.PageNotAvailable), MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Stop);
+                if (dResult == DialogResult.Cancel)
+                {
+                    _crawlerRegistry.Canceled = true;
+                    Break = true;
+                    //new OperationCanceledException();
+                }
+                else
+                {
+                    //while (!serverAvailable && !_crawlerRegistry.Canceled)
+                    //{
+                    //    int t = 2000;// t = 2s
+                    //    _logger.Warn($"Site is Unavailable Again. Thread.Sleep {t/1000}s.");
+                    //    Thread.Sleep(t);
+                    //    serverAvailable = _stateManager.GetCurrentSiteAvailability();
+                    //}
+                }
+            }
+            if (serverAvailable)
+            {
+                ShowAlert(ResManager.GetString(ResKeys.PageAvailable), true);
+                _logger.Info("Site is Available. Process is Starting.");
+            }
+            else
+            {
+                //_crawlerRegistry.Canceled = true;
+                //Break = true;
+            }
+            return Break;
+        }
         private void _crawlerWorker_DoWork(object sender,
-            DoWorkEventArgs e)
+        DoWorkEventArgs e)
         {
             _logger.Trace($"Start _crawlerWorker_DoWork. State = {_state}");
-
-            var bBreak = false;
+            
+            bool bBreak = _crawlerWorker_CheckSiteAvailability();
             do
             {
                 //todo later here should be changed for collecting all rows instead first one like now
@@ -336,7 +376,7 @@ namespace Visa.WinForms
                     _crawlerRegistry.Canceled = false;
                     _crawlerRegistry.Error = false;
                 }
-                else if (_crawlerRegistry != null && _crawlerRegistry.Error)
+                else if (_crawlerRegistry != null && _crawlerRegistry.Error) // if Error
                 {
                     _logger.Warn(
                         $"return _crawlerWorker_DoWork. State = {_state}. OutData = {_crawlerRegistry.OutData}. _crawlerRegistry.Error = true ");
@@ -410,7 +450,7 @@ namespace Visa.WinForms
 
             switch (_state)
             {
-                case 1:
+                case 1:     // alerts.Close(), and StartsAgain
                     Invoke(
                         new Action(
                             () =>
@@ -422,27 +462,27 @@ namespace Visa.WinForms
                     _state = 2;
                     break;
 
-                case 2:
+                case 2:     // GoToUrl()
                     _crawlerRegistry.GoToUrl();
                     _state = 3;
                     break;
 
-                case 3:
+                case 3:     // StartRegistration()
                     _crawlerRegistry.StartRegistration();
                     _state = 4;
                     break;
 
-                case 4:
+                case 4:     // SelectCityAndReason(dataRow)
                     _crawlerRegistry.SelectCityAndReason(dataRow);
                     _state = 5;
                     break;
 
-                case 5:
+                case 5:     // ProvidePeopleCount(dataRow)
                     _crawlerRegistry.ProvidePeopleCount(dataRow);
                     _state = 6;
                     break;
 
-                case 6:
+                case 6:     // SelectVisaTypeAndCheckForDate(dataRow)
                     var isAvailableDate =
                         _crawlerRegistry.SelectVisaTypeAndCheckForDate(dataRow);
                     _state = isAvailableDate
@@ -450,19 +490,19 @@ namespace Visa.WinForms
                         : 7;
                     break;
 
-                case 7:
+                case 7:     // BackToCityAndReason()
                     _crawlerRegistry.BackToCityAndReason();
-                    _state = 4;
+                    _state = 4;     // SelectCityAndReason(dataRow)
                     break;
 
-                case 8:
+                case 8:     // Receipt(dataRow)
                     _crawlerRegistry.Receipt(dataRow);
                     _state = 9;
                     break;
 
-                case 9:
+                case 9:     // ClientData(dataRow)
                     _crawlerRegistry.ClientData(dataRow);
-                    _state = 1;
+                    _state = 1;     // alerts.Close(), and StartAgain
                     //todo dataRow.Status
                     break;
 
@@ -518,6 +558,7 @@ namespace Visa.WinForms
             var counter = 0;
             do
             {
+                //_crawlerRegistry.Error = false;  // - я так розумію, що це все ж таки не тут а нижче
                 CrawlerWorkSecondPart(gridView1.GetDataRow(0));
                 if (!_crawlerRegistry.Canceled && _crawlerRegistry.Error)
                 {
@@ -525,13 +566,15 @@ namespace Visa.WinForms
                     var breakOut = false;
                     switch (_state)
                     {
-                        case 7:
-                        case 8:
-                            _state = 4;
+                        case 7:     // BackToCityAndReason()
+                        case 8:     // Receipt(dataRow)
+                            _state = 4;     // SelectCityAndReason(dataRow)
+                            _crawlerRegistry.Error = false;
                             break;
-                        case 9:
-                        case 1:
+                        case 9:     // ClientData(dataRow)
+                        case 1:     // alerts.Close(), and StartAgain
                             breakOut = true;
+                            _crawlerRegistry.Error = false;
                             break;
                         default:
                             _state--;

@@ -268,7 +268,7 @@
     <value>Цей ключ уже використовуєтся 
 іншим комп'ютером</value>
   </data>
-  <data name="PageAvailabile" xml:space="preserve">
+  <data name="PageAvailable" xml:space="preserve">
     <value>Сторінка польського візового центру доступна</value>
   </data>
   <data name="PageNotAvailable" xml:space="preserve">
@@ -277,5 +277,9 @@
   </data>
   <data name="lblAvailabilityUrl" xml:space="preserve">
     <value>URL для провірки доступності сайту</value>
+  </data>
+  <data name="AvailabilityError_Message" xml:space="preserve">
+    <value>Перевіряємо доступність сайту.
+Якщо бажаєте відмінити натисніть Скасувати.</value>
   </data>
 </root>

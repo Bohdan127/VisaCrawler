@@ -65,5 +65,6 @@
         public const string Key_Used = "Key_Used";
         public const string PageAvailable = "PageAvailable";
         public const string PageNotAvailable = "PageNotAvailable";
+        public static string AvailabilityError_Message = "AvailabilityError_Message";
     }
 }
