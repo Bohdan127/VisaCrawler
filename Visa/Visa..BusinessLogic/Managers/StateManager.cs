@@ -8,7 +8,7 @@ namespace Visa.BusinessLogic.Managers
     {
         private static readonly Logger _logger =
             LogManager.GetCurrentClassLogger();
-        
+
         protected string ScriptUrl = SetupManager.GetOptions().AvailabilityUrl;
         /* //  "http://wiknaopen.esy.es/visa/out.json";  */
 

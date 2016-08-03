@@ -67,6 +67,8 @@ namespace Visa.WinForms
         /// </summary>
         private int _initVal = 1;
 
+        private const int RefreshCount = 15;
+
         public bool ShowCaptchaMessage => _state == 6 || _state == 1;
 
         #endregion Members
@@ -183,8 +185,8 @@ namespace Visa.WinForms
             _logger.Trace("Start buttonShowSecond_Click");
             if (ValidateControlsSecond())
             {
-                    _logger.Info("Validation Pass.");
-                    StartNewWorkRoundSecond();
+                _logger.Info("Validation Pass.");
+                StartNewWorkRoundSecond();
             }
             else
             {
@@ -337,7 +339,7 @@ namespace Visa.WinForms
                     while (!serverAvailable && !_crawlerRegistry.Canceled)
                     {
                         int t = 2000;// t = 2s
-                        _logger.Warn($"Site is Unavailable Again. Thread.Sleep {t/1000}s.");
+                        _logger.Warn($"Site is Unavailable Again. Thread.Sleep {t / 1000}s.");
                         Thread.Sleep(t);
                         serverAvailable = _stateManager.GetCurrentSiteAvailability();
                     }
@@ -359,7 +361,7 @@ namespace Visa.WinForms
         DoWorkEventArgs e)
         {
             _logger.Trace($"Start _crawlerWorker_DoWork. State = {_state}");
-            
+
             bool bBreak = _crawlerWorker_CheckSiteAvailability();
             while (!bBreak)
             {
@@ -563,23 +565,22 @@ namespace Visa.WinForms
                 if (!_crawlerRegistry.Canceled && _crawlerRegistry.Error)
                 {
                     _logger.Warn($"!_crawlerRegistry.Canceled && _crawlerRegistry.Error. _state = {_state}. counter = {counter}");
-                    var breakOut = false;
+                    //var breakOut = false;
                     switch (_state)
                     {
                         case 7:     // BackToCityAndReason()
                         case 8:     // Receipt(dataRow)
                             _state = 4;     // SelectCityAndReason(dataRow)
                             break;
-                        case 9:     // ClientData(dataRow)
-                        case 1:     // alerts.Close(), and StartAgain
-                            breakOut = true;
-                            break;
+                        //todo for delete couple commits later
+                        //case 9:     // ClientData(dataRow)
+                        //case 1:     // alerts.Close(), and StartAgain
+                        //    breakOut = true;
+                        //    break;
                         default:
                             _state--;
                             break;
                     }
-                    if (breakOut)
-                        break;
                     var serverAvailable =
                         _stateManager.GetCurrentSiteAvailability();
                     counter++;
@@ -592,7 +593,7 @@ namespace Visa.WinForms
                 }
                 else
                     break;
-            } while (counter < 5 && _crawlerRegistry.Error);
+            } while (counter < RefreshCount && _crawlerRegistry.Error);
             _logger.Trace($"End CrawlerRefreshEngine. _state={_state}");
         }
 
