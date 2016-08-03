@@ -334,13 +334,13 @@ namespace Visa.WinForms
                 }
                 else
                 {
-                    //while (!serverAvailable && !_crawlerRegistry.Canceled)
-                    //{
-                    //    int t = 2000;// t = 2s
-                    //    _logger.Warn($"Site is Unavailable Again. Thread.Sleep {t/1000}s.");
-                    //    Thread.Sleep(t);
-                    //    serverAvailable = _stateManager.GetCurrentSiteAvailability();
-                    //}
+                    while (!serverAvailable && !_crawlerRegistry.Canceled)
+                    {
+                        int t = 2000;// t = 2s
+                        _logger.Warn($"Site is Unavailable Again. Thread.Sleep {t/1000}s.");
+                        Thread.Sleep(t);
+                        serverAvailable = _stateManager.GetCurrentSiteAvailability();
+                    }
                 }
             }
             if (serverAvailable)
@@ -350,8 +350,8 @@ namespace Visa.WinForms
             }
             else
             {
-                //_crawlerRegistry.Canceled = true;
-                //Break = true;
+                _crawlerRegistry.Canceled = true;
+                Break = true;
             }
             return Break;
         }
@@ -361,7 +361,7 @@ namespace Visa.WinForms
             _logger.Trace($"Start _crawlerWorker_DoWork. State = {_state}");
             
             bool bBreak = _crawlerWorker_CheckSiteAvailability();
-            do
+            while (!bBreak)
             {
                 //todo later here should be changed for collecting all rows instead first one like now
                 CrawlerRefreshEngine();
@@ -415,7 +415,7 @@ namespace Visa.WinForms
                         true);
                     bBreak = true;
                 }
-            } while (!bBreak);
+            }
 
             _logger.Trace(
                 $"End _crawlerWorker_DoWork. State = {_state}. _crawlerRegistry.Error = {_crawlerRegistry?.Error}");
@@ -558,7 +558,7 @@ namespace Visa.WinForms
             var counter = 0;
             do
             {
-                //_crawlerRegistry.Error = false;  // - я так розумію, що це все ж таки не тут а нижче
+                _crawlerRegistry.Error = false;
                 CrawlerWorkSecondPart(gridView1.GetDataRow(0));
                 if (!_crawlerRegistry.Canceled && _crawlerRegistry.Error)
                 {
@@ -578,6 +578,7 @@ namespace Visa.WinForms
                             break;
                         default:
                             _state--;
+                            _crawlerRegistry.Error = false;
                             break;
                     }
                     if (breakOut)
