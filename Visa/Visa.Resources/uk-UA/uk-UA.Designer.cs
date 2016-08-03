@@ -384,7 +384,8 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сторінка польського візового центру доступна.
+        ///   Looks up a localized string similar to Сторінка польського візового центру
+        /// доступна.
         /// </summary>
         public static string PageAvailable {
             get {

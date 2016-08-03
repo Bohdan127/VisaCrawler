@@ -269,7 +269,8 @@
 іншим комп'ютером</value>
   </data>
   <data name="PageAvailable" xml:space="preserve">
-    <value>Сторінка польського візового центру доступна</value>
+    <value>Сторінка польського візового центру
+ доступна</value>
   </data>
   <data name="PageNotAvailable" xml:space="preserve">
     <value>Сторінка польського візового центру 
