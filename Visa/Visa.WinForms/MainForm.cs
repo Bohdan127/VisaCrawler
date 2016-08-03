@@ -569,16 +569,13 @@ namespace Visa.WinForms
                         case 7:     // BackToCityAndReason()
                         case 8:     // Receipt(dataRow)
                             _state = 4;     // SelectCityAndReason(dataRow)
-                            _crawlerRegistry.Error = false;
                             break;
                         case 9:     // ClientData(dataRow)
                         case 1:     // alerts.Close(), and StartAgain
                             breakOut = true;
-                            _crawlerRegistry.Error = false;
                             break;
                         default:
                             _state--;
-                            _crawlerRegistry.Error = false;
                             break;
                     }
                     if (breakOut)
