@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using DevExpress.Xpo.Exceptions;
 using DevExpress.Xpo.Logger;
+using DevExpress.XtraEditors;
 using ToolsPortable;
 using Visa.License.DB;
 using Visa.Resources;
@@ -88,15 +89,19 @@ namespace Visa.License.Logic
                     else if (inst.PcName != Environment.MachineName)
                     {
                         bRes = false;
-                        MessageBox.Show(ResManager.GetString(ResKeys.Key_Used),
-                            "Error");
+                        XtraMessageBox.Show("Error",
+                            ResManager.GetString(ResKeys.Key_Used),
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
                     }
                 }
                 else
                 {
                     bRes = false;
-                    MessageBox.Show("Данный ключ не найден!",
-                        "Error");
+                    XtraMessageBox.Show("Error",
+                        ResManager.GetString(ResKeys.KeyNotFound),
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                 }
             }
             IsRegistered = bRes;
