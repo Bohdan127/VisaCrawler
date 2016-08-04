@@ -326,12 +326,14 @@ namespace Visa.WinForms
                 _logger.Warn("Site is Unavailable. Error Message is shown.");
                 DialogResult dResult = XtraMessageBox.Show(
                     ResManager.GetString(ResKeys.AvailabilityError_Message),
-                    ResManager.GetString(ResKeys.PageNotAvailable), MessageBoxButtons.OKCancel,
-                    MessageBoxIcon.Stop);
+                    ResManager.GetString(ResKeys.AvailabilityError_Message)+"\n"+ResManager.GetString(ResKeys.PageNotAvailable), MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Warning);
                 if (dResult == DialogResult.Cancel)
                 {
+                    _logger.Warn(" _crawlerRegistry.Canceled by user");
                     _crawlerRegistry.Canceled = true;
-                    Break = true;
+                    //Break = true;
+                    //SetDefaultState();
                     //new OperationCanceledException();
                 }
                 else
@@ -352,8 +354,16 @@ namespace Visa.WinForms
             }
             else
             {
-                _crawlerRegistry.Canceled = true;
-                Break = true;
+                if (_crawlerRegistry != null && _crawlerRegistry.Canceled)
+                {
+                    _logger.Warn($" _crawlerRegistry.Canceled _state={_state}");
+                    Break = true;
+                    SetDefaultState();
+                    //CloseBrowsers(true);//todo should be tested with false, before was always true here
+                    CloseBrowsers(false);
+                    _crawlerRegistry.Canceled = false;
+                    _crawlerRegistry.Error = false;
+                }
             }
             return Break;
         }
