@@ -70,8 +70,9 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Перевіряємо доступність сайту.
-        ///Якщо бажаєте відмінити натисніть Скасувати..
+        ///   Looks up a localized string similar to Сторінка недоступна. Натисніть
+        ///&quot;OK&quot; - постійно провіряти доступність сайту,
+        ///або &quot;Скасувати&quot; - щоб відмінити..
         /// </summary>
         public static string AvailabilityError_Message {
             get {
@@ -384,8 +385,7 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сторінка польського візового центру
-        /// доступна.
+        ///   Looks up a localized string similar to Польський візовий центр доступний.
         /// </summary>
         public static string PageAvailable {
             get {
@@ -394,8 +394,7 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сторінка польського візового центру 
-        ///в даний момент недоступна.
+        ///   Looks up a localized string similar to Сайт недоступний.
         /// </summary>
         public static string PageNotAvailable {
             get {

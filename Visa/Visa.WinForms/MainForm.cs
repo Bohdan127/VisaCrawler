@@ -326,8 +326,8 @@ namespace Visa.WinForms
                 _logger.Warn("Site is Unavailable. Error Message is shown.");
                 DialogResult dResult = XtraMessageBox.Show(
                     ResManager.GetString(ResKeys.AvailabilityError_Message),
-                    ResManager.GetString(ResKeys.AvailabilityError_Message)+"\n"+ResManager.GetString(ResKeys.PageNotAvailable), MessageBoxButtons.OKCancel,
-                    MessageBoxIcon.Warning);
+                    ResManager.GetString(ResKeys.PageNotAvailable),
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 if (dResult == DialogResult.Cancel)
                 {
                     _logger.Warn(" _crawlerRegistry.Canceled by user");

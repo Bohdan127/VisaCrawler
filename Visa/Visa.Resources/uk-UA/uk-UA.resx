@@ -269,18 +269,17 @@
 іншим комп'ютером</value>
   </data>
   <data name="PageAvailable" xml:space="preserve">
-    <value>Сторінка польського візового центру
- доступна</value>
+    <value>Польський візовий центр доступний</value>
   </data>
   <data name="PageNotAvailable" xml:space="preserve">
-    <value>Сторінка польського візового центру 
-в даний момент недоступна</value>
+    <value>Сайт недоступний</value>
   </data>
   <data name="lblAvailabilityUrl" xml:space="preserve">
     <value>URL для провірки доступності сайту</value>
   </data>
   <data name="AvailabilityError_Message" xml:space="preserve">
-    <value>Перевіряємо доступність сайту.
-Якщо бажаєте відмінити натисніть Скасувати.</value>
+    <value>Сторінка недоступна. Натисніть
+"OK" - постійно провіряти доступність сайту,
+або "Скасувати" - щоб відмінити.</value>
   </data>
 </root>
