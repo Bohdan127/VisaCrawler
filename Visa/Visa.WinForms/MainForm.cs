@@ -179,6 +179,19 @@ namespace Visa.WinForms
             //_logger.Trace("End gridView1_CustomDrawRowIndicator");
         }
 
+        private void gridControl1_KeyDown(object sender, KeyEventArgs e)
+        {
+            var grid = sender as DevExpress.XtraGrid.GridControl;
+            var view = grid.FocusedView as GridView;
+            if (view.OptionsBehavior.Editable && e.KeyData == Keys.Delete)
+            {
+                _logger.Trace("Start gridControl1_KeyDown with Keys.Delete");
+                view.DeleteSelectedRows();
+                e.Handled = true;
+                _logger.Trace("End gridControl1_KeyDown with Keys.Delete");
+            }
+        }
+
         private void buttonShowSecond_Click(object sender,
             EventArgs e)
         {
@@ -367,13 +380,14 @@ namespace Visa.WinForms
             }
             return Break;
         }
+
         private void _crawlerWorker_DoWork(object sender,
         DoWorkEventArgs e)
         {
             _logger.Trace($"Start _crawlerWorker_DoWork. State = {_state}");
 
             var bBreak = false;//_crawlerWorker_CheckSiteAvailability();
-            while (!bBreak)
+            do
             {
                 //todo later here should be changed for collecting all rows instead first one like now
                 CrawlerRefreshEngine();
@@ -427,7 +441,7 @@ namespace Visa.WinForms
                         true);
                     bBreak = true;
                 }
-            }
+            } while (!bBreak);
 
             _logger.Trace(
                 $"End _crawlerWorker_DoWork. State = {_state}. _crawlerRegistry.Error = {_crawlerRegistry?.Error}");
