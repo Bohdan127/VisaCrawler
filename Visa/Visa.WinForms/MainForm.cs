@@ -325,9 +325,9 @@ namespace Visa.WinForms
             {
                 _logger.Warn("Site is Unavailable. Error Message is shown.");
                 DialogResult dResult = XtraMessageBox.Show(
-                    ResManager.GetString(ResKeys.AvailabilityError_Message),
-                    ResManager.GetString(ResKeys.PageNotAvailable),
-                    MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                     ResManager.GetString(ResKeys.AvailabilityError_Message),
+                     ResManager.GetString(ResKeys.PageNotAvailable),
+                     MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 if (dResult == DialogResult.Cancel)
                 {
                     _logger.Warn(" _crawlerRegistry.Canceled by user");
@@ -372,7 +372,7 @@ namespace Visa.WinForms
         {
             _logger.Trace($"Start _crawlerWorker_DoWork. State = {_state}");
 
-            bool bBreak = _crawlerWorker_CheckSiteAvailability();
+            var bBreak = false;//_crawlerWorker_CheckSiteAvailability();
             while (!bBreak)
             {
                 //todo later here should be changed for collecting all rows instead first one like now
@@ -408,13 +408,13 @@ namespace Visa.WinForms
                     CloseBrowsers(false);
                     _crawlerRegistry.Error = false;
                 }
-                else if (_state == 7 && _crawlerRegistry != null)
+                else if (_state == 8 && _crawlerRegistry != null)
                 {
                     ShowAlert(_crawlerRegistry.OutData,
                         true);
                     bBreak = !SetupManager.GetOptions().RepeatIfCrash;
                 }
-                else if (_state == 6 || _state == 8)
+                else if (_state == 6 || _state == 9)
                 {
                     ShowAlert(ResManager.GetString(ResKeys.FillCaptchaAndPress),
                         false);
@@ -459,7 +459,6 @@ namespace Visa.WinForms
                 _logger.Error("return _crawlerWorker_DoWork dataRow == null");
                 return;
             }
-
             switch (_state)
             {
                 case 1:     // alerts.Close(), and StartsAgain
@@ -480,40 +479,46 @@ namespace Visa.WinForms
                     break;
 
                 case 3:     // StartRegistration()
-                    _crawlerRegistry.StartRegistration();
+                    _crawlerRegistry.RunNextStep(() => _crawlerRegistry.StartRegistration());
                     _state = 4;
                     break;
 
                 case 4:     // SelectCityAndReason(dataRow)
-                    _crawlerRegistry.SelectCityAndReason(dataRow);
+                    _crawlerRegistry.RunNextStep(() => _crawlerRegistry.SelectCityAndReason(dataRow));
                     _state = 5;
                     break;
 
                 case 5:     // ProvidePeopleCount(dataRow)
-                    _crawlerRegistry.ProvidePeopleCount(dataRow);
+                    _crawlerRegistry.RunNextStep(() => _crawlerRegistry.ProvidePeopleCount(dataRow));
                     _state = 6;
                     break;
 
-                case 6:     // SelectVisaTypeAndCheckForDate(dataRow)
-                    var isAvailableDate =
-                        _crawlerRegistry.SelectVisaTypeAndCheckForDate(dataRow);
-                    _state = isAvailableDate
-                        ? 8
-                        : 7;
+                case 6:     // SelectVisaType(dataRow)
+                    _crawlerRegistry.RunNextStep(() => _crawlerRegistry.SelectVisaType(dataRow));
+                    _state = 7;
                     break;
 
-                case 7:     // BackToCityAndReason()
-                    _crawlerRegistry.BackToCityAndReason();
+                case 7:     //CheckData(dataRow)
+                    //todo we should think how to use here  _crawlerRegistry.RunNextStep(() =>
+                    var isAvailableDate =
+                        _crawlerRegistry.CheckData(dataRow);
+                    _state = isAvailableDate
+                        ? 9
+                        : 8;
+                    break;
+
+                case 8:     // BackToCityAndReason()
+                    _crawlerRegistry.RunNextStep(() => _crawlerRegistry.BackToCityAndReason());
                     _state = 4;     // SelectCityAndReason(dataRow)
                     break;
 
-                case 8:     // Receipt(dataRow)
-                    _crawlerRegistry.Receipt(dataRow);
-                    _state = 9;
+                case 9:     // Receipt(dataRow)
+                    _crawlerRegistry.RunNextStep(() => _crawlerRegistry.Receipt(dataRow));
+                    _state = 10;
                     break;
 
-                case 9:     // ClientData(dataRow)
-                    _crawlerRegistry.ClientData(dataRow);
+                case 10:     // ClientData(dataRow)
+                    _crawlerRegistry.RunNextStep(() => _crawlerRegistry.ClientData(dataRow));
                     _state = 1;     // alerts.Close(), and StartAgain
                     //todo dataRow.Status
                     break;
@@ -578,8 +583,8 @@ namespace Visa.WinForms
                     //var breakOut = false;
                     switch (_state)
                     {
-                        case 7:     // BackToCityAndReason()
-                        case 8:     // Receipt(dataRow)
+                        case 8:     // BackToCityAndReason()
+                        case 9:     // Receipt(dataRow)
                             _state = 4;     // SelectCityAndReason(dataRow)
                             break;
                         //todo for delete couple commits later

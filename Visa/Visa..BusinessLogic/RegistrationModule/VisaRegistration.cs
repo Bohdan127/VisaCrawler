@@ -151,13 +151,13 @@ namespace Visa.BusinessLogic.RegistrationModule
                     CloseBrowsers(false);
                     _crawlerRegistry.Error = false;
                 }
-                else if (_state == 7 && _crawlerRegistry != null)
+                else if (_state == 8 && _crawlerRegistry != null)
                 {
                     ShowAlert(_crawlerRegistry.OutData,
                         true);
                     bBreak = !SetupManager.GetOptions().RepeatIfCrash;
                 }
-                else if (_state == 6 || _state == 8)
+                else if (_state == 6 || _state == 9)
                 {
                     ShowAlert(ResManager.GetString(ResKeys.FillCaptchaAndPress),
                         false);
@@ -265,25 +265,30 @@ namespace Visa.BusinessLogic.RegistrationModule
                     _state = 6;
                     break;
 
-                case 6:     // SelectVisaTypeAndCheckForDate(dataRow)
-                    var isAvailableDate =
-                        _crawlerRegistry.SelectVisaTypeAndCheckForDate(ClientDataRow);
-                    _state = isAvailableDate
-                        ? 8
-                        : 7;
+                case 6:     // SelectVisaType(dataRow)
+                    _crawlerRegistry.SelectVisaType(ClientDataRow);
+                    _state = 7;
                     break;
 
-                case 7:     // BackToCityAndReason()
+                case 7:     //CheckData(dataRow)
+                    var isAvailableDate =
+                        _crawlerRegistry.CheckData(ClientDataRow);
+                    _state = isAvailableDate
+                        ? 9
+                        : 8;
+                    break;
+
+                case 8:     // BackToCityAndReason()
                     _crawlerRegistry.BackToCityAndReason();
                     _state = 4;     // SelectCityAndReason(dataRow)
                     break;
 
-                case 8:     // Receipt(dataRow)
+                case 9:     // Receipt(dataRow)
                     _crawlerRegistry.Receipt(ClientDataRow);
-                    _state = 9;     // ClientData(dataRow)
+                    _state = 10;     // ClientData(dataRow)
                     break;
 
-                case 9:     // ClientData(dataRow)
+                case 10:     // ClientData(dataRow)
                     _crawlerRegistry.ClientData(ClientDataRow);
                     _state = 1;     // alerts.Close(), and StartAgain
                     //todo dataRow.Status
@@ -349,8 +354,8 @@ namespace Visa.BusinessLogic.RegistrationModule
                     //var breakOut = false;
                     switch (_state)
                     {
-                        case 7:     // BackToCityAndReason()
-                        case 8:     // Receipt(dataRow)
+                        case 8:     // BackToCityAndReason()
+                        case 9:     // Receipt(dataRow)
                             _state = 4;     // SelectCityAndReason(dataRow)
                             break;
                         //todo for delete couple commits later

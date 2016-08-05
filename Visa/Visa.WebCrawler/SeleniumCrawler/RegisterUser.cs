@@ -97,27 +97,40 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public bool Rollback { get; set; }
 
         public bool Error { get; set; }
+
         public string OutData { get; set; }
+
         public bool Canceled { get; set; }
         #endregion
 
-        public RegisterUser()
+        #region Help Functions
+        public void RunNextStep(
+            Action regAction)
         {
-            _logger.Trace("Start RegisterUser constructor");
-            var prof = new FirefoxProfile();
-            prof.SetPreference("browser.startup.homepage_override.mstone",
-                "ignore");
-            prof.SetPreference("startup.homepage_welcome_url.additional",
-                "about:blank");
-            _driver = new FirefoxDriver(prof);
-            _logger.Trace("End RegisterUser constructor");
+            _logger.Info($"Start RunNextStep. Error = {Error}.");
+            try
+            {
+                regAction();
+            }
+            catch (Exception ex)
+                when (ex is NoSuchElementException || ex is WebDriverException)
+            {
+                if (Canceled)
+                    _logger.Warn($"Canceled by User. Error  = {Error}");
+                else
+                {
+                    _logger.Error(
+                        $"NoSuchElementException with message = {ex.Message}");
+                    Error = true;
+                }
+            }
+            _logger.Info($"End RunNextStep. Error = {Error}.");
         }
 
         public void ReloadPage()
         {
             _driver.Navigate().Refresh();
         }
-
 
         public IWebElement FindElementWithChecking(By by)
         {
@@ -129,131 +142,116 @@ namespace Visa.WebCrawler.SeleniumCrawler
             }
             return _driver?.FindElement(by);
         }
-
-        public void GoToUrl()
+        private void CheckForError()
         {
-            _logger.Info($"Start GoToUrl. Error = {Error}.");
+            _logger.Info($"Start CheckForError. Error = {Error}");
+            IWebElement erQuery = null;
+
             try
             {
-                _driver.Navigate().GoToUrl(mainUrl);
-                Thread.Sleep(2000);
+                erQuery = FindElementWithChecking(By.Id(errorMessage));
             }
-            catch (Exception ex)
-                when (ex is NoSuchElementException || ex is WebDriverException)
+            catch (NoSuchElementException ex)
             {
-                if (Canceled)
-                    _logger.Warn($"Canceled by User. Error  = {Error}");
-                else
-                {
-                    _logger.Error(
-                        $"NoSuchElementException with message = {ex.Message}");
-                    Error = true;
-                }
+                _logger.Info($"Error element not found. Error ={Error}");
             }
+
+            if (erQuery != null && erQuery.Text.IsNotBlank())
+            {
+                OutData = erQuery.Text;
+                _logger.Error(
+                    $"throw new NoSuchElementException. Reason erQuery.Text.IsNotBlank = {erQuery.Text}");
+                throw new NoSuchElementException();
+            }
+            _logger.Info($"End CheckForError. Error = {Error}");
+        }
+
+        public void CloseBrowser()
+        {
+            _logger.Trace("CloseBrowser");
+            _driver?.Quit();
+        }
+        #endregion
+
+        public RegisterUser()//state 1
+        {
+            _logger.Trace("Start RegisterUser constructor");
+            var prof = new FirefoxProfile();
+            prof.SetPreference("browser.startup.homepage_override.mstone",
+                "ignore");
+            prof.SetPreference("startup.homepage_welcome_url.additional",
+                "about:blank");
+            _driver = new FirefoxDriver(prof);
+            _logger.Trace("End RegisterUser constructor");
+        }
+
+
+        public void GoToUrl()//state 2
+        {
+            _logger.Info($"Start GoToUrl. Error = {Error}.");
+
+            _driver.Navigate().GoToUrl(mainUrl);
+            Thread.Sleep(2000);
+
             _logger.Info($"End GoToUrl. Error = {Error}.");
         }
 
-        public void StartRegistration()
+        public void StartRegistration()//state 3
         {
             _logger.Info($"Start StartRegistration. Error = {Error}. ");
-            try
-            {
-                var query = FindElementWithChecking(By.Id(registryId));
-                _logger.Info("PartOne. registryId Click");
-                query.Click();
-                Thread.Sleep(2000);
-            }
-            catch (Exception ex)
-                when (ex is NoSuchElementException || ex is WebDriverException)
-            {
-                if (Canceled)
-                    _logger.Warn($"Canceled by User. Error  = {Error}");
-                else
-                {
-                    _logger.Error(
-                        $"NoSuchElementException with message = {ex.Message}");
-                    Error = true;
-                }
-            }
+            var query = FindElementWithChecking(By.Id(registryId));
+            _logger.Info("PartOne. registryId Click");
+            query.Click();
+            Thread.Sleep(2000);
             _logger.Info($"End StartRegistration. Error = {Error}. ");
         }
 
-        public void SelectCityAndReason(VisaDataSet.ClientDataRow dataRow)
+        public void SelectCityAndReason(VisaDataSet.ClientDataRow dataRow)//state 4
         {
             _logger.Info($"Start SelectCityAndReason. Error = {Error}. ");
-            try
-            {
-                FindElementWithChecking(By.Id(visaCity))
-                    .FindElement(
-                        By.CssSelector($"option[value=\"{dataRow.VisaCity}\"]"))
-                    .Click();
-                _logger.Info(
-                    $"SelectCityAndReason. visaCity option[value={dataRow.VisaCity}]  Click");
-                //always be 1 - Подача документів
-                FindElementWithChecking(By.Id(reason))
-                    .FindElement(By.CssSelector("option[value='1']"))
-                    .Click();
-                _logger.Info(
-                    "SelectCityAndReason. reason option[value='1'] Click");
-                FindElementWithChecking(By.Id(buttonSubmit))
-                    .Click();
-                _logger.Info("SelectCityAndReason. buttonSubmit Click");
-                Thread.Sleep(2000);
-            }
-            catch (Exception ex)
-                when (ex is NoSuchElementException || ex is WebDriverException)
-            {
-                if (Canceled)
-                    _logger.Warn($"Canceled by User. Error  = {Error}");
-                else
-                {
-                    _logger.Error(
-                        $"NoSuchElementException with message = {ex.Message}");
-                    Error = true;
-                }
-            }
+            FindElementWithChecking(By.Id(visaCity))
+                .FindElement(
+                    By.CssSelector($"option[value=\"{dataRow.VisaCity}\"]"))
+                .Click();
+            _logger.Info(
+                $"SelectCityAndReason. visaCity option[value={dataRow.VisaCity}]  Click");
+            //always be 1 - Подача документів
+            FindElementWithChecking(By.Id(reason))
+                .FindElement(By.CssSelector("option[value='1']"))
+                .Click();
+            _logger.Info(
+                "SelectCityAndReason. reason option[value='1'] Click");
+            FindElementWithChecking(By.Id(buttonSubmit))
+                .Click();
+            _logger.Info("SelectCityAndReason. buttonSubmit Click");
+            Thread.Sleep(2000);
             _logger.Info($"End SelectCityAndReason. Error = {Error}. ");
         }
 
         /// <summary>
         ///     Require Captcha after it
         /// </summary>
-        public void ProvidePeopleCount(VisaDataSet.ClientDataRow dataRow)
+        public void ProvidePeopleCount(VisaDataSet.ClientDataRow dataRow)//state 5
         {
             _logger.Info($"Start ProvidePeopleCount. Error = {Error}. ");
-            try
+            var query = FindElementWithChecking(By.Id(numOfApplicants));
+            _logger.Info(
+                $"ProvidePeopleCount. numOfApplicants Clear and set {dataRow.PeopleCount}");
+
+            if (dataRow.PeopleCount != "1")
             {
-                var query = FindElementWithChecking(By.Id(numOfApplicants));
-                _logger.Info(
-                    $"ProvidePeopleCount. numOfApplicants Clear and set {dataRow.PeopleCount}");
-
-                if (dataRow.PeopleCount != "1")
-                {
-                    query.Clear();
-                    query.SendKeys(dataRow.PeopleCount);
-                }
-
-                query = FindElementWithChecking(By.Id(numOfChildrens));
-                _logger.Info(
-                    $"ProvidePeopleCount. numOfChildrens Clear and set {dataRow.ChildsCount}");
-
-                if (dataRow.ChildsCount != "0")
-                {
-                    query.Clear();
-                    query.SendKeys(dataRow.ChildsCount);
-                }
+                query.Clear();
+                query.SendKeys(dataRow.PeopleCount);
             }
-            catch (Exception ex)
-                when (ex is NoSuchElementException || ex is WebDriverException)
+
+            query = FindElementWithChecking(By.Id(numOfChildrens));
+            _logger.Info(
+                $"ProvidePeopleCount. numOfChildrens Clear and set {dataRow.ChildsCount}");
+
+            if (dataRow.ChildsCount != "0")
             {
-                if (Canceled)
-                    _logger.Warn($"Canceled by User. Error  = {Error}");
-                else
-                {
-                    _logger.Error(
-                        $"NoSuchElementException with message = {ex.Message}");
-                    Error = true;
-                }
+                query.Clear();
+                query.SendKeys(dataRow.ChildsCount);
             }
             _logger.Info($"End ProvidePeopleCount. Error = {Error}");
         }
@@ -262,22 +260,28 @@ namespace Visa.WebCrawler.SeleniumCrawler
         ///     Select visa Type and check for date
         /// </summary>
         /// <returns>False - if data was to hight or not available, True - data is good for using and Capthca is needed</returns>
-        public bool SelectVisaTypeAndCheckForDate(
-            VisaDataSet.ClientDataRow dataRow)
+        public void SelectVisaType(
+            VisaDataSet.ClientDataRow dataRow)//state 6
         {
             _logger.Info(
-                $"Start SelectVisaTypeAndCheckForDate. Error = {Error}. ");
+                $"Start SelectVisaType. Error = {Error}. ");
+            FindElementWithChecking(By.Id(visaCategory))
+                .FindElement(
+                    By.CssSelector($"option[value=\"{dataRow.VisaType}\"]"))
+                .Click();
+            _logger.Info(
+                $"SelectVisaType. visaCategory option[value={dataRow.VisaType}]  Click");
+
+            Thread.Sleep(2000);
+            _logger.Info($"End SelectVisaType. Error = {Error}");
+        }
+
+        public bool CheckData(VisaDataSet.ClientDataRow dataRow)//state 7
+        {
+            _logger.Info($"Start CheckData. Error = {Error}. ");
             var bRes = false;
             try
             {
-                FindElementWithChecking(By.Id(visaCategory))
-                    .FindElement(
-                        By.CssSelector($"option[value=\"{dataRow.VisaType}\"]"))
-                    .Click();
-                _logger.Info(
-                    $"SelectVisaTypeAndCheckForDate. visaCategory option[value={dataRow.VisaType}]  Click");
-
-                Thread.Sleep(2000);
 
                 var infoText = FindElementWithChecking(By.Id(errorMessage)).Text;
 
@@ -288,10 +292,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
                         CultureInfo.CurrentCulture);
                     _logger.Info(
                         $"First date for Registration => {availableDate}");
-                    //if (availableDate <= dataRow.RegistryTo && availableDate >= dataRow.RegistryFom)
                     if (availableDate <= dataRow.RegistryTo)
                     {
-                        //_logger.Info($"availableDate <= dataRow.RegistryTo && availableDate >= dataRow.RegistryFom => {availableDate} <= {dataRow.RegistryTo} && {availableDate} >= {dataRow.RegistryFom}");
                         _logger.Info(
                             $"availableDate <= dataRow.RegistryTo => {availableDate} <= {dataRow.RegistryTo}");
                         bRes = true;
@@ -324,178 +326,104 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     Error = true;
                 }
             }
-            _logger.Info($"End SelectVisaTypeAndCheckForDate. Error = {Error}");
+            _logger.Info($"End CheckData. Error = {Error}. ");
             return bRes;
         }
 
-        public void BackToCityAndReason()
+        public void BackToCityAndReason()//state 8
         {
             _logger.Info($"Start BackToCityAndReason. Error = {Error}");
-            try
-            {
-                FindElementWithChecking(By.Id(btnCancel)).Click();
-            }
-            catch (Exception ex)
-                when (ex is NoSuchElementException || ex is WebDriverException)
-            {
-                if (Canceled)
-                    _logger.Warn($"Canceled by User. Error  = {Error}");
-                else
-                {
-                    _logger.Error(
-                        $"NoSuchElementException with message = {ex.Message}");
-                    Error = true;
-                }
-            }
+            FindElementWithChecking(By.Id(btnCancel)).Click();
             _logger.Info($"End BackToCityAndReason. Error = {Error}");
         }
 
-        public void Receipt(VisaDataSet.ClientDataRow dataRow)
+        public void Receipt(VisaDataSet.ClientDataRow dataRow)//state 9
         {
             _logger.Info($"Start Receipt. Error = {Error}.");
-            try
-            {
-                FindElementWithChecking(By.Id(buttonSubmit)).Click();
-                _logger.Info("SelectVisaTypeAndCheckForDate. buttonSubmit Click");
-                Thread.Sleep(2000);
+            FindElementWithChecking(By.Id(buttonSubmit)).Click();
+            _logger.Info("SelectVisaTypeAndCheckForDate. buttonSubmit Click");
+            Thread.Sleep(2000);
 
-                FindElementWithChecking(By.Id(receiptNumber))
-                    .SendKeys(dataRow.NumberOfReceipt);
-                _logger.Info(
-                    $"Receipt. receiptNumber set text {dataRow.NumberOfReceipt}");
+            FindElementWithChecking(By.Id(receiptNumber))
+                .SendKeys(dataRow.NumberOfReceipt);
+            _logger.Info(
+                $"Receipt. receiptNumber set text {dataRow.NumberOfReceipt}");
 
-                FindElementWithChecking(By.Id(buttonSubmit))
-                    .Click();
-                _logger.Info("Receipt. buttonSubmit Click");
+            FindElementWithChecking(By.Id(buttonSubmit))
+                .Click();
+            _logger.Info("Receipt. buttonSubmit Click");
 
-                Thread.Sleep(2000);
-                CheckForError();
-            }
-            catch (Exception ex)
-                when (ex is NoSuchElementException || ex is WebDriverException)
-            {
-                if (Canceled)
-                    _logger.Warn($"Canceled by User. Error  = {Error}");
-                else
-                {
-                    _logger.Error(
-                        $"NoSuchElementException with message = {ex.Message}");
-                    Error = true;
-                }
-            }
+            Thread.Sleep(2000);
+            CheckForError();
             _logger.Info($"End Receipt. Error = {Error}");
         }
 
         /// <summary>
         ///     Require Captcha after it, also we need to share additional message for user
         /// </summary>
-        public void ClientData(VisaDataSet.ClientDataRow dataRow)
+        public void ClientData(VisaDataSet.ClientDataRow dataRow)//state 10
         {
             _logger.Info($"Start ClientData. Error = {Error}");
-            try
-            {
-                FindElementWithChecking(By.Id(email))
-                    .SendKeys(dataRow.Email);
-                _logger.Info($"ClientData. email set text {dataRow.Email}");
+            FindElementWithChecking(By.Id(email))
+                .SendKeys(dataRow.Email);
+            _logger.Info($"ClientData. email set text {dataRow.Email}");
 
-                FindElementWithChecking(By.Id(passForMail))
-                    .SendKeys(dataRow.Password);
-                _logger.Info(
-                    $"ClientData. passForMail set text {dataRow.Password}");
+            FindElementWithChecking(By.Id(passForMail))
+                .SendKeys(dataRow.Password);
+            _logger.Info(
+                $"ClientData. passForMail set text {dataRow.Password}");
 
-                FindElementWithChecking(By.Id(buttonSubmitEmail))
-                    .Click();
-                _logger.Info("ClientData. buttonSubmitEmail Click");
+            FindElementWithChecking(By.Id(buttonSubmitEmail))
+                .Click();
+            _logger.Info("ClientData. buttonSubmitEmail Click");
 
-                Thread.Sleep(2000);
-                FindElementWithChecking(By.Id(endPassportDate))
-                    .SendKeys(
-                        dataRow.EndPassportDate.ToShortDateString().Replace(".",
-                            "/"));
-                _logger.Info(
-                    $"ClientData. endPassportDate set text {dataRow.EndPassportDate.ToShortDateString().Replace(".", "/")}");
-
-                FindElementWithChecking(By.Id(statusField))
-                    .FindElement(
-                        By.CssSelector($"option[value=\"{dataRow.Status}\"]"))
-                    .Click();
-                _logger.Info(
-                    $"ClientData. statusField option[value={dataRow.Status}] Click");
-
-                FindElementWithChecking(By.Id(personName))
-                    .SendKeys(dataRow.Name);
-                _logger.Info($"ClientData. personName set text {dataRow.Name}");
-
-                FindElementWithChecking(By.Id(personLastName))
-                    .SendKeys(dataRow.LastName);
-                _logger.Info(
-                    $"ClientData. personLastName set text {dataRow.LastName}");
-
-                FindElementWithChecking(By.Id(personBirthday))
-                    .SendKeys(dataRow.Birthday.ToShortDateString().Replace(".",
+            Thread.Sleep(2000);
+            FindElementWithChecking(By.Id(endPassportDate))
+                .SendKeys(
+                    dataRow.EndPassportDate.ToShortDateString().Replace(".",
                         "/"));
-                _logger.Info(
-                    $"ClientData. personBirthday set text {dataRow.Birthday.ToShortDateString().Replace(".", "/")}");
+            _logger.Info(
+                $"ClientData. endPassportDate set text {dataRow.EndPassportDate.ToShortDateString().Replace(".", "/")}");
 
-                FindElementWithChecking(By.Id(returnDate))
-                    .SendKeys(dataRow.ReturnData.ToShortDateString()
-                        .Replace(".",
-                            "/"));
-                _logger.Info(
-                    $"ClientData. returnDate set text {dataRow.ReturnData.ToShortDateString().Replace(".", "/")}");
+            FindElementWithChecking(By.Id(statusField))
+                .FindElement(
+                    By.CssSelector($"option[value=\"{dataRow.Status}\"]"))
+                .Click();
+            _logger.Info(
+                $"ClientData. statusField option[value={dataRow.Status}] Click");
 
-                FindElementWithChecking(By.Id(nationality))
-                    .FindElement(
-                        By.CssSelector(
-                            $"option[value=\"{dataRow.Nationality}\"]"))
-                    .Click();
-                _logger.Info(
-                    $"ClientData. nationality option[value=\"{dataRow.Nationality}\"] Click");
-            }
-            catch (Exception ex)
-                when (ex is NoSuchElementException || ex is WebDriverException)
-            {
-                if (Canceled)
-                    _logger.Warn($"Canceled by User. Error  = {Error}");
-                else
-                {
-                    _logger.Error(
-                        $"NoSuchElementException with message = {ex.Message}");
-                    Error = true;
-                }
-            }
+            FindElementWithChecking(By.Id(personName))
+                .SendKeys(dataRow.Name);
+            _logger.Info($"ClientData. personName set text {dataRow.Name}");
+
+            FindElementWithChecking(By.Id(personLastName))
+                .SendKeys(dataRow.LastName);
+            _logger.Info(
+                $"ClientData. personLastName set text {dataRow.LastName}");
+
+            FindElementWithChecking(By.Id(personBirthday))
+                .SendKeys(dataRow.Birthday.ToShortDateString().Replace(".",
+                    "/"));
+            _logger.Info(
+                $"ClientData. personBirthday set text {dataRow.Birthday.ToShortDateString().Replace(".", "/")}");
+
+            FindElementWithChecking(By.Id(returnDate))
+                .SendKeys(dataRow.ReturnData.ToShortDateString()
+                    .Replace(".",
+                        "/"));
+            _logger.Info(
+                $"ClientData. returnDate set text {dataRow.ReturnData.ToShortDateString().Replace(".", "/")}");
+
+            FindElementWithChecking(By.Id(nationality))
+                .FindElement(
+                    By.CssSelector(
+                        $"option[value=\"{dataRow.Nationality}\"]"))
+                .Click();
+            _logger.Info(
+                $"ClientData. nationality option[value=\"{dataRow.Nationality}\"] Click");
             _logger.Info($"End ClientData. Error = {Error}");
         }
 
-        private void CheckForError()
-        {
-            _logger.Info($"Start CheckForError. Error = {Error}");
-            IWebElement erQuery = null;
-
-            try
-            {
-                erQuery = FindElementWithChecking(By.Id(errorMessage));
-            }
-            catch (NoSuchElementException ex)
-            {
-                _logger.Info($"Error element not found. Error ={Error}");
-            }
-
-            if (erQuery != null && erQuery.Text.IsNotBlank())
-            {
-                OutData = erQuery.Text;
-                _logger.Error(
-                    $"throw new NoSuchElementException. Reason erQuery.Text.IsNotBlank = {erQuery.Text}");
-                throw new NoSuchElementException();
-            }
-            _logger.Info($"End CheckForError. Error = {Error}");
-        }
-
-        public void CloseBrowser()
-        {
-            _logger.Trace("CloseBrowser");
-            _driver?.Quit();
-        }
 
         #region Is Not Used Now but will be in the future
 
