@@ -89,8 +89,9 @@ namespace Visa.License.Logic
                     else if (inst.PcName != Environment.MachineName)
                     {
                         bRes = false;
-                        XtraMessageBox.Show("Error",
+                        XtraMessageBox.Show(
                             ResManager.GetString(ResKeys.Key_Used),
+                            "Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
                     }
@@ -98,8 +99,9 @@ namespace Visa.License.Logic
                 else
                 {
                     bRes = false;
-                    XtraMessageBox.Show("Error",
+                    XtraMessageBox.Show(
                         ResManager.GetString(ResKeys.KeyNotFound),
+                        "Error",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                 }
