@@ -63,8 +63,9 @@
         public const string FillCaptchaAndComplete = "FillCaptchaAndComplete";
         public const string DateIncorrect_Message = "DateIncorrect_Message";
         public const string Key_Used = "Key_Used";
+        public const string KeyNotFound = "KeyNotFound";
         public const string PageAvailable = "PageAvailable";
         public const string PageNotAvailable = "PageNotAvailable";
-        public static string AvailabilityError_Message = "AvailabilityError_Message";
+        public const string AvailabilityError_Message = "AvailabilityError_Message";
     }
 }
