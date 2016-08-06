@@ -1,14 +1,12 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using NLog;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using DevExpress.Xpo.Exceptions;
-using DevExpress.Xpo.Logger;
-using DevExpress.XtraEditors;
 using ToolsPortable;
 using Visa.License.DB;
 using Visa.Resources;
-using NLog;
 using LogManager = NLog.LogManager;
 
 namespace Visa.License.Logic
@@ -72,7 +70,7 @@ namespace Visa.License.Logic
                                 i => i.Guid == textEdit1.EditValue.ToString());
                         break;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         _logger.Error(ex.Message);
                         _logger.Error(ex.StackTrace);
