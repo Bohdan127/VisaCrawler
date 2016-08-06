@@ -282,4 +282,7 @@
 "OK" - постійно провіряти доступність сайту,
 або "Скасувати" - щоб відмінити.</value>
   </data>
+  <data name="KeyNotFound" xml:space="preserve">
+    <value>Даний ключ не знайдено!</value>
+  </data>
 </root>

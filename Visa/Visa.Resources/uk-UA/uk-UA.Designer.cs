@@ -303,6 +303,15 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Даний ключ не знайдено!.
+        /// </summary>
+        public static string KeyNotFound {
+            get {
+                return ResourceManager.GetString("KeyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to URL для провірки доступності сайту.
         /// </summary>
         public static string lblAvailabilityUrl {
