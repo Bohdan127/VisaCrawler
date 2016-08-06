@@ -130,6 +130,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public void ReloadPage()
         {
             _driver.Navigate().Refresh();
+            Thread.Sleep(1000);
+            _driver.SwitchTo().Alert().Accept();
         }
 
         public IWebElement FindElementWithChecking(By by)
@@ -182,6 +184,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             prof.SetPreference("startup.homepage_welcome_url.additional",
                 "about:blank");
             _driver = new FirefoxDriver(prof);
+            _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(40));
             _logger.Trace("End RegisterUser constructor");
         }
 
@@ -344,8 +347,9 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info("SelectVisaTypeAndCheckForDate. buttonSubmit Click");
             Thread.Sleep(2000);
 
-            FindElementWithChecking(By.Id(receiptNumber))
-                .SendKeys(dataRow.NumberOfReceipt);
+            var TxtBox = FindElementWithChecking(By.Id(receiptNumber));
+            TxtBox.Clear();
+            TxtBox.SendKeys(dataRow.NumberOfReceipt);
             _logger.Info(
                 $"Receipt. receiptNumber set text {dataRow.NumberOfReceipt}");
 
