@@ -37,8 +37,7 @@ namespace Visa.WinForms.ErrorProvider
 
             var SendMailResult =
                 SendErrorMail(ex); //sending mail message
-            form.StackTrace += SendMailResult;
-            form.Update();
+            MessageBox.Show(SendMailResult,"Sending e-mail result:");
         }
 
         private void simpleButton1_Click(object sender,
@@ -59,23 +58,20 @@ namespace Visa.WinForms.ErrorProvider
             var body = exText.Message;
             body += Environment.NewLine + exText.StackTrace;
 
-            var message = new MailMessage(from,
-                to,
-                subject,
-                body);
+            var message = new MailMessage(from, to, subject, body)
+            {
+                Priority = MailPriority.High
+            };
+            message.Attachments.Add(new Attachment(".\\Visa.log"));
             var client = new SmtpClient(server,
                 port)
             {
-                /* Credentials are necessary if the server requires the client */
-                /* to authenticate before it will send e-mail on the client's behalf.*/
-                //Credentials = CredentialCache.DefaultNetworkCredentials,
                 Credentials = new NetworkCredential(user,
                     Password),
-                EnableSsl = true,
-                Timeout = 10000
+                EnableSsl = true
             };
 
-            var SendErrorMailResult = "Email message sent.";
+            var SendErrorMailResult = "Email message is sent.";
             try
             {
                 client.Send(message);
