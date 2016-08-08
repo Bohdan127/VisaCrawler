@@ -325,6 +325,8 @@ namespace Visa.WinForms
         {
             _logger.Trace("Start MainForm_Load");
             SetReadOnly(false);
+            ResManager.RegisterResource("uk_UA",
+                uk_UA.ResourceManager);
             CheckLicense();
             await Task.Run(() => Invoke(
                 new Action(() =>
