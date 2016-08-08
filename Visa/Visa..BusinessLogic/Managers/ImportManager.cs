@@ -49,7 +49,7 @@ namespace Visa.BusinessLogic.Managers
                     ? ExcelReaderFactory.CreateBinaryReader(stream)
                     //1. Reading from a binary Excel file ('97-2003 format; *.xls)
                     : ExcelReaderFactory.CreateOpenXmlReader(stream);
-                    //4. DataSet - Create column names from first row
+                //4. DataSet - Create column names from first row
                 excelReader.IsFirstRowAsColumnNames = true;
                 var result = excelReader.AsDataSet();
                 var sheetOne = result?.Tables[0];

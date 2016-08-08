@@ -66,6 +66,8 @@
         public const string KeyNotFound = "KeyNotFound";
         public const string PageAvailable = "PageAvailable";
         public const string PageNotAvailable = "PageNotAvailable";
-        public const string AvailabilityError_Message = "AvailabilityError_Message";
+
+        public const string AvailabilityError_Message =
+            "AvailabilityError_Message";
     }
 }

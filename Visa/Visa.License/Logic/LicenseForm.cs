@@ -7,17 +7,16 @@ using System.Windows.Forms;
 using ToolsPortable;
 using Visa.License.DB;
 using Visa.Resources;
-using LogManager = NLog.LogManager;
 
 namespace Visa.License.Logic
 {
     public partial class LicenseForm : Form
     {
-        private readonly ModelLicenseDBDataContext _context =
-            new ModelLicenseDBDataContext();
-
         private static readonly Logger _logger =
             LogManager.GetCurrentClassLogger();
+
+        private readonly ModelLicenseDBDataContext _context =
+            new ModelLicenseDBDataContext();
 
         public LicenseForm()
         {

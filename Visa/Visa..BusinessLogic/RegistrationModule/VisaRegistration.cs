@@ -17,42 +17,6 @@ namespace Visa.BusinessLogic.RegistrationModule
 {
     public class VisaRegistration //: IRegistration
     {
-        #region Members
-
-        public event EventHandler<StateEventArgs> StateChanged;
-
-        private static readonly Logger _logger =
-            LogManager.GetCurrentClassLogger();
-
-        private readonly BackgroundWorker _crawlerWorker;
-
-        private readonly StateManager _stateManager;
-
-        private RegisterUser _crawlerRegistry;
-
-        /// <summary>
-        ///     Field used for getting part of program
-        /// </summary>AlertFormList
-        private int _state = 1;
-
-        private readonly AlertControl _alertControl;
-
-        private const int RefreshCount = 15;
-
-        private VisaDataSet.ClientDataRow _clientDataRow;
-
-        public VisaDataSet.ClientDataRow ClientDataRow
-        {
-            get { return _clientDataRow; }
-            set
-            {
-                //todo should we always trust to incoming data or better check it???
-                _clientDataRow = value;
-            }
-        }
-
-        #endregion
-
         #region CTOR
 
         public VisaRegistration()
@@ -72,21 +36,48 @@ namespace Visa.BusinessLogic.RegistrationModule
             _stateManager = new StateManager();
         }
 
+        #endregion CTOR
 
-        #endregion
+        #region Members
+
+        public event EventHandler<StateEventArgs> StateChanged;
+
+        private static readonly Logger _logger =
+            LogManager.GetCurrentClassLogger();
+
+        private readonly BackgroundWorker _crawlerWorker;
+
+        private readonly StateManager _stateManager;
+
+        private RegisterUser _crawlerRegistry;
+
+        /// <summary>
+        ///     Field used for getting part of program
+        /// </summary>
+        /// AlertFormList
+        private int _state = 1;
+
+        private readonly AlertControl _alertControl;
+
+        private const int RefreshCount = 15;
+
+        public VisaDataSet.ClientDataRow ClientDataRow { get; set; }
+
+        #endregion Members
 
         #region Events
 
         #region Alert Events
 
         private void _alertControl_BeforeFormShow(object sender,
-           AlertFormEventArgs e)
+            AlertFormEventArgs e)
         {
             _logger.Trace(
-                $"Calculate Alert Location. X- {(Screen.PrimaryScreen.Bounds.Width + 150) / 2}; " +
-                $"Y - {(Screen.PrimaryScreen.Bounds.Height - 150) / 2};");
-            e.Location = new Point((Screen.PrimaryScreen.Bounds.Width + 150) / 2,
-                (Screen.PrimaryScreen.Bounds.Height - 150) / 2);
+                $"Calculate Alert Location. X- {(Screen.PrimaryScreen.Bounds.Width + 150)/2}; "
+                +
+                $"Y - {(Screen.PrimaryScreen.Bounds.Height - 150)/2};");
+            e.Location = new Point((Screen.PrimaryScreen.Bounds.Width + 150)/2,
+                (Screen.PrimaryScreen.Bounds.Height - 150)/2);
         }
 
         private void _alertControl_AlertClick(object sender,
@@ -108,20 +99,21 @@ namespace Visa.BusinessLogic.RegistrationModule
                 e.Buttons.PinButton.SetDown(true);
         }
 
-        #endregion
+        #endregion Alert Events
 
         private void _crawlerWorker_DoWork(object sender,
-          DoWorkEventArgs e)
+            DoWorkEventArgs e)
         {
             _logger.Trace($"Start _crawlerWorker_DoWork. State = {_state}");
 
-            bool bBreak = CheckSiteAvailability();
+            var bBreak = CheckSiteAvailability();
             while (!bBreak)
             {
                 //todo later here should be changed for collecting all rows instead first one like now
                 CrawlerRefreshEngine();
                 _logger.Info($"End CrawlerWorkSecondPart _state={_state}");
-                if (_crawlerRegistry != null && _crawlerRegistry.Canceled)
+                if (_crawlerRegistry != null
+                    && _crawlerRegistry.Canceled)
                 {
                     _logger.Warn($" _crawlerRegistry.Canceled _state={_state}");
                     bBreak = true;
@@ -131,7 +123,8 @@ namespace Visa.BusinessLogic.RegistrationModule
                     _crawlerRegistry.Canceled = false;
                     _crawlerRegistry.Error = false;
                 }
-                else if (_crawlerRegistry != null && _crawlerRegistry.Error)
+                else if (_crawlerRegistry != null
+                         && _crawlerRegistry.Error)
                 {
                     _logger.Warn(
                         $"return _crawlerWorker_DoWork. State = {_state}. OutData = {_crawlerRegistry.OutData}. _crawlerRegistry.Error = true ");
@@ -151,13 +144,15 @@ namespace Visa.BusinessLogic.RegistrationModule
                     CloseBrowsers(false);
                     _crawlerRegistry.Error = false;
                 }
-                else if (_state == 8 && _crawlerRegistry != null)
+                else if (_state == 8
+                         && _crawlerRegistry != null)
                 {
                     ShowAlert(_crawlerRegistry.OutData,
                         true);
                     bBreak = !SetupManager.GetOptions().RepeatIfCrash;
                 }
-                else if (_state == 6 || _state == 9)
+                else if (_state == 6
+                         || _state == 9)
                 {
                     ShowAlert(ResManager.GetString(ResKeys.FillCaptchaAndPress),
                         false);
@@ -176,20 +171,21 @@ namespace Visa.BusinessLogic.RegistrationModule
                 $"End _crawlerWorker_DoWork. State = {_state}. _crawlerRegistry.Error = {_crawlerRegistry?.Error}");
         }
 
-        #endregion
+        #endregion Events
 
         #region Functions
 
         private bool CheckSiteAvailability()
         {
-            bool Break = false;
+            var Break = false;
             var serverAvailable = _stateManager.GetCurrentSiteAvailability();
             if (!serverAvailable)
             {
                 _logger.Warn("Site is Unavailable. Error Message is shown.");
-                DialogResult dResult = XtraMessageBox.Show(
+                var dResult = XtraMessageBox.Show(
                     ResManager.GetString(ResKeys.AvailabilityError_Message),
-                    ResManager.GetString(ResKeys.PageNotAvailable), MessageBoxButtons.OKCancel,
+                    ResManager.GetString(ResKeys.PageNotAvailable),
+                    MessageBoxButtons.OKCancel,
                     MessageBoxIcon.Stop);
                 if (dResult == DialogResult.Cancel)
                 {
@@ -199,18 +195,22 @@ namespace Visa.BusinessLogic.RegistrationModule
                 }
                 else
                 {
-                    while (!serverAvailable && !_crawlerRegistry.Canceled)
+                    while (!serverAvailable
+                           && !_crawlerRegistry.Canceled)
                     {
-                        int t = 2000;// t = 2s
-                        _logger.Warn($"Site is Unavailable Again. Thread.Sleep {t / 1000}s.");
+                        var t = 2000; // t = 2s
+                        _logger.Warn(
+                            $"Site is Unavailable Again. Thread.Sleep {t/1000}s.");
                         Thread.Sleep(t);
-                        serverAvailable = _stateManager.GetCurrentSiteAvailability();
+                        serverAvailable =
+                            _stateManager.GetCurrentSiteAvailability();
                     }
                 }
             }
             if (serverAvailable)
             {
-                ShowAlert(ResManager.GetString(ResKeys.PageAvailable), true);
+                ShowAlert(ResManager.GetString(ResKeys.PageAvailable),
+                    true);
                 _logger.Info("Site is Available. Process is Starting.");
             }
             else
@@ -227,7 +227,8 @@ namespace Visa.BusinessLogic.RegistrationModule
         /// <param name="forceClose">Should it be closed without looking for toggleSwitchCloseBrowser flag? </param>
         public virtual void CloseBrowsers(bool forceClose)
         {
-            if (!forceClose && !SetupManager.GetOptions().CloseBrowser)
+            if (!forceClose
+                && !SetupManager.GetOptions().CloseBrowser)
                 return;
             _crawlerRegistry?.CloseBrowser();
         }
@@ -238,39 +239,39 @@ namespace Visa.BusinessLogic.RegistrationModule
 
             switch (_state)
             {
-                case 1:     // alerts.Close(), and StartsAgain
+                case 1: // alerts.Close(), and StartsAgain
                     _alertControl.AlertFormList.ForEach(
                         alert => alert.Close());
                     _crawlerRegistry = new RegisterUser();
                     _state = 2;
                     break;
 
-                case 2:     // GoToUrl()
+                case 2: // GoToUrl()
                     _crawlerRegistry.GoToUrl();
                     _state = 3;
                     break;
 
-                case 3:     // StartRegistration()
+                case 3: // StartRegistration()
                     _crawlerRegistry.StartRegistration();
                     _state = 4;
                     break;
 
-                case 4:     // SelectCityAndReason(dataRow)
+                case 4: // SelectCityAndReason(dataRow)
                     _crawlerRegistry.SelectCityAndReason(ClientDataRow);
                     _state = 5;
                     break;
 
-                case 5:     // ProvidePeopleCount(dataRow)
+                case 5: // ProvidePeopleCount(dataRow)
                     _crawlerRegistry.ProvidePeopleCount(ClientDataRow);
                     _state = 6;
                     break;
 
-                case 6:     // SelectVisaType(dataRow)
+                case 6: // SelectVisaType(dataRow)
                     _crawlerRegistry.SelectVisaType(ClientDataRow);
                     _state = 7;
                     break;
 
-                case 7:     //CheckData(dataRow)
+                case 7: //CheckData(dataRow)
                     var isAvailableDate =
                         _crawlerRegistry.CheckData(ClientDataRow);
                     _state = isAvailableDate
@@ -278,25 +279,25 @@ namespace Visa.BusinessLogic.RegistrationModule
                         : 8;
                     break;
 
-                case 8:     // BackToCityAndReason()
+                case 8: // BackToCityAndReason()
                     _crawlerRegistry.BackToCityAndReason();
-                    _state = 4;     // SelectCityAndReason(dataRow)
+                    _state = 4; // SelectCityAndReason(dataRow)
                     break;
 
-                case 9:     // Receipt(dataRow)
+                case 9: // Receipt(dataRow)
                     _crawlerRegistry.Receipt(ClientDataRow);
-                    _state = 10;     // ClientData(dataRow)
+                    _state = 10; // ClientData(dataRow)
                     break;
 
-                case 10:     // ClientData(dataRow)
+                case 10: // ClientData(dataRow)
                     _crawlerRegistry.ClientData(ClientDataRow);
-                    _state = 1;     // alerts.Close(), and StartAgain
+                    _state = 1; // alerts.Close(), and StartAgain
                     //todo dataRow.Status
                     break;
 
-                #region Old dead code, will be removed later because probably part of them will be needed later
+                    #region Old dead code, will be removed later because probably part of them will be needed later
 
-                //XtraMessageBox.Show("Реєстрація клієнта закінчена",//todo move it to resource
+                    //XtraMessageBox.Show("Реєстрація клієнта закінчена",//todo move it to resource
                 //    ResManager.GetString(ResKeys.SearchResult),
                 //    MessageBoxButtons.OK,
                 //    MessageBoxIcon.Exclamation);
@@ -329,7 +330,7 @@ namespace Visa.BusinessLogic.RegistrationModule
                 //    }
                 //    break;
 
-                #endregion Old dead code, will be removed later because probably part of them will be needed later
+                    #endregion Old dead code, will be removed later because probably part of them will be needed later
 
                 default:
                     _logger.Error(
@@ -348,21 +349,23 @@ namespace Visa.BusinessLogic.RegistrationModule
             {
                 _crawlerRegistry.Error = false;
                 CrawlerChangeStateEngine();
-                if (!_crawlerRegistry.Canceled && _crawlerRegistry.Error)
+                if (!_crawlerRegistry.Canceled
+                    && _crawlerRegistry.Error)
                 {
-                    _logger.Warn($"!_crawlerRegistry.Canceled && _crawlerRegistry.Error. _state = {_state}. counter = {counter}");
+                    _logger.Warn(
+                        $"!_crawlerRegistry.Canceled && _crawlerRegistry.Error. _state = {_state}. counter = {counter}");
                     //var breakOut = false;
                     switch (_state)
                     {
-                        case 8:     // BackToCityAndReason()
-                        case 9:     // Receipt(dataRow)
-                            _state = 4;     // SelectCityAndReason(dataRow)
+                        case 8: // BackToCityAndReason()
+                        case 9: // Receipt(dataRow)
+                            _state = 4; // SelectCityAndReason(dataRow)
                             break;
                         //todo for delete couple commits later
                         //case 9:     // ClientData(dataRow)
                         //case 1:     // alerts.Close(), and StartAgain
                         //    breakOut = true;
-                        //    break;    
+                        //    break;
                         default:
                             _state--;
                             break;
@@ -379,7 +382,8 @@ namespace Visa.BusinessLogic.RegistrationModule
                 }
                 else
                     break;
-            } while (counter < RefreshCount && _crawlerRegistry.Error);
+            } while (counter < RefreshCount
+                     && _crawlerRegistry.Error);
             _logger.Trace($"End CrawlerRefreshEngine. _state={_state}");
         }
 
@@ -388,7 +392,8 @@ namespace Visa.BusinessLogic.RegistrationModule
             _logger.Trace(
                 $"Start SetDefaultState. State = {_state}.");
             _state = 1;
-            StateChanged?.Invoke(null, new StateEventArgs(false));
+            StateChanged?.Invoke(null,
+                new StateEventArgs(false));
             _logger.Trace(
                 $"End SetDefaultState. State = {_state}.");
         }
@@ -412,9 +417,11 @@ namespace Visa.BusinessLogic.RegistrationModule
 
         public void StartRegistration()
         {
-            StateChanged?.Invoke(null, new StateEventArgs(true));
+            StateChanged?.Invoke(null,
+                new StateEventArgs(true));
             StartNewWorkRoundBase();
         }
+
         public void StartNewWorkRoundBase()
         {
             _logger.Trace("Start StartNewWorkRoundBase");
@@ -431,6 +438,6 @@ namespace Visa.BusinessLogic.RegistrationModule
             _logger.Trace("End StartNewWorkRoundBase");
         }
 
-        #endregion
+        #endregion Functions
     }
 }

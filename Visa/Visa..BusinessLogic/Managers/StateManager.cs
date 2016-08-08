@@ -31,7 +31,8 @@ namespace Visa.BusinessLogic.Managers
                 var jsonString = wc.DownloadString(ScriptUrl);
                 json = JsonValue.Parse(jsonString);
             }
-            _logger.Trace($"End GetScriptResult. json[\"SiteStatus\"] = {json["SiteStatus"]}");
+            _logger.Trace(
+                $"End GetScriptResult. json[\"SiteStatus\"] = {json["SiteStatus"]}");
             return json["SiteStatus"].ToString() == "1";
         }
     }

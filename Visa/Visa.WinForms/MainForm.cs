@@ -2,6 +2,7 @@
 using DevExpress.XtraBars.Alerter;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using NLog;
@@ -13,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ToolsPortable;
 using Visa.BusinessLogic.Managers;
@@ -33,8 +35,11 @@ namespace Visa.WinForms
         public MainForm()
         {
             _logger.Trace("Start MainForm CTOR");
+
             InitializeComponent();
-            InitOtherComponentDetails();
+
+            Closed += MainForm_Closed;
+            Load += MainForm_Load;
 
             _logger.Trace("End MainForm CTOR");
         }
@@ -179,11 +184,13 @@ namespace Visa.WinForms
             //_logger.Trace("End gridView1_CustomDrawRowIndicator");
         }
 
-        private void gridControl1_KeyDown(object sender, KeyEventArgs e)
+        private void gridControl1_KeyDown(object sender,
+            KeyEventArgs e)
         {
-            var grid = sender as DevExpress.XtraGrid.GridControl;
+            var grid = sender as GridControl;
             var view = grid.FocusedView as GridView;
-            if (view.OptionsBehavior.Editable && e.KeyData == Keys.Delete)
+            if (view.OptionsBehavior.Editable
+                && e.KeyData == Keys.Delete)
             {
                 _logger.Trace("Start gridControl1_KeyDown with Keys.Delete");
                 view.DeleteSelectedRows();
@@ -313,13 +320,19 @@ namespace Visa.WinForms
                 e.Buttons.PinButton.SetDown(true);
         }
 
-        private void MainForm_Load(object sender,
+        private async void MainForm_Load(object sender,
             EventArgs e)
         {
             _logger.Trace("Start MainForm_Load");
-            CheckLicense();
-            SetDataSourceForLookUps();
             SetReadOnly(false);
+            CheckLicense();
+            await Task.Run(() => Invoke(
+                new Action(() =>
+                {
+                    InitOtherComponentDetails();
+                    SetDataSourceForLookUps();
+                })))
+                .ConfigureAwait(false);
             _logger.Trace("End MainForm_Load");
         }
 
@@ -331,16 +344,17 @@ namespace Visa.WinForms
         }
 
         private bool _crawlerWorker_CheckSiteAvailability()
-        {
-            bool Break = false;
+        {//todo this function is rollback by client should be removed later
+            var Break = false;
             var serverAvailable = _stateManager.GetCurrentSiteAvailability();
             if (!serverAvailable)
             {
                 _logger.Warn("Site is Unavailable. Error Message is shown.");
-                DialogResult dResult = XtraMessageBox.Show(
-                     ResManager.GetString(ResKeys.AvailabilityError_Message),
-                     ResManager.GetString(ResKeys.PageNotAvailable),
-                     MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                var dResult = XtraMessageBox.Show(
+                    ResManager.GetString(ResKeys.AvailabilityError_Message),
+                    ResManager.GetString(ResKeys.PageNotAvailable),
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Warning);
                 if (dResult == DialogResult.Cancel)
                 {
                     _logger.Warn(" _crawlerRegistry.Canceled by user");
@@ -351,23 +365,28 @@ namespace Visa.WinForms
                 }
                 else
                 {
-                    while (!serverAvailable && !_crawlerRegistry.Canceled)
+                    while (!serverAvailable
+                           && !_crawlerRegistry.Canceled)
                     {
-                        int t = 2000;// t = 2s
-                        _logger.Warn($"Site is Unavailable Again. Thread.Sleep {t / 1000}s.");
+                        var t = 2000; // t = 2s
+                        _logger.Warn(
+                            $"Site is Unavailable Again. Thread.Sleep {t / 1000}s.");
                         Thread.Sleep(t);
-                        serverAvailable = _stateManager.GetCurrentSiteAvailability();
+                        serverAvailable =
+                            _stateManager.GetCurrentSiteAvailability();
                     }
                 }
             }
             if (serverAvailable)
             {
-                ShowAlert(ResManager.GetString(ResKeys.PageAvailable), true);
+                ShowAlert(ResManager.GetString(ResKeys.PageAvailable),
+                    true);
                 _logger.Info("Site is Available. Process is Starting.");
             }
             else
             {
-                if (_crawlerRegistry != null && _crawlerRegistry.Canceled)
+                if (_crawlerRegistry != null
+                    && _crawlerRegistry.Canceled)
                 {
                     _logger.Warn($" _crawlerRegistry.Canceled _state={_state}");
                     Break = true;
@@ -382,17 +401,18 @@ namespace Visa.WinForms
         }
 
         private void _crawlerWorker_DoWork(object sender,
-        DoWorkEventArgs e)
+            DoWorkEventArgs e)
         {
             _logger.Trace($"Start _crawlerWorker_DoWork. State = {_state}");
 
-            var bBreak = false;//_crawlerWorker_CheckSiteAvailability();
+            var bBreak = false; //_crawlerWorker_CheckSiteAvailability();
             do
             {
                 //todo later here should be changed for collecting all rows instead first one like now
                 CrawlerRefreshEngine();
                 _logger.Info($"End CrawlerWorkSecondPart _state={_state}");
-                if (_crawlerRegistry != null && _crawlerRegistry.Canceled)
+                if (_crawlerRegistry != null
+                    && _crawlerRegistry.Canceled)
                 {
                     _logger.Warn($" _crawlerRegistry.Canceled _state={_state}");
                     bBreak = true;
@@ -402,7 +422,8 @@ namespace Visa.WinForms
                     _crawlerRegistry.Canceled = false;
                     _crawlerRegistry.Error = false;
                 }
-                else if (_crawlerRegistry != null && _crawlerRegistry.Error) // if Error
+                else if (_crawlerRegistry != null
+                         && _crawlerRegistry.Error) // if Error
                 {
                     _logger.Warn(
                         $"return _crawlerWorker_DoWork. State = {_state}. OutData = {_crawlerRegistry.OutData}. _crawlerRegistry.Error = true ");
@@ -422,13 +443,15 @@ namespace Visa.WinForms
                     CloseBrowsers(false);
                     _crawlerRegistry.Error = false;
                 }
-                else if (_state == 8 && _crawlerRegistry != null)
+                else if (_state == 8
+                         && _crawlerRegistry != null)
                 {
                     ShowAlert(_crawlerRegistry.OutData,
                         true);
                     bBreak = !SetupManager.GetOptions().RepeatIfCrash;
                 }
-                else if (_state == 6 || _state == 9)
+                else if (_state == 6
+                         || _state == 9)
                 {
                     ShowAlert(ResManager.GetString(ResKeys.FillCaptchaAndPress),
                         false);
@@ -475,7 +498,7 @@ namespace Visa.WinForms
             }
             switch (_state)
             {
-                case 1:     // alerts.Close(), and StartsAgain
+                case 1: // alerts.Close(), and StartsAgain
                     Invoke(
                         new Action(
                             () =>
@@ -487,32 +510,36 @@ namespace Visa.WinForms
                     _state = 2;
                     break;
 
-                case 2:     // GoToUrl()
+                case 2: // GoToUrl()
                     _crawlerRegistry.GoToUrl();
                     _state = 3;
                     break;
 
-                case 3:     // StartRegistration()
-                    _crawlerRegistry.RunNextStep(() => _crawlerRegistry.StartRegistration());
+                case 3: // StartRegistration()
+                    _crawlerRegistry.RunNextStep(
+                        () => _crawlerRegistry.StartRegistration());
                     _state = 4;
                     break;
 
-                case 4:     // SelectCityAndReason(dataRow)
-                    _crawlerRegistry.RunNextStep(() => _crawlerRegistry.SelectCityAndReason(dataRow));
+                case 4: // SelectCityAndReason(dataRow)
+                    _crawlerRegistry.RunNextStep(
+                        () => _crawlerRegistry.SelectCityAndReason(dataRow));
                     _state = 5;
                     break;
 
-                case 5:     // ProvidePeopleCount(dataRow)
-                    _crawlerRegistry.RunNextStep(() => _crawlerRegistry.ProvidePeopleCount(dataRow));
+                case 5: // ProvidePeopleCount(dataRow)
+                    _crawlerRegistry.RunNextStep(
+                        () => _crawlerRegistry.ProvidePeopleCount(dataRow));
                     _state = 6;
                     break;
 
-                case 6:     // SelectVisaType(dataRow)
-                    _crawlerRegistry.RunNextStep(() => _crawlerRegistry.SelectVisaType(dataRow));
+                case 6: // SelectVisaType(dataRow)
+                    _crawlerRegistry.RunNextStep(
+                        () => _crawlerRegistry.SelectVisaType(dataRow));
                     _state = 7;
                     break;
 
-                case 7:     //CheckData(dataRow)
+                case 7: //CheckData(dataRow)
                     //todo we should think how to use here  _crawlerRegistry.RunNextStep(() =>
                     var isAvailableDate =
                         _crawlerRegistry.CheckData(dataRow);
@@ -521,19 +548,22 @@ namespace Visa.WinForms
                         : 8;
                     break;
 
-                case 8:     // BackToCityAndReason()
-                    _crawlerRegistry.RunNextStep(() => _crawlerRegistry.BackToCityAndReason());
-                    _state = 4;     // SelectCityAndReason(dataRow)
+                case 8: // BackToCityAndReason()
+                    _crawlerRegistry.RunNextStep(
+                        () => _crawlerRegistry.BackToCityAndReason());
+                    _state = 4; // SelectCityAndReason(dataRow)
                     break;
 
-                case 9:     // Receipt(dataRow)
-                    _crawlerRegistry.RunNextStep(() => _crawlerRegistry.Receipt(dataRow));
+                case 9: // Receipt(dataRow)
+                    _crawlerRegistry.RunNextStep(
+                        () => _crawlerRegistry.Receipt(dataRow));
                     _state = 10;
                     break;
 
-                case 10:     // ClientData(dataRow)
-                    _crawlerRegistry.RunNextStep(() => _crawlerRegistry.ClientData(dataRow));
-                    _state = 1;     // alerts.Close(), and StartAgain
+                case 10: // ClientData(dataRow)
+                    _crawlerRegistry.RunNextStep(
+                        () => _crawlerRegistry.ClientData(dataRow));
+                    _state = 1; // alerts.Close(), and StartAgain
                     //todo dataRow.Status
                     break;
 
@@ -591,15 +621,17 @@ namespace Visa.WinForms
             {
                 _crawlerRegistry.Error = false;
                 CrawlerWorkSecondPart(gridView1.GetDataRow(0));
-                if (!_crawlerRegistry.Canceled && _crawlerRegistry.Error)
+                if (!_crawlerRegistry.Canceled
+                    && _crawlerRegistry.Error)
                 {
-                    _logger.Warn($"!_crawlerRegistry.Canceled && _crawlerRegistry.Error. _state = {_state}. counter = {counter}");
+                    _logger.Warn(
+                        $"!_crawlerRegistry.Canceled && _crawlerRegistry.Error. _state = {_state}. counter = {counter}");
                     //var breakOut = false;
                     switch (_state)
                     {
-                        case 8:     // BackToCityAndReason()
-                        case 9:     // Receipt(dataRow)
-                            _state = 4;     // SelectCityAndReason(dataRow)
+                        case 8: // BackToCityAndReason()
+                        case 9: // Receipt(dataRow)
+                            _state = 4; // SelectCityAndReason(dataRow)
                             break;
                         //todo for delete couple commits later
                         //case 9:     // ClientData(dataRow)
@@ -622,7 +654,8 @@ namespace Visa.WinForms
                 }
                 else
                     break;
-            } while (counter < RefreshCount && _crawlerRegistry.Error);
+            } while (counter < RefreshCount
+                     && _crawlerRegistry.Error);
             _logger.Trace($"End CrawlerRefreshEngine. _state={_state}");
         }
 
@@ -661,9 +694,11 @@ namespace Visa.WinForms
 
         private void CheckLicense()
         {
+            _logger.Trace("Start CheckLicense");
             const string filePath = @".\Visa.key";
             var key = string.Empty;
             var licenseForm = new LicenseForm();
+            var start = DateTime.Now;
             try
             {
                 key = File.ReadAllLines(filePath).FirstOrDefault()
@@ -672,11 +707,19 @@ namespace Visa.WinForms
             catch (Exception ex)
             {
                 _logger.Error("Exception during opening license key");
+                _logger.Error(ex.Message);
             }
             finally
             {
                 if (!licenseForm.CheckInstance(key))
+                {
+                    _logger.Info($"Time for CheckLicense = {DateTime.Now - start}");
                     licenseForm.ShowDialog();
+                }
+                else
+                {
+                    _logger.Info($"Time for CheckLicense = {DateTime.Now - start}");
+                }
                 if (!licenseForm.IsRegistered
                     || licenseForm.LicenseKey.IsBlank())
                     Close();
@@ -686,6 +729,7 @@ namespace Visa.WinForms
 
             try
             {
+                _logger.Info($"Save new license key = {licenseForm.LicenseKey}");
                 if (File.Exists(filePath))
                     File.Delete(filePath);
                 File.WriteAllText(filePath,
@@ -695,7 +739,9 @@ namespace Visa.WinForms
             catch (Exception ex)
             {
                 _logger.Error("Exception during saving license key");
+                _logger.Error(ex.Message);
             }
+            _logger.Trace("End CheckLicense");
         }
 
         /// <summary>
@@ -704,7 +750,8 @@ namespace Visa.WinForms
         /// <param name="forceClose">Should it be closed without looking for toggleSwitchCloseBrowser flag? </param>
         protected virtual void CloseBrowsers(bool forceClose)
         {
-            if (!forceClose && !SetupManager.GetOptions().CloseBrowser)
+            if (!forceClose
+                && !SetupManager.GetOptions().CloseBrowser)
                 return;
             _crawlerRegistry?.CloseBrowser();
         }
@@ -746,8 +793,6 @@ namespace Visa.WinForms
             ResManager.RegisterResource("uk_UA",
                 uk_UA.ResourceManager);
             _logger.Info("InitOtherComponentDetails. ResManager = uk_UA");
-            Closed += MainForm_Closed;
-            Load += MainForm_Load;
 
             buttonRegistry.Click += buttonShowSecond_Click;
 

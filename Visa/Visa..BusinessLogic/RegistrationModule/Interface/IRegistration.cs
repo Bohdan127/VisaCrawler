@@ -6,14 +6,11 @@ namespace Visa.BusinessLogic.RegistrationModule.Interface
 {
     public interface IRegistration
     {
+        VisaDataSet.ClientDataRow ClientDataRow { get; set; }
 
         event EventHandler<StateEventArgs> StateChanged;
 
         event EventHandler<ServerAvailabilityEventArgs> AvailabilityChanged;
-
-
-        VisaDataSet.ClientDataRow ClientDataRow { get; set; }
-
 
         void StartRegistration();
 
@@ -21,7 +18,8 @@ namespace Visa.BusinessLogic.RegistrationModule.Interface
 
         void CloseBrowsers(bool forceClose);
 
-        //event EventHandler CancelRegistration;
         //event EventHandler<ClientEventArgs> StartRegistration;
+
+        //event EventHandler CancelRegistration;
     }
 }
