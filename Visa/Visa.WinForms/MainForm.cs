@@ -327,6 +327,7 @@ namespace Visa.WinForms
             SetReadOnly(false);
             ResManager.RegisterResource("uk_UA",
                 uk_UA.ResourceManager);
+            _logger.Info("InitOtherComponentDetails. ResManager = uk_UA");
             CheckLicense();
             await Task.Run(() => Invoke(
                 new Action(() =>
@@ -792,9 +793,6 @@ namespace Visa.WinForms
         {
             _logger.Trace("Start InitOtherComponentDetails.");
             var timeStart = DateTime.Now;
-            ResManager.RegisterResource("uk_UA",
-                uk_UA.ResourceManager);
-            _logger.Info("InitOtherComponentDetails. ResManager = uk_UA");
 
             buttonRegistry.Click += buttonShowSecond_Click;
 
