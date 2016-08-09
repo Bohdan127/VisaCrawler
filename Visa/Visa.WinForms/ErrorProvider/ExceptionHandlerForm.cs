@@ -55,7 +55,10 @@ namespace Visa.WinForms.ErrorProvider
             const int port = 587;
             const string user = "visahelper2016@gmail.com";
             const string Password = "Zaq12wsX";
-            var body = exText.Message;
+            var body = "MachineName:" + Environment.MachineName;
+            body += "\nOSVersion:" + Environment.OSVersion;
+            body += "\nUserName:" + Environment.UserName;
+            body += Environment.NewLine + exText.Message;
             body += Environment.NewLine + exText.StackTrace;
 
             var message = new MailMessage(from, to, subject, body)
