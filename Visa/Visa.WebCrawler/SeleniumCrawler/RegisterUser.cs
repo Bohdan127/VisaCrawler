@@ -376,10 +376,33 @@ namespace Visa.WebCrawler.SeleniumCrawler
         }
 
         public void ReloadPage()
+
         {
-            _driver.Navigate().Refresh();
+            _logger.Info($"Start ReloadPage.");
+            string result = "OK";
+            try
+            {
+                _driver.Navigate().Refresh();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(
+                        $"Navigate().RefreshException with message = {ex.Message}");
+                result = "ERROR";
+            }
             Thread.Sleep(1000);
-            _driver.SwitchTo().Alert().Accept();
+            try
+            {
+                if (_driver.SwitchTo().Alert() != null)
+                    _driver.SwitchTo().Alert().Accept();
+            }
+            catch(NoAlertPresentException ex)
+            {
+                _logger.Error(// Alert not present
+                        $"SwitchTo().NoAlertPresentException with message = {ex.Message}");
+                result = "ERROR";
+            }
+            _logger.Info($"End ReloadPage. Status={result}");
         }
 
         public IWebElement FindElementWithChecking(By by)
