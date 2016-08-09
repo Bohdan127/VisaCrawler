@@ -629,31 +629,25 @@ namespace Visa.WinForms
                 {
                     _logger.Warn(
                         $"!_crawlerRegistry.Canceled && _crawlerRegistry.Error. _state = {_state}. counter = {counter}");
-                    //var breakOut = false;
                     switch (_state)
                     {
                         case 8: // BackToCityAndReason()
                         case 9: // Receipt(dataRow)
                             _state = 4; // SelectCityAndReason(dataRow)
                             break;
-                        //todo for delete couple commits later
-                        //case 9:     // ClientData(dataRow)
-                        //case 1:     // alerts.Close(), and StartAgain
-                        //    breakOut = true;
-                        //    break;
                         default:
                             _state--;
                             break;
                     }
-                    var serverAvailable =
-                        _stateManager.GetCurrentSiteAvailability();
+                    //var serverAvailable =
+                    //    _stateManager.GetCurrentSiteAvailability();
                     counter++;
-                    Thread.Sleep(1000);
-                    if (!serverAvailable)
-                    {
-                        _logger.Warn($"Reload page. _state = {_state}");
-                        _crawlerRegistry.ReloadPage();
-                    }
+                    //if (!serverAvailable)
+                    //{
+                    //todo Bohdan for test not we will always reload page if it's not loaded in 5 minutes
+                    _logger.Warn($"Reload page. _state = {_state}");
+                    _crawlerRegistry.ReloadPage();
+                    //}
                 }
                 else
                     break;

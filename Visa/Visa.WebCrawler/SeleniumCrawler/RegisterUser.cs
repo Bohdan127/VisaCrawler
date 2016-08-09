@@ -46,7 +46,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         }
 
         public void SelectCityAndReason(VisaDataSet.ClientDataRow dataRow)
-            //state 4
+        //state 4
         {
             _logger.Info($"Start SelectCityAndReason. Error = {Error}. ");
             FindElementWithChecking(By.Id(visaCity))
@@ -70,8 +70,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         /// <summary>
         ///     Require Captcha after it
         /// </summary>
-        public void ProvidePeopleCount(VisaDataSet.ClientDataRow dataRow)
-            //state 5
+        public void ProvidePeopleCount(VisaDataSet.ClientDataRow dataRow)//state 5
         {
             _logger.Info($"Start ProvidePeopleCount. Error = {Error}. ");
             var query = FindElementWithChecking(By.Id(numOfApplicants));
@@ -397,7 +396,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 throw new WebDriverException();
             }
             var wait = new WebDriverWait(_driver,
-                TimeSpan.FromSeconds(60));
+                TimeSpan.FromMinutes(5));
             return wait.Until(d => d.FindElement(by));
         }
 
