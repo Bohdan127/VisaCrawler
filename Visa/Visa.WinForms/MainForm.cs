@@ -639,18 +639,16 @@ namespace Visa.WinForms
                             _state--;
                             break;
                     }
-                    //var serverAvailable =
-                    //    _stateManager.GetCurrentSiteAvailability();
+                    var serverAvailable =
+                        _stateManager.GetCurrentSiteAvailability();
                     counter++;
-                    //if (!serverAvailable)
-                    //{
-                    //todo Bohdan for test not we will always reload page if it's not loaded in 5 minutes
-                    _logger.Warn($"Reload page. _state = {_state}");
-                    _crawlerRegistry.ReloadPage();
-                    //}
+                    if (!serverAvailable)
+                    {
+                        //todo Bohdan for test not we will always reload page if it's not loaded in 5 minutes
+                        _logger.Warn($"Reload page. _state = {_state}");
+                        _crawlerRegistry.ReloadPage();
+                    }
                 }
-                else
-                    break;
             } while (counter < RefreshCount
                      && _crawlerRegistry.Error);
             _logger.Trace($"End CrawlerRefreshEngine. _state={_state}");

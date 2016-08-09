@@ -396,7 +396,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 throw new WebDriverException();
             }
             var wait = new WebDriverWait(_driver,
-                TimeSpan.FromMinutes(5));
+                TimeSpan.FromSeconds(15));
             return wait.Until(d => d.FindElement(by));
         }
 
