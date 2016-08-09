@@ -398,7 +398,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             }
             catch(NoAlertPresentException ex)
             {
-                _logger.Error(// Alert not present
+                _logger.Warn(// Alert not present
                         $"SwitchTo().NoAlertPresentException with message = {ex.Message}");
                 result = "ERROR";
             }
