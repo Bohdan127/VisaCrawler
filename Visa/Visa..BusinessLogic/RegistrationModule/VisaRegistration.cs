@@ -273,7 +273,7 @@ namespace Visa.BusinessLogic.RegistrationModule
 
                 case 7: //CheckData(dataRow)
                     var isAvailableDate =
-                        _crawlerRegistry.CheckData(ClientDataRow);
+                        _crawlerRegistry.CheckDate(ClientDataRow);
                     _state = isAvailableDate
                         ? 9
                         : 8;

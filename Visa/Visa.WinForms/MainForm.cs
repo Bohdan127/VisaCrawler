@@ -545,7 +545,7 @@ namespace Visa.WinForms
                 case 7: //CheckData(dataRow)
                     //todo we should think how to use here  _crawlerRegistry.RunNextStep(() =>
                     var isAvailableDate =
-                        _crawlerRegistry.CheckData(dataRow);
+                        _crawlerRegistry.CheckDate(dataRow);
                     _state = isAvailableDate
                         ? 9
                         : 8;
@@ -566,44 +566,67 @@ namespace Visa.WinForms
                 case 10: // ClientData(dataRow)
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.ClientData(dataRow));
+                    _state = 11; // SubmitClientData()
+                    break;
+
+                case 11: // SubmitClientData()
+                    _crawlerRegistry.RunNextStep(
+                        () => _crawlerRegistry.SubmitClientData());
+                    _state = 12; // GetFirstDate(dataRow)
+                    break;
+
+                case 12: // GetFirstDate(dataRow)
+                    _crawlerRegistry.RunNextStep(
+                        () => _crawlerRegistry.GetFirstDate(dataRow));
+                    if (!_crawlerRegistry.Error)
+                    {
+                        XtraMessageBox.Show(_crawlerRegistry.OutData,
+                            ResManager.GetString(ResKeys.SearchResult),
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Exclamation);
+                    }
+                    XtraMessageBox.Show("Реєстрація клієнта закінчена",//todo move it to resource
+                        "Info", // ResManager.GetString(ResKeys.SearchResult),
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Exclamation);
                     _state = 1; // alerts.Close(), and StartAgain
                     //todo dataRow.Status
                     break;
 
-                #region Old dead code, will be removed later because probably part of them will be needed later
+                    #region Old dead code, will be removed later because probably part of them will be needed later
 
-                //XtraMessageBox.Show("Реєстрація клієнта закінчена",//todo move it to resource
-                //    ResManager.GetString(ResKeys.SearchResult),
-                //    MessageBoxButtons.OK,
-                //    MessageBoxIcon.Exclamation);
-                //_state = 4;
+                    //XtraMessageBox.Show("Реєстрація клієнта закінчена",//todo move it to resource
+                    //    ResManager.GetString(ResKeys.SearchResult),
+                    //    MessageBoxButtons.OK,
+                    //    MessageBoxIcon.Exclamation);
+                    //_state = 4;
 
-                //case 4:
-                //    _crawlerRegistry.PartFour(dataRow);
-                //    if (!_crawlerRegistry.Error)
-                //    {
-                //        XtraMessageBox.Show(_crawlerRegistry.OutData,
-                //            ResManager.GetString(ResKeys.SearchResult),
-                //            MessageBoxButtons.OK,
-                //            MessageBoxIcon.Exclamation);
-                //    }
-                //    _state = 5;
-                //    break;
+                    //case 4:
+                    //_crawlerRegistry.PartFour(dataRow);
+                    //if (!_crawlerRegistry.Error)
+                    //{
+                    //    XtraMessageBox.Show(_crawlerRegistry.OutData,
+                    //        ResManager.GetString(ResKeys.SearchResult),
+                    //        MessageBoxButtons.OK,
+                    //        MessageBoxIcon.Exclamation);
+                    //}
+                    //_state = 5;
+                    //break;
 
-                //case 5:
-                //    _crawlerRegistry.PartFive();
-                //    if (!_crawlerRegistry.Error)
-                //    {
-                //        _logger.Info(
-                //            $"return _crawlerWorker_DoWork. State = {_state}. OutData = {_crawlerRegistry.OutData}. _crawlerRegistry.Error = false ");
-                //        XtraMessageBox.Show(_crawlerRegistry.OutData,
-                //            ResManager.GetString(ResKeys.SearchResult),
-                //            MessageBoxButtons.OK,
-                //            MessageBoxIcon.Exclamation);
-                //        CloseBrowsers(false);
-                //        return;
-                //    }
-                //    break;
+                    //case 5:
+                    //    _crawlerRegistry.PartFive();
+                    //    if (!_crawlerRegistry.Error)
+                    //    {
+                    //        _logger.Info(
+                    //            $"return _crawlerWorker_DoWork. State = {_state}. OutData = {_crawlerRegistry.OutData}. _crawlerRegistry.Error = false ");
+                    //        XtraMessageBox.Show(_crawlerRegistry.OutData,
+                    //            ResManager.GetString(ResKeys.SearchResult),
+                    //            MessageBoxButtons.OK,
+                    //            MessageBoxIcon.Exclamation);
+                    //        CloseBrowsers(false);
+                    //        return;
+                    //    }
+                    //    break;
 
                 #endregion Old dead code, will be removed later because probably part of them will be needed later
 

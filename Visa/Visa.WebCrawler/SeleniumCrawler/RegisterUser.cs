@@ -113,9 +113,9 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info($"End SelectVisaType. Error = {Error}");
         }
 
-        public bool CheckData(VisaDataSet.ClientDataRow dataRow) //state 7
+        public bool CheckDate(VisaDataSet.ClientDataRow dataRow) //state 7
         {
-            _logger.Info($"Start CheckData. Error = {Error}. ");
+            _logger.Info($"Start CheckDate. Error = {Error}. ");
             var bRes = false;
             try
             {
@@ -163,7 +163,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     Error = true;
                 }
             }
-            _logger.Info($"End CheckData. Error = {Error}. ");
+            _logger.Info($"End CheckDate. Error = {Error}. ");
             return bRes;
         }
 
@@ -458,59 +458,36 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         #region Is Not Used Now but will be in the future
 
-        //public void PartThree()
-        //{
-        //    _logger.Info($"Start PartThree. Error = {Error}.");
-        //    try
-        //    {
-        //        FindElementWithChecking(By.Id(buttonSubmit))
-        //            .Click();
-        //        _logger.Info("PartThree. buttonSubmit Click");
-        //    }
-        //    catch (Exception ex) when (ex is NoSuchElementException || ex is WebDriverException)
-        //    {
-        //        _logger.Error($"NoSuchElementException with message = {ex.Message}");
-        //        Error = true;
-        //    }
-        //    _logger.Info($"End PartThree. Error = {Error}");
-        //}
+        public void SubmitClientData()//SubmitClientData
+        {
+            _logger.Info($"Start SubmitClientData. Error = {Error}.");
+                FindElementWithChecking(By.Id(buttonSubmit))
+                    .Click();
+                _logger.Info("PartThree. buttonSubmit Click");
+            _logger.Info($"End SubmitClientData. Error = {Error}");
+        }
 
-        //public void PartFour(VisaDataSet.ClientDataRow dataRow)
+        public void GetFirstDate(VisaDataSet.ClientDataRow dataRow)
+        {
+            _logger.Info($"Start GetFirstDate. Error = {Error}. dataRow.NumberOfReceipt = {dataRow.NumberOfReceipt}");
+            Thread.Sleep(2000);
+            var queryCollection = _driver.FindElements(By.ClassName(availableData));
+            _logger.Info($"GetFirstDate. maxDate = { dataRow.RegistryFom.Day}. minDate = {dataRow.RegistryTo.Day}");
+            OutData = string.Format("{0}:{1}{2}", ResManager.GetString(ResKeys.DateIncorrect_Message), dataRow.RegistryFom.Day, dataRow.RegistryTo.Day);
+            foreach (var element in queryCollection)
+            {
+                var date = element.Text.ConvertToIntOrNull();
 
-        //{
-        //    _logger.Info($"Start PartFour. Error = {Error}. dataRow.NumberOfReceipt = {dataRow.NumberOfReceipt}");
-        //    try
-        //    {
-        //        Thread.Sleep(2000);
-        //        {
-        //            var queryCollection = _driver.FindElements(By.ClassName(availableData));
-        //            _logger.Info($"PartFour. maxDate = { dataRow.RegistryFom.Day}. minDate = {dataRow.RegistryTo.Day}");
-        //            foreach (var element in queryCollection)
-        //            {
-        //                var date = element.Text.ConvertToIntOrNull();
+                if (date == null || date.Value > dataRow.RegistryTo.Day || date.Value < dataRow.RegistryFom.Day) continue;
 
-        //                if (date == null || date.Value > dataRow.RegistryTo.Day || date.Value < dataRow.RegistryFom.Day) continue;
-
-        //                _logger.Info($"PartFour. date.Value = {date.Value} element Click");
-        //                OutData = date.Value.ToString();
-        //                element.Click();
-        //                break;
-        //            }
-        //        }
-        //        CheckForError();
-        //    }
-        //    catch (Exception ex) when (ex is NoSuchElementException || ex is WebDriverException)
-        //    {
-        //        if (Canceled)
-        //            _logger.Warn($"Canceled by User. Error  = {Error}");
-        //        else
-        //        {
-        //            _logger.Error($"NoSuchElementException with message = {ex.Message}");
-        //            Error = true;
-        //        }
-        //    }
-        //    _logger.Info($"End PartThree. Error = {Error}");
-        //}
+                _logger.Info($"GetFirstDate. date.Value = {date.Value} element Click");
+                OutData = date.Value.ToString();
+                element.Click();
+                break;
+            }
+            CheckForError();
+            _logger.Info($"End GetFirstDate. Error = {Error}");
+        }
 
         //public void PartFive()
         //{
