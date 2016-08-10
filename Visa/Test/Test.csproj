@@ -61,27 +61,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataSet1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet1.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="DataSet1.xsc">
-      <DependentUpon>DataSet1.xsd</DependentUpon>
-    </None>
-    <None Include="DataSet1.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet1.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="DataSet1.xss">
-      <DependentUpon>DataSet1.xsd</DependentUpon>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +76,10 @@
     <ProjectReference Include="..\Visa.Resources\Visa.Resources.csproj">
       <Project>{C29283C8-3FA1-4B26-90BC-09B392E6678C}</Project>
       <Name>Visa.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Visa.WebCrawler\Visa.WebCrawler.csproj">
+      <Project>{CB18A2ED-776C-4271-A712-A5374B81213B}</Project>
+      <Name>Visa.WebCrawler</Name>
     </ProjectReference>
     <ProjectReference Include="..\Visa.WinForms\Visa.WinForms.csproj">
       <Project>{AB4E74E6-D7B4-419C-A05B-AEB04C328BAD}</Project>
