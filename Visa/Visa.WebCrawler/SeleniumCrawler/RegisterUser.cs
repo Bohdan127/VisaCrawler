@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+//using Selenium;
 using System;
 using System.Globalization;
 using System.Threading;
@@ -24,6 +25,10 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 "about:blank");
             _driver = new FirefoxDriver(prof);
             _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
+
+            //int port = 4444; //2310;
+            //ISelenium selenium = new DefaultSelenium("localhost", port, "*firefox C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", mainUrl);
+
             _logger.Trace("End RegisterUser constructor");
         }
 
@@ -336,6 +341,10 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         private readonly FirefoxDriver _driver;
 
+        public bool getFirstDateScroll = false;
+
+        //private Selenium.ISelenium selenium;
+
         #endregion Members
 
         #region Properties
@@ -423,7 +432,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 if (_driver.SwitchTo().Alert() != null)
                     _driver.SwitchTo().Alert().Accept();
             }
-            catch (NoAlertPresentException ex)
+            catch(NoAlertPresentException ex)
             {
                 _logger.Warn(// Alert not present
                         $"SwitchTo().NoAlertPresentException with message = {ex.Message}");
@@ -488,9 +497,9 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public void SubmitClientData()//SubmitClientData
         {
             _logger.Info($"Start SubmitClientData. Error = {Error}.");
-            FindElementWithChecking(By.Id(buttonSubmit))
-                .Click();
-            _logger.Info("PartThree. buttonSubmit Click");
+                FindElementWithChecking(By.Id(buttonSubmit))
+                    .Click();
+                _logger.Info("PartThree. buttonSubmit Click");
             _logger.Info($"End SubmitClientData. Error = {Error}");
         }
 
@@ -498,24 +507,65 @@ namespace Visa.WebCrawler.SeleniumCrawler
         {
             _logger.Info($"Start GetFirstDate. Error = {Error}. dataRow.NumberOfReceipt = {dataRow.NumberOfReceipt}");
             Thread.Sleep(2000);
-            var queryCollection = _driver.FindElements(By.ClassName(availableData));
-            _logger.Info($"GetFirstDate. maxDate = { dataRow.RegistryFom.Day}. minDate = {dataRow.RegistryTo.Day}");
-            OutData = string.Format("{0}:{1}{2}", ResManager.GetString(ResKeys.DateIncorrect_Message), dataRow.RegistryFom.Day, dataRow.RegistryTo.Day);
-            foreach (var element in queryCollection)
+            //"#ctl00_plhMain_cldAppointment > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2)"
+            IWebElement tableOuter = FindElementWithChecking(By.Id("ctl00_plhMain_cldAppointment"));
+            IWebElement tableInner = tableOuter.FindElement(By.TagName("table"));
+            var tdCollection = tableInner.FindElements(By.TagName("td"));
+            string dateString, format;
+            DateTime result;
+            dateString = tdCollection[1].Text;
+            format = "MMMM yyyy р.";
+            CultureInfo provider;
+            provider = new CultureInfo("uk-UA");
+            getFirstDateScroll = false;
+            try
             {
-                var date = element.Text.ConvertToIntOrNull();
+                _logger.Trace($"GetFirstDate Try Parse Month. element.Text = {dateString}.");
+                result = DateTime.ParseExact(dateString, format, provider);
+                _logger.Trace($"GetFirstDate element.Text = {dateString} is parsed as {result.ToString("d MMM yyyy")}");
 
-                if (date == null || date.Value > dataRow.RegistryTo.Day || date.Value < dataRow.RegistryFom.Day) continue;
+                if (dataRow.RegistryTo.Month != result.Month)
+                {
+                    int colIndex = 0;
+                    if (dataRow.RegistryTo.Month < result.Month)
+                        colIndex = 2;
+                     tdCollection[colIndex].Click();
+                    _logger.Trace($"GetFirstDate. Skroll Calendar { tdCollection[colIndex].Text}");
+                    getFirstDateScroll = true;
+                }
+                else
+                {
+                    var queryCollection = _driver.FindElements(By.ClassName(availableData));
+                    if (queryCollection.Count == 0) _logger.Warn($"no dates Available this month:{dateString}");
+                   _logger.Trace($"GetFirstDate. minDate = { dataRow.RegistryFom.Day}. maxDate = {dataRow.RegistryTo.Day}");
+                    OutData = string.Format(ResManager.GetString(ResKeys.DateIncorrect_Message), dataRow.RegistryFom.Day.ToString() + " & " + dataRow.RegistryTo.Day.ToString());
+                    foreach (var element in queryCollection)
+                    {
+                        var date = element.Text.ConvertToIntOrNull();
 
-                _logger.Info($"GetFirstDate. date.Value = {date.Value} element Click");
-                OutData = date.Value.ToString();
-                element.Click();
-                break;
+                        if (date == null || date.Value > dataRow.RegistryTo.Day || date.Value < dataRow.RegistryFom.Day) continue;
+
+                        _logger.Trace($"GetFirstDate. date.Value = {date.Value} element Click");
+                        OutData = date.Value.ToString();
+                        element.Click();
+                        break;
+                    }
+                }
+            }
+            catch (FormatException)
+            {
+                _logger.Error($"GetFirstDate \"{dateString}\" is not in the correct Date format.");
+                Error = true;
+            }
+            catch(Exception ex)
+            {
+                _logger.Error($"GetFirstDate Exception{ex.Message}");
+                Error = true;
             }
             CheckForError();
-            _logger.Info($"End GetFirstDate. Error = {Error}");
+            _logger.Info($"End GetFirstDate. Error = {Error}. dateFrom: {dataRow.RegistryFom.ToShortDateString()}, dateTo: {dataRow.RegistryTo.ToShortDateString()}, OutData: {OutData}");
         }
-
+        
         //public void PartFive()
         //{
         //    _logger.Info($"Start PartFive. Error = {Error}.");

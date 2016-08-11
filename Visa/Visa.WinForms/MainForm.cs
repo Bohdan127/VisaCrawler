@@ -289,6 +289,7 @@ namespace Visa.WinForms
             if (_crawlerRegistry != null)
                 _crawlerRegistry.Canceled = true;
             _crawlerRegistry?.CloseBrowser();
+            SetDefaultState();
             _logger.Trace("End simpleButtonCancelAction_Click");
         }
 
@@ -462,9 +463,20 @@ namespace Visa.WinForms
                 }
                 else if (_state == 1)
                 {
-                    ShowAlert(
-                        ResManager.GetString(ResKeys.FillCaptchaAndComplete),
-                        true);
+                    if (!_crawlerRegistry.Error)
+                    {
+                        XtraMessageBox.Show(_crawlerRegistry.OutData,
+                            ResManager.GetString(ResKeys.SearchResult),
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Exclamation);
+                    }
+                    XtraMessageBox.Show("Реєстрація клієнта закінчена",//todo move it to resource
+                        "Info", // ResManager.GetString(ResKeys.SearchResult),
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Exclamation);
+                    //ShowAlert(
+                    //    ResManager.GetString(ResKeys.FillCaptchaAndComplete),
+                    //    true);
                     bBreak = true;
                 }
             } while (!bBreak);
@@ -578,40 +590,15 @@ namespace Visa.WinForms
                 case 12: // GetFirstDate(dataRow)
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.GetFirstDate(dataRow));
-                    if (!_crawlerRegistry.Error)
-                    {
-                        XtraMessageBox.Show(_crawlerRegistry.OutData,
-                            ResManager.GetString(ResKeys.SearchResult),
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Exclamation);
-                    }
-                    XtraMessageBox.Show("Реєстрація клієнта закінчена",//todo move it to resource
-                        "Info", // ResManager.GetString(ResKeys.SearchResult),
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Exclamation);
-                    _state = 1; // alerts.Close(), and StartAgain
+                    if (!_crawlerRegistry.getFirstDateScroll)
+                        _state = 1; // alerts.Close(), and StartAgain
+                    // else repeat step
+
                     //todo dataRow.Status
                     break;
 
                 #region Old dead code, will be removed later because probably part of them will be needed later
-
-                //XtraMessageBox.Show("Реєстрація клієнта закінчена",//todo move it to resource
-                //    ResManager.GetString(ResKeys.SearchResult),
-                //    MessageBoxButtons.OK,
-                //    MessageBoxIcon.Exclamation);
-                //_state = 4;
-
-                //case 4:
-                //_crawlerRegistry.PartFour(dataRow);
-                //if (!_crawlerRegistry.Error)
-                //{
-                //    XtraMessageBox.Show(_crawlerRegistry.OutData,
-                //        ResManager.GetString(ResKeys.SearchResult),
-                //        MessageBoxButtons.OK,
-                //        MessageBoxIcon.Exclamation);
-                //}
-                //_state = 5;
-                //break;
+                    
 
                 //case 5:
                 //    _crawlerRegistry.PartFive();
