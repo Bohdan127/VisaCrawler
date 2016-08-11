@@ -182,10 +182,6 @@
   <data name="ValidationError_Title" xml:space="preserve">
     <value>Валідація не пройдена</value>
   </data>
-  <data name="ValidationError_Message_SecondPart" xml:space="preserve">
-    <value>Будь-ласка перевірте введені вами дані
- у таблиці та випевніть візовий центр</value>
-  </data>
   <data name="ButtonRegistry_Text" xml:space="preserve">
     <value>Запустити реєстрацію</value>
   </data>
@@ -284,5 +280,29 @@
   </data>
   <data name="KeyNotFound" xml:space="preserve">
     <value>Даний ключ не знайдено!</value>
+  </data>
+  <data name="colRegistryFom_ValidationError" xml:space="preserve">
+    <value>Дата повинна бути скоріше за "Реєстрація До"</value>
+  </data>
+  <data name="colRegistryTo_ValidationError" xml:space="preserve">
+    <value>Дата повинна бути пізніше за "Реєстрація З"</value>
+  </data>
+  <data name="colRegistryFom_DataColumn_Name" xml:space="preserve">
+    <value>RegistryFom</value>
+  </data>
+  <data name="colRegistryTo_DataColumn_Name" xml:space="preserve">
+    <value>RegistryTo</value>
+  </data>
+  <data name="ValidationError_Message_SecondPart" xml:space="preserve">
+    <value>Будь-ласка перевірте введені вами дані</value>
+  </data>
+  <data name="WebPage_StillNotLoaded" xml:space="preserve">
+    <value>Сторінка не загрузила всі компоненти 
+продовж 15 секунд, зараз виконаєтся
+повторна спроба</value>
+  </data>
+  <data name="WebPage_WillBeReloaded" xml:space="preserve">
+    <value>Сервер не доступний.
+Сторінка буде перезагружена!</value>
   </data>
 </root>

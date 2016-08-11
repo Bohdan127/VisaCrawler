@@ -207,6 +207,24 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RegistryFom.
+        /// </summary>
+        public static string colRegistryFom_DataColumn_Name {
+            get {
+                return ResourceManager.GetString("colRegistryFom_DataColumn_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дата повинна бути скоріше за &quot;Реєстрація До&quot;.
+        /// </summary>
+        public static string colRegistryFom_ValidationError {
+            get {
+                return ResourceManager.GetString("colRegistryFom_ValidationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Час реєстрації.
         /// </summary>
         public static string colRegistryTime {
@@ -221,6 +239,24 @@ namespace Visa.Resources.uk_UA {
         public static string colRegistryTo {
             get {
                 return ResourceManager.GetString("colRegistryTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RegistryTo.
+        /// </summary>
+        public static string colRegistryTo_DataColumn_Name {
+            get {
+                return ResourceManager.GetString("colRegistryTo_DataColumn_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дата повинна бути пізніше за &quot;Реєстрація З&quot;.
+        /// </summary>
+        public static string colRegistryTo_ValidationError {
+            get {
+                return ResourceManager.GetString("colRegistryTo_ValidationError", resourceCulture);
             }
         }
         
@@ -513,8 +549,7 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Будь-ласка перевірте введені вами дані
-        /// у таблиці та випевніть візовий центр.
+        ///   Looks up a localized string similar to Будь-ласка перевірте введені вами дані.
         /// </summary>
         public static string ValidationError_Message_SecondPart {
             get {
@@ -537,6 +572,27 @@ namespace Visa.Resources.uk_UA {
         public static string VisaCategory_NullText {
             get {
                 return ResourceManager.GetString("VisaCategory_NullText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сторінка не загрузила всі компоненти 
+        ///продовж 15 секунд, зараз виконаєтся
+        ///повторна спроба.
+        /// </summary>
+        public static string WebPage_StillNotLoaded {
+            get {
+                return ResourceManager.GetString("WebPage_StillNotLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сервер не доступний.
+        ///Сторінка буде перезагружена!.
+        /// </summary>
+        public static string WebPage_WillBeReloaded {
+            get {
+                return ResourceManager.GetString("WebPage_WillBeReloaded", resourceCulture);
             }
         }
     }

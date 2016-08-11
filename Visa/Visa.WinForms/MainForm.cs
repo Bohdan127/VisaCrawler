@@ -203,6 +203,10 @@ namespace Visa.WinForms
             EventArgs e)
         {
             _logger.Trace("Start buttonShowSecond_Click");
+
+            //before validation we should disable validation and remove new row in grid
+            SetReadOnly(true);
+
             if (ValidateControlsSecond())
             {
                 _logger.Info("Validation Pass.");
@@ -210,6 +214,7 @@ namespace Visa.WinForms
             }
             else
             {
+                SetReadOnly(false);
                 _logger.Warn("Validation Failed. Error Message is shown.");
                 XtraMessageBox.Show(
                     ResManager.GetString(
@@ -329,7 +334,7 @@ namespace Visa.WinForms
             ResManager.RegisterResource("uk_UA",
                 uk_UA.ResourceManager);
             _logger.Info("InitOtherComponentDetails. ResManager = uk_UA");
-            CheckLicense();
+            //todo just fot offline testing CheckLicense();
             await Task.Run(() => Invoke(
                 new Action(() =>
                 {
@@ -412,7 +417,6 @@ namespace Visa.WinForms
             var bBreak = false; //_crawlerWorker_CheckSiteAvailability();
             do
             {
-                //todo later here should be changed for collecting all rows instead first one like now
                 CrawlerRefreshEngine();
                 _logger.Info($"End CrawlerWorkSecondPart _state={_state}");
                 if (_crawlerRegistry != null
@@ -633,7 +637,31 @@ namespace Visa.WinForms
             var toStateFour = false;
             do
             {
+                if (_crawlerRegistry.Error)
+                {
+                    if (_crawlerRegistry.IsServerDown)
+                    {
+                        _logger.Warn($"Reload page. _state = {_state}");
+                        ShowAlert(
+                            ResManager.GetString(ResKeys.WebPage_WillBeReloaded),
+                            true);
+                        if (toStateFour)
+                        {
+                            _state = 4;
+                            toStateFour = false;
+                        }
+                        _crawlerRegistry.ReloadPage();
+                    }
+                    else
+                    {
+                        ShowAlert(
+                            ResManager.GetString(ResKeys.WebPage_StillNotLoaded),
+                            true);
+                    }
+                }
                 _crawlerRegistry.Error = false;
+
+                //todo later here should be changed for collecting all rows instead first one like now
                 CrawlerWorkSecondPart(gridView1.GetDataRow(0));
                 if (!_crawlerRegistry.Canceled
                     && _crawlerRegistry.Error)
@@ -642,7 +670,8 @@ namespace Visa.WinForms
                         $"!_crawlerRegistry.Canceled && _crawlerRegistry.Error. _state = {_state}. counter = {counter}");
                     switch (_state)
                     {
-                        case 10://we should show that error and finish the process of registration
+                        //we should show that error and finish the process of registration
+                        case 10: // ClientData(dataRow)
                             counter = RefreshCount;
                             break;
                         case 8: // BackToCityAndReason()
@@ -657,17 +686,7 @@ namespace Visa.WinForms
                             _state--;
                             break;
                     }
-                    //var serverAvailable = ;_stateManager.GetCurrentSiteAvailability();
                     counter++;
-                    // ReSharper disable once InvertIf
-                    if (_crawlerRegistry.IsServerDown)
-                    {
-                        //todo Bohdan for test not we will always reload page if it's not loaded in 5 minutes
-                        _logger.Warn($"Reload page. _state = {_state}");
-                        if (toStateFour)
-                            _state = 4;
-                        _crawlerRegistry.ReloadPage();
-                    }
                 }
             } while (counter < RefreshCount
                      && _crawlerRegistry.Error);
@@ -678,11 +697,12 @@ namespace Visa.WinForms
         {
             var bRes = true;
 
-            bRes &= !gridView1.HasColumnErrors;
-            bRes &= ((BindingSource)gridControl1.DataSource).Count > 0;
-            if (bRes)
-                bRes &= ValidateRegistryDates();
+            bRes &= gridView1.RowCount > 0;
+            bRes = bRes && !gridView1.HasColumnErrors;
+            bRes = bRes && ValidateRegistryDates();
+
             _logger.Info($"ValidateControlsSecond = {bRes}");
+
             return bRes;
         }
 
@@ -693,7 +713,18 @@ namespace Visa.WinForms
                 i < gridView1.RowCount;
                 i++)
             {
-                //todo log row with error
+                var row = (VisaDataSet.ClientDataRow)gridView1.GetDataRow(i);
+
+                if (row.RegistryFom <= row.RegistryTo)
+                    continue;
+
+                bRes = false;
+                row.SetColumnError(
+                    ResManager.GetString(ResKeys.colRegistryFom_DataColumn_Name),
+                    ResManager.GetString(ResKeys.colRegistryFom_ValidationError));
+                row.SetColumnError(
+                    ResManager.GetString(ResKeys.colRegistryTo_DataColumn_Name),
+                    ResManager.GetString(ResKeys.colRegistryTo_ValidationError));
             }
             return bRes;
         }
@@ -953,8 +984,6 @@ namespace Visa.WinForms
         private void StartNewWorkRoundBase()
         {
             _logger.Trace("Start StartNewWorkRoundBase");
-
-            SetReadOnly(true);
 
             if (!_crawlerWorker.IsBusy)
             {

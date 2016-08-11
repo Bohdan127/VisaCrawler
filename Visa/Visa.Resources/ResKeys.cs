@@ -69,5 +69,20 @@
 
         public const string AvailabilityError_Message =
             "AvailabilityError_Message";
+
+        public const string colRegistryFom_ValidationError =
+            "colRegistryFom_ValidationError";
+
+        public const string colRegistryTo_ValidationError =
+            "colRegistryTo_ValidationError";
+
+        public const string colRegistryTo_DataColumn_Name =
+            "colRegistryTo_DataColumn_Name";
+
+        public const string colRegistryFom_DataColumn_Name =
+            "colRegistryFom_DataColumn_Name";
+
+        public const string WebPage_StillNotLoaded = "WebPage_StillNotLoaded";
+        public const string WebPage_WillBeReloaded = "WebPage_WillBeReloaded";
     }
 }
