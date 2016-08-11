@@ -593,40 +593,40 @@ namespace Visa.WinForms
                     //todo dataRow.Status
                     break;
 
-                    #region Old dead code, will be removed later because probably part of them will be needed later
+                #region Old dead code, will be removed later because probably part of them will be needed later
 
-                    //XtraMessageBox.Show("Реєстрація клієнта закінчена",//todo move it to resource
-                    //    ResManager.GetString(ResKeys.SearchResult),
-                    //    MessageBoxButtons.OK,
-                    //    MessageBoxIcon.Exclamation);
-                    //_state = 4;
+                //XtraMessageBox.Show("Реєстрація клієнта закінчена",//todo move it to resource
+                //    ResManager.GetString(ResKeys.SearchResult),
+                //    MessageBoxButtons.OK,
+                //    MessageBoxIcon.Exclamation);
+                //_state = 4;
 
-                    //case 4:
-                    //_crawlerRegistry.PartFour(dataRow);
-                    //if (!_crawlerRegistry.Error)
-                    //{
-                    //    XtraMessageBox.Show(_crawlerRegistry.OutData,
-                    //        ResManager.GetString(ResKeys.SearchResult),
-                    //        MessageBoxButtons.OK,
-                    //        MessageBoxIcon.Exclamation);
-                    //}
-                    //_state = 5;
-                    //break;
+                //case 4:
+                //_crawlerRegistry.PartFour(dataRow);
+                //if (!_crawlerRegistry.Error)
+                //{
+                //    XtraMessageBox.Show(_crawlerRegistry.OutData,
+                //        ResManager.GetString(ResKeys.SearchResult),
+                //        MessageBoxButtons.OK,
+                //        MessageBoxIcon.Exclamation);
+                //}
+                //_state = 5;
+                //break;
 
-                    //case 5:
-                    //    _crawlerRegistry.PartFive();
-                    //    if (!_crawlerRegistry.Error)
-                    //    {
-                    //        _logger.Info(
-                    //            $"return _crawlerWorker_DoWork. State = {_state}. OutData = {_crawlerRegistry.OutData}. _crawlerRegistry.Error = false ");
-                    //        XtraMessageBox.Show(_crawlerRegistry.OutData,
-                    //            ResManager.GetString(ResKeys.SearchResult),
-                    //            MessageBoxButtons.OK,
-                    //            MessageBoxIcon.Exclamation);
-                    //        CloseBrowsers(false);
-                    //        return;
-                    //    }
-                    //    break;
+                //case 5:
+                //    _crawlerRegistry.PartFive();
+                //    if (!_crawlerRegistry.Error)
+                //    {
+                //        _logger.Info(
+                //            $"return _crawlerWorker_DoWork. State = {_state}. OutData = {_crawlerRegistry.OutData}. _crawlerRegistry.Error = false ");
+                //        XtraMessageBox.Show(_crawlerRegistry.OutData,
+                //            ResManager.GetString(ResKeys.SearchResult),
+                //            MessageBoxButtons.OK,
+                //            MessageBoxIcon.Exclamation);
+                //        CloseBrowsers(false);
+                //        return;
+                //    }
+                //    break;
 
                 #endregion Old dead code, will be removed later because probably part of them will be needed later
 
@@ -643,6 +643,7 @@ namespace Visa.WinForms
         {
             _logger.Trace($"Start CrawlerRefreshEngine _state = {_state}");
             var counter = 0;
+            var toStateFour = false;
             do
             {
                 _crawlerRegistry.Error = false;
@@ -654,21 +655,30 @@ namespace Visa.WinForms
                         $"!_crawlerRegistry.Canceled && _crawlerRegistry.Error. _state = {_state}. counter = {counter}");
                     switch (_state)
                     {
+                        case 10://we should show that error and finish the process of registration
+                            counter = RefreshCount;
+                            break;
                         case 8: // BackToCityAndReason()
                         case 9: // Receipt(dataRow)
                             _state = 4; // SelectCityAndReason(dataRow)
+                            break;
+                        //todo this just from my mind but also can be should be tested, because probably can not help but generate new errors
+                        case 7:
+                            toStateFour = true;
                             break;
                         default:
                             _state--;
                             break;
                     }
-                    var serverAvailable =
-                        _stateManager.GetCurrentSiteAvailability();
+                    //var serverAvailable = ;_stateManager.GetCurrentSiteAvailability();
                     counter++;
-                    if (!serverAvailable)
+                    // ReSharper disable once InvertIf
+                    if (_crawlerRegistry.IsServerDown)
                     {
                         //todo Bohdan for test not we will always reload page if it's not loaded in 5 minutes
                         _logger.Warn($"Reload page. _state = {_state}");
+                        if (toStateFour)
+                            _state = 4;
                         _crawlerRegistry.ReloadPage();
                     }
                 }

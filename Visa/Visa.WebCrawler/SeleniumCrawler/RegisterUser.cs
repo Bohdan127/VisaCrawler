@@ -23,7 +23,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             prof.SetPreference("startup.homepage_welcome_url.additional",
                 "about:blank");
             _driver = new FirefoxDriver(prof);
-            _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(40));
+            _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
             _logger.Trace("End RegisterUser constructor");
         }
 
@@ -348,6 +348,33 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         public bool Canceled { get; set; }
 
+        public bool IsServerDown
+        {
+            get
+            {
+                try
+                {
+                    var bRes = _driver.FindElement(By.TagName("body"))
+                        .Text
+                        .Contains("The service is unavailable");
+                    if (bRes)
+                    {
+                        _logger.Warn("IsServerDown => True");
+                        return true;
+                    }
+                }
+                catch (Exception ex)
+                    when (
+                        ex is NoSuchElementException || ex is WebDriverException
+                        )
+                {
+                    //ignored
+                }
+                _logger.Info("IsServerDown => False");
+                return false;
+            }
+        }
+
         #endregion Properties
 
         #region Help Functions
@@ -396,7 +423,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 if (_driver.SwitchTo().Alert() != null)
                     _driver.SwitchTo().Alert().Accept();
             }
-            catch(NoAlertPresentException ex)
+            catch (NoAlertPresentException ex)
             {
                 _logger.Warn(// Alert not present
                         $"SwitchTo().NoAlertPresentException with message = {ex.Message}");
@@ -427,7 +454,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         {
             _logger.Info($"Start CheckForError. Error = {Error}");
             IWebElement erQuery = null;
-            Thread.Sleep(2000);
+            Thread.Sleep(2000);//todo maybe this one is not needed any more
             try
             {
                 erQuery = FindElementWithChecking(By.Id(errorMessage));
@@ -461,9 +488,9 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public void SubmitClientData()//SubmitClientData
         {
             _logger.Info($"Start SubmitClientData. Error = {Error}.");
-                FindElementWithChecking(By.Id(buttonSubmit))
-                    .Click();
-                _logger.Info("PartThree. buttonSubmit Click");
+            FindElementWithChecking(By.Id(buttonSubmit))
+                .Click();
+            _logger.Info("PartThree. buttonSubmit Click");
             _logger.Info($"End SubmitClientData. Error = {Error}");
         }
 
