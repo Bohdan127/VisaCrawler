@@ -524,7 +524,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 result = DateTime.ParseExact(dateString, format, provider);
                 _logger.Trace($"GetFirstDate element.Text = {dateString} is parsed as {result.ToString("d MMM yyyy")}");
 
-                if (dataRow.RegistryTo.Month != result.Month)
+                if (dataRow.RegistryTo.Month < result.Month || dataRow.RegistryFom.Month > result.Month)
                 {
                     int colIndex = 0;
                     if (dataRow.RegistryTo.Month < result.Month)
