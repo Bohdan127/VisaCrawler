@@ -6,6 +6,7 @@ using OpenQA.Selenium.Support.UI;
 using System;
 using System.Globalization;
 using System.Threading;
+using System.Windows.Forms;
 using ToolsPortable;
 using Visa.Database;
 using Visa.Resources;
@@ -133,8 +134,12 @@ namespace Visa.WebCrawler.SeleniumCrawler
                         CultureInfo.CurrentCulture);
                     _logger.Info(
                         $"First date for Registration => {availableDate}");
-                    if (availableDate <= dataRow.RegistryTo)
+                    if (dataRow.RegistryFom <= availableDate
+                        && availableDate <= dataRow.RegistryTo)
                     {
+                        _logger.Info(
+                            "dataRow.RegistryFom <= availableDate =>" +
+                            $" {dataRow.RegistryFom} <= {availableDate}");
                         _logger.Info(
                             "availableDate <= dataRow.RegistryTo =>" +
                             $" {availableDate} <= {dataRow.RegistryTo}");
@@ -156,7 +161,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     _logger.Warn(ex.StackTrace);
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex)//todo if Ivan add ome new property to see inner detailed True/False sub-result, we should use it here and run this function from RunNextStep
                 when (ex is NoSuchElementException || ex is WebDriverException)
             {
                 if (Canceled)
@@ -349,7 +354,9 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         #region Properties
 
-        public bool Rollback { get; set; }
+        public DialogResult RegistrarionDateAvailability { get; set; }
+
+        public bool ValidationError { get; set; }
 
         public bool Error { get; set; }
 
@@ -432,7 +439,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 if (_driver.SwitchTo().Alert() != null)
                     _driver.SwitchTo().Alert().Accept();
             }
-            catch(NoAlertPresentException ex)
+            catch (NoAlertPresentException ex)
             {
                 _logger.Warn(// Alert not present
                         $"SwitchTo().NoAlertPresentException with message = {ex.Message}");
@@ -476,6 +483,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             if (erQuery != null
                 && erQuery.Text.IsNotBlank())
             {
+                ValidationError = true;
                 OutData = erQuery.Text;
                 _logger.Error(
                     $"throw new NoSuchElementException. Reason erQuery.Text.IsNotBlank = {erQuery.Text}");
@@ -494,12 +502,12 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         #region Is Not Used Now but will be in the future
 
-        public void SubmitClientData()//SubmitClientData
+        public void SubmitClientData()// state 11
         {
             _logger.Info($"Start SubmitClientData. Error = {Error}.");
-                FindElementWithChecking(By.Id(buttonSubmit))
-                    .Click();
-                _logger.Info("PartThree. buttonSubmit Click");
+            FindElementWithChecking(By.Id(buttonSubmit))
+                .Click();
+            _logger.Info("PartThree. buttonSubmit Click");
             _logger.Info($"End SubmitClientData. Error = {Error}");
         }
 
@@ -529,7 +537,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     int colIndex = 0;
                     if (dataRow.RegistryTo.Month < result.Month)
                         colIndex = 2;
-                     tdCollection[colIndex].Click();
+                    tdCollection[colIndex].Click();
                     _logger.Trace($"GetFirstDate. Skroll Calendar { tdCollection[colIndex].Text}");
                     getFirstDateScroll = true;
                 }
@@ -537,7 +545,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 {
                     var queryCollection = _driver.FindElements(By.ClassName(availableData));
                     if (queryCollection.Count == 0) _logger.Warn($"no dates Available this month:{dateString}");
-                   _logger.Trace($"GetFirstDate. minDate = { dataRow.RegistryFom.Day}. maxDate = {dataRow.RegistryTo.Day}");
+                    _logger.Trace($"GetFirstDate. minDate = { dataRow.RegistryFom.Day}. maxDate = {dataRow.RegistryTo.Day}");
                     OutData = string.Format(ResManager.GetString(ResKeys.DateIncorrect_Message), dataRow.RegistryFom.Day.ToString() + " & " + dataRow.RegistryTo.Day.ToString());
                     foreach (var element in queryCollection)
                     {
@@ -557,15 +565,15 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 _logger.Error($"GetFirstDate \"{dateString}\" is not in the correct Date format.");
                 Error = true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Error($"GetFirstDate Exception{ex.Message}");
                 Error = true;
             }
-            CheckForError();
+            CheckForError();//todo we need to check if that sate is returned
             _logger.Info($"End GetFirstDate. Error = {Error}. dateFrom: {dataRow.RegistryFom.ToShortDateString()}, dateTo: {dataRow.RegistryTo.ToShortDateString()}, OutData: {OutData}");
         }
-        
+
         //public void PartFive()
         //{
         //    _logger.Info($"Start PartFive. Error = {Error}.");
