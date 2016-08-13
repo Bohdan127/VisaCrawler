@@ -346,8 +346,6 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         private readonly FirefoxDriver _driver;
 
-        public bool getFirstDateScroll = false;
-
         //private Selenium.ISelenium selenium;
 
         #endregion Members
@@ -363,6 +361,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public string OutData { get; set; }
 
         public bool Canceled { get; set; }
+
+        public bool getFirstDateScroll { get; set; }
 
         public bool IsServerDown
         {

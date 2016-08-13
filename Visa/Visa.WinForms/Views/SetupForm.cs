@@ -45,6 +45,7 @@ namespace Visa.WinForms.Views
             spinEditPeopleCount.EditValue = options.PeopleCount;
             spinEditChildCount.EditValue = options.ChildCount;
             textEditUrl.EditValue = options.AvailabilityUrl;
+            textEditEmail.EditValue = options.Email;
             _logger.Trace("End MapData");
         }
 
@@ -67,6 +68,8 @@ namespace Visa.WinForms.Views
                 ResManager.GetString(ResKeys.lblCloseBrowser);
             layoutControlItemUrl.Text =
                 ResManager.GetString(ResKeys.lblAvailabilityUrl);
+            layoutControlItemEmail.Text =
+                ResManager.GetString(ResKeys.lblEmail);
 
             lookUpEditNationality.Properties.NullText =
                 ResManager.GetString(ResKeys.Nationality_NullText);
@@ -113,7 +116,8 @@ namespace Visa.WinForms.Views
                     spinEditPeopleCount.EditValue.ConvertToStringOrNull(),
                 ChildCount =
                     spinEditChildCount.EditValue.ConvertToStringOrNull(),
-                AvailabilityUrl = textEditUrl.EditValue.ConvertToStringOrNull()
+                AvailabilityUrl = textEditUrl.EditValue.ConvertToStringOrNull(),
+                Email = textEditEmail.EditValue.ConvertToStringOrNull()
             };
             SetupManager.SaveOptions(options);
             Close();

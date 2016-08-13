@@ -110,9 +110,9 @@ namespace Visa.WinForms
 
             try
             {
-                currRow.Email = currRow.LastName
-                                + currRow.Birthday.Year.ToString().Remove(0,
-                                    2) + "@i.ua";
+                currRow.Email = SetupManager.GetOptions().Email;
+                    //= currRow.LastName
+                    //+ currRow.Birthday.Year.ToString().Remove(0,2) + "@i.ua";
                 currRow.PeopleCount = SetupManager.GetOptions().PeopleCount;
                 currRow.ChildsCount = SetupManager.GetOptions().ChildCount;
                 currRow.ReturnData = currRow.RegistryFom.AddYears(1);
@@ -339,6 +339,7 @@ namespace Visa.WinForms
             ResManager.RegisterResource("uk_UA",
                 uk_UA.ResourceManager);
             _logger.Info("InitOtherComponentDetails. ResManager = uk_UA");
+            //we can off checking just for offline testing:
             CheckLicense();
             await Task.Run(() => Invoke(
                 new Action(() =>
@@ -387,8 +388,8 @@ namespace Visa.WinForms
                     _logger.Warn(
                         $"return _crawlerWorker_DoWork. State = {_state}."
                         + $" OutData = {_crawlerRegistry.OutData}. _crawlerRegistry.Error = true ");
-                    SetDefaultState();
-                    bBreak = true;
+                        SetDefaultState();
+                        bBreak = true;
                     ShowAlert(_crawlerRegistry.OutData.IsNotBlank()
                         ? _crawlerRegistry.OutData
                         : ResManager.GetString(ResKeys.ServerError),
@@ -399,46 +400,46 @@ namespace Visa.WinForms
                 }
                 else
                     switch (_state)
-                    {
+                {
                         case 8:
                             if (_crawlerRegistry != null)
-                                ShowAlert(_crawlerRegistry.OutData,
-                                    true);
-                            bBreak = !SetupManager.GetOptions().RepeatIfCrash;
+                    ShowAlert(_crawlerRegistry.OutData,
+                        true);
+                    bBreak = !SetupManager.GetOptions().RepeatIfCrash;
                             break;
 
                         case 6:
                         case 9:
                             ShowAlert(
                                 ResManager.GetString(ResKeys.FillCaptchaAndPress),
-                                false);
-                            bBreak = true;
+                        false);
+                    bBreak = true;
                             break;
 
                         case 1:
-                            if (!_crawlerRegistry.Error)
-                            {
-                                XtraMessageBox.Show(_crawlerRegistry.OutData,
-                                    ResManager.GetString(ResKeys.SearchResult),
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Exclamation);
-                            }
+                    if (!_crawlerRegistry.Error)
+                    {
+                        XtraMessageBox.Show(_crawlerRegistry.OutData,
+                            ResManager.GetString(ResKeys.SearchResult),
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Exclamation);
+                    }
                             XtraMessageBox.Show("Реєстрація клієнта закінчена",
                                 //todo move it to resource
                                 "Info",
                                 // ResManager.GetString(ResKeys.SearchResult),
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Exclamation);
-                            //ShowAlert(
-                            //    ResManager.GetString(ResKeys.FillCaptchaAndComplete),
-                            //    true);
-                            bBreak = true;
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Exclamation);
+                    //ShowAlert(
+                    //    ResManager.GetString(ResKeys.FillCaptchaAndComplete),
+                    //    true);
+                    bBreak = true;
                             break;
 
                         case BreakState:
                             bBreak = true;
                             break;
-                    }
+                }
             } while (!bBreak);
 
             _logger.Trace(
@@ -540,7 +541,7 @@ namespace Visa.WinForms
                                     DialogResult.Cancel;
                                 _state = BreakState;
                                 //go out from the registration process
-                                break;
+                    break;
 
                             case DialogResult.Yes:
                                 _crawlerRegistry.RegistrarionDateAvailability =
@@ -595,7 +596,7 @@ namespace Visa.WinForms
                     break;
 
                 #region Old dead code, will be removed later because probably part of them will be needed later
-
+                    
                 //case 5:
                 //    _crawlerRegistry.PartFive();
                 //    if (!_crawlerRegistry.Error)
@@ -660,25 +661,25 @@ namespace Visa.WinForms
                     || !_crawlerRegistry.Error)
                     continue;
 
-                _logger.Warn(
+                    _logger.Warn(
                     $"!_crawlerRegistry.Canceled && _crawlerRegistry.Error. _state = {_state}."
                     + $" counter = {counter} _crawlerRegistry.ValidationError = {_crawlerRegistry.ValidationError}");
-                switch (_state)
-                {
-                    case 8: // BackToCityAndReason()
-                    case 9: // Receipt(dataRow)
-                        _state = 4; // SelectCityAndReason(dataRow)
-                        break;
-                    //todo this just from my mind but also can be should be tested, because probably can not help but generate new errors
-                    case 7:
-                        toStateFour = true;
-                        break;
+                    switch (_state)
+                    {
+                        case 8: // BackToCityAndReason()
+                        case 9: // Receipt(dataRow)
+                            _state = 4; // SelectCityAndReason(dataRow)
+                            break;
+                        //todo this just from my mind but also can be should be tested, because probably can not help but generate new errors
+                        case 7:
+                            toStateFour = true;
+                            break;
 
-                    default:
-                        _state--;
-                        break;
-                }
-                counter++;
+                        default:
+                            _state--;
+                            break;
+                    }
+                    counter++;
 
                 if (!_crawlerRegistry.ValidationError)
                     continue;
@@ -694,9 +695,7 @@ namespace Visa.WinForms
 
         private bool ValidateControlsSecond()
         {
-            var bRes = true;
-
-            bRes &= gridView1.RowCount > 0;
+            var bRes = gridView1.RowCount > 0;
             bRes = bRes && !gridView1.HasColumnErrors;
             bRes = bRes && ValidateRegistryDates();
 

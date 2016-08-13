@@ -80,7 +80,8 @@ namespace Visa.BusinessLogic.Managers
                 Password = "QWE1@3ewq",
                 PeopleCount = "1",
                 ChildCount = "0",
-                AvailabilityUrl = "http://wiknaopen.esy.es/visa/out.json"
+                AvailabilityUrl = "http://wiknaopen.esy.es/visa/out.json",
+                Email = "visahelper2016@gmail.com"
             };
         }
     }

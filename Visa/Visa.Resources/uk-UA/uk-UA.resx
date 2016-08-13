@@ -305,4 +305,7 @@
     <value>Сервер не доступний.
 Сторінка буде перезагружена!</value>
   </data>
+  <data name="lblEmail" xml:space="preserve">
+    <value>Email для відправки реєстрації</value>
+  </data>
 </root>
