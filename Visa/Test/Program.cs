@@ -1,5 +1,4 @@
 ﻿using System;
-using Visa.WebCrawler.SeleniumCrawler;
 
 namespace Test
 {
@@ -8,10 +7,6 @@ namespace Test
 
         private static void Main(string[] args)
         {
-            var regUser = new RegisterUser();
-            regUser.GoToUrl();
-            regUser.StartRegistration();
-            regUser.ReloadPage();
             Console.ReadLine();
         }
     }

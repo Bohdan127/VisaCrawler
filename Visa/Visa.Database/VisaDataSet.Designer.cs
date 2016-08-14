@@ -948,8 +948,6 @@ namespace Visa.Database {
                 this.columnChildsCount.AllowDBNull = false;
                 this.columnNumberOfReceipt.AllowDBNull = false;
                 this.columnNumberOfReceipt.DefaultValue = ((string)(""));
-                this.columnEmail.AllowDBNull = false;
-                this.columnPassword.AllowDBNull = false;
                 this.columnEndPassportDate.AllowDBNull = false;
                 this.columnStatus.AllowDBNull = false;
                 this.columnName.AllowDBNull = false;
@@ -1237,7 +1235,12 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Email {
                 get {
-                    return ((string)(this[this.tableClientData.EmailColumn]));
+                    try {
+                        return ((string)(this[this.tableClientData.EmailColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Email\' in table \'ClientData\' is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableClientData.EmailColumn] = value;
@@ -1248,7 +1251,12 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Password {
                 get {
-                    return ((string)(this[this.tableClientData.PasswordColumn]));
+                    try {
+                        return ((string)(this[this.tableClientData.PasswordColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Password\' in table \'ClientData\' is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableClientData.PasswordColumn] = value;
@@ -1395,6 +1403,30 @@ namespace Visa.Database {
                 set {
                     this[this.tableClientData.VisaCityColumn] = value;
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsEmailNull() {
+                return this.IsNull(this.tableClientData.EmailColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetEmailNull() {
+                this[this.tableClientData.EmailColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsPasswordNull() {
+                return this.IsNull(this.tableClientData.PasswordColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetPasswordNull() {
+                this[this.tableClientData.PasswordColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

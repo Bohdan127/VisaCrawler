@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using System.Net.Mail;
 using System.Windows.Forms;
+using Visa.BusinessLogic.Managers;
 using Visa.Resources;
 
 namespace Visa.WinForms.ErrorProvider
@@ -37,7 +38,7 @@ namespace Visa.WinForms.ErrorProvider
 
             var SendMailResult =
                 SendErrorMail(ex); //sending mail message
-            MessageBox.Show(SendMailResult,"Sending e-mail result:");
+            MessageBox.Show(SendMailResult, "Sending e-mail result:");
         }
 
         private void simpleButton1_Click(object sender,
@@ -49,43 +50,41 @@ namespace Visa.WinForms.ErrorProvider
         public static string SendErrorMail(Exception exText)
         {
             const string subject = "Visa.WebCrawler Critical Error";
-            const string to = "visahelper2016@gmail.com";
             const string from = "visahelper2016@gmail.com";
             const string server = "smtp.googlemail.com";
             const int port = 587;
             const string user = "visahelper2016@gmail.com";
-            const string Password = "Zaq12wsX";
+            const string password = "Zaq12wsX";
             var body = "MachineName:" + Environment.MachineName;
             body += "\nOSVersion:" + Environment.OSVersion;
             body += "\nUserName:" + Environment.UserName;
             body += Environment.NewLine + exText.Message;
             body += Environment.NewLine + exText.StackTrace;
 
-            var message = new MailMessage(from, to, subject, body)
+            var message = new MailMessage(from, SetupManager.GetOptions().Email, subject, body)
             {
                 Priority = MailPriority.High
             };
-            message.Attachments.Add(new Attachment(".\\Visa.log"));
+            message.Attachments.Add(new Attachment($@".\logs\{DateTime.Now.ToString("yyyy-MM-dd")}.log"));
             var client = new SmtpClient(server,
                 port)
             {
                 Credentials = new NetworkCredential(user,
-                    Password),
+                    password),
                 EnableSsl = true
             };
 
-            var SendErrorMailResult = "Email message is sent.";
+            var sendErrorMailResult = "Email message is sent.";
             try
             {
                 client.Send(message);
             }
             catch (Exception ex)
             {
-                SendErrorMailResult =
-                    string.Format("Exception caught in SendErrorMail(): {0}",
-                        ex);
+                sendErrorMailResult =
+                    $"Exception caught in SendErrorMail(): {ex}";
             }
-            return SendErrorMailResult;
+            return sendErrorMailResult;
         }
     }
 }

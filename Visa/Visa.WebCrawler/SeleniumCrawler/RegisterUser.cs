@@ -24,6 +24,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 "ignore");
             prof.SetPreference("startup.homepage_welcome_url.additional",
                 "about:blank");
+            RegistrarionDateAvailability = DialogResult.None;
             _driver = new FirefoxDriver(prof);
             _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
 
@@ -134,15 +135,14 @@ namespace Visa.WebCrawler.SeleniumCrawler
                         CultureInfo.CurrentCulture);
                     _logger.Info(
                         $"First date for Registration => {availableDate}");
-                    if (dataRow.RegistryFom <= availableDate
-                        && availableDate <= dataRow.RegistryTo)
+                    var diffFrom = dataRow.RegistryFom - availableDate;
+                    _logger.Info($"dataRow.RegistryFom - availableDate = {diffFrom}");
+
+                    var diffTo = availableDate - dataRow.RegistryTo;
+                    _logger.Info($"availableDate - dataRow.RegistryTo = {diffTo}");
+                    if (diffFrom.Days <= 0
+                        && diffTo.Days >= 0)
                     {
-                        _logger.Info(
-                            "dataRow.RegistryFom <= availableDate =>" +
-                            $" {dataRow.RegistryFom} <= {availableDate}");
-                        _logger.Info(
-                            "availableDate <= dataRow.RegistryTo =>" +
-                            $" {availableDate} <= {dataRow.RegistryTo}");
                         bRes = true;
                     }
                     else
@@ -161,7 +161,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     _logger.Warn(ex.StackTrace);
                 }
             }
-            catch (Exception ex)//todo if Ivan add ome new property to see inner detailed True/False sub-result, we should use it here and run this function from RunNextStep
+            catch (Exception ex)//todo if Ivan add one new property to see inner detailed True/False sub-result, we should use it here and run this function from RunNextStep
                 when (ex is NoSuchElementException || ex is WebDriverException)
             {
                 if (Canceled)
@@ -362,7 +362,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         public bool Canceled { get; set; }
 
-        public bool getFirstDateScroll { get; set; }
+        public bool GetFirstDateScroll { get; set; }
 
         public bool IsServerDown
         {
@@ -468,7 +468,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         private void CheckForError()
         {
-            _logger.Info($"Start CheckForError. Error = {Error}");
+            _logger.Trace($"Start CheckForError. Error = {Error}");
             IWebElement erQuery = null;
             Thread.Sleep(2000);//todo maybe this one is not needed any more
             try
@@ -489,7 +489,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     $"throw new NoSuchElementException. Reason erQuery.Text.IsNotBlank = {erQuery.Text}");
                 throw new NoSuchElementException();
             }
-            _logger.Info($"End CheckForError. Error = {Error}");
+            _logger.Trace($"End CheckForError. Error = {Error}");
         }
 
         public void CloseBrowser()
@@ -500,37 +500,39 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         #endregion Help Functions
 
-        #region Is Not Used Now but will be in the future
-
-        public void SubmitClientData()// state 11
+        public void SubmitClientData()// state 11 && state 14
         {
-            _logger.Info($"Start SubmitClientData. Error = {Error}.");
+            _logger.Trace($"Start SubmitClientData. Error = {Error}.");
             FindElementWithChecking(By.Id(buttonSubmit))
                 .Click();
-            _logger.Info("PartThree. buttonSubmit Click");
-            _logger.Info($"End SubmitClientData. Error = {Error}");
+            _logger.Info("SubmitClientData. buttonSubmit Click");
+            _logger.Trace($"End SubmitClientData. Error = {Error}");
         }
 
         public void GetFirstDate(VisaDataSet.ClientDataRow dataRow)
         {
-            _logger.Info($"Start GetFirstDate. Error = {Error}. dataRow.NumberOfReceipt = {dataRow.NumberOfReceipt}");
-            Thread.Sleep(2000);
-            //"#ctl00_plhMain_cldAppointment > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2)"
-            IWebElement tableOuter = FindElementWithChecking(By.Id("ctl00_plhMain_cldAppointment"));
-            IWebElement tableInner = tableOuter.FindElement(By.TagName("table"));
+            _logger.Trace($"Start GetFirstDate. Error = {Error}. dataRow.NumberOfReceipt = {dataRow.NumberOfReceipt}");
+            /* 
+             * #ctl00_plhMain_cldAppointment 
+             *  > tbody:nth-child(1) 
+             *      > tr:nth-child(1) 
+             *          > td:nth-child(1) 
+             *              > table:nth-child(1) 
+             *                  > tbody:nth-child(1) 
+             *                      > tr:nth-child(1) 
+             *                          > td:nth-child(2)"
+             */
+            var tableOuter = FindElementWithChecking(By.Id("ctl00_plhMain_cldAppointment"));
+            var tableInner = tableOuter.FindElement(By.TagName("table"));
             var tdCollection = tableInner.FindElements(By.TagName("td"));
-            string dateString, format;
-            DateTime result;
-            dateString = tdCollection[1].Text;
-            format = "MMMM yyyy р.";
-            CultureInfo provider;
-            provider = new CultureInfo("uk-UA");
-            getFirstDateScroll = false;
+            var dateString = tdCollection[1].Text;
+            var format = "MMMM yyyy р.";
+            GetFirstDateScroll = false;
             try
             {
-                _logger.Trace($"GetFirstDate Try Parse Month. element.Text = {dateString}.");
-                result = DateTime.ParseExact(dateString, format, provider);
-                _logger.Trace($"GetFirstDate element.Text = {dateString} is parsed as {result.ToString("d MMM yyyy")}");
+                _logger.Info($"GetFirstDate Try Parse Month. element.Text = {dateString}.");
+                var result = DateTime.ParseExact(dateString, format, CultureInfo.CurrentCulture);
+                _logger.Info($"GetFirstDate element.Text = {dateString} is parsed as {result.ToString("d MMM yyyy")}");
 
                 if (dataRow.RegistryTo.Month < result.Month || dataRow.RegistryFom.Month > result.Month)
                 {
@@ -538,14 +540,14 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     if (dataRow.RegistryTo.Month < result.Month)
                         colIndex = 2;
                     tdCollection[colIndex].Click();
-                    _logger.Trace($"GetFirstDate. Skroll Calendar { tdCollection[colIndex].Text}");
-                    getFirstDateScroll = true;
+                    _logger.Info($"GetFirstDate. Scroll Calendar { tdCollection[colIndex].Text}");
+                    GetFirstDateScroll = true;
                 }
                 else
                 {
                     var queryCollection = _driver.FindElements(By.ClassName(availableData));
                     if (queryCollection.Count == 0) _logger.Warn($"no dates Available this month:{dateString}");
-                    _logger.Trace($"GetFirstDate. minDate = { dataRow.RegistryFom.Day}. maxDate = {dataRow.RegistryTo.Day}");
+                    _logger.Info($"GetFirstDate. minDate = { dataRow.RegistryFom.Day}. maxDate = {dataRow.RegistryTo.Day}");
                     OutData = string.Format(ResManager.GetString(ResKeys.DateIncorrect_Message), dataRow.RegistryFom.Day.ToString() + " & " + dataRow.RegistryTo.Day.ToString());
                     foreach (var element in queryCollection)
                     {
@@ -553,7 +555,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
                         if (date == null || date.Value > dataRow.RegistryTo.Day || date.Value < dataRow.RegistryFom.Day) continue;
 
-                        _logger.Trace($"GetFirstDate. date.Value = {date.Value} element Click");
+                        _logger.Info($"GetFirstDate. date.Value = {date.Value} element Click");
                         OutData = date.Value.ToString();
                         element.Click();
                         break;
@@ -566,39 +568,22 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 Error = true;
             }
             catch (Exception ex)
-            {
+            {//todo Bohdan127 we really need it?
                 _logger.Error($"GetFirstDate Exception{ex.Message}");
                 Error = true;
             }
             CheckForError();//todo we need to check if that sate is returned
-            _logger.Info($"End GetFirstDate. Error = {Error}. dateFrom: {dataRow.RegistryFom.ToShortDateString()}, dateTo: {dataRow.RegistryTo.ToShortDateString()}, OutData: {OutData}");
+            _logger.Trace($"End GetFirstDate. Error = {Error}. dateFrom: {dataRow.RegistryFom.ToShortDateString()}, dateTo: {dataRow.RegistryTo.ToShortDateString()}, OutData: {OutData}");
         }
 
-        //public void PartFive()
-        //{
-        //    _logger.Info($"Start PartFive. Error = {Error}.");
-        //    try
-        //    {
-        //        OutData = string.Empty;
-        //        Thread.Sleep(2000);
-        //        {
-        //            FindElementWithChecking(By.Id(registryTime)).Click();
-        //            _logger.Info("PartFive. registryTime Click");
-        //        }
-        //    }
-        //    catch (Exception ex) when (ex is NoSuchElementException || ex is WebDriverException)
-        //    {
-        //        if (Canceled)
-        //            _logger.Warn($"Canceled by User. Error  = {Error}");
-        //        else
-        //        {
-        //            _logger.Error($"NoSuchElementException with message = {ex.Message}");
-        //            Error = true;
-        //        }
-        //    }
-        //    _logger.Info($"End PartFive. Error = {Error}");
-        //}
+        public void SelectRegistrationTime()
+        {
+            _logger.Trace($"Start SelectRegistrationTime. Error = {Error}.");
 
-        #endregion Is Not Used Now but will be in the future
+            OutData = string.Empty;
+            FindElementWithChecking(By.Id(registryTime)).Click();
+
+            _logger.Trace($"End SelectRegistrationTime. Error = {Error}");
+        }
     }
 }

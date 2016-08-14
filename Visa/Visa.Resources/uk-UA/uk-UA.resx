@@ -258,7 +258,8 @@
   </data>
   <data name="DateIncorrect_Message" xml:space="preserve">
     <value>Дата не відповідає діапазону 
-{0}</value>
+{0}
+Бажатєте продовжити далі?</value>
   </data>
   <data name="Key_Used" xml:space="preserve">
     <value>Цей ключ уже використовуєтся 
@@ -307,5 +308,21 @@
   </data>
   <data name="lblEmail" xml:space="preserve">
     <value>Email для відправки реєстрації</value>
+  </data>
+  <data name="ValidationError_Message_Option_Email" xml:space="preserve">
+    <value>Будь-ласка випевніть пошту в опціях</value>
+  </data>
+  <data name="ValidationError_Message_Option_Password" xml:space="preserve">
+    <value>Будь-ласка випевніть пароль в опціях</value>
+  </data>
+  <data name="Application_Logic_Error" xml:space="preserve">
+    <value>Нелогічна поведінка була знайдена в програмі
+Повідомлення вже вислано на пошту
+Будь-ласка перезапустіть програму!</value>
+  </data>
+  <data name="Fill_Calendar_And_Captcha" xml:space="preserve">
+    <value>Будь-ласка випевніть капчу
+Та виберіть дату реєстрації
+Після цьго натисніть ТУТ!!!</value>
   </data>
 </root>

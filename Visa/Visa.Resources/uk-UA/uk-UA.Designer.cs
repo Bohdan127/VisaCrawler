@@ -61,6 +61,17 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Нелогічна поведінка була знайдена в програмі
+        ///Повідомлення вже вислано на пошту
+        ///Будь-ласка перезапустіть програму!.
+        /// </summary>
+        public static string Application_Logic_Error {
+            get {
+                return ResourceManager.GetString("Application_Logic_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Додатково.
         /// </summary>
         public static string ApplicationMenu_Caption {
@@ -280,7 +291,8 @@ namespace Visa.Resources.uk_UA {
         
         /// <summary>
         ///   Looks up a localized string similar to Дата не відповідає діапазону 
-        ///{0}.
+        ///{0}
+        ///Бажатєте продовжити далі?.
         /// </summary>
         public static string DateIncorrect_Message {
             get {
@@ -306,6 +318,17 @@ namespace Visa.Resources.uk_UA {
         public static string ExceptionHanler_Title {
             get {
                 return ResourceManager.GetString("ExceptionHanler_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Будь-ласка випевніть капчу
+        ///Та виберіть дату реєстрації
+        ///Після цьго натисніть ТУТ!!!.
+        /// </summary>
+        public static string Fill_Calendar_And_Captcha {
+            get {
+                return ResourceManager.GetString("Fill_Calendar_And_Captcha", resourceCulture);
             }
         }
         
@@ -554,6 +577,24 @@ namespace Visa.Resources.uk_UA {
         public static string ValidationError_Message_NullText {
             get {
                 return ResourceManager.GetString("ValidationError_Message_NullText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Будь-ласка випевніть пошту в опціях.
+        /// </summary>
+        public static string ValidationError_Message_Option_Email {
+            get {
+                return ResourceManager.GetString("ValidationError_Message_Option_Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Будь-ласка випевніть пароль в опціях.
+        /// </summary>
+        public static string ValidationError_Message_Option_Password {
+            get {
+                return ResourceManager.GetString("ValidationError_Message_Option_Password", resourceCulture);
             }
         }
         

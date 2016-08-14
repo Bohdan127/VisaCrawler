@@ -24,6 +24,7 @@ using Visa.License.Logic;
 using Visa.Resources;
 using Visa.Resources.uk_UA;
 using Visa.WebCrawler.SeleniumCrawler;
+using Visa.WinForms.ErrorProvider;
 using Visa.WinForms.Views;
 
 namespace Visa.WinForms
@@ -47,8 +48,6 @@ namespace Visa.WinForms
         #endregion CTOR
 
         #region Members
-
-        private StateManager _stateManager;
 
         private RegisterUser _crawlerRegistry;
 
@@ -108,19 +107,10 @@ namespace Visa.WinForms
 
             currRow.ClearErrors();
 
-            try
-            {
-                currRow.Email = SetupManager.GetOptions().Email;
-                    //= currRow.LastName
-                    //+ currRow.Birthday.Year.ToString().Remove(0,2) + "@i.ua";
-                currRow.PeopleCount = SetupManager.GetOptions().PeopleCount;
-                currRow.ChildsCount = SetupManager.GetOptions().ChildCount;
-                currRow.ReturnData = currRow.RegistryFom.AddYears(1);
-            }
-            catch
-            {
-                // ignored
-            }
+            currRow.Email = SetupManager.GetOptions().Email;
+            currRow.PeopleCount = SetupManager.GetOptions().PeopleCount;
+            currRow.ChildsCount = SetupManager.GetOptions().ChildCount;
+            currRow.ReturnData = currRow.RegistryFom.AddYears(1);
 
             foreach (var column in currRow.Table.Columns.Cast<DataColumn>().
                 Where(
@@ -388,8 +378,8 @@ namespace Visa.WinForms
                     _logger.Warn(
                         $"return _crawlerWorker_DoWork. State = {_state}."
                         + $" OutData = {_crawlerRegistry.OutData}. _crawlerRegistry.Error = true ");
-                        SetDefaultState();
-                        bBreak = true;
+                    SetDefaultState();
+                    bBreak = true;
                     ShowAlert(_crawlerRegistry.OutData.IsNotBlank()
                         ? _crawlerRegistry.OutData
                         : ResManager.GetString(ResKeys.ServerError),
@@ -399,47 +389,52 @@ namespace Visa.WinForms
                     _crawlerRegistry.Error = false;
                 }
                 else
+                    // ReSharper disable once SwitchStatementMissingSomeCases
                     switch (_state)
-                {
-                        case 8:
-                            if (_crawlerRegistry != null)
-                    ShowAlert(_crawlerRegistry.OutData,
-                        true);
-                    bBreak = !SetupManager.GetOptions().RepeatIfCrash;
-                            break;
-
-                        case 6:
-                        case 9:
-                            ShowAlert(
-                                ResManager.GetString(ResKeys.FillCaptchaAndPress),
-                        false);
-                    bBreak = true;
-                            break;
-
-                        case 1:
-                    if (!_crawlerRegistry.Error)
                     {
-                        XtraMessageBox.Show(_crawlerRegistry.OutData,
-                            ResManager.GetString(ResKeys.SearchResult),
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Exclamation);
-                    }
+                        case 1:
+                            if (!_crawlerRegistry.Error)
+                            {
+                                XtraMessageBox.Show(_crawlerRegistry.OutData,
+                                    ResManager.GetString(ResKeys.SearchResult),
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Exclamation);
+                            }
                             XtraMessageBox.Show("Реєстрація клієнта закінчена",
                                 //todo move it to resource
                                 "Info",
                                 // ResManager.GetString(ResKeys.SearchResult),
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Exclamation);
-                    //ShowAlert(
-                    //    ResManager.GetString(ResKeys.FillCaptchaAndComplete),
-                    //    true);
-                    bBreak = true;
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Exclamation);
+                            //ShowAlert(
+                            //    ResManager.GetString(ResKeys.FillCaptchaAndComplete),
+                            //    true);
+                            bBreak = true;
                             break;
-
+                        case 6:
+                        case 9:
+                        case 14:
+                        case 15:
+                            ShowAlert(
+                                ResManager.GetString(ResKeys.FillCaptchaAndPress),
+                                false);
+                            bBreak = true;
+                            break;
+                        case 8:
+                            ShowAlert(_crawlerRegistry.OutData,
+                                true);
+                            bBreak = !SetupManager.GetOptions().RepeatIfCrash;
+                            break;
+                        case 13:
+                            ShowAlert(
+                                ResManager.GetString(ResKeys.Fill_Calendar_And_Captcha),
+                                false);
+                            bBreak = true;
+                            break;
                         case BreakState:
                             bBreak = true;
                             break;
-                }
+                    }
             } while (!bBreak);
 
             _logger.Trace(
@@ -516,7 +511,7 @@ namespace Visa.WinForms
                     break;
 
                 case 7: //CheckData(dataRow)
-                    //todo we should think how to use here  _crawlerRegistry.RunNextStep(() =>
+                    //todo Bohdan127 we should think how to use here  _crawlerRegistry.RunNextStep(() =>
                     var isAvailableDate =
                         _crawlerRegistry.CheckDate(dataRow);
 
@@ -541,7 +536,7 @@ namespace Visa.WinForms
                                     DialogResult.Cancel;
                                 _state = BreakState;
                                 //go out from the registration process
-                    break;
+                                break;
 
                             case DialogResult.Yes:
                                 _crawlerRegistry.RegistrarionDateAvailability =
@@ -586,17 +581,54 @@ namespace Visa.WinForms
                     break;
 
                 case 12: // GetFirstDate(dataRow)
-                    _crawlerRegistry.RunNextStep(
-                        () => _crawlerRegistry.GetFirstDate(dataRow));
-                    if (!_crawlerRegistry.getFirstDateScroll)
-                        _state = 1; // alerts.Close(), and StartAgain
-                    // else repeat step
+                    // ReSharper disable once SwitchStatementMissingSomeCases
+                    switch (_crawlerRegistry.RegistrarionDateAvailability)
+                    {
+                        case DialogResult.Cancel:
+                        case DialogResult.Retry:
+                            _logger.Warn($"{_crawlerRegistry.RegistrarionDateAvailability} for GetFirstDate _state={_state}");
+                            _state = 1; // alerts.Close(), and StartAgain
+                            ExceptionHandlerForm.SendErrorMail(
+                                new NotImplementedException());
+                            XtraMessageBox.Show(ResManager.GetString(ResKeys.Application_Logic_Error),
+                                ResManager.GetString(ResKeys.SearchResult),
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Exclamation);
+                            break;
+                        case DialogResult.Yes:
+                            _logger.Info($"Yes for GetFirstDate _state={_state}");
 
-                    //todo dataRow.Status
+                            _crawlerRegistry.RunNextStep(
+                                () => _crawlerRegistry.GetFirstDate(dataRow));
+
+                            if (!_crawlerRegistry.GetFirstDateScroll || _crawlerRegistry.Error)
+                                _state = 14;
+                            break;
+                        case DialogResult.None:
+                            _state = 13;//show special message for selecting Date of Registration
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    //todo Bohdan127 dataRow.Status!!!!!!!!
+                    break;
+
+                case 13:// show special message for selecting Date of Registration
+                    _state = 14;
+                    break;
+                case 14:// SubmitClientData
+                    _crawlerRegistry.RunNextStep(
+                        () => _crawlerRegistry.SubmitClientData());
+                    _state = 15;
+                    break;
+                case 15:
+                    _crawlerRegistry.RunNextStep(
+                        () => _crawlerRegistry.SelectRegistrationTime());
+                    _state = 1; // alerts.Close(), and StartAgain
                     break;
 
                 #region Old dead code, will be removed later because probably part of them will be needed later
-                    
+
                 //case 5:
                 //    _crawlerRegistry.PartFive();
                 //    if (!_crawlerRegistry.Error)
@@ -615,8 +647,7 @@ namespace Visa.WinForms
                 #endregion Old dead code, will be removed later because probably part of them will be needed later
 
                 default:
-                    _logger.Error(
-                        $"incorrect State = {_state} for CrawlerWorkFirstPart");
+                    _logger.Error($"Incorrect State = {_state} for CrawlerWorkFirstPart");
                     break;
             }
 
@@ -635,51 +666,52 @@ namespace Visa.WinForms
                     if (_crawlerRegistry.IsServerDown)
                     {
                         _logger.Warn($"Reload page. _state = {_state}");
-                        ShowAlert(
-                            ResManager.GetString(ResKeys.WebPage_WillBeReloaded),
+                        ShowAlert(ResManager.GetString(ResKeys.WebPage_WillBeReloaded),
                             true);
                         if (toStateFour)
                         {
                             _state = 4;
-                            toStateFour = false;
                         }
                         _crawlerRegistry.ReloadPage();
                     }
                     else
                     {
-                        ShowAlert(
-                            ResManager.GetString(ResKeys.WebPage_StillNotLoaded),
+                        ShowAlert(ResManager.GetString(ResKeys.WebPage_StillNotLoaded),
                             true);
                     }
                 }
+                toStateFour = false;
                 _crawlerRegistry.Error = false;
 
-                //todo later here should be changed for collecting all rows instead first one like now
+                //todo Bohdan127 later here should be changed for collecting all rows instead first one like now
                 CrawlerWorkSecondPart(gridView1.GetDataRow(0));
 
                 if (_crawlerRegistry.Canceled
                     || !_crawlerRegistry.Error)
                     continue;
 
-                    _logger.Warn(
-                    $"!_crawlerRegistry.Canceled && _crawlerRegistry.Error. _state = {_state}."
-                    + $" counter = {counter} _crawlerRegistry.ValidationError = {_crawlerRegistry.ValidationError}");
-                    switch (_state)
-                    {
-                        case 8: // BackToCityAndReason()
-                        case 9: // Receipt(dataRow)
-                            _state = 4; // SelectCityAndReason(dataRow)
-                            break;
-                        //todo this just from my mind but also can be should be tested, because probably can not help but generate new errors
-                        case 7:
-                            toStateFour = true;
-                            break;
-
-                        default:
-                            _state--;
-                            break;
-                    }
-                    counter++;
+                _logger.Warn($"!_crawlerRegistry.Canceled && _crawlerRegistry.Error. _state = {_state}." + $" counter = {counter} _crawlerRegistry.ValidationError = {_crawlerRegistry.ValidationError}");
+                switch (_state)
+                {
+                    case 1:
+                        _state = 15;
+                        break;
+                    case 8: // BackToCityAndReason()
+                    case 9: // Receipt(dataRow)
+                        _state = 4; // SelectCityAndReason(dataRow)
+                        break;
+                    //todo Bohdan127 this just from my mind but also can be should be tested, because probably can not help but generate new errors
+                    case 7:
+                        toStateFour = true;
+                        break;
+                    case 14:
+                        _state = 12; // GetFirstDate(dataRow)
+                        break;
+                    default:
+                        _state--;
+                        break;
+                }
+                counter++;
 
                 if (!_crawlerRegistry.ValidationError)
                     continue;
@@ -687,6 +719,7 @@ namespace Visa.WinForms
                 //we should show that error and finish the process of registration
                 counter = RefreshCount;
                 _state = BreakState;
+                _crawlerRegistry.ValidationError = false;
             } while (counter < RefreshCount
                      && _crawlerRegistry.Error
                      && SetupManager.GetOptions().RepeatIfCrash);
@@ -698,6 +731,22 @@ namespace Visa.WinForms
             var bRes = gridView1.RowCount > 0;
             bRes = bRes && !gridView1.HasColumnErrors;
             bRes = bRes && ValidateRegistryDates();
+            if (bRes && SetupManager.GetOptions().Email.IsBlank())
+            {
+                XtraMessageBox.Show(ResManager.GetString(ResKeys.ValidationError_Message_Option_Email),
+                    ResManager.GetString(ResKeys.ValidationError_Title),
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Stop);
+                bRes = false;
+            }
+            if (bRes && SetupManager.GetOptions().Password.IsBlank())
+            {
+                XtraMessageBox.Show(ResManager.GetString(ResKeys.ValidationError_Message_Option_Password),
+                    ResManager.GetString(ResKeys.ValidationError_Title),
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Stop);
+                bRes = false;
+            }
 
             _logger.Info($"ValidateControlsSecond = {bRes}");
 
@@ -711,17 +760,16 @@ namespace Visa.WinForms
                 i < gridView1.RowCount;
                 i++)
             {
-                var row = (VisaDataSet.ClientDataRow)gridView1.GetDataRow(i);
+                gridView1.FocusedRowHandle = i;
+                var row = (VisaDataSet.ClientDataRow)gridView1.GetFocusedDataRow();
 
                 if (row.RegistryFom <= row.RegistryTo)
                     continue;
 
                 bRes = false;
-                row.SetColumnError(
-                    ResManager.GetString(ResKeys.colRegistryFom_DataColumn_Name),
+                row.SetColumnError(ResManager.GetString(ResKeys.colRegistryFom_DataColumn_Name),
                     ResManager.GetString(ResKeys.colRegistryFom_ValidationError));
-                row.SetColumnError(
-                    ResManager.GetString(ResKeys.colRegistryTo_DataColumn_Name),
+                row.SetColumnError(ResManager.GetString(ResKeys.colRegistryTo_DataColumn_Name),
                     ResManager.GetString(ResKeys.colRegistryTo_ValidationError));
             }
             return bRes;
@@ -736,8 +784,7 @@ namespace Visa.WinForms
             var start = DateTime.Now;
             try
             {
-                key = File.ReadAllLines(filePath).FirstOrDefault()
-                      ?? string.Empty;
+                key = File.ReadAllLines(filePath).FirstOrDefault() ?? string.Empty;
             }
             catch (Exception ex)
             {
@@ -748,14 +795,12 @@ namespace Visa.WinForms
             {
                 if (!licenseForm.CheckInstance(key))
                 {
-                    _logger.Info(
-                        $"Time for CheckLicense = {DateTime.Now - start}");
+                    _logger.Info($"Time for CheckLicense = {DateTime.Now - start}");
                     licenseForm.ShowDialog();
                 }
                 else
                 {
-                    _logger.Info(
-                        $"Time for CheckLicense = {DateTime.Now - start}");
+                    _logger.Info($"Time for CheckLicense = {DateTime.Now - start}");
                 }
                 if (!licenseForm.IsRegistered
                     || licenseForm.LicenseKey.IsBlank())
@@ -798,28 +843,22 @@ namespace Visa.WinForms
             _logger.Trace("Start SetDataSourceForLookUps");
             var timeStart = DateTime.Now;
 
-            repositoryItemLookUpEditVisaCity.DataSource =
-                Enumerable.Where(InstanceProvider.DataSet.Choice,
-                    c => c.Type == (short)ChoicesType.ServiceCenter).ToList();
+            repositoryItemLookUpEditVisaCity.DataSource = Enumerable.Where(InstanceProvider.DataSet.Choice,
+                c => c.Type == (short)ChoicesType.ServiceCenter).ToList();
 
-            repositoryItemLookUpEditVisaType.DataSource =
-                Enumerable.Where(InstanceProvider.DataSet.Choice,
-                    c => c.Type == (short)ChoicesType.VisaCategory).ToList();
+            repositoryItemLookUpEditVisaType.DataSource = Enumerable.Where(InstanceProvider.DataSet.Choice,
+                c => c.Type == (short)ChoicesType.VisaCategory).ToList();
 
-            repositoryItemLookUpEditNationality.DataSource =
-                Enumerable.Where(InstanceProvider.DataSet.Choice,
-                    c => c.Type == (short)ChoicesType.Country).ToList();
+            repositoryItemLookUpEditNationality.DataSource = Enumerable.Where(InstanceProvider.DataSet.Choice,
+                c => c.Type == (short)ChoicesType.Country).ToList();
 
-            repositoryItemLookUpEditRegistryTime.DataSource =
-                Enumerable.Where(InstanceProvider.DataSet.Choice,
-                    c => c.Type == (short)ChoicesType.RegistryTime).ToList();
+            repositoryItemLookUpEditRegistryTime.DataSource = Enumerable.Where(InstanceProvider.DataSet.Choice,
+                c => c.Type == (short)ChoicesType.RegistryTime).ToList();
 
-            repositoryItemLookUpEditStatus.DataSource =
-                Enumerable.Where(InstanceProvider.DataSet.Choice,
-                    c => c.Type == (short)ChoicesType.StatusType).ToList();
+            repositoryItemLookUpEditStatus.DataSource = Enumerable.Where(InstanceProvider.DataSet.Choice,
+                c => c.Type == (short)ChoicesType.StatusType).ToList();
 
-            _logger.Info(
-                $"Time for initialize datasets = {DateTime.Now - timeStart}");
+            _logger.Info($"Time for initialize datasets = {DateTime.Now - timeStart}");
             _logger.Trace("End SetDataSourceForLookUps.");
         }
 
@@ -839,10 +878,8 @@ namespace Visa.WinForms
             _alertControl.FormLoad += _alertControl_FormLoad;
 
             _crawlerRegistry = new RegisterUser();
-            _stateManager = new StateManager();
 
-            clientDataRowBindingSource.DataSource =
-                InstanceProvider.DataSet.ClientData;
+            clientDataRowBindingSource.DataSource = InstanceProvider.DataSet.ClientData;
             repositoryItemTextEditPassword.PasswordChar = '*';
 
             _state = 2;
@@ -858,48 +895,36 @@ namespace Visa.WinForms
             InitRepositoryNames();
             InitBarButtonNames();
 
-            _logger.Info(
-                $"Time for InitOtherComponentDetails = {DateTime.Now - timeStart}");
+            _logger.Info($"Time for InitOtherComponentDetails = {DateTime.Now - timeStart}");
             _logger.Trace("End InitOtherComponentDetails.");
         }
 
         private void InitBarButtonNames()
         {
             _logger.Trace("Start InitBarButtonNames");
-            applicationMenu1.MenuCaption =
-                ResManager.GetString(ResKeys.ApplicationMenu_Caption);
-            barButtonItemImport.Caption =
-                ResManager.GetString(ResKeys.BarButtonItemImport_Caption);
-            barButtonItemSetup.Caption =
-                ResManager.GetString(ResKeys.BarButtonItemSetup_Caption);
+            applicationMenu1.MenuCaption = ResManager.GetString(ResKeys.ApplicationMenu_Caption);
+            barButtonItemImport.Caption = ResManager.GetString(ResKeys.BarButtonItemImport_Caption);
+            barButtonItemSetup.Caption = ResManager.GetString(ResKeys.BarButtonItemSetup_Caption);
             _logger.Trace("End InitBarButtonNames");
         }
 
         private void InitRepositoryNames()
         {
             _logger.Trace("Start InitRepositoryNames");
-            repositoryItemLookUpEditStatus.NullText =
-                ResManager.GetString(ResKeys.Status_NullText);
-            repositoryItemLookUpEditNationality.NullText =
-                ResManager.GetString(ResKeys.Nationality_NullText);
-            repositoryItemLookUpEditRegistryTime.NullText =
-                ResManager.GetString(ResKeys.RegistryTime_NullText);
-            repositoryItemLookUpEditVisaType.NullText =
-                ResManager.GetString(ResKeys.VisaCategory_NullText);
-            repositoryItemLookUpEditVisaCity.NullText =
-                ResManager.GetString(ResKeys.ServiceCenter_NullText);
+            repositoryItemLookUpEditStatus.NullText = ResManager.GetString(ResKeys.Status_NullText);
+            repositoryItemLookUpEditNationality.NullText = ResManager.GetString(ResKeys.Nationality_NullText);
+            repositoryItemLookUpEditRegistryTime.NullText = ResManager.GetString(ResKeys.RegistryTime_NullText);
+            repositoryItemLookUpEditVisaType.NullText = ResManager.GetString(ResKeys.VisaCategory_NullText);
+            repositoryItemLookUpEditVisaCity.NullText = ResManager.GetString(ResKeys.ServiceCenter_NullText);
             _logger.Trace("End InitRepositoryNames");
         }
 
         private void InitFieldNames()
         {
             _logger.Trace("Start InitFieldNames");
-            buttonRegistry.Text =
-                ResManager.GetString(ResKeys.ButtonRegistry_Text);
-            layoutControlGroupClientData.Text =
-                ResManager.GetString(ResKeys.lblClientDataGroup);
-            buttonCancelAction.Text =
-                ResManager.GetString(ResKeys.ButtonCancelAction_Text);
+            buttonRegistry.Text = ResManager.GetString(ResKeys.ButtonRegistry_Text);
+            layoutControlGroupClientData.Text = ResManager.GetString(ResKeys.lblClientDataGroup);
+            buttonCancelAction.Text = ResManager.GetString(ResKeys.ButtonCancelAction_Text);
             _logger.Trace("End InitFieldNames");
         }
 
@@ -910,17 +935,14 @@ namespace Visa.WinForms
             colVisaCity.Caption = ResManager.GetString(ResKeys.lblServiceCenter);
             colPeopleCount.Caption = ResManager.GetString(ResKeys.colPeopleCount);
             colChildsCount.Caption = ResManager.GetString(ResKeys.colChildsCount);
-            colNumberOfReceipt.Caption =
-                ResManager.GetString(ResKeys.colNumberOfReceipt);
-            colEndPassportDate.Caption =
-                ResManager.GetString(ResKeys.colEndPassportDate);
+            colNumberOfReceipt.Caption = ResManager.GetString(ResKeys.colNumberOfReceipt);
+            colEndPassportDate.Caption = ResManager.GetString(ResKeys.colEndPassportDate);
             colStatus.Caption = ResManager.GetString(ResKeys.colStatus);
             colName.Caption = ResManager.GetString(ResKeys.colName);
             colLastName.Caption = ResManager.GetString(ResKeys.colLastName);
             colBirthday.Caption = ResManager.GetString(ResKeys.colBirthday);
             colReturnData.Caption = ResManager.GetString(ResKeys.colReturnData);
-            colNationality.Caption =
-                ResManager.GetString(ResKeys.Nationality_Text);
+            colNationality.Caption = ResManager.GetString(ResKeys.Nationality_Text);
             colRegistryFom.Caption = ResManager.GetString(ResKeys.colRegistryFom);
             colRegistryTo.Caption = ResManager.GetString(ResKeys.colRegistryTo);
             _logger.Trace("End InitColumnNames");
@@ -928,13 +950,11 @@ namespace Visa.WinForms
 
         private void SetDefaultState()
         {
-            _logger.Trace(
-                $"Start SetDefaultState. State = {_state}. InitValue = {_initVal}.  buttonRegistry.Enabled = {buttonRegistry.Enabled}. buttonCancelAction.Enabled = {buttonCancelAction.Enabled}.");
+            _logger.Trace($"Start SetDefaultState. State = {_state}. InitValue = {_initVal}.  buttonRegistry.Enabled = {buttonRegistry.Enabled}. buttonCancelAction.Enabled = {buttonCancelAction.Enabled}.");
             _state = 1;
             _initVal = 1;
             SetReadOnly(false);
-            _logger.Trace(
-                $"End SetDefaultState. State = {_state}. InitValue = {_initVal}. buttonRegistry.Enabled = {buttonRegistry.Enabled}. buttonCancelAction.Enabled = {buttonCancelAction.Enabled}.");
+            _logger.Trace($"End SetDefaultState. State = {_state}. InitValue = {_initVal}. buttonRegistry.Enabled = {buttonRegistry.Enabled}. buttonCancelAction.Enabled = {buttonCancelAction.Enabled}.");
         }
 
         private void SetReadOnly(bool readOnly)
@@ -944,10 +964,9 @@ namespace Visa.WinForms
             {
                 buttonRegistry.Enabled = !readOnly;
                 gridView1.OptionsBehavior.Editable = !readOnly;
-                gridView1.OptionsView.NewItemRowPosition =
-                    !gridView1.OptionsBehavior.Editable
-                        ? NewItemRowPosition.None
-                        : NewItemRowPosition.Bottom;
+                gridView1.OptionsView.NewItemRowPosition = !gridView1.OptionsBehavior.Editable
+                    ? NewItemRowPosition.None
+                    : NewItemRowPosition.Bottom;
                 buttonCancelAction.Enabled = readOnly;
             }));
         }

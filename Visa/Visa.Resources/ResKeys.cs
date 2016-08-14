@@ -85,5 +85,16 @@
 
         public const string WebPage_StillNotLoaded = "WebPage_StillNotLoaded";
         public const string WebPage_WillBeReloaded = "WebPage_WillBeReloaded";
+
+        public const string ValidationError_Message_Option_Email =
+            "ValidationError_Message_Option_Email";
+
+        public const string ValidationError_Message_Option_Password =
+            "ValidationError_Message_Option_Password";
+
+        public const string Application_Logic_Error = "Application_Logic_Error";
+
+        public const string Fill_Calendar_And_Captcha =
+            "Fill_Calendar_And_Captcha";
     }
 }

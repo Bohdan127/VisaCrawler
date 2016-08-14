@@ -98,6 +98,11 @@
             // 
             this.textEditEmail.Location = new System.Drawing.Point(173, 188);
             this.textEditEmail.Name = "textEditEmail";
+            this.textEditEmail.Properties.Mask.BeepOnError = true;
+            this.textEditEmail.Properties.Mask.EditMask = "[a-zA-z0-9.]+@[a-zA-z0-9]+.[a-zA-z0-9]{2,3}";
+            this.textEditEmail.Properties.Mask.IgnoreMaskBlank = false;
+            this.textEditEmail.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.textEditEmail.Properties.Mask.PlaceHolder = '*';
             this.textEditEmail.Size = new System.Drawing.Size(244, 20);
             this.textEditEmail.StyleController = this.layoutControl1;
             this.textEditEmail.TabIndex = 13;
