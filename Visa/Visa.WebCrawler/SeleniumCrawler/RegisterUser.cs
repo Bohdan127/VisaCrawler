@@ -470,13 +470,13 @@ namespace Visa.WebCrawler.SeleniumCrawler
         {
             _logger.Trace($"Start CheckForError. Error = {Error}");
             IWebElement erQuery = null;
-            Thread.Sleep(2000);//todo maybe this one is not needed any more
+            Thread.Sleep(2000); //todo maybe this one is not needed any more
             try
             {
                 erQuery = FindElementWithChecking(By.Id(errorMessage));
             }
             catch (Exception ex)
-               when (ex is NoSuchElementException || ex is WebDriverException)
+                when (ex is NoSuchElementException || ex is WebDriverException)
             {
                 {
                     _logger.Info($"Error element not found. Error ={Error}");
@@ -493,6 +493,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 }
                 _logger.Trace($"End CheckForError. Error = {Error}");
             }
+        }
 
         public void CloseBrowser()
         {
