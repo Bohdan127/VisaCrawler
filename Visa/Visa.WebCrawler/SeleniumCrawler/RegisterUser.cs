@@ -141,7 +141,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     var diffTo = availableDate - dataRow.RegistryTo;
                     _logger.Info($"availableDate - dataRow.RegistryTo = {diffTo}");
                     if (diffFrom.Days <= 0
-                        && diffTo.Days >= 0)
+                        && diffTo.Days <= 0)
                     {
                         bRes = true;
                     }
@@ -421,7 +421,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public void ReloadPage()
 
         {
-            _logger.Info($"Start ReloadPage.");
+            _logger.Info("Start ReloadPage.");
             string result = "OK";
             try
             {
@@ -456,7 +456,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     "Interrupted by Canceled flag. throw new WebDriverException");
                 throw new WebDriverException();
             }
-            if (_driver == null)
+            if (_driver == null)//todo we should try to remove it!!! And test how it will works
             {
                 _logger.Warn("FirefoxDriver is NULL");
                 throw new WebDriverException();
@@ -475,22 +475,24 @@ namespace Visa.WebCrawler.SeleniumCrawler
             {
                 erQuery = FindElementWithChecking(By.Id(errorMessage));
             }
-            catch (NoSuchElementException)
+            catch (Exception ex)
+               when (ex is NoSuchElementException || ex is WebDriverException)
             {
-                _logger.Info($"Error element not found. Error ={Error}");
-            }
+                {
+                    _logger.Info($"Error element not found. Error ={Error}");
+                }
 
-            if (erQuery != null
-                && erQuery.Text.IsNotBlank())
-            {
-                ValidationError = true;
-                OutData = erQuery.Text;
-                _logger.Error(
-                    $"throw new NoSuchElementException. Reason erQuery.Text.IsNotBlank = {erQuery.Text}");
-                throw new NoSuchElementException();
+                if (erQuery != null
+                    && erQuery.Text.IsNotBlank())
+                {
+                    ValidationError = true;
+                    OutData = erQuery.Text;
+                    _logger.Error(
+                        $"throw new NoSuchElementException. Reason erQuery.Text.IsNotBlank = {erQuery.Text}");
+                    throw new NoSuchElementException();
+                }
+                _logger.Trace($"End CheckForError. Error = {Error}");
             }
-            _logger.Trace($"End CheckForError. Error = {Error}");
-        }
 
         public void CloseBrowser()
         {
@@ -530,32 +532,50 @@ namespace Visa.WebCrawler.SeleniumCrawler
             GetFirstDateScroll = false;
             try
             {
-                _logger.Info($"GetFirstDate Try Parse Month. element.Text = {dateString}.");
-                var result = DateTime.ParseExact(dateString, format, CultureInfo.CurrentCulture);
-                _logger.Info($"GetFirstDate element.Text = {dateString} is parsed as {result.ToString("d MMM yyyy")}");
+                _logger.Info(
+                    $"GetFirstDate Try Parse Month. element.Text = {dateString}.");
+                var result = DateTime.ParseExact(dateString,
+                    format,
+                    CultureInfo.CreateSpecificCulture("uk-UA"));
+                _logger.Info(
+                    $"GetFirstDate element.Text = {dateString} is parsed as {result.ToString("d MMM yyyy")}");
 
-                if (dataRow.RegistryTo.Month < result.Month || dataRow.RegistryFom.Month > result.Month)
+                if (dataRow.RegistryTo.Month < result.Month
+                    || dataRow.RegistryFom.Month > result.Month)
                 {
-                    int colIndex = 0;
+                    var colIndex = 0;
                     if (dataRow.RegistryTo.Month < result.Month)
                         colIndex = 2;
                     tdCollection[colIndex].Click();
-                    _logger.Info($"GetFirstDate. Scroll Calendar { tdCollection[colIndex].Text}");
+                    _logger.Info(
+                        $"GetFirstDate. Scroll Calendar {tdCollection[colIndex].Text}");
                     GetFirstDateScroll = true;
                 }
                 else
                 {
-                    var queryCollection = _driver.FindElements(By.ClassName(availableData));
-                    if (queryCollection.Count == 0) _logger.Warn($"no dates Available this month:{dateString}");
-                    _logger.Info($"GetFirstDate. minDate = { dataRow.RegistryFom.Day}. maxDate = {dataRow.RegistryTo.Day}");
-                    OutData = string.Format(ResManager.GetString(ResKeys.DateIncorrect_Message), dataRow.RegistryFom.Day.ToString() + " & " + dataRow.RegistryTo.Day.ToString());
+                    var queryCollection =
+                        _driver.FindElements(By.ClassName(availableData));
+                    if (queryCollection.Count == 0)
+                        _logger.Warn(
+                            $"no dates Available this month:{dateString}");
+                    _logger.Info(
+                        $"GetFirstDate. minDate = {dataRow.RegistryFom.Day}. maxDate = {dataRow.RegistryTo.Day}");
+                    OutData =
+                        string.Format(
+                            ResManager.GetString(ResKeys.DateIncorrect_Message),
+                            dataRow.RegistryFom.Day + " & "
+                            + dataRow.RegistryTo.Day);
                     foreach (var element in queryCollection)
                     {
                         var date = element.Text.ConvertToIntOrNull();
 
-                        if (date == null || date.Value > dataRow.RegistryTo.Day || date.Value < dataRow.RegistryFom.Day) continue;
+                        if (date == null
+                            || date.Value > dataRow.RegistryTo.Day
+                            || date.Value < dataRow.RegistryFom.Day)
+                            continue;
 
-                        _logger.Info($"GetFirstDate. date.Value = {date.Value} element Click");
+                        _logger.Info(
+                            $"GetFirstDate. date.Value = {date.Value} element Click");
                         OutData = date.Value.ToString();
                         element.Click();
                         break;
@@ -564,11 +584,13 @@ namespace Visa.WebCrawler.SeleniumCrawler
             }
             catch (FormatException)
             {
-                _logger.Error($"GetFirstDate \"{dateString}\" is not in the correct Date format.");
+                _logger.Error(
+                    $"GetFirstDate \"{dateString}\" is not in the correct Date format.");
                 Error = true;
             }
             catch (Exception ex)
-            {//todo Bohdan127 we really need it?
+            {
+                //todo Bohdan127 we really need it?
                 _logger.Error($"GetFirstDate Exception{ex.Message}");
                 Error = true;
             }

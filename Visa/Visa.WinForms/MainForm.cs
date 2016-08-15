@@ -13,7 +13,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ToolsPortable;
@@ -65,11 +64,6 @@ namespace Visa.WinForms
         ///     Field used for getting part of program
         /// </summary>
         private int _state = 1;
-
-        /// <summary>
-        ///     Field used for showing progress in ProgressBar
-        /// </summary>
-        private int _initVal = 1;
 
         private const int RefreshCount = 15;
 
@@ -384,7 +378,6 @@ namespace Visa.WinForms
                         ? _crawlerRegistry.OutData
                         : ResManager.GetString(ResKeys.ServerError),
                         true);
-                    Thread.Sleep(500);
                     CloseBrowsers(false);
                     _crawlerRegistry.Error = false;
                 }
@@ -393,23 +386,12 @@ namespace Visa.WinForms
                     switch (_state)
                     {
                         case 1:
-                            if (!_crawlerRegistry.Error)
-                            {
-                                XtraMessageBox.Show(_crawlerRegistry.OutData,
-                                    ResManager.GetString(ResKeys.SearchResult),
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Exclamation);
-                            }
-                            XtraMessageBox.Show("Реєстрація клієнта закінчена",
-                                //todo move it to resource
-                                "Info",
-                                // ResManager.GetString(ResKeys.SearchResult),
+                            XtraMessageBox.Show(ResManager.GetString(ResKeys.Complete_Registration),
+                                ResManager.GetString(ResKeys.SearchResult),
                                 MessageBoxButtons.OK,
-                                MessageBoxIcon.Exclamation);
-                            //ShowAlert(
-                            //    ResManager.GetString(ResKeys.FillCaptchaAndComplete),
-                            //    true);
+                                MessageBoxIcon.Information);
                             bBreak = true;
+                            SetDefaultState();
                             break;
                         case 6:
                         case 9:
@@ -420,11 +402,6 @@ namespace Visa.WinForms
                                 false);
                             bBreak = true;
                             break;
-                        case 8:
-                            ShowAlert(_crawlerRegistry.OutData,
-                                true);
-                            bBreak = !SetupManager.GetOptions().RepeatIfCrash;
-                            break;
                         case 13:
                             ShowAlert(
                                 ResManager.GetString(ResKeys.Fill_Calendar_And_Captcha),
@@ -432,6 +409,7 @@ namespace Visa.WinForms
                             bBreak = true;
                             break;
                         case BreakState:
+                            SetDefaultState();
                             bBreak = true;
                             break;
                     }
@@ -950,11 +928,10 @@ namespace Visa.WinForms
 
         private void SetDefaultState()
         {
-            _logger.Trace($"Start SetDefaultState. State = {_state}. InitValue = {_initVal}.  buttonRegistry.Enabled = {buttonRegistry.Enabled}. buttonCancelAction.Enabled = {buttonCancelAction.Enabled}.");
+            _logger.Trace($"Start SetDefaultState. State = {_state}.  buttonRegistry.Enabled = {buttonRegistry.Enabled}. buttonCancelAction.Enabled = {buttonCancelAction.Enabled}.");
             _state = 1;
-            _initVal = 1;
             SetReadOnly(false);
-            _logger.Trace($"End SetDefaultState. State = {_state}. InitValue = {_initVal}. buttonRegistry.Enabled = {buttonRegistry.Enabled}. buttonCancelAction.Enabled = {buttonCancelAction.Enabled}.");
+            _logger.Trace($"End SetDefaultState. State = {_state}. buttonRegistry.Enabled = {buttonRegistry.Enabled}. buttonCancelAction.Enabled = {buttonCancelAction.Enabled}.");
         }
 
         private void SetReadOnly(bool readOnly)

@@ -290,6 +290,15 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Реєстрацію завершено.
+        /// </summary>
+        public static string Complete_Registration {
+            get {
+                return ResourceManager.GetString("Complete_Registration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Дата не відповідає діапазону 
         ///{0}
         ///Бажатєте продовжити далі?.

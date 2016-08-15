@@ -320,6 +320,9 @@
 Повідомлення вже вислано на пошту
 Будь-ласка перезапустіть програму!</value>
   </data>
+  <data name="Complete_Registration" xml:space="preserve">
+    <value>Реєстрацію завершено</value>
+  </data>
   <data name="Fill_Calendar_And_Captcha" xml:space="preserve">
     <value>Будь-ласка випевніть капчу
 Та виберіть дату реєстрації
