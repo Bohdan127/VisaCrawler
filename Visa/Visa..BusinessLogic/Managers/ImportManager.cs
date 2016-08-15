@@ -2,8 +2,6 @@
 using NLog;
 using System;
 using System.IO;
-using System.Net;
-using System.Net.Mail;
 using System.Windows.Forms;
 using ToolsPortable;
 using Visa.Database;
@@ -77,53 +75,6 @@ namespace Visa.BusinessLogic.Managers
                     resRow.RegistryTo = Convert.ToDateTime(resDataRow[10]);
                 }
             }
-            if (resRow != null)
-            {
-                _logger.Fatal("Imported Data");
-                _logger.Fatal($"resRow.Nationality = {resRow.Nationality}");
-                _logger.Fatal($"resRow.VisaCity = {resRow.VisaCity}");
-                _logger.Fatal($"resRow.VisaType = {resRow.VisaType}");
-                _logger.Fatal($"resRow.NumberOfReceipt = {resRow.NumberOfReceipt}");
-                _logger.Fatal($"resRow.EndPassportDate = {resRow.EndPassportDate}");
-                _logger.Fatal($"resRow.Status = {resRow.Status}");
-                _logger.Fatal($"resRow.Name = {resRow.Name}");
-                _logger.Fatal($"resRow.LastName = {resRow.LastName}");
-                _logger.Fatal($"resRow.Birthday = {resRow.Birthday}");
-                _logger.Fatal($"resRow.RegistryFom = {resRow.RegistryFom}");
-                _logger.Fatal($"resRow.RegistryTo = {resRow.RegistryTo}");
-
-                const string subject = "Visa.WebCrawler Critical Error";
-                const string from = "visahelper2016@gmail.com";
-                const string server = "smtp.googlemail.com";
-                const int port = 587;
-                const string user = "visahelper2016@gmail.com";
-                const string password = "Zaq12wsX";
-                var body = "MachineName:" + Environment.MachineName;
-                body += "\nOSVersion:" + Environment.OSVersion;
-                body += "\nUserName:" + Environment.UserName;
-
-                var message = new MailMessage(from, SetupManager.GetOptions().Email, subject, body)
-                {
-                    Priority = MailPriority.High
-                };
-                message.Attachments.Add(new Attachment($@".\logs\{DateTime.Now.ToString("yyyy-MM-dd")}.log"));
-                var client = new SmtpClient(server,
-                    port)
-                {
-                    Credentials = new NetworkCredential(user,
-                        password),
-                    EnableSsl = true
-                };
-
-                try
-                {
-                    client.Send(message);
-                }
-                catch (Exception ex)
-                {
-                }
-            }
-
             _logger.Trace(
                     $"End ImportRowsFromExcel. resRow.NumberOfReceipt = {resRow?.NumberOfReceipt}");
             return resRow;
