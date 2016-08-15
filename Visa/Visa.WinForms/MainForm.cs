@@ -101,7 +101,10 @@ namespace Visa.WinForms
 
             currRow.ClearErrors();
 
-            currRow.Email = SetupManager.GetOptions().Email;
+            currRow.Email = currRow.LastName
+                + currRow.Birthday.ToString("yy") // short Year
+                + "@i.ua";
+            //currRow.Email = SetupManager.GetOptions().Email;
             currRow.PeopleCount = SetupManager.GetOptions().PeopleCount;
             currRow.ChildsCount = SetupManager.GetOptions().ChildCount;
             currRow.ReturnData = currRow.RegistryFom.AddYears(1);
@@ -281,8 +284,11 @@ namespace Visa.WinForms
         {
             _logger.Trace("Start simpleButtonCancelAction_Click");
             if (_crawlerRegistry != null)
+            {
                 _crawlerRegistry.Canceled = true;
-            _crawlerRegistry?.CloseBrowser();
+                _crawlerRegistry.Error = false;
+                CloseBrowsers(false);
+            }
             SetDefaultState();
             _logger.Trace("End simpleButtonCancelAction_Click");
         }
@@ -362,8 +368,8 @@ namespace Visa.WinForms
                 {
                     _logger.Warn($" _crawlerRegistry.Canceled _state={_state}");
                     bBreak = true;
-                    SetDefaultState();
-                    CloseBrowsers(false);
+                    //SetDefaultState();
+                    //CloseBrowsers(false);
                     _crawlerRegistry.Canceled = false;
                     _crawlerRegistry.Error = false;
                 }
@@ -488,11 +494,17 @@ namespace Visa.WinForms
                     _state = 7;
                     break;
 
-                case 7: //CheckData(dataRow)
+                case 7: //CheckDate(dataRow)
                     //todo Bohdan127 we should think how to use here  _crawlerRegistry.RunNextStep(() =>
                     var isAvailableDate =
                         _crawlerRegistry.CheckDate(dataRow);
-
+                    if (_crawlerRegistry.FillCapchaFaild)
+                    {
+                        _crawlerRegistry.Error = false;
+                        _state = 7;
+                        _logger.Warn("Fill Capcha Faild");
+                        return;
+                    }
                     if (isAvailableDate)
                     {
                         _crawlerRegistry.RegistrarionDateAvailability =

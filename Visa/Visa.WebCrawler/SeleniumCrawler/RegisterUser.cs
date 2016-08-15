@@ -27,7 +27,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
             RegistrarionDateAvailability = DialogResult.None;
             _driver = new FirefoxDriver(prof);
             _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
-
+            Error = false;
+            Canceled = false;
             //int port = 4444; //2310;
             //ISelenium selenium = new DefaultSelenium("localhost", port, "*firefox C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", mainUrl);
 
@@ -127,6 +128,11 @@ namespace Visa.WebCrawler.SeleniumCrawler
             try
             {
                 var infoText = FindElementWithChecking(By.Id(errorMessage)).Text;
+                if (infoText.Contains(capchaNotFilledMessage))
+                {
+                    FillCapchaFaild = true;
+                    return false;
+                }
 
                 try
                 {
@@ -341,6 +347,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         private const string btnCancel = "ctl00_plhMain_btnCancel";
 
+        private const string capchaNotFilledMessage = "The image you selected not match";
+
         private static readonly Logger _logger =
             LogManager.GetCurrentClassLogger();
 
@@ -363,6 +371,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public bool Canceled { get; set; }
 
         public bool GetFirstDateScroll { get; set; }
+
+        public bool FillCapchaFaild { get; set; }
 
         public bool IsServerDown
         {
@@ -399,6 +409,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             Action regAction)
         {
             _logger.Info($"Start RunNextStep. Error = {Error}.");
+            CheckForError();
             try
             {
                 regAction();
@@ -478,9 +489,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             catch (Exception ex)
                 when (ex is NoSuchElementException || ex is WebDriverException)
             {
-                {
-                    _logger.Info($"Error element not found. Error ={Error}");
-                }
+                _logger.Info($"Error element not found. Error ={Error}");
 
                 if (erQuery != null
                     && erQuery.Text.IsNotBlank())
@@ -529,7 +538,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             var tableInner = tableOuter.FindElement(By.TagName("table"));
             var tdCollection = tableInner.FindElements(By.TagName("td"));
             var dateString = tdCollection[1].Text;
-            var format = "MMMM yyyy р.";
+            const string format = "MMMM yyyy р.";
             GetFirstDateScroll = false;
             try
             {
@@ -595,7 +604,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 _logger.Error($"GetFirstDate Exception{ex.Message}");
                 Error = true;
             }
-            CheckForError();//todo we need to check if that sate is returned
+            //CheckForError();//todo we need to check if that sate is returned
             _logger.Trace($"End GetFirstDate. Error = {Error}. dateFrom: {dataRow.RegistryFom.ToShortDateString()}, dateTo: {dataRow.RegistryTo.ToShortDateString()}, OutData: {OutData}");
         }
 
