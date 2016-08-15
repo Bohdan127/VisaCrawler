@@ -128,7 +128,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             try
             {
                 var infoText = FindElementWithChecking(By.Id(errorMessage)).Text;
-                if (infoText.Contains(capchaNotFilledMessage))
+                if (infoText.Contains(capchaNotFilledMessage)) //"The image you selected not match"
                 {
                     FillCapchaFaild = true;
                     return false;
@@ -409,9 +409,9 @@ namespace Visa.WebCrawler.SeleniumCrawler
             Action regAction)
         {
             _logger.Info($"Start RunNextStep. Error = {Error}.");
-            CheckForError();
             try
             {
+                CheckForError();
                 regAction();
             }
             catch (Exception ex)
@@ -481,7 +481,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         {
             _logger.Trace($"Start CheckForError. Error = {Error}");
             IWebElement erQuery = null;
-            Thread.Sleep(2000); //todo maybe this one is not needed any more
+            Thread.Sleep(2000);//todo maybe this one is not needed any more
             try
             {
                 erQuery = FindElementWithChecking(By.Id(errorMessage));
@@ -490,18 +490,20 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 when (ex is NoSuchElementException || ex is WebDriverException)
             {
                 _logger.Info($"Error element not found. Error ={Error}");
-
-                if (erQuery != null
-                    && erQuery.Text.IsNotBlank())
-                {
-                    ValidationError = true;
-                    OutData = erQuery.Text;
-                    _logger.Error(
-                        $"throw new NoSuchElementException. Reason erQuery.Text.IsNotBlank = {erQuery.Text}");
-                    throw new NoSuchElementException();
-                }
-                _logger.Trace($"End CheckForError. Error = {Error}");
             }
+            DateTime dateValue;
+            if (erQuery != null
+                && erQuery.Text.IsNotBlank()
+                && !(DateTime.TryParse(erQuery.Text, out dateValue)))// it is available date shown - not error
+            {
+                ValidationError = true;
+                OutData = erQuery.Text;
+                _logger.Error(
+                    $"throw new NoSuchElementException. Reason erQuery.Text.IsNotBlank = {erQuery.Text}");
+                //Error = true;
+                throw new NoSuchElementException();
+            }
+                _logger.Trace($"End CheckForError. Error = {Error}");
         }
 
         public void CloseBrowser()

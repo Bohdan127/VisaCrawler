@@ -385,6 +385,7 @@ namespace Visa.WinForms
                         : ResManager.GetString(ResKeys.ServerError),
                         true);
                     CloseBrowsers(false);
+                    _crawlerRegistry.OutData = string.Empty;
                     _crawlerRegistry.Error = false;
                 }
                 else
@@ -501,8 +502,9 @@ namespace Visa.WinForms
                     if (_crawlerRegistry.FillCapchaFaild)
                     {
                         _crawlerRegistry.Error = false;
-                        _state = 7;
+                        _state = 6;
                         _logger.Warn("Fill Capcha Faild");
+                        _crawlerRegistry.FillCapchaFaild = false;
                         return;
                     }
                     if (isAvailableDate)
@@ -555,6 +557,10 @@ namespace Visa.WinForms
                 case 9: // Receipt(dataRow)
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.Receipt(dataRow));
+                    if(_crawlerRegistry.OutData.IsNotBlank())
+                    {
+                        //todo ?
+                    }
                     _state = 10;
                     break;
 
@@ -686,14 +692,22 @@ namespace Visa.WinForms
                     case 1:
                         _state = 15;
                         break;
+                    case 7:
+                        toStateFour = true;
+                        break;
                     case 8: // BackToCityAndReason()
                     case 9: // Receipt(dataRow)
                         _state = 4; // SelectCityAndReason(dataRow)
                         break;
-                    //todo Bohdan127 this just from my mind but also can be should be tested, because probably can not help but generate new errors
-                    case 7:
-                        toStateFour = true;
+                    case 10:
+                        if(_crawlerRegistry.OutData.IsNotBlank())
+                        {
+                            //bBreak = true;
+                            //return;
+                            //todo ?
+                        }
                         break;
+                    //todo Bohdan127 this just from my mind but also can be should be tested, because probably can not help but generate new errors
                     case 14:
                         _state = 12; // GetFirstDate(dataRow)
                         break;
