@@ -139,16 +139,13 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     var availableDate = DateTime.ParseExact(infoText,
                         "d.MMM.yyyy",
                         CultureInfo.CurrentCulture);
-                    _logger.Info(
-                        $"First date for Registration => {availableDate}");
-                    var diffFrom = dataRow.RegistryFom - availableDate;
-                    _logger.Info($"dataRow.RegistryFom - availableDate = {diffFrom}");
-
-                    var diffTo = availableDate - dataRow.RegistryTo;
-                    _logger.Info($"availableDate - dataRow.RegistryTo = {diffTo}");
-                    if (diffFrom.Days <= 0
-                        && diffTo.Days <= 0)
+                    _logger.Info($"First date for Registration => {availableDate}");
+                    _logger.Info($"dataRow.RegistryFom => { dataRow.RegistryFom}");
+                    _logger.Info($"dataRow.RegistryTo => { dataRow.RegistryTo}");
+                    if (dataRow.RegistryFom <= availableDate
+                        && availableDate <= dataRow.RegistryTo)
                     {
+                        _logger.Info("dataRow.RegistryFom <= availableDate && availableDate <= dataRow.RegistryTo");
                         bRes = true;
                     }
                     else
@@ -213,24 +210,32 @@ namespace Visa.WebCrawler.SeleniumCrawler
         /// <summary>
         ///     Require Captcha after it, also we need to share additional message for user
         /// </summary>
-        public void ClientData(VisaDataSet.ClientDataRow dataRow) //state 10
+        public void EmailAndPassword(VisaDataSet.ClientDataRow dataRow) //state 10
         {
-            _logger.Info($"Start ClientData. Error = {Error}");
-            FindElementWithChecking(By.Id(email))
-                .SendKeys(dataRow.Email);
+            _logger.Trace($"Start EmailAndPassword. Error = {Error}");
+            var txtBox = FindElementWithChecking(By.Id(email));
+            txtBox.Clear();
+            txtBox.SendKeys(dataRow.Email);
             _logger.Info($"ClientData. email set text {dataRow.Email}");
 
-            FindElementWithChecking(By.Id(passForMail))
-                .SendKeys(dataRow.Password);
+            txtBox = FindElementWithChecking(By.Id(passForMail));
+            txtBox.Clear();
+            txtBox.SendKeys(dataRow.Password);
             _logger.Info(
                 $"ClientData. passForMail set text {dataRow.Password}");
 
             FindElementWithChecking(By.Id(buttonSubmitEmail))
                 .Click();
             _logger.Info("ClientData. buttonSubmitEmail Click");
+            _logger.Trace($"End EmailAndPassword. Error = {Error}");
+        }
 
-            FindElementWithChecking(By.Id(endPassportDate))
-                .SendKeys(
+        public void ClientData(VisaDataSet.ClientDataRow dataRow) //state 11
+        {
+            _logger.Trace($"Start ClientData. Error = {Error}");
+            var txtBox = FindElementWithChecking(By.Id(endPassportDate));
+            txtBox.Clear();
+            txtBox.SendKeys(
                     dataRow.EndPassportDate.ToShortDateString().Replace(".",
                         "/"));
             _logger.Info(
@@ -243,25 +248,29 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info(
                 $"ClientData. statusField option[value={dataRow.Status}] Click");
 
-            FindElementWithChecking(By.Id(personName))
-                .SendKeys(dataRow.Name);
+            txtBox = FindElementWithChecking(By.Id(personName));
+            txtBox.Clear();
+            txtBox.SendKeys(dataRow.Name);
             _logger.Info($"ClientData. personName set text {dataRow.Name}");
 
-            FindElementWithChecking(By.Id(personLastName))
-                .SendKeys(dataRow.LastName);
+            txtBox = FindElementWithChecking(By.Id(personLastName));
+            txtBox.Clear();
+            txtBox.SendKeys(dataRow.LastName);
             _logger.Info(
                 $"ClientData. personLastName set text {dataRow.LastName}");
 
-            FindElementWithChecking(By.Id(personBirthday))
-                .SendKeys(dataRow.Birthday.ToShortDateString().Replace(".",
-                    "/"));
+            txtBox = FindElementWithChecking(By.Id(personBirthday));
+            txtBox.Clear();
+            txtBox.SendKeys(dataRow.Birthday.ToShortDateString().Replace(".",
+                   "/"));
             _logger.Info(
                 $"ClientData. personBirthday set text {dataRow.Birthday.ToShortDateString().Replace(".", "/")}");
 
-            FindElementWithChecking(By.Id(returnDate))
-                .SendKeys(dataRow.ReturnData.ToShortDateString()
-                    .Replace(".",
-                        "/"));
+            txtBox = FindElementWithChecking(By.Id(returnDate));
+            txtBox.Clear();
+            txtBox.SendKeys(dataRow.ReturnData.ToShortDateString()
+                .Replace(".",
+                    "/"));
             _logger.Info(
                 $"ClientData. returnDate set text {dataRow.ReturnData.ToShortDateString().Replace(".", "/")}");
 
@@ -272,7 +281,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 .Click();
             _logger.Info(
                 $"ClientData. nationality option[value=\"{dataRow.Nationality}\"] Click");
-            _logger.Info($"End ClientData. Error = {Error}");
+            _logger.Trace($"End ClientData. Error = {Error}");
         }
 
         #region Members
@@ -481,10 +490,9 @@ namespace Visa.WebCrawler.SeleniumCrawler
         {
             _logger.Trace($"Start CheckForError. Error = {Error}");
             IWebElement erQuery = null;
-            Thread.Sleep(2000);//todo maybe this one is not needed any more
             try
             {
-                erQuery = FindElementWithChecking(By.Id(errorMessage));
+                erQuery = _driver.FindElement(By.Id(errorMessage));
             }
             catch (Exception ex)
                 when (ex is NoSuchElementException || ex is WebDriverException)
@@ -503,7 +511,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 //Error = true;
                 throw new NoSuchElementException();
             }
-                _logger.Trace($"End CheckForError. Error = {Error}");
+            _logger.Trace($"End CheckForError. Error = {Error}");
         }
 
         public void CloseBrowser()
@@ -514,7 +522,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         #endregion Help Functions
 
-        public void SubmitClientData()// state 11 && state 14
+        public void SubmitClientData()// state 12 && state 15
         {
             _logger.Trace($"Start SubmitClientData. Error = {Error}.");
             FindElementWithChecking(By.Id(buttonSubmit))
@@ -523,7 +531,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Trace($"End SubmitClientData. Error = {Error}");
         }
 
-        public void GetFirstDate(VisaDataSet.ClientDataRow dataRow)
+        public void GetFirstDate(VisaDataSet.ClientDataRow dataRow) // state 13
         {
             _logger.Trace($"Start GetFirstDate. Error = {Error}. dataRow.NumberOfReceipt = {dataRow.NumberOfReceipt}");
             /* 
@@ -610,7 +618,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Trace($"End GetFirstDate. Error = {Error}. dateFrom: {dataRow.RegistryFom.ToShortDateString()}, dateTo: {dataRow.RegistryTo.ToShortDateString()}, OutData: {OutData}");
         }
 
-        public void SelectRegistrationTime()
+        public void SelectRegistrationTime() // state 16
         {
             _logger.Trace($"Start SelectRegistrationTime. Error = {Error}.");
 

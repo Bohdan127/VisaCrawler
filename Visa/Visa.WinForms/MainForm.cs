@@ -557,26 +557,27 @@ namespace Visa.WinForms
                 case 9: // Receipt(dataRow)
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.Receipt(dataRow));
-                    if(_crawlerRegistry.OutData.IsNotBlank())
-                    {
-                        //todo ?
-                    }
                     _state = 10;
                     break;
 
-                case 10: // ClientData(dataRow)
+                case 10: // EmailAndPassword(dataRow)
+                    _crawlerRegistry.RunNextStep(
+                        () => _crawlerRegistry.EmailAndPassword(dataRow));
+                    _state = 11; // ClientData(dataRow)
+                    break;
+                case 11: // ClientData(dataRow)
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.ClientData(dataRow));
-                    _state = 11; // SubmitClientData()
+                    _state = 12; // SubmitClientData()
                     break;
 
-                case 11: // SubmitClientData()
+                case 12: // SubmitClientData()
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.SubmitClientData());
-                    _state = 12; // GetFirstDate(dataRow)
+                    _state = 13; // GetFirstDate(dataRow)
                     break;
 
-                case 12: // GetFirstDate(dataRow)
+                case 13: // GetFirstDate(dataRow)
                     // ReSharper disable once SwitchStatementMissingSomeCases
                     switch (_crawlerRegistry.RegistrarionDateAvailability)
                     {
@@ -598,29 +599,29 @@ namespace Visa.WinForms
                                 () => _crawlerRegistry.GetFirstDate(dataRow));
 
                             if (!_crawlerRegistry.GetFirstDateScroll || _crawlerRegistry.Error)
-                                _state = 14;
+                                _state = 15;
                             break;
                         case DialogResult.None:
-                            _state = 13;//show special message for selecting Date of Registration
+                            _state = 14;//show special message for selecting Date of Registration
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
-                    //todo Bohdan127 dataRow.Status!!!!!!!!
                     break;
 
-                case 13:// show special message for selecting Date of Registration
-                    _state = 14;
-                    break;
-                case 14:// SubmitClientData
-                    _crawlerRegistry.RunNextStep(
-                        () => _crawlerRegistry.SubmitClientData());
+                case 14:// show special message for selecting Date of Registration
                     _state = 15;
                     break;
-                case 15:
+                case 15:// SubmitClientData
+                    _crawlerRegistry.RunNextStep(
+                        () => _crawlerRegistry.SubmitClientData());
+                    _state = 16;
+                    break;
+                case 16:
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.SelectRegistrationTime());
                     _state = 1; // alerts.Close(), and StartAgain
+                    //todo Bohdan127 dataRow.Status!!!!!!!!
                     break;
 
                 #region Old dead code, will be removed later because probably part of them will be needed later
@@ -699,16 +700,7 @@ namespace Visa.WinForms
                     case 9: // Receipt(dataRow)
                         _state = 4; // SelectCityAndReason(dataRow)
                         break;
-                    case 10:
-                        if(_crawlerRegistry.OutData.IsNotBlank())
-                        {
-                            //bBreak = true;
-                            //return;
-                            //todo ?
-                        }
-                        break;
-                    //todo Bohdan127 this just from my mind but also can be should be tested, because probably can not help but generate new errors
-                    case 14:
+                    case 15:
                         _state = 12; // GetFirstDate(dataRow)
                         break;
                     default:
