@@ -66,12 +66,20 @@ namespace Visa.WebCrawler.SeleniumCrawler
             //always be 1 - Подача документів
             FindElementWithChecking(By.Id(reason))
                 .FindElement(By.CssSelector("option[value='1']"))
-                .Click();
+                .Click(); //todo replace withChecking->nocheking
             _logger.Info(
                 "SelectCityAndReason. reason option[value='1'] Click");
-            FindElementWithChecking(By.Id(buttonSubmit))
-                .Click();
-            _logger.Info("SelectCityAndReason. buttonSubmit Click");
+            var submit = FindElementWithChecking(By.Id(buttonSubmit));
+            try
+            {
+                submit.Click();
+                _logger.Trace("SelectCityAndReason. buttonSubmit Click");
+            }
+            catch
+            {
+                //ignore..короче нам по барабану... потім ітак буде провірка
+                _logger.Warn("SelectCityAndReason. Error while buttonSubmit Click");
+            }
             _logger.Info($"End SelectCityAndReason. Error = {Error}. ");
         }
 
@@ -130,7 +138,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 var infoText = FindElementWithChecking(By.Id(errorMessage)).Text;
                 if (infoText.Contains(capchaNotFilledMessage)) //"The image you selected not match"
                 {
-                    FillCapchaFaild = true;
+                    FillCapchaFailed = true;
                     return false;
                 }
 
@@ -381,17 +389,27 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         public bool GetFirstDateScroll { get; set; }
 
-        public bool FillCapchaFaild { get; set; }
+        public bool FillCapchaFailed { get; set; }
 
         public bool IsServerDown
         {
             get
             {
+                _logger.Trace("Start IsServerDown");
                 try
                 {
-                    var bRes = _driver.FindElement(By.TagName("body"))
-                        .Text
+                    var bRes = !_driver.Title.Contains("Poland Visa");
+                    if (bRes)
+                        return true;
+                    var pageBody = _driver.FindElement(By.TagName("body"));
+                    bRes = bRes
+                        || pageBody.Text
                         .Contains("The service is unavailable");
+                    if (pageBody.Text.Contains("We are sorry for the inconvenience"))
+                    {
+                        bRes = true;
+                        ValidationError = true;
+                    }
                     if (bRes)
                     {
                         _logger.Warn("IsServerDown => True");
@@ -403,9 +421,10 @@ namespace Visa.WebCrawler.SeleniumCrawler
                         ex is NoSuchElementException || ex is WebDriverException
                         )
                 {
-                    //ignored
+                    //ignored - 
+                    //todo are you shure?
                 }
-                _logger.Info("IsServerDown => False");
+                _logger.Trace("IsServerDown => False");
                 return false;
             }
         }
@@ -418,23 +437,24 @@ namespace Visa.WebCrawler.SeleniumCrawler
             Action regAction)
         {
             _logger.Info($"Start RunNextStep. Error = {Error}.");
-            try
-            {
-                CheckForError();
-                regAction();
-            }
-            catch (Exception ex)
-                when (ex is NoSuchElementException || ex is WebDriverException)
-            {
-                if (Canceled)
-                    _logger.Warn($"Canceled by User. Error  = {Error}");
-                else
+            if (!IsServerDown)
+                try
                 {
-                    _logger.Error(
-                        $"NoSuchElementException with message = {ex.Message}");
-                    Error = true;
+                    CheckForError();
+                    regAction();
                 }
-            }
+                catch (Exception ex)
+                    when (ex is NoSuchElementException || ex is WebDriverException)
+                {
+                    if (Canceled)
+                        _logger.Warn($"Canceled by User. Error  = {Error}");
+                    else
+                    {
+                        _logger.Error(
+                            $"NoSuchElementException with message = {ex.Message}");
+                        Error = true;
+                    }
+                }
             _logger.Info($"End RunNextStep. Error = {Error}.");
         }
 
@@ -482,7 +502,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 throw new WebDriverException();
             }
             var wait = new WebDriverWait(_driver,
-                TimeSpan.FromSeconds(15));
+                TimeSpan.FromSeconds(20));
             return wait.Until(d => d.FindElement(by));
         }
 
@@ -525,8 +545,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public void SubmitClientData()// state 12 && state 15
         {
             _logger.Trace($"Start SubmitClientData. Error = {Error}.");
-            FindElementWithChecking(By.Id(buttonSubmit))
-                .Click();
+            var button = FindElementWithChecking(By.Id(buttonSubmit));
+            button.Click();
             _logger.Info("SubmitClientData. buttonSubmit Click");
             _logger.Trace($"End SubmitClientData. Error = {Error}");
         }
