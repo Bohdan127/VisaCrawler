@@ -309,7 +309,7 @@ namespace Visa.WinForms
             AlertFormEventArgs e)
         {
             _logger.Trace($"Calculate Alert Location. X- {(Screen.PrimaryScreen.Bounds.Width + 150) / 2}, "
-                + $" Y - {(Screen.PrimaryScreen.Bounds.Height - 150) / 2};");
+                + $" Y - {(Screen.PrimaryScreen.Bounds.Height - 150) / 2}");
             e.Location = new Point((Screen.PrimaryScreen.Bounds.Width + 150) / 2,
                 (Screen.PrimaryScreen.Bounds.Height - 150) / 2);
         }

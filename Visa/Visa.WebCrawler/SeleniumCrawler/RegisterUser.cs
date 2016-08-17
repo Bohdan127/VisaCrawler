@@ -398,21 +398,27 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 _logger.Trace("Start IsServerDown");
                 try
                 {
-                    var bRes = !_driver.Title.Contains("Poland Visa");
-                    if (bRes)
-                        return true;
-                    var pageBody = _driver.FindElement(By.TagName("body"));
-                    bRes = bRes
-                        || pageBody.Text
-                        .Contains("The service is unavailable");
-                    if (pageBody.Text.Contains("We are sorry for the inconvenience"))
+                    if (_driver.Title.IsNotNullOrEmpty() && _driver.Title.Contains("Session Expired"))
                     {
-                        bRes = true;
-                        ValidationError = true;
+                        ValidationError = true; // we need full restart
+                        _logger.Error("IsServerDown => True. Title.Contains(\"Session Expired\")");
+                        return true;
                     }
-                    if (bRes)
+                    if (_driver.Title.IsNotNullOrEmpty() && !_driver.Title.Contains("Poland Visa"))
+                    {
+                        _logger.Warn("IsServerDown => True. Title not Contains(\"Poland Visa\")");
+                        return true;
+                    }
+                    var pageBody = _driver.FindElement(By.TagName("body"));
+                    if(pageBody.Text.Contains("The service is unavailable"))
                     {
                         _logger.Warn("IsServerDown => True");
+                        return true;
+                    }
+                    if (pageBody.Text.Contains("We are sorry for the inconvenience"))
+                    {
+                        ValidationError = true; // we need full restart
+                        _logger.Error("IsServerDown => True. page.Contains(\"We are sorry for the inconvenience\")") ;
                         return true;
                     }
                 }
