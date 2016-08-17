@@ -26,7 +26,9 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 "about:blank");
             RegistrarionDateAvailability = DialogResult.None;
             _driver = new FirefoxDriver(prof);
-            _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
+            _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
+            _driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(1));
+            _driver.Manage().Timeouts().SetScriptTimeout(TimeSpan.FromSeconds(1));
             Error = false;
             Canceled = false;
             //int port = 4444; //2310;
@@ -49,7 +51,16 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info($"Start StartRegistration. Error = {Error}. ");
             var query = FindElementWithChecking(By.Id(registryId));
             _logger.Info("PartOne. registryId Click");
-            query.Click();
+            try
+            {
+                query.Click();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Error during click in StartRegistration");
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
+            }
             _logger.Info($"End StartRegistration. Error = {Error}. ");
         }
 
@@ -69,18 +80,27 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 .Click(); //todo replace withChecking->nocheking
             _logger.Info(
                 "SelectCityAndReason. reason option[value='1'] Click");
-            var submit = FindElementWithChecking(By.Id(buttonSubmit));
+            _logger.Info($"End SelectCityAndReason. Error = {Error}. ");
+        }
+
+        public void PressSubmitButton(bool emailSubmit = false)
+        {
+            _logger.Info($"Start PressSubmitButton. Error = {Error}. ");
+            var submit = emailSubmit
+                ? FindElementWithChecking(By.Id(buttonSubmitEmail))
+                : FindElementWithChecking(By.Id(buttonSubmit));
             try
             {
                 submit.Click();
-                _logger.Trace("SelectCityAndReason. buttonSubmit Click");
+                _logger.Trace("PressSubmitButton. buttonSubmit Click");
             }
-            catch
+            catch (Exception ex)
             {
-                //ignore..короче нам по барабану... потім ітак буде провірка
-                _logger.Warn("SelectCityAndReason. Error while buttonSubmit Click");
+                _logger.Error("Error during click in SelectCityAndReason");
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
             }
-            _logger.Info($"End SelectCityAndReason. Error = {Error}. ");
+            _logger.Info($"End PressSubmitButton. Error = {Error}. ");
         }
 
         /// <summary>
@@ -192,14 +212,24 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public void BackToCityAndReason() //state 8
         {
             _logger.Info($"Start BackToCityAndReason. Error = {Error}");
-            FindElementWithChecking(By.Id(btnCancel)).Click();
+            var button = FindElementWithChecking(By.Id(btnCancel));
+            try
+            {
+                button.Click();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Error during click in BackToCityAndReason");
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
+            }
             _logger.Info($"End BackToCityAndReason. Error = {Error}");
         }
 
         public void Receipt(VisaDataSet.ClientDataRow dataRow) //state 9
         {
             _logger.Info($"Start Receipt. Error = {Error}.");
-            FindElementWithChecking(By.Id(buttonSubmit)).Click();
+            BackToCityAndReason();
             _logger.Info("SelectVisaTypeAndCheckForDate. buttonSubmit Click");
 
             var txtBox = FindElementWithChecking(By.Id(receiptNumber));
@@ -207,12 +237,6 @@ namespace Visa.WebCrawler.SeleniumCrawler
             txtBox.SendKeys(dataRow.NumberOfReceipt);
             _logger.Info(
                 $"Receipt. receiptNumber set text {dataRow.NumberOfReceipt}");
-
-            FindElementWithChecking(By.Id(buttonSubmit))
-                .Click();
-            _logger.Info("Receipt. buttonSubmit Click");
-
-            CheckForError();
             _logger.Info($"End Receipt. Error = {Error}");
         }
 
@@ -232,10 +256,6 @@ namespace Visa.WebCrawler.SeleniumCrawler
             txtBox.SendKeys(dataRow.Password);
             _logger.Info(
                 $"ClientData. passForMail set text {dataRow.Password}");
-
-            FindElementWithChecking(By.Id(buttonSubmitEmail))
-                .Click();
-            _logger.Info("ClientData. buttonSubmitEmail Click");
             _logger.Trace($"End EmailAndPassword. Error = {Error}");
         }
 
@@ -553,14 +573,6 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         #endregion Help Functions
 
-        public void SubmitClientData()// state 12 && state 15
-        {
-            _logger.Trace($"Start SubmitClientData. Error = {Error}.");
-            var button = FindElementWithChecking(By.Id(buttonSubmit));
-            button.Click();
-            _logger.Info("SubmitClientData. buttonSubmit Click");
-            _logger.Trace($"End SubmitClientData. Error = {Error}");
-        }
 
         public void GetFirstDate(VisaDataSet.ClientDataRow dataRow) // state 13
         {
