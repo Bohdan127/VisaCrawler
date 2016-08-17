@@ -423,12 +423,11 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     }
                 }
                 catch (Exception ex)
-                    when (
-                        ex is NoSuchElementException || ex is WebDriverException
-                        )
+                    when (ex is NoSuchElementException || ex is WebDriverException)
                 {
                     //ignored - 
                     //todo are you shure?
+                    _logger.Warn($"IsServerDown Error: ex.Message={ex.Message}");
                 }
                 _logger.Trace("IsServerDown => False");
                 return false;
@@ -461,6 +460,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
                         Error = true;
                     }
                 }
+            else
+                Error = true;
             _logger.Info($"End RunNextStep. Error = {Error}.");
         }
 
@@ -487,9 +488,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
             }
             catch (NoAlertPresentException ex)
             {
-                _logger.Warn(// Alert not present
+                _logger.Trace(// Alert not present
                         $"SwitchTo().NoAlertPresentException with message = {ex.Message}");
-                result = "ERROR";
             }
             _logger.Info($"End ReloadPage. Status={result}");
         }

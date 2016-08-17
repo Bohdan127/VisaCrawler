@@ -300,6 +300,8 @@ namespace Visa.WinForms
                 _crawlerRegistry.Canceled = true;
                 _crawlerRegistry.Error = false;
                 CloseBrowsers(false);
+                _alertControl.AlertFormList.ForEach(
+                    alert => alert.Close());
             }
             SetDefaultState();
             _logger.Trace("End simpleButtonCancelAction_Click");
