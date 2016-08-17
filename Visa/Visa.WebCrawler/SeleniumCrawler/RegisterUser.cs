@@ -135,6 +135,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             var bRes = false;
             try
             {
+                Thread.Sleep(2000);//Because Fall in next step
                 var infoText = FindElementWithChecking(By.Id(errorMessage)).Text;
                 if (infoText.Contains(capchaNotFilledMessage)) //"The image you selected not match"
                 {
@@ -466,10 +467,10 @@ namespace Visa.WebCrawler.SeleniumCrawler
         }
 
         public void ReloadPage()
-
         {
             _logger.Info("Start ReloadPage.");
-            string result = "OK";
+            var result = "OK";
+            var shouldAlertAccept = (0 == _driver.Url.CompareTo(mainUrl));
             try
             {
                 _driver.Navigate().Refresh();
@@ -479,17 +480,21 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 _logger.Error(
                         $"Navigate().RefreshException with message = {ex.Message}");
                 result = "ERROR";
+                shouldAlertAccept = false;
             }
-            Thread.Sleep(1000);
-            try
+            if (shouldAlertAccept)
             {
-                if (_driver.SwitchTo().Alert() != null)
-                    _driver.SwitchTo().Alert().Accept();
-            }
-            catch (NoAlertPresentException ex)
-            {
-                _logger.Trace(// Alert not present
-                        $"SwitchTo().NoAlertPresentException with message = {ex.Message}");
+                Thread.Sleep(200);
+                try
+                {
+                    if (_driver.SwitchTo().Alert() != null)
+                        _driver.SwitchTo().Alert().Accept();
+                }
+                catch (NoAlertPresentException ex)
+                {
+                    _logger.Trace(// Alert not present
+                            $"SwitchTo().NoAlertPresentException with message = {ex.Message}");
+                }
             }
             _logger.Info($"End ReloadPage. Status={result}");
         }
