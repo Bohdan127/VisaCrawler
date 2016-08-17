@@ -1,4 +1,6 @@
-﻿using DevExpress.XtraBars;
+﻿//#define GoWithoutDates
+
+using DevExpress.XtraBars;
 using DevExpress.XtraBars.Alerter;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
@@ -17,6 +19,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ToolsPortable;
 using Visa.BusinessLogic.Managers;
+using Visa.BusinessLogic.SVN_Model;
 using Visa.Database;
 using Visa.Database.Enums;
 using Visa.License.Logic;
@@ -41,33 +44,12 @@ namespace Visa.WinForms
             Closed += MainForm_Closed;
             Load += MainForm_Load;
 
+            #endregion CTOR
+
+
             _logger.Trace("End MainForm CTOR");
         }
 
-        #endregion CTOR
-
-        public enum States : int
-        {
-            NoState             = -1,
-            Start               = 1,
-            GoToUrl             = 2,
-            StartRegistration   = 3,
-            SelectCityAndReason = 4,
-            ProvidePeopleCount  = 5,
-            SelectVisaType      = 6,
-            CheckDate           = 7,
-            BackToCityAndReason = 8,
-            Receipt             = 9,
-            EmailAndPassword    = 10,
-            ClientData          = 11,
-            SubmitClientData1   = 12,
-            GetFirstDate        = 13,
-            ShowMessage         = 14,
-            SubmitClientData2   = 15,
-            SelectRegistrTime   = 16,
-            SendingEmail        = 17,
-            BreakState          = 127
-        }
 
         #region Members
 
@@ -86,16 +68,16 @@ namespace Visa.WinForms
         /// <summary>
         ///     Field used for getting part of program
         /// </summary>
-        private States _state = States.Start;
+        private ProgressState _progressState = ProgressState.Start;
 
-        private const int RefreshCount = 15;
+        private const int RefreshCount = int.MaxValue - 1;
 
         /// <summary>
         ///     Constant marks _state for immediate end of registration process
         /// </summary>
-        private const States BreakState = States.BreakState;
+        private const ProgressState BreakState = ProgressState.BreakState;
 
-        public bool ShowCaptchaMessage => _state == States.SelectVisaType || _state == States.Start;
+        public bool ShowCaptchaMessage => _progressState == ProgressState.SelectVisaType || _progressState == ProgressState.Start;
 
         #endregion Members
 
@@ -336,7 +318,7 @@ namespace Visa.WinForms
             AlertClickEventArgs e)
         {
             _logger.Info(
-                $"Start _alertControl_AlertClick. Alert Text - {e.AlertForm.Text}. State - {_state}");
+                $"Start _alertControl_AlertClick. Alert Text - {e.AlertForm.Text}. State - {_progressState}");
             StartNewWorkRoundBase();
             e.AlertForm.Close();
             _logger.Trace(
@@ -375,20 +357,20 @@ namespace Visa.WinForms
         private void MainForm_Closed(object sender,
             EventArgs e)
         {
-            _logger.Info($"MainForm_Closed. State = {_state}.");
+            _logger.Info($"MainForm_Closed. State = {_progressState}.");
             CloseBrowsers(true);
         }
 
         private void _crawlerWorker_DoWork(object sender,
             DoWorkEventArgs e)
         {
-            _logger.Trace($"Start _crawlerWorker_DoWork. State = {_state}");
+            _logger.Trace($"Start _crawlerWorker_DoWork. State = {_progressState}");
 
             var bBreak = false; //_crawlerWorker_CheckSiteAvailability();
             do
             {
                 CrawlerRefreshEngine();
-                _logger.Info($"End CrawlerWorkSecondPart _state={_state}");
+                _logger.Info($"End CrawlerWorkSecondPart _state={_progressState}");
                 if (_crawlerRegistry == null)
                 {
                     //This just testing changes!!!!
@@ -398,7 +380,7 @@ namespace Visa.WinForms
                 }
                 if (_crawlerRegistry.Canceled)
                 {
-                    _logger.Warn($" _crawlerRegistry.Canceled _state={_state}");
+                    _logger.Warn($" _crawlerRegistry.Canceled _state={_progressState}");
                     bBreak = true;
                     //SetDefaultState();
                     //CloseBrowsers(false);
@@ -408,7 +390,7 @@ namespace Visa.WinForms
                 else if (_crawlerRegistry.Error) // if Error
                 {
                     _logger.Warn(
-                        $"return _crawlerWorker_DoWork. State = {_state}."
+                        $"return _crawlerWorker_DoWork. State = {_progressState}."
                         + $" OutData = {_crawlerRegistry.OutData}. _crawlerRegistry.Error = true ");
                     SetDefaultState();
                     bBreak = true;
@@ -422,9 +404,9 @@ namespace Visa.WinForms
                 }
                 else
                     // ReSharper disable once SwitchStatementMissingSomeCases
-                    switch (_state)
+                    switch (_progressState)
                     {
-                        case States.Start:
+                        case ProgressState.Start:
                             XtraMessageBox.Show(ResManager.GetString(ResKeys.Complete_Registration),
                                 ResManager.GetString(ResKeys.SearchResult),
                                 MessageBoxButtons.OK,
@@ -432,29 +414,29 @@ namespace Visa.WinForms
                             bBreak = true;
                             SetDefaultState();
                             break;
-                        case States.SelectVisaType:
-                        case (States)9:
-                        case (States)14:
-                        case (States)15:
+                        case ProgressState.SelectVisaType:
+                        case ProgressState.Receipt:
+                        case ProgressState.ShowMessage:
+                        case ProgressState.SubmitClientData2:
                             ShowAlert(
                                 ResManager.GetString(ResKeys.FillCaptchaAndPress),
                                 false);
                             bBreak = true;
                             break;
-                        case (States)13:
+                        case ProgressState.GetFirstDate:
                             ShowAlert(
                                 ResManager.GetString(ResKeys.Fill_Calendar_And_Captcha),
                                 false);
                             bBreak = true;
                             break;
-                        case States.BreakState:
+                        case ProgressState.BreakState:
                             SetDefaultState();
                             bBreak = true;
                             break;
                     }
             } while (!bBreak);
 
-            _logger.Trace($"End _crawlerWorker_DoWork. State = {_state}." 
+            _logger.Trace($"End _crawlerWorker_DoWork. State = {_progressState}."
                 + $" _crawlerRegistry.Error = {_crawlerRegistry?.Error}");
         }
 
@@ -476,7 +458,7 @@ namespace Visa.WinForms
 
         private void CrawlerWorkSecondPart(object data)
         {
-            _logger.Trace($"Start CrawlerWorkSecondPart _state = {_state}");
+            _logger.Trace($"Start CrawlerWorkSecondPart _state = {_progressState}");
             var dataRow = data as VisaDataSet.ClientDataRow;
 
             if (dataRow == null)
@@ -484,9 +466,9 @@ namespace Visa.WinForms
                 _logger.Error("return _crawlerWorker_DoWork dataRow == null");
                 return;
             }
-            switch (_state)
+            switch (_progressState)
             {
-                case States.Start: // alerts.Close(), and StartsAgain
+                case ProgressState.Start: // alerts.Close(), and StartsAgain
                     Invoke(
                         new Action(
                             () =>
@@ -495,46 +477,46 @@ namespace Visa.WinForms
                                     alert => alert.Close());
                             }));
                     _crawlerRegistry = new RegisterUser();
-                    _state = States.GoToUrl;
+                    _progressState = ProgressState.GoToUrl;
                     break;
 
-                case States.GoToUrl: // GoToUrl()
+                case ProgressState.GoToUrl: // GoToUrl()
                     _crawlerRegistry.GoToUrl();
-                    _state = States.StartRegistration;
+                    _progressState = ProgressState.StartRegistration;
                     break;
 
-                case States.StartRegistration: // StartRegistration()
+                case ProgressState.StartRegistration: // StartRegistration()
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.StartRegistration());
-                    _state = States.SelectCityAndReason;
+                    _progressState = ProgressState.SelectCityAndReason;
                     break;
 
-                case States.SelectCityAndReason: // SelectCityAndReason(dataRow)
+                case ProgressState.SelectCityAndReason: // SelectCityAndReason(dataRow)
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.SelectCityAndReason(dataRow));
-                    _state = States.ProvidePeopleCount;
+                    _progressState = ProgressState.ProvidePeopleCount;
                     break;
 
-                case States.ProvidePeopleCount: // ProvidePeopleCount(dataRow)
+                case ProgressState.ProvidePeopleCount: // ProvidePeopleCount(dataRow)
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.ProvidePeopleCount(dataRow));
-                    _state = States.SelectVisaType;
+                    _progressState = ProgressState.SelectVisaType;
                     break;
 
-                case States.SelectVisaType: // SelectVisaType(dataRow)
+                case ProgressState.SelectVisaType: // SelectVisaType(dataRow)
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.SelectVisaType(dataRow));
-                    _state = States.CheckDate;
+                    _progressState = ProgressState.CheckDate;
                     break;
 
-                case States.CheckDate: //CheckDate(dataRow)
+                case ProgressState.CheckDate: //CheckDate(dataRow)
                     //todo Bohdan127 we should think how to use here  _crawlerRegistry.RunNextStep(() =>
                     var isAvailableDate =
                         _crawlerRegistry.CheckDate(dataRow);
                     if (_crawlerRegistry.FillCapchaFailed)
                     {
                         _crawlerRegistry.Error = false;
-                        _state = States.SelectVisaType;
+                        _progressState = ProgressState.SelectVisaType;
                         _logger.Warn("Fill Capcha Failed");
                         _crawlerRegistry.FillCapchaFailed = false;
                         return;
@@ -543,81 +525,91 @@ namespace Visa.WinForms
                     {
                         _crawlerRegistry.RegistrarionDateAvailability =
                             DialogResult.Yes;
-                        _state = States.Receipt;
+                        _progressState = ProgressState.Receipt;
                     }
                     else
                     {
-                        var dialogResult =
-                            XtraMessageBox.Show(_crawlerRegistry.OutData,
-                                ResManager.GetString(ResKeys.SearchResult),
-                                MessageBoxButtons.YesNoCancel,
-                                MessageBoxIcon.Question);
-                        // ReSharper disable once SwitchStatementMissingSomeCases
-                        switch (dialogResult)
-                        {
-                            case DialogResult.Cancel:
-                                _crawlerRegistry.RegistrarionDateAvailability =
-                                    DialogResult.Cancel;
-                                _state = BreakState;
-                                //go out from the registration process
-                                break;
+#if (!GoWithoutDates)
+                        _crawlerRegistry.RegistrarionDateAvailability =
+                                 DialogResult.Retry;
+                        _progressState = ProgressState.BackToCityAndReason;
+#else
+                            var dialogResult =
+                                XtraMessageBox.Show(_crawlerRegistry.OutData,
+                                    ResManager.GetString(ResKeys.SearchResult),
+                                    MessageBoxButtons.YesNoCancel,
+                                    MessageBoxIcon.Question);
+                            // ReSharper disable once SwitchStatementMissingSomeCases
+                            switch (dialogResult)
+                            {
+                                case DialogResult.Cancel:
+                                    _crawlerRegistry.RegistrarionDateAvailability =
+                                        DialogResult.Cancel;
+                                    _progressState = BreakState;
+                                    //go out from the registration process
+                                    break;
 
-                            case DialogResult.Yes:
-                                _crawlerRegistry.RegistrarionDateAvailability =
-                                    DialogResult.None;
-                                _state = States.Receipt;
-                                break;
+                                case DialogResult.Yes:
+                                    _crawlerRegistry.RegistrarionDateAvailability =
+                                        DialogResult.None;
+                                    _progressState = ProgressState.Receipt;
+                                    break;
 
-                            case DialogResult.No:
-                                _crawlerRegistry.RegistrarionDateAvailability =
-                                    DialogResult.Retry;
-                                _state = States.BackToCityAndReason;
-                                break;
+                                case DialogResult.No:
+                                    _crawlerRegistry.RegistrarionDateAvailability =
+                                        DialogResult.Retry;
+                                    _progressState =
+                                        ProgressState.BackToCityAndReason;
+                                    break;
 
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
+                                default:
+                                    throw new ArgumentOutOfRangeException();
+                            }
+#endif
                     }
                     break;
 
-                case States.BackToCityAndReason: // BackToCityAndReason()
+                case ProgressState.BackToCityAndReason: // BackToCityAndReason()
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.BackToCityAndReason());
-                    _state = States.SelectCityAndReason; // SelectCityAndReason(dataRow)
+                    _progressState = ProgressState.SelectCityAndReason; // SelectCityAndReason(dataRow)
                     break;
 
-                case States.Receipt: // Receipt(dataRow)
+                case ProgressState.Receipt: // Receipt(dataRow)
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.Receipt(dataRow));
-                    _state = States.EmailAndPassword;
+                    _progressState = ProgressState.EmailAndPassword;
                     break;
 
-                case States.EmailAndPassword: // EmailAndPassword(dataRow)
+                case ProgressState.EmailAndPassword: // EmailAndPassword(dataRow)
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.EmailAndPassword(dataRow));
-                    _state = States.ClientData; // ClientData(dataRow)
+                    _progressState = ProgressState.ClientData; // ClientData(dataRow)
                     break;
-                case States.ClientData: // ClientData(dataRow)
+                case ProgressState.ClientData: // ClientData(dataRow)
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.ClientData(dataRow));
-                    _state = States.SubmitClientData1; // SubmitClientData()
+                    _progressState = ProgressState.SubmitClientData1; // SubmitClientData()
                     break;
 
-                case States.SubmitClientData1: // SubmitClientData()
+                case ProgressState.SubmitClientData1: // SubmitClientData()
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.SubmitClientData());
-                    _state = States.GetFirstDate; // GetFirstDate(dataRow)
+                    _progressState = ProgressState.GetFirstDate; // GetFirstDate(dataRow)
                     break;
 
-                case States.GetFirstDate: // GetFirstDate(dataRow)
+                case ProgressState.GetFirstDate: // GetFirstDate(dataRow)
                     // ReSharper disable once SwitchStatementMissingSomeCases
                     switch (_crawlerRegistry.RegistrarionDateAvailability)
                     {
                         case DialogResult.Cancel:
                         case DialogResult.Retry:
+#if !GoWithoutDates
+                        case DialogResult.None:
+#endif
                             _logger.Warn($"{_crawlerRegistry.RegistrarionDateAvailability}"
-                                + $" for GetFirstDate _state={_state}");
-                            _state = States.Start; // alerts.Close(), and StartAgain
+                            + $" for GetFirstDate _state={_progressState}");
+                            _progressState = ProgressState.Start; // alerts.Close(), and StartAgain
                             ExceptionHandlerForm.SendErrorMail(
                                 new NotImplementedException());
                             XtraMessageBox.Show(ResManager.GetString(ResKeys.Application_Logic_Error),
@@ -626,34 +618,36 @@ namespace Visa.WinForms
                                 MessageBoxIcon.Exclamation);
                             break;
                         case DialogResult.Yes:
-                            _logger.Info($"Yes for GetFirstDate _state={_state}");
+                            _logger.Info($"Yes for GetFirstDate _state={_progressState}");
 
                             _crawlerRegistry.RunNextStep(
                                 () => _crawlerRegistry.GetFirstDate(dataRow));
 
                             if (!_crawlerRegistry.GetFirstDateScroll || _crawlerRegistry.Error)
-                                _state = States.SubmitClientData2;
+                                _progressState = ProgressState.SubmitClientData2;
                             break;
+#if GoWithoutDates
                         case DialogResult.None:
-                            _state = States.ShowMessage;//show special message for selecting Date of Registration
+                            _progressState = ProgressState.ShowMessage;//show special message for selecting Date of Registration
                             break;
+#endif
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
                     break;
 
-                case States.ShowMessage:// show special message for selecting Date of Registration
-                    _state = States.SubmitClientData2;
+                case ProgressState.ShowMessage:// show special message for selecting Date of Registration
+                    _progressState = ProgressState.SubmitClientData2;
                     break;
-                case States.SubmitClientData2:// SubmitClientData
+                case ProgressState.SubmitClientData2:// SubmitClientData
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.SubmitClientData());
-                    _state = States.SelectRegistrTime;
+                    _progressState = ProgressState.SelectRegistrTime;
                     break;
-                case States.SelectRegistrTime:
+                case ProgressState.SelectRegistrTime:
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.SelectRegistrationTime());
-                    _state = States.Start; // alerts.Close(), and StartAgain
+                    _progressState = ProgressState.Start; // alerts.Close(), and StartAgain
                     //todo Bohdan127 dataRow.Status!!!!!!!!
                     break;
 
@@ -678,16 +672,16 @@ namespace Visa.WinForms
                 #endregion Old dead code, will be removed later because probably part of them will be needed later
 
                 default:
-                    _logger.Error($"Incorrect State = {_state} for CrawlerWorkFirstPart");
+                    _logger.Error($"Incorrect State = {_progressState} for CrawlerWorkFirstPart");
                     break;
             }
 
-            _logger.Trace($"End CrawlerWorkSecondPart. _state={_state}");
+            _logger.Trace($"End CrawlerWorkSecondPart. _state={_progressState}");
         }
 
         private void CrawlerRefreshEngine()
         {
-            _logger.Trace($"Start CrawlerRefreshEngine _state = {_state}");
+            _logger.Trace($"Start CrawlerRefreshEngine _state = {_progressState}");
             var counter = 0;
             var toStateFour = false;
             do
@@ -696,12 +690,12 @@ namespace Visa.WinForms
                 {
                     if (_crawlerRegistry.IsServerDown)
                     {
-                        _logger.Warn($"Reload page. _state = {_state}");
+                        _logger.Warn($"Reload page. _state = {_progressState}");
                         ShowAlert(ResManager.GetString(ResKeys.WebPage_WillBeReloaded),
                             true);
                         if (toStateFour)
                         {
-                            _state = States.SelectCityAndReason;
+                            _progressState = ProgressState.SelectCityAndReason;
                         }
                         _crawlerRegistry.ReloadPage();
                     }
@@ -721,25 +715,25 @@ namespace Visa.WinForms
                     || !_crawlerRegistry.Error)
                     continue;
 
-                _logger.Warn($"!_crawlerRegistry.Canceled && _crawlerRegistry.Error. _state = {_state}."
+                _logger.Warn($"!_crawlerRegistry.Canceled && _crawlerRegistry.Error. _state = {_progressState}."
                      + $" counter = {counter} _crawlerRegistry.ValidationError = {_crawlerRegistry.ValidationError}");
-                switch (_state)
+                switch (_progressState)
                 {
-                    case States.Start:
-                        _state = States.SubmitClientData2;
+                    case ProgressState.Start:
+                        _progressState = ProgressState.SubmitClientData2;
                         break;
-                    case States.CheckDate:
+                    case ProgressState.CheckDate:
                         toStateFour = true;
                         break;
-                    case States.BackToCityAndReason: // BackToCityAndReason()
-                    case States.Receipt: // Receipt(dataRow)
-                        _state = States.SelectCityAndReason; // SelectCityAndReason(dataRow)
+                    case ProgressState.BackToCityAndReason: // BackToCityAndReason()
+                    case ProgressState.Receipt: // Receipt(dataRow)
+                        _progressState = ProgressState.SelectCityAndReason; // SelectCityAndReason(dataRow)
                         break;
-                    case States.SubmitClientData2:
-                        _state = States.SubmitClientData1; // GetFirstDate(dataRow)
+                    case ProgressState.SubmitClientData2:
+                        _progressState = ProgressState.SubmitClientData1; // GetFirstDate(dataRow)
                         break;
                     default:
-                        _state--;
+                        _progressState--;
                         break;
                 }
                 counter++;
@@ -749,12 +743,12 @@ namespace Visa.WinForms
 
                 //we should show that error and finish the process of registration
                 counter = RefreshCount;
-                _state = BreakState;
+                _progressState = BreakState;
                 _crawlerRegistry.ValidationError = false;
             } while (counter < RefreshCount
                      && _crawlerRegistry.Error
                      && SetupManager.GetOptions().RepeatIfCrash);
-            _logger.Trace($"End CrawlerRefreshEngine. _state={_state}");
+            _logger.Trace($"End CrawlerRefreshEngine. _state={_progressState}");
         }
 
         private bool ValidateControlsSecond()
@@ -913,7 +907,7 @@ namespace Visa.WinForms
             clientDataRowBindingSource.DataSource = InstanceProvider.DataSet.ClientData;
             repositoryItemTextEditPassword.PasswordChar = '*';
 
-            _state = States.GoToUrl;
+            _progressState = ProgressState.GoToUrl;
 
             gridView1.ValidateRow += GridView1_ValidateRow;
             gridView1.InvalidRowException += GridView1_InvalidRowException;
@@ -981,12 +975,12 @@ namespace Visa.WinForms
 
         private void SetDefaultState()
         {
-            _logger.Trace($"Start SetDefaultState. State = {_state}." 
+            _logger.Trace($"Start SetDefaultState. State = {_progressState}."
                 + $"  buttonRegistry.Enabled = {buttonRegistry.Enabled}."
                 + $" buttonCancelAction.Enabled = {buttonCancelAction.Enabled}.");
-            _state = States.Start;
+            _progressState = ProgressState.Start;
             SetReadOnly(false);
-            _logger.Trace($"End SetDefaultState. State = {_state}." 
+            _logger.Trace($"End SetDefaultState. State = {_progressState}."
                 + $" buttonRegistry.Enabled = {buttonRegistry.Enabled}."
                 + $" buttonCancelAction.Enabled = {buttonCancelAction.Enabled}.");
         }
