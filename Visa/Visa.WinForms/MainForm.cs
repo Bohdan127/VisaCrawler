@@ -402,17 +402,23 @@ namespace Visa.WinForms
                         case ProgressState.ShowMessage:
                         case ProgressState.SubmitRegistrationDate:
                         case ProgressState.SubmitDate:
+                        case ProgressState.SubmitClientData:
+#if (!GoWithoutDates)
+                        case ProgressState.GetFirstDate:
+#endif
                             ShowAlert(
                                 ResManager.GetString(ResKeys.FillCaptchaAndPress),
                                 false);
                             bBreak = true;
                             break;
-                        case ProgressState.GetFirstDate:
+#if (GoWithoutDates)
+                            case ProgressState.GetFirstDate:
                             ShowAlert(
                                 ResManager.GetString(ResKeys.Fill_Calendar_And_Captcha),
                                 false);
                             bBreak = true;
                             break;
+#endif
                         case ProgressState.BreakState:
                             SetDefaultState();
                             bBreak = true;

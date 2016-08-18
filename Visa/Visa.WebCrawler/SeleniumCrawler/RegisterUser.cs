@@ -1,7 +1,6 @@
 ﻿using NLog;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Support.UI;
 //using Selenium;
 using System;
 using System.Globalization;
@@ -134,7 +133,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             var bRes = false;
             try
             {
-                Thread.Sleep(2000);//Because Fall in next step
+                //todo Thread.Sleep(2000);//Because Fall in next step
                 var infoText = FindElementWithChecking(By.Id(errorMessage)).Text;
                 if (infoText.Contains(capchaNotFilledMessage)) //"The image you selected not match"
                 {
@@ -194,7 +193,9 @@ namespace Visa.WebCrawler.SeleniumCrawler
             var button = FindElementWithChecking(By.Id(btnCancel));
             try
             {
+                Thread.Sleep(4000);
                 button.Click();
+                _logger.Info("BackToCityAndReason. buttonBack Clicked");
             }
             catch (Exception ex)
             {
@@ -530,9 +531,10 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     "Interrupted by Canceled flag. throw new WebDriverException");
                 throw new WebDriverException();
             }
-            var wait = new WebDriverWait(_driver,
-                TimeSpan.FromSeconds(20));
-            return wait.Until(d => d.FindElement(by));
+            //var wait = new WebDriverWait(_driver,
+            //    TimeSpan.FromSeconds(20));
+            //return wait.Until(d => d.FindElement(by));.
+            return _driver.FindElement(by);
         }
 
         private void CheckForError()
