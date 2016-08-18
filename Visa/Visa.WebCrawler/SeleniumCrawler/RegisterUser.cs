@@ -16,7 +16,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
 {
     public class RegisterUser : ICrawler
     {
-        public RegisterUser() //state 1
+        public RegisterUser()
         {
             _logger.Trace("Start RegisterUser constructor");
             var prof = new FirefoxProfile();
@@ -27,8 +27,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
             RegistrarionDateAvailability = DialogResult.None;
             _driver = new FirefoxDriver(prof);
             _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
-            _driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(1));
-            _driver.Manage().Timeouts().SetScriptTimeout(TimeSpan.FromSeconds(1));
+            _driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromMinutes(15));
+            _driver.Manage().Timeouts().SetScriptTimeout(TimeSpan.FromMinutes(15));
             Error = false;
             Canceled = false;
             //int port = 4444; //2310;
@@ -37,7 +37,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Trace("End RegisterUser constructor");
         }
 
-        public void GoToUrl() //state 2
+        public void GoToUrl()
         {
             _logger.Info($"Start GoToUrl. Error = {Error}.");
 
@@ -46,7 +46,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info($"End GoToUrl. Error = {Error}.");
         }
 
-        public void StartRegistration() //state 3
+        public void StartRegistration()
         {
             _logger.Info($"Start StartRegistration. Error = {Error}. ");
             var query = FindElementWithChecking(By.Id(registryId));
@@ -65,7 +65,6 @@ namespace Visa.WebCrawler.SeleniumCrawler
         }
 
         public void SelectCityAndReason(VisaDataSet.ClientDataRow dataRow)
-        //state 4
         {
             _logger.Info($"Start SelectCityAndReason. Error = {Error}. ");
             FindElementWithChecking(By.Id(visaCity))
@@ -77,36 +76,16 @@ namespace Visa.WebCrawler.SeleniumCrawler
             //always be 1 - Подача документів
             FindElementWithChecking(By.Id(reason))
                 .FindElement(By.CssSelector("option[value='1']"))
-                .Click(); //todo replace withChecking->nocheking
+                .Click();
             _logger.Info(
                 "SelectCityAndReason. reason option[value='1'] Click");
             _logger.Info($"End SelectCityAndReason. Error = {Error}. ");
         }
 
-        public void PressSubmitButton(bool emailSubmit = false)
-        {
-            _logger.Info($"Start PressSubmitButton. Error = {Error}. ");
-            var submit = emailSubmit
-                ? FindElementWithChecking(By.Id(buttonSubmitEmail))
-                : FindElementWithChecking(By.Id(buttonSubmit));
-            try
-            {
-                submit.Click();
-                _logger.Trace("PressSubmitButton. buttonSubmit Click");
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("Error during click in SelectCityAndReason");
-                _logger.Error(ex.Message);
-                _logger.Error(ex.StackTrace);
-            }
-            _logger.Info($"End PressSubmitButton. Error = {Error}. ");
-        }
-
         /// <summary>
         ///     Require Captcha after it
         /// </summary>
-        public void ProvidePeopleCount(VisaDataSet.ClientDataRow dataRow)//state 5
+        public void ProvidePeopleCount(VisaDataSet.ClientDataRow dataRow)
         {
             _logger.Info($"Start ProvidePeopleCount. Error = {Error}. ");
             var query = FindElementWithChecking(By.Id(numOfApplicants));
@@ -136,7 +115,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         /// </summary>
         /// <returns>False - if data was to hight or not available, True - data is good for using and Capthca is needed</returns>
         public void SelectVisaType(
-            VisaDataSet.ClientDataRow dataRow) //state 6
+            VisaDataSet.ClientDataRow dataRow)
         {
             _logger.Info($"Start SelectVisaType. Error = {Error}. ");
             FindElementWithChecking(By.Id(visaCategory))
@@ -149,7 +128,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info($"End SelectVisaType. Error = {Error}");
         }
 
-        public bool CheckDate(VisaDataSet.ClientDataRow dataRow) //state 7
+        public bool CheckDate(VisaDataSet.ClientDataRow dataRow)
         {
             _logger.Info($"Start CheckDate. Error = {Error}. ");
             var bRes = false;
@@ -201,7 +180,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 else
                 {
                     _logger.Error(
-                        $"NoSuchElementException with message = {ex.Message}");
+                        $"NoSuchElementException/WebDriverException with message = {ex.Message}");
                     Error = true;
                 }
             }
@@ -209,7 +188,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             return bRes;
         }
 
-        public void BackToCityAndReason() //state 8
+        public void BackToCityAndReason()
         {
             _logger.Info($"Start BackToCityAndReason. Error = {Error}");
             var button = FindElementWithChecking(By.Id(btnCancel));
@@ -226,12 +205,9 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info($"End BackToCityAndReason. Error = {Error}");
         }
 
-        public void Receipt(VisaDataSet.ClientDataRow dataRow) //state 9
+        public void Receipt(VisaDataSet.ClientDataRow dataRow)
         {
             _logger.Info($"Start Receipt. Error = {Error}.");
-            BackToCityAndReason();
-            _logger.Info("SelectVisaTypeAndCheckForDate. buttonSubmit Click");
-
             var txtBox = FindElementWithChecking(By.Id(receiptNumber));
             txtBox.Clear();
             txtBox.SendKeys(dataRow.NumberOfReceipt);
@@ -243,7 +219,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         /// <summary>
         ///     Require Captcha after it, also we need to share additional message for user
         /// </summary>
-        public void EmailAndPassword(VisaDataSet.ClientDataRow dataRow) //state 10
+        public void EmailAndPassword(VisaDataSet.ClientDataRow dataRow)
         {
             _logger.Trace($"Start EmailAndPassword. Error = {Error}");
             var txtBox = FindElementWithChecking(By.Id(email));
@@ -259,7 +235,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Trace($"End EmailAndPassword. Error = {Error}");
         }
 
-        public void ClientData(VisaDataSet.ClientDataRow dataRow) //state 11
+        public void ClientData(VisaDataSet.ClientDataRow dataRow)
         {
             _logger.Trace($"Start ClientData. Error = {Error}");
             var txtBox = FindElementWithChecking(By.Id(endPassportDate));
@@ -427,19 +403,19 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     }
                     if (_driver.Title.IsNotNullOrEmpty() && !_driver.Title.Contains("Poland Visa"))
                     {
-                        _logger.Warn("IsServerDown => True. Title not Contains(\"Poland Visa\")");
+                        _logger.Error("IsServerDown => True. Title not Contains(\"Poland Visa\")");
                         return true;
                     }
                     var pageBody = _driver.FindElement(By.TagName("body"));
-                    if(pageBody.Text.Contains("The service is unavailable"))
+                    if (pageBody.Text.Contains("The service is unavailable"))
                     {
-                        _logger.Warn("IsServerDown => True");
+                        _logger.Error("IsServerDown => True");
                         return true;
                     }
                     if (pageBody.Text.Contains("We are sorry for the inconvenience"))
                     {
                         ValidationError = true; // we need full restart
-                        _logger.Error("IsServerDown => True. page.Contains(\"We are sorry for the inconvenience\")") ;
+                        _logger.Error("IsServerDown => True. page.Contains(\"We are sorry for the inconvenience\")");
                         return true;
                     }
                 }
@@ -447,7 +423,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     when (ex is NoSuchElementException || ex is WebDriverException)
                 {
                     //ignored - 
-                    //todo are you shure?
+                    //todo are you sure?
                     _logger.Warn($"IsServerDown Error: ex.Message={ex.Message}");
                 }
                 _logger.Trace("IsServerDown => False");
@@ -459,31 +435,58 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         #region Help Functions
 
+        public void PressSubmitButton(bool emailSubmit = false)
+        {
+            _logger.Info($"Start PressSubmitButton. Error = {Error}. ");
+            var submit = emailSubmit
+                ? FindElementWithChecking(By.Id(buttonSubmitEmail))
+                : FindElementWithChecking(By.Id(buttonSubmit));
+            try
+            {
+                submit.Click();
+                _logger.Trace("PressSubmitButton. buttonSubmit Click");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Error during click in PressSubmitButton");
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
+            }
+            _logger.Info($"End PressSubmitButton. Error = {Error}. ");
+        }
+
         public void RunNextStep(
             Action regAction)
         {
-            _logger.Info($"Start RunNextStep. Error = {Error}.");
-            if (!IsServerDown)
-                try
-                {
-                    CheckForError();
-                    regAction();
-                }
-                catch (Exception ex)
-                    when (ex is NoSuchElementException || ex is WebDriverException)
-                {
-                    if (Canceled)
-                        _logger.Warn($"Canceled by User. Error  = {Error}");
-                    else
-                    {
-                        _logger.Error(
-                            $"NoSuchElementException with message = {ex.Message}");
-                        Error = true;
-                    }
-                }
-            else
+            _logger.Trace($"Start RunNextStep. Error = {Error}.");
+
+            if (IsServerDown)
+            {
                 Error = true;
-            _logger.Info($"End RunNextStep. Error = {Error}.");
+                _logger.Warn($"End RunNextStep. Error = {Error}.");
+                return;
+            }
+
+            try
+            {
+                CheckForError();
+                regAction();
+            }
+            catch (Exception ex)
+                when (
+                    ex is NoSuchElementException || ex is WebDriverException
+                    )
+            {
+                if (Canceled)
+                    _logger.Warn($"Canceled by User. Error  = {Error}");
+                else
+                {
+                    _logger.Error(
+                        $"NoSuchElementException/WebDriverException with message = {ex.Message}");
+                    Error = true;
+                }
+            }
+            _logger.Trace($"End RunNextStep. Error = {Error}.");
         }
 
         public void ReloadPage()
@@ -525,11 +528,6 @@ namespace Visa.WebCrawler.SeleniumCrawler
             {
                 _logger.Info(
                     "Interrupted by Canceled flag. throw new WebDriverException");
-                throw new WebDriverException();
-            }
-            if (_driver == null)//todo we should try to remove it!!! And test how it will works
-            {
-                _logger.Warn("FirefoxDriver is NULL");
                 throw new WebDriverException();
             }
             var wait = new WebDriverWait(_driver,

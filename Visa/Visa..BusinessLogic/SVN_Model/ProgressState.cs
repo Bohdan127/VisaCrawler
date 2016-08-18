@@ -11,6 +11,7 @@
         ProvidePeopleCount,
         SelectVisaType,
         CheckDate,
+        SubmitDate,
         BackToCityAndReason,
         Receipt,
         SubmitReciept,

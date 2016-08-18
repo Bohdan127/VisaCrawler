@@ -44,12 +44,10 @@ namespace Visa.WinForms
             Closed += MainForm_Closed;
             Load += MainForm_Load;
 
-            #endregion CTOR
-
-
             _logger.Trace("End MainForm CTOR");
         }
 
+        #endregion CTOR
 
         #region Members
 
@@ -401,9 +399,9 @@ namespace Visa.WinForms
                             SetDefaultState();
                             break;
                         case ProgressState.SelectVisaType:
-                        case ProgressState.Receipt:
                         case ProgressState.ShowMessage:
                         case ProgressState.SubmitRegistrationDate:
+                        case ProgressState.SubmitDate:
                             ShowAlert(
                                 ResManager.GetString(ResKeys.FillCaptchaAndPress),
                                 false);
@@ -516,7 +514,7 @@ namespace Visa.WinForms
                     {
                         _crawlerRegistry.RegistrarionDateAvailability =
                             DialogResult.Yes;
-                        _progressState = ProgressState.Receipt;
+                        _progressState = ProgressState.SubmitDate;
                     }
                     else
                     {
@@ -559,7 +557,11 @@ namespace Visa.WinForms
 #endif
                     }
                     break;
-
+                case ProgressState.SubmitDate:
+                    _crawlerRegistry.RunNextStep(
+                    () => _crawlerRegistry.PressSubmitButton());
+                    _progressState = ProgressState.Receipt;
+                    break;
                 case ProgressState.BackToCityAndReason:
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.BackToCityAndReason());
