@@ -644,7 +644,7 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сервер не доступний.
+        ///   Looks up a localized string similar to Сервер недоступний.
         ///Сторінка буде перезагружена!.
         /// </summary>
         public static string WebPage_WillBeReloaded {

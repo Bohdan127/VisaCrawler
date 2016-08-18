@@ -301,7 +301,7 @@
     <value>Сторінка не загрузила всі компоненти</value>
   </data>
   <data name="WebPage_WillBeReloaded" xml:space="preserve">
-    <value>Сервер не доступний.
+    <value>Сервер недоступний.
 Сторінка буде перезагружена!</value>
   </data>
   <data name="lblEmail" xml:space="preserve">
