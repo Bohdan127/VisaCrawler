@@ -1,11 +1,16 @@
-﻿using NLog;
+﻿//#define GoWithoutDates
+//#define UseDefaultSelenium
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
-//using Selenium;
+#if UseDefaultSelenium
+using Selenium;
+#endif
 using System;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
+using NLog;
 using ToolsPortable;
 using Visa.Database;
 using Visa.Resources;
@@ -30,9 +35,10 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _driver.Manage().Timeouts().SetScriptTimeout(TimeSpan.FromMinutes(15));
             Error = false;
             Canceled = false;
-            //int port = 4444; //2310;
-            //ISelenium selenium = new DefaultSelenium("localhost", port, "*firefox C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", mainUrl);
-
+#if UseDefaultSelenium
+            int port = 4444; //2310;
+            ISelenium selenium = new DefaultSelenium("localhost", port, "*firefox C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", mainUrl);
+#endif
             _logger.Trace("End RegisterUser constructor");
         }
 
@@ -133,7 +139,6 @@ namespace Visa.WebCrawler.SeleniumCrawler
             var bRes = false;
             try
             {
-                //todo Thread.Sleep(2000);//Because Fall in next step
                 var infoText = FindElementWithChecking(By.Id(errorMessage)).Text;
                 if (infoText.Contains(capchaNotFilledMessage)) //"The image you selected not match"
                 {
@@ -149,8 +154,12 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     _logger.Info($"First date for Registration => {availableDate}");
                     _logger.Info($"dataRow.RegistryFom => { dataRow.RegistryFom}");
                     _logger.Info($"dataRow.RegistryTo => { dataRow.RegistryTo}");
+#if GoWithoutDates
                     if (dataRow.RegistryFom <= availableDate
                         && availableDate <= dataRow.RegistryTo)
+#else
+                    if (availableDate <= dataRow.RegistryTo)
+#endif
                     {
                         _logger.Info("dataRow.RegistryFom <= availableDate && availableDate <= dataRow.RegistryTo");
                         bRes = true;
@@ -368,9 +377,9 @@ namespace Visa.WebCrawler.SeleniumCrawler
             LogManager.GetCurrentClassLogger();
 
         private readonly FirefoxDriver _driver;
-
-        //private Selenium.ISelenium selenium;
-
+#if UseDefaultSelenium
+        private Selenium.ISelenium selenium;
+#endif
         #endregion Members
 
         #region Properties
@@ -423,10 +432,11 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 catch (Exception ex)
                     when (ex is NoSuchElementException || ex is WebDriverException)
                 {
-                    _logger.Warn($"IsServerDown Error: ex.Message={ex.Message}");
+                    _logger.Error($"IsServerDown Error: ex.Message={ex.Message}");
+                    _logger.Error("IsServerDown => True");
                     return true;
                 }
-                _logger.Trace("IsServerDown => False");
+                _logger.Info("IsServerDown => False");
                 return false;
             }
         }
@@ -493,7 +503,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         {
             _logger.Info("Start ReloadPage.");
             var result = "OK";
-            //var shouldAlertAccept = (0 == _driver.Url.CompareTo(mainUrl));
+            var shouldAlertAccept = (0 != String.Compare(_driver.Url, mainUrl, StringComparison.Ordinal));
             try
             {
                 _driver.Navigate().Refresh();
@@ -502,23 +512,26 @@ namespace Visa.WebCrawler.SeleniumCrawler
             {
                 _logger.Error(
                         $"Navigate().RefreshException with message = {ex.Message}");
-                result = "ERROR";
-                //shouldAlertAccept = false;
+                if (!ex.Message.StartsWith("Unexpected modal dialog"))
+                {
+                    result = "ERROR";
+                    shouldAlertAccept = false;
+                }
             }
-            //if (shouldAlertAccept)
-            //{
-            Thread.Sleep(1000);
-            try
+            if (shouldAlertAccept)
             {
-                if (_driver.SwitchTo().Alert() != null)
-                    _driver.SwitchTo().Alert().Accept();
+                Thread.Sleep(500);
+                try
+                {
+                    if (_driver.SwitchTo().Alert() != null)
+                        _driver.SwitchTo().Alert().Accept();
+                }
+                catch (NoAlertPresentException ex)
+                {
+                    _logger.Trace(// Alert not present
+                            $"SwitchTo().NoAlertPresentException with message = {ex.Message}");
+                }
             }
-            catch (NoAlertPresentException ex)
-            {
-                _logger.Trace(// Alert not present
-                        $"SwitchTo().NoAlertPresentException with message = {ex.Message}");
-            }
-            //}
             _logger.Info($"End ReloadPage. Status={result}");
         }
 

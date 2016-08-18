@@ -285,9 +285,10 @@ namespace Visa.WinForms
                 _crawlerRegistry.Canceled = true;
                 _crawlerRegistry.Error = false;
                 CloseBrowsers(false);
-                _alertControl.AlertFormList.ForEach(
-                    alert => alert.Close());
+
             }
+            _alertControl.AlertFormList.ForEach(
+                  alert => alert.Close());
             SetDefaultState();
             _logger.Trace("End simpleButtonCancelAction_Click");
         }
@@ -368,6 +369,10 @@ namespace Visa.WinForms
                 {
                     _logger.Warn($" _crawlerRegistry.Canceled _state={_progressState}");
                     bBreak = true;
+                    SetDefaultState();
+                    CloseBrowsers(false);
+                    _alertControl.AlertFormList.ForEach(
+                        alert => alert.Close());
                     _crawlerRegistry.Canceled = false;
                     _crawlerRegistry.Error = false;
                 }
@@ -516,18 +521,20 @@ namespace Visa.WinForms
                         _crawlerRegistry.FillCapchaFailed = false;
                         return;
                     }
-                    if (isAvailableDate)
+                    if (!_crawlerRegistry.Error)
                     {
-                        _crawlerRegistry.RegistrarionDateAvailability =
-                            DialogResult.Yes;
-                        _progressState = ProgressState.SubmitDate;
-                    }
-                    else
-                    {
+                        if (isAvailableDate)
+                        {
+                            _crawlerRegistry.RegistrarionDateAvailability =
+                                DialogResult.Yes;
+                            _progressState = ProgressState.SubmitDate;
+                        }
+                        else
+                        {
 #if (!GoWithoutDates)
-                        _crawlerRegistry.RegistrarionDateAvailability =
-                            DialogResult.Retry;
-                        _progressState = ProgressState.BackToCityAndReason;
+                            _crawlerRegistry.RegistrarionDateAvailability =
+                                DialogResult.Retry;
+                            _progressState = ProgressState.BackToCityAndReason;
 #else
                             var dialogResult =
                                 XtraMessageBox.Show(_crawlerRegistry.OutData,
@@ -561,6 +568,7 @@ namespace Visa.WinForms
                                     throw new ArgumentOutOfRangeException();
                             }
 #endif
+                        }
                     }
                     break;
                 case ProgressState.SubmitDate:
@@ -699,7 +707,6 @@ namespace Visa.WinForms
         {
             _logger.Trace($"Start CrawlerRefreshEngine _state = {_progressState}");
             var counter = 0;
-            var toStateFour = false;
             do
             {
                 if (_crawlerRegistry.Error)
@@ -709,25 +716,20 @@ namespace Visa.WinForms
                         _logger.Warn($"Reload page. _state = {_progressState}");
                         ShowAlert(ResManager.GetString(ResKeys.WebPage_WillBeReloaded),
                             true);
-                        if (toStateFour)
-                        {
-                            _progressState = ProgressState.SelectCityAndReason;
-                        }
                         _crawlerRegistry.ReloadPage();
                     }
-                    else
-                    {
-                        //ShowAlert(ResManager.GetString(ResKeys.WebPage_StillNotLoaded),
-                        //    true);
-                        XtraMessageBox.Show(ResKeys.WebPage_StillNotLoaded,
-                            ResKeys.SearchResult,
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Stop);
-                        counter = RefreshCount;
-                        _progressState = BreakState;
-                    }
+                    //else
+                    //{
+                    //    //ShowAlert(ResManager.GetString(ResKeys.WebPage_StillNotLoaded),
+                    //    //    true);
+                    //    XtraMessageBox.Show(ResKeys.WebPage_StillNotLoaded,
+                    //        ResKeys.SearchResult,
+                    //        MessageBoxButtons.OK,
+                    //        MessageBoxIcon.Stop);
+                    //    counter = RefreshCount;
+                    //    _progressState = BreakState;
+                    //}
                 }
-                toStateFour = false;
                 _crawlerRegistry.Error = false;
 
                 //todo Bohdan127 later here should be changed for collecting all rows instead first one like now
@@ -745,7 +747,6 @@ namespace Visa.WinForms
                         _progressState = ProgressState.SubmitRegistrationDate;
                         break;
                     case ProgressState.CheckDate:
-                        toStateFour = true;
                         break;
                     case ProgressState.BackToCityAndReason:
                         _progressState = ProgressState.SelectCityAndReason;
