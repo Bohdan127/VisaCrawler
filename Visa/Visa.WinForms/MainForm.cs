@@ -717,8 +717,14 @@ namespace Visa.WinForms
                     }
                     else
                     {
-                        ShowAlert(ResManager.GetString(ResKeys.WebPage_StillNotLoaded),
-                            true);
+                        //ShowAlert(ResManager.GetString(ResKeys.WebPage_StillNotLoaded),
+                        //    true);
+                        XtraMessageBox.Show(ResKeys.WebPage_StillNotLoaded,
+                            ResKeys.SearchResult,
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Stop);
+                        counter = RefreshCount;
+                        _progressState = BreakState;
                     }
                 }
                 toStateFour = false;

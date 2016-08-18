@@ -423,9 +423,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 catch (Exception ex)
                     when (ex is NoSuchElementException || ex is WebDriverException)
                 {
-                    //ignored - 
-                    //todo are you sure?
                     _logger.Warn($"IsServerDown Error: ex.Message={ex.Message}");
+                    return true;
                 }
                 _logger.Trace("IsServerDown => False");
                 return false;
@@ -494,7 +493,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         {
             _logger.Info("Start ReloadPage.");
             var result = "OK";
-            var shouldAlertAccept = (0 == _driver.Url.CompareTo(mainUrl));
+            //var shouldAlertAccept = (0 == _driver.Url.CompareTo(mainUrl));
             try
             {
                 _driver.Navigate().Refresh();
@@ -504,22 +503,22 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 _logger.Error(
                         $"Navigate().RefreshException with message = {ex.Message}");
                 result = "ERROR";
-                shouldAlertAccept = false;
+                //shouldAlertAccept = false;
             }
-            if (shouldAlertAccept)
+            //if (shouldAlertAccept)
+            //{
+            Thread.Sleep(1000);
+            try
             {
-                Thread.Sleep(200);
-                try
-                {
-                    if (_driver.SwitchTo().Alert() != null)
-                        _driver.SwitchTo().Alert().Accept();
-                }
-                catch (NoAlertPresentException ex)
-                {
-                    _logger.Trace(// Alert not present
-                            $"SwitchTo().NoAlertPresentException with message = {ex.Message}");
-                }
+                if (_driver.SwitchTo().Alert() != null)
+                    _driver.SwitchTo().Alert().Accept();
             }
+            catch (NoAlertPresentException ex)
+            {
+                _logger.Trace(// Alert not present
+                        $"SwitchTo().NoAlertPresentException with message = {ex.Message}");
+            }
+            //}
             _logger.Info($"End ReloadPage. Status={result}");
         }
 

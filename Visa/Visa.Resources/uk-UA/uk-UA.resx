@@ -298,9 +298,7 @@
     <value>Будь-ласка перевірте введені вами дані</value>
   </data>
   <data name="WebPage_StillNotLoaded" xml:space="preserve">
-    <value>Сторінка не загрузила всі компоненти 
-продовж 15 секунд, зараз виконаєтся
-повторна спроба</value>
+    <value>Сторінка не загрузила всі компоненти</value>
   </data>
   <data name="WebPage_WillBeReloaded" xml:space="preserve">
     <value>Сервер не доступний.

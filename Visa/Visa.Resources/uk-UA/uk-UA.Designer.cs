@@ -635,9 +635,7 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сторінка не загрузила всі компоненти 
-        ///продовж 15 секунд, зараз виконаєтся
-        ///повторна спроба.
+        ///   Looks up a localized string similar to Сторінка не загрузила всі компоненти.
         /// </summary>
         public static string WebPage_StillNotLoaded {
             get {
