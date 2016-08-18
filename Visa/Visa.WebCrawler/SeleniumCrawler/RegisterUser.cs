@@ -202,7 +202,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             var button = FindElementWithChecking(By.Id(btnCancel));
             try
             {
-                Thread.Sleep(4000);
+                //Thread.Sleep(4000);
                 button.Click();
                 _logger.Info("BackToCityAndReason. buttonBack Clicked");
             }
@@ -371,6 +371,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         private const string btnCancel = "ctl00_plhMain_btnCancel";
 
+        private const string aspnetForm = "aspnetForm";
+
         private const string capchaNotFilledMessage = "The image you selected not match";
 
         private static readonly Logger _logger =
@@ -535,6 +537,29 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info($"End ReloadPage. Status={result}");
         }
 
+        /// <summary>
+        ///     Gets "Name of Current Page" + '.' + "Name of Page for post requests".
+        ///     For Example: "AppSchedulingGetInfo.AppSchedulingReceiptDetails"
+        /// </summary>
+        public string GetCurrentPage()
+        {
+            string vp="", pp="";
+            try
+            {
+                vp = _driver.Url.Substring(106, 30);
+                vp = vp.Substring(0, vp.IndexOf('.'));
+            }
+            catch { }
+            try
+            {
+                var postPage = FindElementWithChecking(By.Id(aspnetForm));
+                pp = postPage.GetAttribute("action");
+                vp += pp.Substring(0, pp.IndexOf('.'));
+            }
+            catch { }
+            return vp;
+        }
+
         public IWebElement FindElementWithChecking(By by)
         {
             if (Canceled)
@@ -565,7 +590,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
             DateTime dateValue;
             if (erQuery != null
                 && erQuery.Text.IsNotBlank()
-                && !(DateTime.TryParse(erQuery.Text, out dateValue)))// it is available date shown - not error
+                && !(DateTime.TryParse(erQuery.Text, out dateValue))
+                && erQuery.Text != capchaNotFilledMessage)// it is available date shown - not error
             {
                 ValidationError = true;
                 OutData = erQuery.Text;

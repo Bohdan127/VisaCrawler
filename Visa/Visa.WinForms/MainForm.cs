@@ -184,6 +184,7 @@ namespace Visa.WinForms
                 _logger.Trace("Start gridControl1_KeyDown with Keys.Delete");
                 view.DeleteSelectedRows();
                 e.Handled = true;
+                _logger.Info("gridControl1_KeyDown. SelectedRows was Deleted");
                 _logger.Trace("End gridControl1_KeyDown with Keys.Delete");
             }
         }
@@ -358,7 +359,7 @@ namespace Visa.WinForms
             do
             {
                 CrawlerRefreshEngine();
-                _logger.Info($"End CrawlerWorkSecondPart _state={_progressState}");
+                //_logger.Info($"End CrawlerWorkSecondPart _state={_progressState}"); лог - дублювався
                 if (_crawlerRegistry == null)
                 {
                     throw new NotImplementedException();
@@ -577,8 +578,13 @@ namespace Visa.WinForms
                     _progressState = ProgressState.Receipt;
                     break;
                 case ProgressState.BackToCityAndReason:
-                    _crawlerRegistry.RunNextStep(
-                        () => _crawlerRegistry.BackToCityAndReason());
+                    if (_crawlerRegistry.IsServerDown)
+                    {
+                        _crawlerRegistry.Error = true;
+                        _logger.Warn($"End BackToCityAndReason. Error = {_crawlerRegistry.Error}.");
+                        break;
+                    }
+                    _crawlerRegistry.BackToCityAndReason();
                     _progressState = ProgressState.SelectCityAndReason;
                     break;
 
@@ -749,7 +755,7 @@ namespace Visa.WinForms
                     case ProgressState.CheckDate:
                         break;
                     case ProgressState.BackToCityAndReason:
-                        _progressState = ProgressState.SelectCityAndReason;
+                        _progressState = ProgressState.BackToCityAndReason;//todo need check no _progressState changes
                         break;
                     case ProgressState.SubmitRegistrationDate:
                         _progressState = ProgressState.SubmitClientData;
@@ -1057,6 +1063,15 @@ namespace Visa.WinForms
             _logger.Trace("End StartNewWorkRoundBase");
         }
 
+        /// <summary>
+        ///     Gets Page for post requests
+        /// </summary>
+        private VisaPage GetCurrentPageID()
+        {
+            VisaPage vp = VisaPage.None;
+            string cp =_crawlerRegistry.GetCurrentPage();
+            return vp;
+        }
         #endregion Functions
     }
 }
