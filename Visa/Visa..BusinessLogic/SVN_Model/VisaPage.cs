@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 //using System.Collections.Generic;
@@ -33,7 +33,7 @@ namespace Visa.BusinessLogic.SVN_Model
         [Description("AppSchedulingInterviewDate")]
         AppSchedulingInterviewDate = 7,
         [Description("Sessionexpiry")]
-        Sessionexpiry = 5
+        Sessionexpiry = 10
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ namespace Visa.BusinessLogic.SVN_Model
             { "AppEmailRegistration.AppEmailRegistration", (VisaPage)5},
             { "AppSchedulingVisaCategory.AppSchedulingVisaCategory", (VisaPage)6},
             { "AppSchedulingInterviewDate.AppSchedulingInterviewDate", (VisaPage)7},
-            { "Sessionexpiry", (VisaPage)8}
+            { "Sessionexpiry", (VisaPage)10}
         };
         public static string[] pages = new string[]{
             "None.None",

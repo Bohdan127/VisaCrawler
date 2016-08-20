@@ -76,6 +76,7 @@
     <Compile Include="RegistrationModule\Helpers\StateEventArgs.cs" />
     <Compile Include="RegistrationModule\Interface\IRegistration.cs" />
     <Compile Include="RegistrationModule\VisaRegistration.cs" />
+    <Compile Include="SVN_Model\VisaPage.cs" />
     <Compile Include="SVN_Model\ProgressState.cs" />
     <Compile Include="SVN_Model\SVN_SetupOptions.cs" />
   </ItemGroup>
