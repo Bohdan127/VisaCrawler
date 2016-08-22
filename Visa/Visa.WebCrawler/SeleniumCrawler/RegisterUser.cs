@@ -12,9 +12,10 @@ using System.Threading;
 using System.Windows.Forms;
 using NLog;
 using ToolsPortable;
+using Visa.WebCrawler.Interfaces;
+using Visa.BusinessLogic.SVN_Model;
 using Visa.Database;
 using Visa.Resources;
-using Visa.WebCrawler.Interfaces;
 
 namespace Visa.WebCrawler.SeleniumCrawler
 {
@@ -28,13 +29,14 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 "ignore");
             prof.SetPreference("startup.homepage_welcome_url.additional",
                 "about:blank");
-            RegistrarionDateAvailability = DialogResult.None;
+            prof.EnableNativeEvents = true;
             _driver = new FirefoxDriver(prof);
             _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
             _driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromMinutes(15));
             _driver.Manage().Timeouts().SetScriptTimeout(TimeSpan.FromMinutes(15));
             Error = false;
             Canceled = false;
+            RegistrarionDateAvailability = DialogResult.None;
 #if UseDefaultSelenium
             int port = 4444; //2310;
             ISelenium selenium = new DefaultSelenium("localhost", port, "*firefox C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", mainUrl);
@@ -202,7 +204,6 @@ namespace Visa.WebCrawler.SeleniumCrawler
             var button = FindElementWithChecking(By.Id(btnCancel));
             try
             {
-                //Thread.Sleep(4000);
                 button.Click();
                 _logger.Info("BackToCityAndReason. buttonBack Clicked");
             }
@@ -543,7 +544,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         /// </summary>
         public string GetCurrentPage()
         {
-            string vp="", pp="";
+            string vp = "", pp = "";
             try
             {
                 vp = _driver.Url.Substring(106, 30);
@@ -574,7 +575,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             return _driver.FindElement(by);
         }
 
-        private void CheckForError()
+        public virtual void CheckForError()
         {
             _logger.Trace($"Start CheckForError. Error = {Error}");
             IWebElement erQuery = null;
@@ -587,11 +588,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             {
                 _logger.Info($"Error element not found. Error ={Error}");
             }
-            DateTime dateValue;
-            if (erQuery != null
-                && erQuery.Text.IsNotBlank()
-                && !(DateTime.TryParse(erQuery.Text, out dateValue))
-                && erQuery.Text != capchaNotFilledMessage)// it is available date shown - not error
+            if (IsErrorExist(erQuery))
             {
                 ValidationError = true;
                 OutData = erQuery.Text;
@@ -603,14 +600,90 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Trace($"End CheckForError. Error = {Error}");
         }
 
+        protected virtual bool IsErrorExist(IWebElement element)
+        {
+            DateTime dateValue;
+
+            var bRes = element != null;
+            bRes = bRes && element.Text.IsNotBlank();
+            bRes = bRes && !DateTime.TryParse(element.Text,
+                out dateValue);
+            bRes = bRes && element.Text != capchaNotFilledMessage; // it is available date shown - not error
+            return bRes;
+        }
+
         public void CloseBrowser()
         {
             _logger.Trace("CloseBrowser");
             _driver?.Quit();
+            _driver?.Dispose();//this is needed for close geckodriver.exe during closing application
+        }
+
+        /// <summary>
+        /// Click on link for changing month on 0 column if left or in 2 if right
+        /// </summary>
+        /// <param name="scrollLeft">should we scroll left?</param>
+        protected virtual void ScrollMonth(bool scrollLeft)
+        {
+            var tableOuter = FindElementWithChecking(By.Id("ctl00_plhMain_cldAppointment"));
+            var tableInner = tableOuter.FindElement(By.TagName("table"));
+            var tdCollection = tableInner.FindElements(By.TagName("td"));
+
+            tdCollection[scrollLeft ? 0 : 2].Click();
+        }
+
+        /// <summary>
+        /// Checks, if month for searching registration date is between registry from and to dates
+        /// </summary>
+        /// <param name="dateToCheck">date for checking Year and Month</param>
+        /// <param name="registryFom">lower checking line</param>
+        /// <param name="registryTo">higher checking line</param>
+        /// <returns></returns>
+        protected virtual MonthChange CheckMounth(DateTime dateToCheck,
+            DateTime registryFom,
+            DateTime registryTo)
+        {
+            if (dateToCheck.Year < registryFom.Year)
+                return MonthChange.Rigth;
+
+            if (dateToCheck.Year > registryTo.Year)
+                return MonthChange.Left;
+
+            if (registryTo.Year == registryFom.Year)
+            {
+                if (dateToCheck.Month < registryFom.Month)
+                    return MonthChange.Rigth;
+
+                // ReSharper disable once ConvertIfStatementToReturnStatement
+                if (dateToCheck.Month > registryTo.Year)
+                    return MonthChange.Left;
+
+                return MonthChange.None;
+            }
+
+            if (dateToCheck.Year == registryFom.Year)
+            {
+                // ReSharper disable once ConvertIfStatementToReturnStatement
+                if (dateToCheck.Month < registryFom.Month)
+                    return MonthChange.Rigth;
+
+                return MonthChange.None;
+            }
+
+            // ReSharper disable once InvertIf
+            if (dateToCheck.Year == registryTo.Year)
+            {
+                // ReSharper disable once ConvertIfStatementToReturnStatement
+                if (dateToCheck.Month > registryTo.Month)
+                    return MonthChange.Left;
+
+                return MonthChange.None;
+            }
+
+            return MonthChange.Failed;
         }
 
         #endregion Help Functions
-
 
         public void GetFirstDate(VisaDataSet.ClientDataRow dataRow) // state 13
         {
@@ -635,37 +708,54 @@ namespace Visa.WebCrawler.SeleniumCrawler
             {
                 _logger.Info(
                     $"GetFirstDate Try Parse Month. element.Text = {dateString}.");
-                var result = DateTime.ParseExact(dateString,
+                var monthToCheck = DateTime.ParseExact(dateString,
                     format,
                     CultureInfo.CreateSpecificCulture("uk-UA"));
                 _logger.Info(
-                    $"GetFirstDate element.Text = {dateString} is parsed as {result.ToString("d MMM yyyy")}");
+                    $"GetFirstDate element.Text = {dateString} is parsed as {monthToCheck.ToString("d MMM yyyy")}");
 
-                if (dataRow.RegistryTo.Month < result.Month
-                    || dataRow.RegistryFom.Month > result.Month)
+                var monthChange = MonthChange.Failed;
+                do
+                {
+                    monthChange = CheckMounth(monthToCheck, dataRow.RegistryFom, dataRow.RegistryTo);
+                    switch (monthChange)
+                    {
+                        case MonthChange.Left:
+                            ScrollMonth(true);
+                            break;
+                        case MonthChange.None:
+                            //month is in range now, all OK
+                            break;
+                        case MonthChange.Rigth:
+                            ScrollMonth(false);
+                            break;
+                        case MonthChange.Failed:
+                            //if we get this status than we do something wrong
+                            throw new NotImplementedException();
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                } while (monthChange != MonthChange.None);
+
+
+                if (dataRow.RegistryTo.Month < monthToCheck.Month
+                    || dataRow.RegistryFom.Month > monthToCheck.Month)
                 {
                     var colIndex = 0;
-                    if (dataRow.RegistryTo.Month < result.Month)
+                    if (dataRow.RegistryTo.Month < monthToCheck.Month)
                         colIndex = 2;
                     tdCollection[colIndex].Click();
-                    _logger.Info(
-                        $"GetFirstDate. Scroll Calendar {tdCollection[colIndex].Text}");
+                    _logger.Info($"GetFirstDate. Scroll Calendar {tdCollection[colIndex].Text}");
                     GetFirstDateScroll = true;
                 }
                 else
                 {
-                    var queryCollection =
-                        _driver.FindElements(By.ClassName(availableData));
+                    var queryCollection = _driver.FindElements(By.ClassName(availableData));
                     if (queryCollection.Count == 0)
-                        _logger.Warn(
-                            $"no dates Available this month:{dateString}");
-                    _logger.Info(
-                        $"GetFirstDate. minDate = {dataRow.RegistryFom.Day}. maxDate = {dataRow.RegistryTo.Day}");
-                    OutData =
-                        string.Format(
-                            ResManager.GetString(ResKeys.DateIncorrect_Message),
-                            dataRow.RegistryFom.Day + " & "
-                            + dataRow.RegistryTo.Day);
+                        _logger.Warn($"no dates Available this month:{dateString}");
+                    _logger.Info($"GetFirstDate. minDate = {dataRow.RegistryFom.Day}. maxDate = {dataRow.RegistryTo.Day}");
+                    OutData = string.Format(ResManager.GetString(ResKeys.DateIncorrect_Message),
+                        dataRow.RegistryFom.Day + " & " + dataRow.RegistryTo.Day);
                     foreach (var element in queryCollection)
                     {
                         var date = element.Text.ConvertToIntOrNull();
@@ -675,8 +765,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                             || date.Value < dataRow.RegistryFom.Day)
                             continue;
 
-                        _logger.Info(
-                            $"GetFirstDate. date.Value = {date.Value} element Click");
+                        _logger.Info($"GetFirstDate. date.Value = {date.Value} element Click");
                         OutData = date.Value.ToString();
                         element.Click();
                         break;
@@ -685,14 +774,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             }
             catch (FormatException)
             {
-                _logger.Error(
-                    $"GetFirstDate \"{dateString}\" is not in the correct Date format.");
-                Error = true;
-            }
-            catch (Exception ex)
-            {
-                //todo Bohdan127 we really need it?
-                _logger.Error($"GetFirstDate Exception{ex.Message}");
+                _logger.Error($"GetFirstDate \"{dateString}\" is not in the correct Date format.");
                 Error = true;
             }
             //CheckForError();//todo we need to check if that sate is returned

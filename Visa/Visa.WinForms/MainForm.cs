@@ -331,8 +331,8 @@ namespace Visa.WinForms
             ResManager.RegisterResource("uk_UA",
                 uk_UA.ResourceManager);
             _logger.Info("InitOtherComponentDetails. ResManager = uk_UA");
-            //we can off checking just for offline testing:
-            CheckLicense();
+            //we can off checking just for off line testing:
+            //CheckLicense();
             await Task.Run(() => Invoke(
                 new Action(() =>
                 {
@@ -359,7 +359,6 @@ namespace Visa.WinForms
             do
             {
                 CrawlerRefreshEngine();
-                //_logger.Info($"End CrawlerWorkSecondPart _state={_progressState}"); лог - дублювався
                 if (_crawlerRegistry == null)
                 {
                     throw new NotImplementedException();
@@ -406,7 +405,7 @@ namespace Visa.WinForms
                             break;
                         case ProgressState.SelectVisaType:
                         case ProgressState.ShowMessage:
-                        case ProgressState.SubmitRegistrationDate:
+                        case ProgressState.SelectRegistrationTime:
                         case ProgressState.SubmitDate:
                         case ProgressState.SubmitClientData:
 #if (!GoWithoutDates)
@@ -649,10 +648,11 @@ namespace Visa.WinForms
                             _crawlerRegistry.RunNextStep(
                                 () => _crawlerRegistry.GetFirstDate(dataRow));
 
-                            if (!_crawlerRegistry.GetFirstDateScroll
-                                || _crawlerRegistry.Error)
-                                _progressState =
-                                    ProgressState.SubmitRegistrationDate;
+                            //todo below!!!
+                            //if (!_crawlerRegistry.GetFirstDateScroll
+                            //    || _crawlerRegistry.Error)
+                            //    _progressState =
+                            //        ProgressState.SubmitRegistrationDate;
                             break;
 #if GoWithoutDates
                         case DialogResult.None:
@@ -668,12 +668,7 @@ namespace Visa.WinForms
                     _progressState = ProgressState.SubmitRegistrationDate;
                     break;
 #endif
-                case ProgressState.SubmitRegistrationDate:
-                    _crawlerRegistry.RunNextStep(
-                        () => _crawlerRegistry.PressSubmitButton());
-                    _progressState = ProgressState.SelectRegistrTime;
-                    break;
-                case ProgressState.SelectRegistrTime:
+                case ProgressState.SelectRegistrationTime:
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.SelectRegistrationTime());
                     _progressState = ProgressState.Start;
@@ -747,18 +742,13 @@ namespace Visa.WinForms
 
                 _logger.Warn($"!_crawlerRegistry.Canceled && _crawlerRegistry.Error. _state = {_progressState}."
                      + $" counter = {counter} _crawlerRegistry.ValidationError = {_crawlerRegistry.ValidationError}");
+                // ReSharper disable once SwitchStatementMissingSomeCases
                 switch (_progressState)
                 {
-                    case ProgressState.Start:
-                        _progressState = ProgressState.SubmitRegistrationDate;
-                        break;
                     case ProgressState.CheckDate:
                         break;
                     case ProgressState.BackToCityAndReason:
                         _progressState = ProgressState.BackToCityAndReason;//todo need check no _progressState changes
-                        break;
-                    case ProgressState.SubmitRegistrationDate:
-                        _progressState = ProgressState.SubmitClientData;
                         break;
                     default:
                         _progressState--;
@@ -1069,7 +1059,7 @@ namespace Visa.WinForms
         private VisaPage GetCurrentPageID()
         {
             VisaPage vp = VisaPage.None;
-            string cp =_crawlerRegistry.GetCurrentPage();
+            string cp = _crawlerRegistry.GetCurrentPage();
             return vp;
         }
         #endregion Functions

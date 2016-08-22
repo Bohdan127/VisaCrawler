@@ -1,6 +1,6 @@
 ﻿namespace Visa.BusinessLogic.SVN_Model
 {
-    public enum ProgressState : int
+    public enum ProgressState
     {
         NoState,
         Start,
@@ -21,8 +21,7 @@
         SubmitClientData,
         GetFirstDate,
         ShowMessage,
-        SubmitRegistrationDate,
-        SelectRegistrTime,
+        SelectRegistrationTime,
         SendingEmail,
         BreakState
     }
