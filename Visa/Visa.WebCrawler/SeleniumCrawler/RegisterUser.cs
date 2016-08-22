@@ -7,6 +7,7 @@ using OpenQA.Selenium.Firefox;
 using Selenium;
 #endif
 using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
@@ -625,11 +626,19 @@ namespace Visa.WebCrawler.SeleniumCrawler
         /// <param name="scrollLeft">should we scroll left?</param>
         protected virtual void ScrollMonth(bool scrollLeft)
         {
-            var tableOuter = FindElementWithChecking(By.Id("ctl00_plhMain_cldAppointment"));
-            var tableInner = tableOuter.FindElement(By.TagName("table"));
-            var tdCollection = tableInner.FindElements(By.TagName("td"));
+            _logger.Trace($"Start ScrollMonth. Error = {Error} scrollLeft = {scrollLeft}");
+            GetCalendarHeader()[scrollLeft ? 0 : 2].Click();
+            _logger.Info("ScrollMonth => Click Performed!");
+            _logger.Trace($"End ScrollMonth. Error = {Error} scrollLeft = {scrollLeft}");
+        }
 
-            tdCollection[scrollLeft ? 0 : 2].Click();
+        protected virtual ReadOnlyCollection<IWebElement> GetCalendarHeader()
+        {
+            _logger.Trace($"Try to GetCalendarHeader. Error = {Error}");
+            return
+                FindElementWithChecking(By.Id("ctl00_plhMain_cldAppointment"))
+                    .FindElement(By.TagName("table"))
+                    .FindElements(By.TagName("td"));
         }
 
         /// <summary>
@@ -643,21 +652,35 @@ namespace Visa.WebCrawler.SeleniumCrawler
             DateTime registryFom,
             DateTime registryTo)
         {
+            _logger.Trace($"Start CheckMounth. Error = {Error} dateToCheck = {dateToCheck} registryFom = {registryFom} registryTo = {registryTo}");
             if (dateToCheck.Year < registryFom.Year)
+            {
+                _logger.Info("End CheckMounth. return MonthChange.Rigth;");
                 return MonthChange.Rigth;
+            }
 
             if (dateToCheck.Year > registryTo.Year)
+            {
+                _logger.Info("End CheckMounth. return MonthChange.Left;");
                 return MonthChange.Left;
+            }
 
             if (registryTo.Year == registryFom.Year)
             {
                 if (dateToCheck.Month < registryFom.Month)
+                {
+                    _logger.Info("End CheckMounth. return MonthChange.Rigth;");
                     return MonthChange.Rigth;
+                }
 
                 // ReSharper disable once ConvertIfStatementToReturnStatement
                 if (dateToCheck.Month > registryTo.Year)
+                {
+                    _logger.Info("End CheckMounth. return MonthChange.Left;");
                     return MonthChange.Left;
+                }
 
+                _logger.Info("End CheckMounth. return MonthChange.None;");
                 return MonthChange.None;
             }
 
@@ -665,8 +688,12 @@ namespace Visa.WebCrawler.SeleniumCrawler
             {
                 // ReSharper disable once ConvertIfStatementToReturnStatement
                 if (dateToCheck.Month < registryFom.Month)
+                {
+                    _logger.Info("End CheckMounth. return MonthChange.Rigth;");
                     return MonthChange.Rigth;
+                }
 
+                _logger.Info("End CheckMounth. return MonthChange.None;");
                 return MonthChange.None;
             }
 
@@ -675,12 +702,105 @@ namespace Visa.WebCrawler.SeleniumCrawler
             {
                 // ReSharper disable once ConvertIfStatementToReturnStatement
                 if (dateToCheck.Month > registryTo.Month)
+                {
+                    _logger.Info("End CheckMounth. return MonthChange.Left;");
                     return MonthChange.Left;
+                }
 
+                _logger.Info("End CheckMounth. return MonthChange.None;");
                 return MonthChange.None;
             }
-
+            _logger.Warn("End CheckMounth. return MonthChange.Failed;");
             return MonthChange.Failed;
+        }
+
+        /// <summary>
+        /// Select first available for registration date from UI calendar
+        /// </summary>
+        /// <param name="currentMonth">Current calendar month</param>
+        /// <param name="registryFom">lower checking line</param>
+        /// <param name="registryTo">higher checking line</param>
+        /// <returns></returns>
+        protected virtual bool SelectRegistrationDate(DateTime currentMonth,
+            DateTime registryFom,
+            DateTime registryTo)
+        {
+            var queryCollection = _driver.FindElements(By.ClassName(availableData));
+            if (queryCollection.Count == 0)
+                return false;
+
+            var availableRange = GetAvailableRange(currentMonth, registryFom, registryTo);
+
+
+            foreach (var element in queryCollection)
+            {
+                var date = element.Text.ConvertToIntOrNull();
+
+                if (date == null
+                    || date.Value > availableRange.Item2//endDate
+                    || date.Value < availableRange.Item1)//startDate
+                    continue;
+
+                _logger.Info($"GetFirstDate. date.Value = {date.Value} element Click");
+                OutData = date.Value.ToString();
+                element.Click();
+                return true;
+            }
+            return false;
+        }
+
+        protected virtual Tuple<int, int> GetAvailableRange(DateTime currentMonth, DateTime registryFom, DateTime registryTo)
+        {
+            _logger.Trace($"Start GetAvailableRange. Error = {Error} currentMonth = {currentMonth} registryFom = {registryFom} registryTo = {registryTo}");
+            int startDate,
+                endDate = 0;
+
+            if (currentMonth.Year > registryTo.Year
+                || currentMonth.Year < registryFom.Year)
+            {
+                throw new NotImplementedException();
+            }
+            //todo make refactoring for code below
+            if (currentMonth.Year == registryFom.Year)
+            {
+                if (currentMonth.Month == registryFom.Month)
+                {
+                    startDate = registryFom.Day;
+                }
+                else if (currentMonth.Month < registryFom.Month)
+                {
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    startDate = 1;
+                }
+            }
+            else
+            {
+                startDate = 1;
+            }
+
+            if (currentMonth.Year == registryTo.Year)
+            {
+                if (currentMonth.Month == registryTo.Month)
+                {
+                    startDate = registryTo.Day;
+                }
+                else if (currentMonth.Month > registryTo.Month)
+                {
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    endDate = 31;
+                }
+            }
+            else
+            {
+                endDate = 31;
+            }
+            return new Tuple<int, int>(startDate, endDate);
         }
 
         #endregion Help Functions
@@ -698,85 +818,91 @@ namespace Visa.WebCrawler.SeleniumCrawler
              *                      > tr:nth-child(1) 
              *                          > td:nth-child(2)"
              */
-            var tableOuter = FindElementWithChecking(By.Id("ctl00_plhMain_cldAppointment"));
-            var tableInner = tableOuter.FindElement(By.TagName("table"));
-            var tdCollection = tableInner.FindElements(By.TagName("td"));
-            var dateString = tdCollection[1].Text;
             const string format = "MMMM yyyy р.";
             GetFirstDateScroll = false;
-            try
-            {
-                _logger.Info(
-                    $"GetFirstDate Try Parse Month. element.Text = {dateString}.");
-                var monthToCheck = DateTime.ParseExact(dateString,
-                    format,
-                    CultureInfo.CreateSpecificCulture("uk-UA"));
-                _logger.Info(
-                    $"GetFirstDate element.Text = {dateString} is parsed as {monthToCheck.ToString("d MMM yyyy")}");
 
-                var monthChange = MonthChange.Failed;
-                do
+            MonthChange monthChange;
+            do
+            {
+
+                var tableOuter = FindElementWithChecking(By.Id("ctl00_plhMain_cldAppointment"));
+                var tableInner = tableOuter.FindElement(By.TagName("table"));
+                var tdCollection = tableInner.FindElements(By.TagName("td"));
+                var dateString = tdCollection[1].Text;
+                try
                 {
+                    _logger.Info(
+                        $"GetFirstDate Try Parse Month. element.Text = {dateString}.");
+                    var monthToCheck = DateTime.ParseExact(dateString,
+                        format,
+                        CultureInfo.CreateSpecificCulture("uk-UA"));
+                    _logger.Info(
+                        $"GetFirstDate element.Text = {dateString} is parsed as {monthToCheck.ToString("d MMM yyyy")}");
                     monthChange = CheckMounth(monthToCheck, dataRow.RegistryFom, dataRow.RegistryTo);
-                    switch (monthChange)
-                    {
-                        case MonthChange.Left:
-                            ScrollMonth(true);
-                            break;
-                        case MonthChange.None:
-                            //month is in range now, all OK
-                            break;
-                        case MonthChange.Rigth:
-                            ScrollMonth(false);
-                            break;
-                        case MonthChange.Failed:
-                            //if we get this status than we do something wrong
-                            throw new NotImplementedException();
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                } while (monthChange != MonthChange.None);
-
-
-                if (dataRow.RegistryTo.Month < monthToCheck.Month
-                    || dataRow.RegistryFom.Month > monthToCheck.Month)
-                {
-                    var colIndex = 0;
-                    if (dataRow.RegistryTo.Month < monthToCheck.Month)
-                        colIndex = 2;
-                    tdCollection[colIndex].Click();
-                    _logger.Info($"GetFirstDate. Scroll Calendar {tdCollection[colIndex].Text}");
-                    GetFirstDateScroll = true;
                 }
-                else
+                catch (FormatException)
                 {
-                    var queryCollection = _driver.FindElements(By.ClassName(availableData));
-                    if (queryCollection.Count == 0)
-                        _logger.Warn($"no dates Available this month:{dateString}");
-                    _logger.Info($"GetFirstDate. minDate = {dataRow.RegistryFom.Day}. maxDate = {dataRow.RegistryTo.Day}");
-                    OutData = string.Format(ResManager.GetString(ResKeys.DateIncorrect_Message),
-                        dataRow.RegistryFom.Day + " & " + dataRow.RegistryTo.Day);
-                    foreach (var element in queryCollection)
-                    {
-                        var date = element.Text.ConvertToIntOrNull();
+                    _logger.Error($"GetFirstDate month value \"{dateString}\" is not in the correct Date format.");
+                    Error = true;
+                    return;
+                }
 
-                        if (date == null
-                            || date.Value > dataRow.RegistryTo.Day
-                            || date.Value < dataRow.RegistryFom.Day)
-                            continue;
-
-                        _logger.Info($"GetFirstDate. date.Value = {date.Value} element Click");
-                        OutData = date.Value.ToString();
-                        element.Click();
+                switch (monthChange)
+                {
+                    case MonthChange.Left:
+                        _logger.Info("Scroll Left");
+                        ScrollMonth(true);
                         break;
-                    }
+                    case MonthChange.None:
+                        _logger.Info("Correct month");
+                        //month is in range now, all OK
+                        break;
+                    case MonthChange.Rigth:
+                        _logger.Info("Scroll Right");
+                        ScrollMonth(false);
+                        break;
+                    case MonthChange.Failed:
+                        //if we get this status than we do something wrong
+                        throw new NotImplementedException();
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
-            }
-            catch (FormatException)
+            } while (monthChange != MonthChange.None);
+
+
+            //if (dataRow.RegistryTo.Month < monthToCheck.Month
+            //    || dataRow.RegistryFom.Month > monthToCheck.Month)
+            //{
+            //    var colIndex = 0;
+            //    if (dataRow.RegistryTo.Month < monthToCheck.Month)
+            //        colIndex = 2;
+            //    tdCollection[colIndex].Click();
+            //    _logger.Info($"GetFirstDate. Scroll Calendar {tdCollection[colIndex].Text}");
+            //    GetFirstDateScroll = true;
+            //}
+            //else
+            //{
+            var queryCollection = _driver.FindElements(By.ClassName(availableData));
+            if (queryCollection.Count == 0)
+                _logger.Warn($"no dates Available this month:");
+            _logger.Info($"GetFirstDate. minDate = {dataRow.RegistryFom.Day}. maxDate = {dataRow.RegistryTo.Day}");
+            OutData = string.Format(ResManager.GetString(ResKeys.DateIncorrect_Message),
+                dataRow.RegistryFom.Day + " & " + dataRow.RegistryTo.Day);
+            foreach (var element in queryCollection)
             {
-                _logger.Error($"GetFirstDate \"{dateString}\" is not in the correct Date format.");
-                Error = true;
+                var date = element.Text.ConvertToIntOrNull();
+
+                if (date == null
+                    || date.Value > dataRow.RegistryTo.Day
+                    || date.Value < dataRow.RegistryFom.Day)
+                    continue;
+
+                _logger.Info($"GetFirstDate. date.Value = {date.Value} element Click");
+                OutData = date.Value.ToString();
+                element.Click();
+                break;
             }
+            //}
             //CheckForError();//todo we need to check if that sate is returned
             _logger.Trace($"End GetFirstDate. Error = {Error}. dateFrom: {dataRow.RegistryFom.ToShortDateString()}, dateTo: {dataRow.RegistryTo.ToShortDateString()}, OutData: {OutData}");
         }
@@ -790,5 +916,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
             _logger.Trace($"End SelectRegistrationTime. Error = {Error}");
         }
+
+
     }
 }
