@@ -297,10 +297,13 @@ namespace Visa.WinForms
         private void _alertControl_BeforeFormShow(object sender,
             AlertFormEventArgs e)
         {
+            if (e.AlertForm.AlertInfo.Text.IsBlank())
+                return;
             _logger.Trace($"Calculate Alert Location. X- {(Screen.PrimaryScreen.Bounds.Width + 150) / 2}, "
-                + $" Y - {(Screen.PrimaryScreen.Bounds.Height - 150) / 2}");
-            e.Location = new Point((Screen.PrimaryScreen.Bounds.Width + 150) / 2,
-                (Screen.PrimaryScreen.Bounds.Height - 150) / 2);
+                          + $" Y - {(Screen.PrimaryScreen.Bounds.Height - 150) / 2}");
+            e.Location =
+                new Point((Screen.PrimaryScreen.Bounds.Width + 150) / 2,
+                    (Screen.PrimaryScreen.Bounds.Height - 150) / 2);
         }
 
         private void _alertControl_AlertClick(object sender,

@@ -1,5 +1,6 @@
 ﻿//#define GoWithoutDates
 //#define UseDefaultSelenium
+//#define UseSeleniumWithGeckodriver
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -32,7 +33,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 "about:blank");
             prof.EnableNativeEvents = true;
             _driver = new FirefoxDriver(prof);
-            _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1));
+            _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMinutes(15));
             _driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromMinutes(15));
             _driver.Manage().Timeouts().SetScriptTimeout(TimeSpan.FromMinutes(15));
             Error = false;
@@ -437,8 +438,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     when (ex is NoSuchElementException || ex is WebDriverException)
                 {
                     _logger.Error($"IsServerDown Error: ex.Message={ex.Message}");
-                    _logger.Error("IsServerDown => True");
-                    return true;
+                    //_logger.Error("IsServerDown => True");
+                    //return true;
                 }
                 _logger.Info("IsServerDown => False");
                 return false;
@@ -582,7 +583,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
             IWebElement erQuery = null;
             try
             {
-                erQuery = _driver.FindElement(By.Id(errorMessage));
+                if (_driver.PageSource.Contains(errorMessage))
+                    erQuery = _driver.FindElement(By.Id(errorMessage));
             }
             catch (Exception ex)
                 when (ex is NoSuchElementException || ex is WebDriverException)
@@ -617,7 +619,9 @@ namespace Visa.WebCrawler.SeleniumCrawler
         {
             _logger.Trace("CloseBrowser");
             _driver?.Quit();
+#if UseSeleniumWithGeckodriver
             _driver?.Dispose();//this is needed for close geckodriver.exe during closing application
+#endif
         }
 
         /// <summary>
