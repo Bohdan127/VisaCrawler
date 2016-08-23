@@ -623,7 +623,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         /// <summary>
         /// Click on link for changing month on 0 column if left or in 2 if right
         /// </summary>
-        /// <param name="scrollLeft">should we scroll left?</param>
+        /// <param name="scrollLeft">perform scroll left</param>
         protected virtual void ScrollMonth(bool scrollLeft)
         {
             _logger.Trace($"Start ScrollMonth. Error = {Error} scrollLeft = {scrollLeft}");
@@ -822,20 +822,18 @@ namespace Visa.WebCrawler.SeleniumCrawler
             GetFirstDateScroll = false;
 
             MonthChange monthChange;
+            DateTime monthToCheck;
             do
             {
-
-                var tableOuter = FindElementWithChecking(By.Id("ctl00_plhMain_cldAppointment"));
-                var tableInner = tableOuter.FindElement(By.TagName("table"));
-                var tdCollection = tableInner.FindElements(By.TagName("td"));
-                var dateString = tdCollection[1].Text;
+                var dateString = GetCalendarHeader()[1].Text;
                 try
                 {
                     _logger.Info(
                         $"GetFirstDate Try Parse Month. element.Text = {dateString}.");
-                    var monthToCheck = DateTime.ParseExact(dateString,
-                        format,
-                        CultureInfo.CreateSpecificCulture("uk-UA"));
+                    monthToCheck = DateTime.ParseExact(dateString,
+                               format,
+                               //here we use uk-UA culture instead on CurrentCulture, because in site it will always be uk-UA
+                               CultureInfo.CreateSpecificCulture("uk-UA"));
                     _logger.Info(
                         $"GetFirstDate element.Text = {dateString} is parsed as {monthToCheck.ToString("d MMM yyyy")}");
                     monthChange = CheckMounth(monthToCheck, dataRow.RegistryFom, dataRow.RegistryTo);
@@ -870,39 +868,15 @@ namespace Visa.WebCrawler.SeleniumCrawler
             } while (monthChange != MonthChange.None);
 
 
-            //if (dataRow.RegistryTo.Month < monthToCheck.Month
-            //    || dataRow.RegistryFom.Month > monthToCheck.Month)
-            //{
-            //    var colIndex = 0;
-            //    if (dataRow.RegistryTo.Month < monthToCheck.Month)
-            //        colIndex = 2;
-            //    tdCollection[colIndex].Click();
-            //    _logger.Info($"GetFirstDate. Scroll Calendar {tdCollection[colIndex].Text}");
-            //    GetFirstDateScroll = true;
-            //}
-            //else
-            //{
-            var queryCollection = _driver.FindElements(By.ClassName(availableData));
-            if (queryCollection.Count == 0)
-                _logger.Warn($"no dates Available this month:");
-            _logger.Info($"GetFirstDate. minDate = {dataRow.RegistryFom.Day}. maxDate = {dataRow.RegistryTo.Day}");
-            OutData = string.Format(ResManager.GetString(ResKeys.DateIncorrect_Message),
-                dataRow.RegistryFom.Day + " & " + dataRow.RegistryTo.Day);
-            foreach (var element in queryCollection)
+            //todo this first condition probably can not work correctly
+            while (monthToCheck <= dataRow.RegistryTo
+                   && !SelectRegistrationDate(monthToCheck,
+                       dataRow.RegistryFom,
+                       dataRow.RegistryTo))
             {
-                var date = element.Text.ConvertToIntOrNull();
-
-                if (date == null
-                    || date.Value > dataRow.RegistryTo.Day
-                    || date.Value < dataRow.RegistryFom.Day)
-                    continue;
-
-                _logger.Info($"GetFirstDate. date.Value = {date.Value} element Click");
-                OutData = date.Value.ToString();
-                element.Click();
-                break;
+                ScrollMonth(true);
             }
-            //}
+
             //CheckForError();//todo we need to check if that sate is returned
             _logger.Trace($"End GetFirstDate. Error = {Error}. dateFrom: {dataRow.RegistryFom.ToShortDateString()}, dateTo: {dataRow.RegistryTo.ToShortDateString()}, OutData: {OutData}");
         }
