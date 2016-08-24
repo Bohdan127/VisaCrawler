@@ -27,7 +27,6 @@ using Visa.License.Logic;
 using Visa.Resources;
 using Visa.Resources.uk_UA;
 using Visa.WebCrawler.SeleniumCrawler;
-using Visa.WinForms.ErrorProvider;
 using Visa.WinForms.Views;
 
 namespace Visa.WinForms
@@ -387,6 +386,7 @@ namespace Visa.WinForms
                         + $" OutData = {_crawlerRegistry.OutData}. _crawlerRegistry.Error = true ");
                     SetDefaultState();
                     bBreak = true;
+                    SystemSounds.Beep.Play();
                     ShowAlert(_crawlerRegistry.OutData.IsNotBlank()
                         ? _crawlerRegistry.OutData
                         : ResManager.GetString(ResKeys.ServerError),
@@ -650,7 +650,7 @@ namespace Visa.WinForms
                                 $"{_crawlerRegistry.RegistrarionDateAvailability}"
                                 + $" for GetFirstDate _state={_progressState}");
                             _progressState = ProgressState.Start;
-                            ExceptionHandlerForm.SendErrorMail(
+                            EmailManager.SendErrorMail(
                                 new NotImplementedException());
                             XtraMessageBox.Show(
                                 ResManager.GetString(

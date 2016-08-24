@@ -329,4 +329,7 @@
     <value>Дата для реєстрації є доступна
 {0}</value>
   </data>
+  <data name="NoDate_Message" xml:space="preserve">
+    <value>Вільних дат не має</value>
+  </data>
 </root>

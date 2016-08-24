@@ -470,6 +470,15 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вільних дат не має.
+        /// </summary>
+        public static string NoDate_Message {
+            get {
+                return ResourceManager.GetString("NoDate_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Будь-ласка виберіть Excel документ 
         ///з даними по шаблону.
         /// </summary>

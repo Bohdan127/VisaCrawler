@@ -100,5 +100,7 @@
         public const string Complete_Registration = "Complete_Registration";
 
         public const string DateСorrect_Message = "DateСorrect_Message";
+
+        public const string NoDate_Message = "NoDate_Message";
     }
 }

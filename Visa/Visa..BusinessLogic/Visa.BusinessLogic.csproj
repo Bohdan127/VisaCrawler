@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Managers\EmailManager.cs" />
     <Compile Include="Managers\ImportManager.cs" />
     <Compile Include="Managers\SetupManager.cs" />
     <Compile Include="Managers\StateManager.cs" />

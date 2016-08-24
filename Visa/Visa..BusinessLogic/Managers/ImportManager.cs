@@ -17,12 +17,12 @@ namespace Visa.BusinessLogic.Managers
         private static readonly Logger _logger =
             LogManager.GetCurrentClassLogger();
 
-        private static readonly OpenFileDialog _openFileDialog;
+        private static readonly OpenFileDialog OpenFileDialog;
 
         static ImportManager()
         {
             _logger.Trace("Start CTOR ImportManager");
-            _openFileDialog = new OpenFileDialog
+            OpenFileDialog = new OpenFileDialog
             {
                 Title = ResManager.GetString(ResKeys.OpenFileDialog_Title),
                 Filter = _filter,
@@ -37,15 +37,15 @@ namespace Visa.BusinessLogic.Managers
             _logger.Trace("Start ImportRowsFromExcel");
             VisaDataSet.ClientDataRow resRow = null;
             var visaDataSet = new VisaDataSet();
-            if (_openFileDialog.ShowDialog() == DialogResult.OK)
+            if (OpenFileDialog.ShowDialog() == DialogResult.OK)
             {
                 _logger.Info(
-                    $"ImportRowsFromExcel _openFileDialog.ShowDialog() == DialogResult.OK  _openFileDialog.FileName = {_openFileDialog.FileName}");
-                var stream = File.Open(_openFileDialog.FileName,
+                    $"ImportRowsFromExcel _openFileDialog.ShowDialog() == DialogResult.OK  _openFileDialog.FileName = {OpenFileDialog.FileName}");
+                var stream = File.Open(OpenFileDialog.FileName,
                     FileMode.Open,
                     FileAccess.Read);
 
-                var excelReader = _openFileDialog.FileName.EndsWith("xls")
+                var excelReader = OpenFileDialog.FileName.EndsWith("xls")
                     ? ExcelReaderFactory.CreateBinaryReader(stream)
                     //1. Reading from a binary Excel file ('97-2003 format; *.xls)
                     : ExcelReaderFactory.CreateOpenXmlReader(stream);
@@ -57,7 +57,7 @@ namespace Visa.BusinessLogic.Managers
 
                 if (resDataRow == null)
                     _logger.Error(
-                        $"ImportRowsFromExcel resDataRow == null. _openFileDialog.FileName = {_openFileDialog.FileName}");
+                        $"ImportRowsFromExcel resDataRow == null. _openFileDialog.FileName = {OpenFileDialog.FileName}");
                 else
                 {
                     resRow = visaDataSet.ClientData.NewClientDataRow();

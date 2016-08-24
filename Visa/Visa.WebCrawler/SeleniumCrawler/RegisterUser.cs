@@ -15,6 +15,7 @@ using System.Threading;
 using System.Windows.Forms;
 using NLog;
 using ToolsPortable;
+using Visa.BusinessLogic.Managers;
 using Visa.BusinessLogic.SVN_Model;
 using Visa.Database;
 
@@ -90,6 +91,10 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 .Click();
             _logger.Info(
                 "SelectCityAndReason. reason option[value='1'] Click");
+            var scr = _driver.GetScreenshot();
+            var fileName = $"{dataRow.Name}_{dataRow.LastName}.jpg";
+            scr.SaveAsFile(fileName, ImageFormat.Jpeg);
+            EmailManager.SendEmailWithPhoto(fileName);
             _logger.Info($"End SelectCityAndReason. Error = {Error}. ");
         }
 
@@ -639,7 +644,15 @@ namespace Visa.WebCrawler.SeleniumCrawler
         protected virtual void ScrollMonth(bool scrollLeft)
         {
             _logger.Trace($"Start ScrollMonth. Error = {Error} scrollLeft = {scrollLeft}");
-            GetCalendarHeader()[scrollLeft ? 0 : 2].Click();
+
+            var element = GetCalendarHeader()[scrollLeft ? 0 : 2];
+            if (element.Text.IsBlank())
+            {
+                OutData = ResManager.GetString(ResKeys.NoDate_Message);
+                ValidationError = true;
+                throw new NoSuchElementException();
+            }
+            element.Click();
             _logger.Info("ScrollMonth => Click Performed!");
             _logger.Trace($"End ScrollMonth. Error = {Error} scrollLeft = {scrollLeft}");
         }
@@ -919,8 +932,9 @@ namespace Visa.WebCrawler.SeleniumCrawler
             OutData = string.Empty;
             FindElementWithChecking(By.Id(registryTime)).Click();
             var scr = _driver.GetScreenshot();
-            scr.SaveAsFile($"{dataRow.Name}_{dataRow.LastName}", ImageFormat.Jpeg);
-
+            var fileName = $"{dataRow.Name}_{dataRow.LastName}.jpg";
+            scr.SaveAsFile(fileName, ImageFormat.Jpeg);
+            EmailManager.SendEmailWithPhoto(fileName);
             _logger.Trace($"End SelectRegistrationTime. Error = {Error}");
         }
 
