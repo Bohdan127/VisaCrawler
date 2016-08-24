@@ -14,6 +14,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -408,12 +409,12 @@ namespace Visa.WinForms
                             break;
                         case ProgressState.SelectVisaType:
                         case ProgressState.ShowMessage:
-                        case ProgressState.SelectRegistrationTime:
-                        case ProgressState.SubmitDate:
-                        case ProgressState.SubmitClientData:
 #if (!GoWithoutDates)
                         case ProgressState.GetFirstDate:
 #endif
+                        case ProgressState.SubmitDate:
+                        case ProgressState.SubmitClientData:
+                            SystemSounds.Beep.Play();
                             ShowAlert(
                                 ResManager.GetString(ResKeys.FillCaptchaAndPress),
                                 false);
@@ -423,6 +424,16 @@ namespace Visa.WinForms
                             case ProgressState.GetFirstDate:
                             ShowAlert(
                                 ResManager.GetString(ResKeys.Fill_Calendar_And_Captcha),
+                                false);
+                            bBreak = true;
+                            break;
+#else
+                        case ProgressState.SelectRegistrationTime:
+                            SystemSounds.Beep.Play();
+                            ShowAlert(_crawlerRegistry.OutData,
+                                true);
+                            ShowAlert(
+                                ResManager.GetString(ResKeys.FillCaptchaAndPress),
                                 false);
                             bBreak = true;
                             break;
@@ -572,6 +583,10 @@ namespace Visa.WinForms
                             }
 #endif
                         }
+                        SystemSounds.Beep.Play();
+                        ShowAlert(
+                            _crawlerRegistry.OutData,
+                            true);
                     }
                     break;
                 case ProgressState.SubmitDate:
@@ -650,12 +665,9 @@ namespace Visa.WinForms
 
                             _crawlerRegistry.RunNextStep(
                                 () => _crawlerRegistry.GetFirstDate(dataRow));
-
-                            //todo below!!!
-                            //if (!_crawlerRegistry.GetFirstDateScroll
-                            //    || _crawlerRegistry.Error)
-                            //    _progressState =
-                            //        ProgressState.SubmitRegistrationDate;
+                            if (!_crawlerRegistry.ReEnterCaptcha)
+                                _progressState =
+                                    ProgressState.SelectRegistrationTime;
                             break;
 #if GoWithoutDates
                         case DialogResult.None:
@@ -668,12 +680,12 @@ namespace Visa.WinForms
                     break;
 #if GoWithoutDates
                 case ProgressState.ShowMessage:// show special message for selecting Date of Registration
-                    _progressState = ProgressState.SubmitRegistrationDate;
+                    _progressState = ProgressState.SelectRegistrationTime;
                     break;
 #endif
                 case ProgressState.SelectRegistrationTime:
                     _crawlerRegistry.RunNextStep(
-                        () => _crawlerRegistry.SelectRegistrationTime());
+                        () => _crawlerRegistry.SelectRegistrationTime(dataRow));
                     _progressState = ProgressState.Start;
                     //todo Bohdan127 dataRow.Status!!!!!!!!
                     break;

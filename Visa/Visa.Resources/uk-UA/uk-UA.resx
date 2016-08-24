@@ -258,8 +258,7 @@
   </data>
   <data name="DateIncorrect_Message" xml:space="preserve">
     <value>Дата не відповідає діапазону 
-{0}
-Бажатєте продовжити далі?</value>
+{0}</value>
   </data>
   <data name="Key_Used" xml:space="preserve">
     <value>Цей ключ уже використовуєтся 
@@ -325,5 +324,9 @@
     <value>Будь-ласка випевніть капчу
 Та виберіть дату реєстрації
 Після цьго натисніть ТУТ!!!</value>
+  </data>
+  <data name="DateСorrect_Message" xml:space="preserve">
+    <value>Дата для реєстрації є доступна
+{0}</value>
   </data>
 </root>

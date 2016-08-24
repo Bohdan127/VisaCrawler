@@ -98,5 +98,7 @@
             "Fill_Calendar_And_Captcha";
 
         public const string Complete_Registration = "Complete_Registration";
+
+        public const string DateСorrect_Message = "DateСorrect_Message";
     }
 }

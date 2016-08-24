@@ -9,15 +9,17 @@ using Selenium;
 #endif
 using System;
 using System.Collections.ObjectModel;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
 using NLog;
 using ToolsPortable;
-using Visa.WebCrawler.Interfaces;
 using Visa.BusinessLogic.SVN_Model;
 using Visa.Database;
+
 using Visa.Resources;
+using Visa.WebCrawler.Interfaces;
 
 namespace Visa.WebCrawler.SeleniumCrawler
 {
@@ -31,7 +33,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 "ignore");
             prof.SetPreference("startup.homepage_welcome_url.additional",
                 "about:blank");
-            prof.EnableNativeEvents = true;
+            prof.EnableNativeEvents = false;
             _driver = new FirefoxDriver(prof);
             _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMinutes(15));
             _driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromMinutes(15));
@@ -167,6 +169,11 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     {
                         _logger.Info("dataRow.RegistryFom <= availableDate && availableDate <= dataRow.RegistryTo");
                         bRes = true;
+                        OutData =
+                            string.Format(
+                                ResManager.GetString(
+                                    ResKeys.DateСorrect_Message),
+                                availableDate.ToShortDateString());
                     }
                     else
                     {
@@ -304,6 +311,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         #region Members
 
+        private string captchaName = "undefined";
+
         private const string visaCategory = "ctl00_plhMain_cboVisaCategory";
         //Візова категорія
 
@@ -399,7 +408,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         public bool Canceled { get; set; }
 
-        public bool GetFirstDateScroll { get; set; }
+        public bool ReEnterCaptcha { get; set; }
 
         public bool FillCapchaFailed { get; set; }
 
@@ -438,8 +447,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     when (ex is NoSuchElementException || ex is WebDriverException)
                 {
                     _logger.Error($"IsServerDown Error: ex.Message={ex.Message}");
-                    //_logger.Error("IsServerDown => True");
-                    //return true;
+                    return IsServerDown;
                 }
                 _logger.Info("IsServerDown => False");
                 return false;
@@ -678,7 +686,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 }
 
                 // ReSharper disable once ConvertIfStatementToReturnStatement
-                if (dateToCheck.Month > registryTo.Year)
+                if (dateToCheck.Month > registryTo.Month)
                 {
                     _logger.Info("End CheckMounth. return MonthChange.Left;");
                     return MonthChange.Left;
@@ -729,9 +737,20 @@ namespace Visa.WebCrawler.SeleniumCrawler
             DateTime registryFom,
             DateTime registryTo)
         {
-            var queryCollection = _driver.FindElements(By.ClassName(availableData));
-            if (queryCollection.Count == 0)
+            ReadOnlyCollection<IWebElement> queryCollection;
+            try
+            {
+                var infoText = FindElementWithChecking(By.Id(errorMessage)).Text;
+                if (infoText.IsNotBlank())
+                    throw new NoSuchElementException();
+                queryCollection =
+                    _driver.FindElements(By.ClassName(availableData));
+            }
+            catch (Exception ex)
+                when (ex is NoSuchElementException || ex is WebDriverException)
+            {
                 return false;
+            }
 
             var availableRange = GetAvailableRange(currentMonth, registryFom, registryTo);
 
@@ -741,11 +760,18 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 var date = element.Text.ConvertToIntOrNull();
 
                 if (date == null
-                    || date.Value > availableRange.Item2//endDate
-                    || date.Value < availableRange.Item1)//startDate
+                    || date.Value > availableRange.Item2 //endDate
+                    || date.Value < availableRange.Item1) //startDate
                     continue;
 
-                _logger.Info($"GetFirstDate. date.Value = {date.Value} element Click");
+                if (ReEnterCaptcha)
+                {
+                    _logger.Info($"GetFirstDate. First available date.Value = {date.Value}. But ReEnterCaptcha = True");
+                    return true;
+                }
+
+                _logger.Info(
+                    $"GetFirstDate. date.Value = {date.Value} element Click");
                 OutData = date.Value.ToString();
                 element.Click();
                 return true;
@@ -789,7 +815,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             {
                 if (currentMonth.Month == registryTo.Month)
                 {
-                    startDate = registryTo.Day;
+                    endDate = registryTo.Day;
                 }
                 else if (currentMonth.Month > registryTo.Month)
                 {
@@ -823,7 +849,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
              *                          > td:nth-child(2)"
              */
             const string format = "MMMM yyyy р.";
-            GetFirstDateScroll = false;
+            ReEnterCaptcha = false;
 
             MonthChange monthChange;
             DateTime monthToCheck;
@@ -854,6 +880,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     case MonthChange.Left:
                         _logger.Info("Scroll Left");
                         ScrollMonth(true);
+                        ReEnterCaptcha = true;
                         break;
                     case MonthChange.None:
                         _logger.Info("Correct month");
@@ -861,6 +888,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                         break;
                     case MonthChange.Rigth:
                         _logger.Info("Scroll Right");
+                        ReEnterCaptcha = true;
                         ScrollMonth(false);
                         break;
                     case MonthChange.Failed:
@@ -871,26 +899,27 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 }
             } while (monthChange != MonthChange.None);
 
-
             //todo this first condition probably can not work correctly
             while (monthToCheck <= dataRow.RegistryTo
                    && !SelectRegistrationDate(monthToCheck,
                        dataRow.RegistryFom,
                        dataRow.RegistryTo))
             {
-                ScrollMonth(true);
+                ScrollMonth(false);
             }
 
             //CheckForError();//todo we need to check if that sate is returned
             _logger.Trace($"End GetFirstDate. Error = {Error}. dateFrom: {dataRow.RegistryFom.ToShortDateString()}, dateTo: {dataRow.RegistryTo.ToShortDateString()}, OutData: {OutData}");
         }
 
-        public void SelectRegistrationTime() // state 16
+        public void SelectRegistrationTime(VisaDataSet.ClientDataRow dataRow) // state 16
         {
             _logger.Trace($"Start SelectRegistrationTime. Error = {Error}.");
 
             OutData = string.Empty;
             FindElementWithChecking(By.Id(registryTime)).Click();
+            var scr = _driver.GetScreenshot();
+            scr.SaveAsFile($"{dataRow.Name}_{dataRow.LastName}", ImageFormat.Jpeg);
 
             _logger.Trace($"End SelectRegistrationTime. Error = {Error}");
         }

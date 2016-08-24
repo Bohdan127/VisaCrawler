@@ -300,12 +300,21 @@ namespace Visa.Resources.uk_UA {
         
         /// <summary>
         ///   Looks up a localized string similar to Дата не відповідає діапазону 
-        ///{0}
-        ///Бажатєте продовжити далі?.
+        ///{0}.
         /// </summary>
         public static string DateIncorrect_Message {
             get {
                 return ResourceManager.GetString("DateIncorrect_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дата для реєстрації є доступна
+        ///{0}.
+        /// </summary>
+        public static string DateСorrect_Message {
+            get {
+                return ResourceManager.GetString("DateСorrect_Message", resourceCulture);
             }
         }
         

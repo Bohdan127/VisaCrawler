@@ -181,11 +181,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Visa..BusinessLogic\Visa.BusinessLogic.csproj">
-      <Project>{224F4561-576F-4880-850C-F01E2CCE89FE}</Project>
+      <Project>{224f4561-576f-4880-850c-f01e2cce89fe}</Project>
       <Name>Visa.BusinessLogic</Name>
     </ProjectReference>
     <ProjectReference Include="..\Visa.Database\Visa.Database.csproj">
-      <Project>{4FAC9364-BA83-43F8-AA95-57BBC8835F2C}</Project>
+      <Project>{4fac9364-ba83-43f8-aa95-57bbc8835f2c}</Project>
       <Name>Visa.Database</Name>
     </ProjectReference>
     <ProjectReference Include="..\Visa.License\Visa.License.csproj">
