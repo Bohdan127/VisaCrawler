@@ -1,9 +1,9 @@
 ﻿//#define GoWithoutDates
 //#define UseDefaultSelenium
 //#define UseSeleniumWithGeckodriver
+//#define UsePhantomJSDriver
 
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
 #if UseDefaultSelenium
 using Selenium;
 #endif
@@ -18,9 +18,15 @@ using ToolsPortable;
 using Visa.BusinessLogic.Managers;
 using Visa.BusinessLogic.SVN_Model;
 using Visa.Database;
-
 using Visa.Resources;
 using Visa.WebCrawler.Interfaces;
+
+#if UsePhantomJSDriver
+using OpenQA.Selenium.PhantomJS;
+#else
+using OpenQA.Selenium.Firefox;
+#endif
+
 
 namespace Visa.WebCrawler.SeleniumCrawler
 {
@@ -29,6 +35,9 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public RegisterUser()
         {
             _logger.Trace("Start RegisterUser constructor");
+#if UsePhantomJSDriver
+            _driver = new PhantomJSDriver();
+#else
             var prof = new FirefoxProfile();
             prof.SetPreference("browser.startup.homepage_override.mstone",
                 "ignore");
@@ -36,6 +45,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 "about:blank");
             prof.EnableNativeEvents = false;
             _driver = new FirefoxDriver(prof);
+#endif
             _driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromMinutes(15));
             _driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromMinutes(15));
             _driver.Manage().Timeouts().SetScriptTimeout(TimeSpan.FromMinutes(15));
@@ -91,10 +101,6 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 .Click();
             _logger.Info(
                 "SelectCityAndReason. reason option[value='1'] Click");
-            var scr = _driver.GetScreenshot();
-            var fileName = $"{dataRow.Name}_{dataRow.LastName}.jpg";
-            scr.SaveAsFile(fileName, ImageFormat.Jpeg);
-            EmailManager.SendEmailWithPhoto(fileName);
             _logger.Info($"End SelectCityAndReason. Error = {Error}. ");
         }
 
@@ -133,15 +139,31 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public void SelectVisaType(
             VisaDataSet.ClientDataRow dataRow)
         {
-            _logger.Info($"Start SelectVisaType. Error = {Error}. ");
-            FindElementWithChecking(By.Id(visaCategory))
-                .FindElement(
-                    By.CssSelector($"option[value=\"{dataRow.VisaType}\"]"))
-                .Click();
-            _logger.Info("SelectVisaType. visaCategory " +
-                         $"option[value={dataRow.VisaType}]  Click");
+            _logger.Info($"Start SelectVisaType. Error = {Error}. ReEnterCaptcha = {ReEnterCaptcha}");
+            ReEnterCaptcha = false;
+            var visaCat = FindElementWithChecking(By.Id(visaCategory))
+                 .FindElement(
+                     By.CssSelector($"option[value=\"{dataRow.VisaType}\"]"));
 
-            _logger.Info($"End SelectVisaType. Error = {Error}");
+            if (visaCat.Selected)
+            {
+                ReEnterCaptcha = true;
+                //-Оберіть візову категорію-
+                FindElementWithChecking(By.Id(visaCategory))
+                    .FindElement(
+                        By.CssSelector($"option[value=\"-1\"]"))
+                    .Click();
+                _logger.Info("SelectVisaType. visaCategory " +
+                             $"option[value=-1]  Click");
+            }
+            else
+            {
+                visaCat.Click();
+                _logger.Info("SelectVisaType. visaCategory " +
+                             $"option[value={dataRow.VisaType}]  Click");
+            }
+
+            _logger.Info($"End SelectVisaType. Error = {Error}. ReEnterCaptcha = {ReEnterCaptcha}");
         }
 
         public bool CheckDate(VisaDataSet.ClientDataRow dataRow)
@@ -395,7 +417,11 @@ namespace Visa.WebCrawler.SeleniumCrawler
         private static readonly Logger _logger =
             LogManager.GetCurrentClassLogger();
 
+#if UsePhantomJSDriver
+        private readonly PhantomJSDriver _driver;
+#else
         private readonly FirefoxDriver _driver;
+#endif
 #if UseDefaultSelenium
         private Selenium.ISelenium selenium;
 #endif

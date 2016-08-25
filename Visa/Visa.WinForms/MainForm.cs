@@ -521,7 +521,10 @@ namespace Visa.WinForms
                 case ProgressState.SelectVisaType:
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.SelectVisaType(dataRow));
-                    _progressState = ProgressState.CheckDate;
+
+                    if (!_crawlerRegistry.ReEnterCaptcha)
+                        _progressState = ProgressState.CheckDate;
+
                     break;
 
                 case ProgressState.CheckDate:

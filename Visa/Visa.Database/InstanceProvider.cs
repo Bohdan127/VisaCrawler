@@ -1534,12 +1534,6 @@ namespace Visa.Database
         private static void InitVicaCategories()
         {
             var catRow = _dataSet.Choice.NewChoiceRow();
-            catRow.Name = "Місцевий Прикордонний Рух";
-            catRow.Value = "248";
-            catRow.Type = (short) ChoicesType.VisaCategory;
-            _dataSet.Choice.AddChoiceRow(catRow);
-
-            catRow = _dataSet.Choice.NewChoiceRow();
             catRow.Name = "Національна Віза";
             catRow.Value = "235";
             catRow.Type = (short) ChoicesType.VisaCategory;
