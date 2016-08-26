@@ -19,8 +19,10 @@
         SubmitEmailAndPassword,
         ClientData,
         SubmitClientData,
+        CheckForErrorBeforeDate,
         GetFirstDate,
         ShowMessage,
+        CheckForErrorBeforeRegistrationTime,
         SelectRegistrationTime,
         SendingEmail,
         BreakState

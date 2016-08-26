@@ -528,6 +528,13 @@ namespace Visa.WinForms
                     break;
 
                 case ProgressState.CheckDate:
+                    //todo Bohdan127 26.08.2016 this checking is a crutch, should be refactored later
+                    if (_crawlerRegistry.IsServerDown)
+                    {
+                        _crawlerRegistry.Error = true;
+                        _logger.Warn($"End CheckDate. Error = {_crawlerRegistry.Error}.");
+                        return;
+                    }
                     var isAvailableDate =
                         _crawlerRegistry.CheckDate(dataRow);
                     if (_crawlerRegistry.FillCapchaFailed)
@@ -598,6 +605,7 @@ namespace Visa.WinForms
                     _progressState = ProgressState.Receipt;
                     break;
                 case ProgressState.BackToCityAndReason:
+                    //todo Bohdan127 26.08.2016 This is also not good, should be refactored
                     if (_crawlerRegistry.IsServerDown)
                     {
                         _crawlerRegistry.Error = true;
@@ -609,6 +617,18 @@ namespace Visa.WinForms
                     break;
 
                 case ProgressState.Receipt:
+                    //todo Bohdan127 26.08.2016 - this is temporary fix, should be reviewed and refactored
+                    if (_crawlerRegistry.SpecialTmpCheckForCapchaError())
+                    {
+                        _logger.Warn("Capcha was not fill!!!");
+                        _progressState = ProgressState.SubmitDate;
+                        return;
+                    }
+                    if (_crawlerRegistry.Error)
+                    {
+                        _progressState = ProgressState.SubmitReciept;
+                        return;
+                    }
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.Receipt(dataRow));
                     _progressState = ProgressState.SubmitReciept;
@@ -637,9 +657,14 @@ namespace Visa.WinForms
                 case ProgressState.SubmitClientData:
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.PressSubmitButton());
+                    _progressState = ProgressState.CheckForErrorBeforeDate;
+                    break;
+                case ProgressState.CheckForErrorBeforeDate:
+                    //todo Bohdan127 26.08.2016 This just one more tmp crutch 
+                    _crawlerRegistry.RunNextStep(
+                        () => { });
                     _progressState = ProgressState.GetFirstDate;
                     break;
-
                 case ProgressState.GetFirstDate:
                     // ReSharper disable once SwitchStatementMissingSomeCases
                     switch (_crawlerRegistry.RegistrarionDateAvailability)
@@ -670,7 +695,7 @@ namespace Visa.WinForms
                                 () => _crawlerRegistry.GetFirstDate(dataRow));
                             if (!_crawlerRegistry.ReEnterCaptcha)
                                 _progressState =
-                                    ProgressState.SelectRegistrationTime;
+                                    ProgressState.CheckForErrorBeforeRegistrationTime;
                             break;
 #if GoWithoutDates
                         case DialogResult.None:
@@ -686,6 +711,13 @@ namespace Visa.WinForms
                     _progressState = ProgressState.SelectRegistrationTime;
                     break;
 #endif
+                case ProgressState.CheckForErrorBeforeRegistrationTime:
+                    //todo Bohdan127 26.08.2016 This just one more tmp crutch 
+                    _crawlerRegistry.RunNextStep(
+                        () => { });
+                    _progressState =
+                                  ProgressState.SelectRegistrationTime;
+                    break;
                 case ProgressState.SelectRegistrationTime:
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.SelectRegistrationTime(dataRow));

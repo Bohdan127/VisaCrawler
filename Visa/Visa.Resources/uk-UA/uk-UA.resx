@@ -332,4 +332,8 @@
   <data name="NoDate_Message" xml:space="preserve">
     <value>Вільних дат не має</value>
   </data>
+  <data name="DateSelected_Message" xml:space="preserve">
+    <value>Вибрано {0}
+як дату рестрації</value>
+  </data>
 </root>

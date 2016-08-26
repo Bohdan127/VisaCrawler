@@ -139,7 +139,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public void SelectVisaType(
             VisaDataSet.ClientDataRow dataRow)
         {
-            _logger.Info($"Start SelectVisaType. Error = {Error}. ReEnterCaptcha = {ReEnterCaptcha}");
+            _logger.Trace($"Start SelectVisaType. Error = {Error}. ReEnterCaptcha = {ReEnterCaptcha}");
             ReEnterCaptcha = false;
             var visaCat = FindElementWithChecking(By.Id(visaCategory))
                  .FindElement(
@@ -163,12 +163,13 @@ namespace Visa.WebCrawler.SeleniumCrawler
                              $"option[value={dataRow.VisaType}]  Click");
             }
 
-            _logger.Info($"End SelectVisaType. Error = {Error}. ReEnterCaptcha = {ReEnterCaptcha}");
+            _logger.Trace($"End SelectVisaType. Error = {Error}. ReEnterCaptcha = {ReEnterCaptcha}");
         }
 
         public bool CheckDate(VisaDataSet.ClientDataRow dataRow)
         {
             _logger.Info($"Start CheckDate. Error = {Error}. ");
+            ReEnterCaptcha = false;
             var bRes = false;
             try
             {
@@ -776,18 +777,23 @@ namespace Visa.WebCrawler.SeleniumCrawler
             DateTime registryFom,
             DateTime registryTo)
         {
+            _logger.Trace($"Start SelectRegistrationDate. Error = {Error}. currentMonth = {currentMonth}. registryFom = {registryFom}. registryTo = {registryTo}");
             ReadOnlyCollection<IWebElement> queryCollection;
             try
             {
                 var infoText = FindElementWithChecking(By.Id(errorMessage)).Text;
                 if (infoText.IsNotBlank())
+                {
+                    _logger.Warn("label with error message is not blank. Thrown new NoSuchElementException");
                     throw new NoSuchElementException();
+                }
                 queryCollection =
                     _driver.FindElements(By.ClassName(availableData));
             }
             catch (Exception ex)
                 when (ex is NoSuchElementException || ex is WebDriverException)
             {
+                _logger.Warn("Here is no available dates!!!");
                 return false;
             }
 
@@ -811,7 +817,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
                 _logger.Info(
                     $"GetFirstDate. date.Value = {date.Value} element Click");
-                OutData = date.Value.ToString();
+                OutData = string.Format(ResManager.GetString(ResKeys.DateSelected_Message), $"{date.Value} {GetCalendarHeader()[1].Text}");
                 element.Click();
                 return true;
             }
@@ -822,7 +828,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         {
             _logger.Trace($"Start GetAvailableRange. Error = {Error} currentMonth = {currentMonth} registryFom = {registryFom} registryTo = {registryTo}");
             int startDate,
-                endDate = 0;
+                endDate;
 
             if (currentMonth.Year > registryTo.Year
                 || currentMonth.Year < registryFom.Year)
@@ -869,6 +875,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             {
                 endDate = 31;
             }
+            _logger.Info($"GetAvailableRange returned startDate = {startDate}. endDate = {endDate}.");
             return new Tuple<int, int>(startDate, endDate);
         }
 
@@ -964,6 +971,26 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Trace($"End SelectRegistrationTime. Error = {Error}");
         }
 
-
+        public bool SpecialTmpCheckForCapchaError()
+        {
+            //here all is bad, just tmp fix
+            _logger.Warn("SpecialTmpCheckForCapchaError");
+            try
+            {
+                if (IsServerDown)
+                {
+                    Error = true;
+                    _logger.Warn($"End CheckDate. Error = {Error}.");
+                    return false;
+                }
+                return FindElementWithChecking(By.Id(errorMessage)).Text.Contains(capchaNotFilledMessage);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
+                return false;
+            }
+        }
     }
 }

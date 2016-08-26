@@ -102,5 +102,7 @@
         public const string DateСorrect_Message = "DateСorrect_Message";
 
         public const string NoDate_Message = "NoDate_Message";
+
+        public const string DateSelected_Message = "DateSelected_Message";
     }
 }

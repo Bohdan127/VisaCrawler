@@ -309,6 +309,16 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вибрано {0}
+        ///як дату рестрації.
+        /// </summary>
+        public static string DateSelected_Message {
+            get {
+                return ResourceManager.GetString("DateSelected_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Дата для реєстрації є доступна
         ///{0}.
         /// </summary>
