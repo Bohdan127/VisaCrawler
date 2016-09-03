@@ -10,7 +10,7 @@ namespace Visa.BusinessLogic.Managers
         const string Email = "visahelper2016@gmail.com";
         const string Server = "smtp.googlemail.com";
         const int Port = 587;
-        const string Password = "Zaq12wsX";
+        const string Password = "Zaq12wsXz";
 
         public static string SendErrorMail(Exception exText)
         {

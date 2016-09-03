@@ -1,4 +1,5 @@
 ﻿//#define GoWithoutDates
+//#define ClientPerformanceRequest
 
 using DevExpress.XtraBars;
 using DevExpress.XtraBars.Alerter;
@@ -107,7 +108,6 @@ namespace Visa.WinForms
             currRow.Email = currRow.LastName
                 + currRow.Birthday.ToString("yy") // short Year
                 + "@i.ua";
-            //currRow.Email = SetupManager.GetOptions().Email;
             currRow.PeopleCount = SetupManager.GetOptions().PeopleCount;
             currRow.ChildsCount = SetupManager.GetOptions().ChildCount;
             currRow.ReturnData = currRow.RegistryFom.AddYears(1);
@@ -639,8 +639,13 @@ namespace Visa.WinForms
                     _progressState = ProgressState.EmailAndPassword;
                     break;
                 case ProgressState.EmailAndPassword:
+#if ClientPerformanceRequest
+                    _crawlerRegistry.RunNextStepV2(
+                                       () => _crawlerRegistry.EmailAndPassword(dataRow));
+#else
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.EmailAndPassword(dataRow));
+#endif
                     _progressState = ProgressState.SubmitEmailAndPassword;
                     break;
                 case ProgressState.SubmitEmailAndPassword:
@@ -649,8 +654,13 @@ namespace Visa.WinForms
                     _progressState = ProgressState.ClientData;
                     break;
                 case ProgressState.ClientData:
+#if ClientPerformanceRequest
+                    _crawlerRegistry.RunNextStepV2(
+                                       () => _crawlerRegistry.ClientData(dataRow));
+#else
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.ClientData(dataRow));
+#endif
                     _progressState = ProgressState.SubmitClientData;
                     break;
 
@@ -725,7 +735,7 @@ namespace Visa.WinForms
                     //todo Bohdan127 dataRow.Status!!!!!!!!
                     break;
 
-                #region Old dead code, will be removed later because probably part of them will be needed later
+#region Old dead code, will be removed later because probably part of them will be needed later
 
                 //case 5:
                 //    _crawlerRegistry.PartFive();
@@ -743,7 +753,7 @@ namespace Visa.WinForms
                 //    }
                 //    break;
 
-                #endregion Old dead code, will be removed later because probably part of them will be needed later
+#endregion Old dead code, will be removed later because probably part of them will be needed later
 
                 default:
                     _logger.Error(
@@ -1112,6 +1122,6 @@ namespace Visa.WinForms
             string cp = _crawlerRegistry.GetCurrentPage();
             return vp;
         }
-        #endregion Functions
+#endregion Functions
     }
 }

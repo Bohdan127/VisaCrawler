@@ -2,18 +2,19 @@
 //#define UseDefaultSelenium
 //#define UseSeleniumWithGeckodriver
 //#define UsePhantomJSDriver
+//#define ClientPerformanceRequest
 
-using OpenQA.Selenium;
 #if UseDefaultSelenium
 using Selenium;
 #endif
+using NLog;
+using OpenQA.Selenium;
 using System;
 using System.Collections.ObjectModel;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
-using NLog;
 using ToolsPortable;
 using Visa.BusinessLogic.Managers;
 using Visa.BusinessLogic.SVN_Model;
@@ -63,7 +64,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         {
             _logger.Info($"Start GoToUrl. Error = {Error}.");
 
-            _driver.Navigate().GoToUrl(mainUrl);
+            _driver.Navigate().GoToUrl(MainUrl);
 
             _logger.Info($"End GoToUrl. Error = {Error}.");
         }
@@ -71,7 +72,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public void StartRegistration()
         {
             _logger.Info($"Start StartRegistration. Error = {Error}. ");
-            var query = FindElementWithChecking(By.Id(registryId));
+            var query = FindElementWithChecking(By.Id(RegistryId));
             _logger.Info("PartOne. registryId Click");
             try
             {
@@ -89,14 +90,14 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public void SelectCityAndReason(VisaDataSet.ClientDataRow dataRow)
         {
             _logger.Info($"Start SelectCityAndReason. Error = {Error}. ");
-            FindElementWithChecking(By.Id(visaCity))
+            FindElementWithChecking(By.Id(VisaCity))
                 .FindElement(
                     By.CssSelector($"option[value=\"{dataRow.VisaCity}\"]"))
                 .Click();
             _logger.Info(
                 $"SelectCityAndReason. visaCity option[value={dataRow.VisaCity}]  Click");
             //always be 1 - Подача документів
-            FindElementWithChecking(By.Id(reason))
+            FindElementWithChecking(By.Id(Reason))
                 .FindElement(By.CssSelector("option[value='1']"))
                 .Click();
             _logger.Info(
@@ -110,7 +111,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public void ProvidePeopleCount(VisaDataSet.ClientDataRow dataRow)
         {
             _logger.Info($"Start ProvidePeopleCount. Error = {Error}. ");
-            var query = FindElementWithChecking(By.Id(numOfApplicants));
+            var query = FindElementWithChecking(By.Id(NumOfApplicants));
             _logger.Info(
                 $"ProvidePeopleCount. numOfApplicants Clear and set {dataRow.PeopleCount}");
 
@@ -120,7 +121,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 query.SendKeys(dataRow.PeopleCount);
             }
 
-            query = FindElementWithChecking(By.Id(numOfChildrens));
+            query = FindElementWithChecking(By.Id(NumOfChildrens));
             _logger.Info(
                 $"ProvidePeopleCount. numOfChildrens Clear and set {dataRow.ChildsCount}");
 
@@ -141,7 +142,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         {
             _logger.Trace($"Start SelectVisaType. Error = {Error}. ReEnterCaptcha = {ReEnterCaptcha}");
             ReEnterCaptcha = false;
-            var visaCat = FindElementWithChecking(By.Id(visaCategory))
+            var visaCat = FindElementWithChecking(By.Id(VisaCategory))
                  .FindElement(
                      By.CssSelector($"option[value=\"{dataRow.VisaType}\"]"));
 
@@ -149,7 +150,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             {
                 ReEnterCaptcha = true;
                 //-Оберіть візову категорію-
-                FindElementWithChecking(By.Id(visaCategory))
+                FindElementWithChecking(By.Id(VisaCategory))
                     .FindElement(
                         By.CssSelector($"option[value=\"-1\"]"))
                     .Click();
@@ -173,8 +174,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
             var bRes = false;
             try
             {
-                var infoText = FindElementWithChecking(By.Id(errorMessage)).Text;
-                if (infoText.Contains(capchaNotFilledMessage)) //"The image you selected not match"
+                var infoText = FindElementWithChecking(By.Id(ErrorMessage)).Text;
+                if (infoText.Contains(CapchaNotFilledMessage)) //"The image you selected not match"
                 {
                     FillCapchaFailed = true;
                     return false;
@@ -238,7 +239,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public void BackToCityAndReason()
         {
             _logger.Info($"Start BackToCityAndReason. Error = {Error}");
-            var button = FindElementWithChecking(By.Id(btnCancel));
+            var button = FindElementWithChecking(By.Id(BtnCancel));
             try
             {
                 button.Click();
@@ -256,7 +257,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public void Receipt(VisaDataSet.ClientDataRow dataRow)
         {
             _logger.Info($"Start Receipt. Error = {Error}.");
-            var txtBox = FindElementWithChecking(By.Id(receiptNumber));
+            var txtBox = FindElementWithChecking(By.Id(ReceiptNumber));
             txtBox.Clear();
             txtBox.SendKeys(dataRow.NumberOfReceipt);
             _logger.Info(
@@ -270,12 +271,12 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public void EmailAndPassword(VisaDataSet.ClientDataRow dataRow)
         {
             _logger.Trace($"Start EmailAndPassword. Error = {Error}");
-            var txtBox = FindElementWithChecking(By.Id(email));
+            var txtBox = FindElementWithChecking(By.Id(Email));
             txtBox.Clear();
             txtBox.SendKeys(dataRow.Email);
             _logger.Info($"ClientData. email set text {dataRow.Email}");
 
-            txtBox = FindElementWithChecking(By.Id(passForMail));
+            txtBox = FindElementWithChecking(By.Id(PassForMail));
             txtBox.Clear();
             txtBox.SendKeys(dataRow.Password);
             _logger.Info(
@@ -286,7 +287,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public void ClientData(VisaDataSet.ClientDataRow dataRow)
         {
             _logger.Trace($"Start ClientData. Error = {Error}");
-            var txtBox = FindElementWithChecking(By.Id(endPassportDate));
+            var txtBox = FindElementWithChecking(By.Id(EndPassportDate));
             txtBox.Clear();
             txtBox.SendKeys(
                     dataRow.EndPassportDate.ToShortDateString().Replace(".",
@@ -294,32 +295,32 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info(
                 $"ClientData. endPassportDate set text {dataRow.EndPassportDate.ToShortDateString().Replace(".", "/")}");
 
-            FindElementWithChecking(By.Id(statusField))
+            FindElementWithChecking(By.Id(StatusField))
                 .FindElement(
                     By.CssSelector($"option[value=\"{dataRow.Status}\"]"))
                 .Click();
             _logger.Info(
                 $"ClientData. statusField option[value={dataRow.Status}] Click");
 
-            txtBox = FindElementWithChecking(By.Id(personName));
+            txtBox = FindElementWithChecking(By.Id(PersonName));
             txtBox.Clear();
             txtBox.SendKeys(dataRow.Name);
             _logger.Info($"ClientData. personName set text {dataRow.Name}");
 
-            txtBox = FindElementWithChecking(By.Id(personLastName));
+            txtBox = FindElementWithChecking(By.Id(PersonLastName));
             txtBox.Clear();
             txtBox.SendKeys(dataRow.LastName);
             _logger.Info(
                 $"ClientData. personLastName set text {dataRow.LastName}");
 
-            txtBox = FindElementWithChecking(By.Id(personBirthday));
+            txtBox = FindElementWithChecking(By.Id(PersonBirthday));
             txtBox.Clear();
             txtBox.SendKeys(dataRow.Birthday.ToShortDateString().Replace(".",
                    "/"));
             _logger.Info(
                 $"ClientData. personBirthday set text {dataRow.Birthday.ToShortDateString().Replace(".", "/")}");
 
-            txtBox = FindElementWithChecking(By.Id(returnDate));
+            txtBox = FindElementWithChecking(By.Id(ReturnDate));
             txtBox.Clear();
             txtBox.SendKeys(dataRow.ReturnData.ToShortDateString()
                 .Replace(".",
@@ -327,7 +328,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info(
                 $"ClientData. returnDate set text {dataRow.ReturnData.ToShortDateString().Replace(".", "/")}");
 
-            FindElementWithChecking(By.Id(nationality))
+            FindElementWithChecking(By.Id(Nationality))
                 .FindElement(
                     By.CssSelector(
                         $"option[value=\"{dataRow.Nationality}\"]"))
@@ -339,82 +340,80 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         #region Members
 
-        private string captchaName = "undefined";
-
-        private const string visaCategory = "ctl00_plhMain_cboVisaCategory";
+        private const string VisaCategory = "ctl00_plhMain_cboVisaCategory";
         //Візова категорія
 
-        private const string buttonSubmit = "ctl00_plhMain_btnSubmit";
+        private const string ButtonSubmit = "ctl00_plhMain_btnSubmit";
         //Підтвердити
 
-        private const string visaCity = "ctl00_plhMain_cboVAC";
+        private const string VisaCity = "ctl00_plhMain_cboVAC";
         //Візовий Сервіс Центр i Пункт Прийому Візових Анкетx
 
-        private const string mainUrl =
+        private const string MainUrl =
             "https://polandonline.vfsglobal.com/poland-ukraine-appointment/%28S%28vvzibb45kxnimzfrnhuavib1%29%29/AppScheduling/AppWelcome.aspx?P=s2x6znRcBRv7WQQK7h4MTjZiPRbOsXKqJzddYBh3qCA=";
 
-        private const string registryId = "ctl00_plhMain_lnkSchApp";
+        private const string RegistryId = "ctl00_plhMain_lnkSchApp";
         // Призначити дату подачі документів
 
-        private const string reason = "ctl00_plhMain_cboPurpose"; //Мета візиту
+        private const string Reason = "ctl00_plhMain_cboPurpose"; //Мета візиту
 
-        private const string numOfApplicants =
+        private const string NumOfApplicants =
             "ctl00_plhMain_tbxNumOfApplicants"; //Кількість заявників
 
-        private const string numOfChildrens = "ctl00_plhMain_txtChildren";
+        private const string NumOfChildrens = "ctl00_plhMain_txtChildren";
         //К-сть дітей вписаних у паспорт батьків
 
-        private const string receiptNumber =
+        private const string ReceiptNumber =
             "ctl00_plhMain_repAppReceiptDetails_ctl01_txtReceiptNumber";
 
         //Номер квитанції
 
-        private const string buttonSubmitEmail =
+        private const string ButtonSubmitEmail =
             "ctl00_plhMain_btnSubmitDetails"; //Підтвердити імейл
 
-        private const string email = "ctl00_plhMain_txtEmailID";
-        private const string passForMail = "ctl00_plhMain_txtPassword";
+        private const string Email = "ctl00_plhMain_txtEmailID";
+        private const string PassForMail = "ctl00_plhMain_txtPassword";
 
-        private const string errorMessage = "ctl00_plhMain_lblMsg";
+        private const string ErrorMessage = "ctl00_plhMain_lblMsg";
         //Ок текст - на коли можна зареєструватись
 
-        private const string endPassportDate =
+        private const string EndPassportDate =
             "ctl00_plhMain_repAppVisaDetails_ctl01_tbxPPTEXPDT";
 
         //Дата закінчення терміну дії паспорту
 
-        private const string statusField =
+        private const string StatusField =
             "ctl00_plhMain_repAppVisaDetails_ctl01_cboTitle"; //Статус
 
-        private const string personName =
+        private const string PersonName =
             "ctl00_plhMain_repAppVisaDetails_ctl01_tbxFName"; //Ім'я
 
-        private const string personLastName =
+        private const string PersonLastName =
             "ctl00_plhMain_repAppVisaDetails_ctl01_tbxLName"; //Прізвище
 
-        private const string personBirthday =
+        private const string PersonBirthday =
             "ctl00_plhMain_repAppVisaDetails_ctl01_tbxDOB"; //Дата народження
 
-        private const string returnDate =
+        private const string ReturnDate =
             "ctl00_plhMain_repAppVisaDetails_ctl01_tbxReturn"; //Дата повернення
 
-        private const string nationality =
+        private const string Nationality =
             "ctl00_plhMain_repAppVisaDetails_ctl01_cboNationality";
-
         //Національність
 
-        private const string availableData = "OpenDateAllocated";
+        private const string AvailableData = "OpenDateAllocated";
         //Будь ласка, оберіть Вільну дату
 
-        private const string registryTime =
+        private const string RegistryTime =
             "ctl00_plhMain_gvSlot_ctl02_lnkTimeSlot"; //Будь ласка, оберіть Час
 
-        private const string btnCancel = "ctl00_plhMain_btnCancel";
+        private const string BtnCancel = "ctl00_plhMain_btnCancel";
 
-        private const string aspnetForm = "aspnetForm";
+        private const string AspnetForm = "aspnetForm";
 
-        private const string capchaNotFilledMessage = "The image you selected not match";
+        private const string CapchaNotFilledMessage = "The image you selected not match";
 
+        // ReSharper disable once InconsistentNaming
         private static readonly Logger _logger =
             LogManager.GetCurrentClassLogger();
 
@@ -494,8 +493,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
         {
             _logger.Info($"Start PressSubmitButton. Error = {Error}. ");
             var submit = emailSubmit
-                ? FindElementWithChecking(By.Id(buttonSubmitEmail))
-                : FindElementWithChecking(By.Id(buttonSubmit));
+                ? FindElementWithChecking(By.Id(ButtonSubmitEmail))
+                : FindElementWithChecking(By.Id(ButtonSubmit));
             try
             {
                 submit.Click();
@@ -509,6 +508,34 @@ namespace Visa.WebCrawler.SeleniumCrawler
             }
             _logger.Info($"End PressSubmitButton. Error = {Error}. ");
         }
+
+#if ClientPerformanceRequest
+        public void RunNextStepV2(
+            Action regAction)
+        {
+            _logger.Trace($"Start RunNextStepV2. Error = {Error}.");
+
+            try
+            {
+                regAction();
+            }
+            catch (Exception ex)
+                when (
+                    ex is NoSuchElementException || ex is WebDriverException
+                    )
+            {
+                if (Canceled)
+                    _logger.Warn($"Canceled by User. Error  = {Error}");
+                else
+                {
+                    _logger.Error(
+                        $"NoSuchElementException/WebDriverException with message = {ex.Message}");
+                    Error = true;
+                }
+            }
+            _logger.Trace($"End RunNextStepV2. Error = {Error}.");
+        }
+#endif
 
         public void RunNextStep(
             Action regAction)
@@ -548,7 +575,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         {
             _logger.Info("Start ReloadPage.");
             var result = "OK";
-            var shouldAlertAccept = (0 != String.Compare(_driver.Url, mainUrl, StringComparison.Ordinal));
+            var shouldAlertAccept = (0 != String.Compare(_driver.Url, MainUrl, StringComparison.Ordinal));
             try
             {
                 _driver.Navigate().Refresh();
@@ -595,7 +622,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             catch { }
             try
             {
-                var postPage = FindElementWithChecking(By.Id(aspnetForm));
+                var postPage = FindElementWithChecking(By.Id(AspnetForm));
                 pp = postPage.GetAttribute("action");
                 vp += pp.Substring(0, pp.IndexOf('.'));
             }
@@ -605,16 +632,11 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         public IWebElement FindElementWithChecking(By by)
         {
-            if (Canceled)
-            {
-                _logger.Info(
-                    "Interrupted by Canceled flag. throw new WebDriverException");
-                throw new WebDriverException();
-            }
-            //var wait = new WebDriverWait(_driver,
-            //    TimeSpan.FromSeconds(20));
-            //return wait.Until(d => d.FindElement(by));.
-            return _driver.FindElement(by);
+            if (!Canceled)
+                return _driver.FindElement(@by);
+            _logger.Info(
+                "Interrupted by Canceled flag. throw new WebDriverException");
+            throw new WebDriverException();
         }
 
         public virtual void CheckForError()
@@ -623,8 +645,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
             IWebElement erQuery = null;
             try
             {
-                if (_driver.PageSource.Contains(errorMessage))
-                    erQuery = _driver.FindElement(By.Id(errorMessage));
+                if (_driver.PageSource.Contains(ErrorMessage))
+                    erQuery = _driver.FindElement(By.Id(ErrorMessage));
             }
             catch (Exception ex)
                 when (ex is NoSuchElementException || ex is WebDriverException)
@@ -634,9 +656,9 @@ namespace Visa.WebCrawler.SeleniumCrawler
             if (IsErrorExist(erQuery))
             {
                 ValidationError = true;
-                OutData = erQuery.Text;
+                OutData = erQuery?.Text;
                 _logger.Error(
-                    $"throw new NoSuchElementException. Reason erQuery.Text.IsNotBlank = {erQuery.Text}");
+                    $"throw new NoSuchElementException. Reason erQuery.Text.IsNotBlank = {erQuery?.Text}");
                 //Error = true;
                 throw new NoSuchElementException();
             }
@@ -651,7 +673,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             bRes = bRes && element.Text.IsNotBlank();
             bRes = bRes && !DateTime.TryParse(element.Text,
                 out dateValue);
-            bRes = bRes && element.Text != capchaNotFilledMessage; // it is available date shown - not error
+            bRes = bRes && element.Text != CapchaNotFilledMessage; // it is available date shown - not error
             return bRes;
         }
 
@@ -781,14 +803,14 @@ namespace Visa.WebCrawler.SeleniumCrawler
             ReadOnlyCollection<IWebElement> queryCollection;
             try
             {
-                var infoText = FindElementWithChecking(By.Id(errorMessage)).Text;
+                var infoText = FindElementWithChecking(By.Id(ErrorMessage)).Text;
                 if (infoText.IsNotBlank())
                 {
                     _logger.Warn("label with error message is not blank. Thrown new NoSuchElementException");
                     throw new NoSuchElementException();
                 }
                 queryCollection =
-                    _driver.FindElements(By.ClassName(availableData));
+                    _driver.FindElements(By.ClassName(AvailableData));
             }
             catch (Exception ex)
                 when (ex is NoSuchElementException || ex is WebDriverException)
@@ -963,7 +985,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Trace($"Start SelectRegistrationTime. Error = {Error}.");
 
             OutData = string.Empty;
-            FindElementWithChecking(By.Id(registryTime)).Click();
+            FindElementWithChecking(By.Id(RegistryTime)).Click();
             var scr = _driver.GetScreenshot();
             var fileName = $"{dataRow.Name}_{dataRow.LastName}.jpg";
             scr.SaveAsFile(fileName, ImageFormat.Jpeg);
@@ -983,7 +1005,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     _logger.Warn($"End CheckDate. Error = {Error}.");
                     return false;
                 }
-                return FindElementWithChecking(By.Id(errorMessage)).Text.Contains(capchaNotFilledMessage);
+                return FindElementWithChecking(By.Id(ErrorMessage)).Text.Contains(CapchaNotFilledMessage);
             }
             catch (Exception ex)
             {

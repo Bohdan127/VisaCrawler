@@ -1,9 +1,11 @@
-﻿using NLog;
+﻿//#define UseNewUI
+
 using System;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
 using Visa.WinForms.ErrorProvider;
+using NLog;
 
 namespace Visa.WinForms
 {
@@ -41,7 +43,11 @@ namespace Visa.WinForms
             Application.SetUnhandledExceptionMode(
                 UnhandledExceptionMode.CatchException);
 
+#if UseNewUI
+            Application.Run(new MainFormNew());
+#else
             Application.Run(new MainForm());
+#endif
         }
 
         private static void Application_ThreadException(object sender,

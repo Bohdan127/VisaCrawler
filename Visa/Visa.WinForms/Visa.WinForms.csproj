@@ -128,6 +128,12 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainFormNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainFormNew.Designer.cs">
+      <DependentUpon>MainFormNew.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\SetupForm.cs">
@@ -141,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainFormNew.resx">
+      <DependentUpon>MainFormNew.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -205,252 +214,6 @@
     <Content Include="Images\stop.png" />
     <Content Include="Images\success.png" />
     <Content Include="Images\warning.png" />
-    <Content Include="uk\DevExpress.Charts.Designer.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Dashboard.v15.2.Core.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Dashboard.v15.2.Web.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Dashboard.v15.2.Win.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Data.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.DataAccess.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.DataAccess.v15.2.UI.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Diagram.v15.2.Core.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.ExpressApp.HtmlPropertyEditor.Win.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.ExpressApp.PivotChart.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.ExpressApp.Reports.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.ExpressApp.Scheduler.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.ExpressApp.Scheduler.Web.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.ExpressApp.Security.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.ExpressApp.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.ExpressApp.Validation.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.ExpressApp.Web.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.ExpressApp.Win.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Office.v15.2.Core.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Pdf.v15.2.Core.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.PivotGrid.v15.2.Core.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Printing.v15.2.Core.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.RichEdit.v15.2.Core.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Snap.v15.2.Core.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Snap.v15.2.Extensions.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Snap.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Sparkline.v15.2.Core.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Spreadsheet.v15.2.Core.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Utils.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Utils.v15.2.UI.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Web.ASPxHtmlEditor.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Web.ASPxRichEdit.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Web.ASPxScheduler.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Web.ASPxSpellChecker.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Web.ASPxSpreadsheet.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Web.ASPxTreeList.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Web.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpf.Charts.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpf.Controls.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpf.Core.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpf.Docking.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpf.DocumentViewer.v15.2.Core.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpf.Gauges.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpf.Grid.v15.2.Core.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpf.LayoutControl.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpf.NavBar.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpf.PdfViewer.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpf.Printing.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpf.PropertyGrid.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpf.ReportDesigner.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpf.Ribbon.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpf.RichEdit.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpf.Scheduler.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpf.SpellChecker.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpf.Spreadsheet.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.Xpo.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraBars.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraCharts.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraCharts.v15.2.Wizard.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraEditors.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraGauges.v15.2.Core.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraGauges.v15.2.Presets.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraGrid.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraLayout.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraNavBar.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraPdfViewer.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraPivotGrid.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraPrinting.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraReports.v15.2.Extensions.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraReports.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraReports.v15.2.Web.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraRichEdit.v15.2.Extensions.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraRichEdit.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraScheduler.v15.2.Core.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraScheduler.v15.2.Extensions.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraScheduler.v15.2.Reporting.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraScheduler.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraSpellChecker.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraSpreadsheet.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraTreeList.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraVerticalGrid.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="uk\DevExpress.XtraWizard.v15.2.resources.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

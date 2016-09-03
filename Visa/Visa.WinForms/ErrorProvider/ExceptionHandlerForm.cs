@@ -6,18 +6,17 @@ using Visa.Resources;
 
 namespace Visa.WinForms.ErrorProvider
 {
-    public partial class ExceptionHandlerForm : XtraForm
+    public sealed partial class ExceptionHandlerForm : XtraForm
     {
         public ExceptionHandlerForm()
         {
             InitializeComponent();
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            if (!DesignMode)
-            {
-                Text = ResManager.GetString(ResKeys.ExceptionHanler_Title);
-                textBox2.Text =
-                    ResManager.GetString(ResKeys.ExceptionHanler_Text);
-            }
+            if (DesignMode)
+                return;
+            Text = ResManager.GetString(ResKeys.ExceptionHanler_Title);
+            textBox2.Text =
+                ResManager.GetString(ResKeys.ExceptionHanler_Text);
         }
 
         public string StackTrace
@@ -34,9 +33,9 @@ namespace Visa.WinForms.ErrorProvider
             };
             form.ShowDialog();
 
-            var SendMailResult =
+            var sendMailResult =
                EmailManager.SendErrorMail(ex); //sending mail message
-            MessageBox.Show(SendMailResult, "Sending e-mail result:");
+            MessageBox.Show(sendMailResult, "Sending e-mail result:");
         }
 
         private void simpleButton1_Click(object sender,

@@ -155,7 +155,7 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to К-ть дітей вписаний у паспорт батьків.
+        ///   Looks up a localized string similar to К-ть дітей у паспорті батьків.
         /// </summary>
         public static string colChildsCount {
             get {
@@ -164,7 +164,7 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата закінчення терміну дії паспорту.
+        ///   Looks up a localized string similar to Дата закінчення дії паспорту.
         /// </summary>
         public static string colEndPassportDate {
             get {

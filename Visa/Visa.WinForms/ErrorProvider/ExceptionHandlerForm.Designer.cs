@@ -1,6 +1,6 @@
 ﻿namespace Visa.WinForms.ErrorProvider
 {
-    partial class ExceptionHandlerForm
+    sealed partial class ExceptionHandlerForm
     {
         /// <summary>
         /// Required designer variable.
