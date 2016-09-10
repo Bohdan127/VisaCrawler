@@ -36,13 +36,15 @@ namespace Visa.LicenseManager
             this.panel1 = new System.Windows.Forms.Panel();
             this.gridControl2 = new DevExpress.XtraGrid.GridControl();
             this.instancesBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.licenseDBDataSet = new global::Visa.License.DB.LicenseDBDataSet();
+            this.licenseDBDataSet = new Visa.License.DB.LicenseDBDataSet();
             this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.colKey = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colGuid = new DevExpress.XtraGrid.Columns.GridColumn();
             this.textEditKey = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.colPcName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.textEditPcName = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.colCustomerID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.butUpdateNow = new DevExpress.XtraEditors.SimpleButton();
             this.butCopyKey = new DevExpress.XtraEditors.SimpleButton();
             this.lbCopy = new System.Windows.Forms.Label();
             this.butAllKeys = new DevExpress.XtraEditors.SimpleButton();
@@ -51,8 +53,7 @@ namespace Visa.LicenseManager
             this.butAdd = new DevExpress.XtraEditors.SimpleButton();
             this.butAll = new DevExpress.XtraEditors.SimpleButton();
             this.butPcName = new DevExpress.XtraEditors.SimpleButton();
-            this.instancesTableAdapter = new global::Visa.License.DB.LicenseDBDataSetTableAdapters.InstancesTableAdapter();
-            this.butUpdateNow = new DevExpress.XtraEditors.SimpleButton();
+            this.instancesTableAdapter = new Visa.License.DB.LicenseDBDataSetTableAdapters.InstancesTableAdapter();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).BeginInit();
@@ -111,26 +112,28 @@ namespace Visa.LicenseManager
             // gridView2
             // 
             this.gridView2.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.colKey,
-            this.colPcName});
+            this.colGuid,
+            this.colPcName,
+            this.colCustomerID});
             this.gridView2.GridControl = this.gridControl2;
             this.gridView2.Name = "gridView2";
             this.gridView2.OptionsView.ShowGroupPanel = false;
             // 
-            // colKey
+            // colGuid
             // 
-            this.colKey.Caption = "Лиценщионый ключ";
-            this.colKey.ColumnEdit = this.textEditKey;
-            this.colKey.FieldName = "Guid";
-            this.colKey.Name = "colKey";
-            this.colKey.OptionsColumn.AllowEdit = false;
-            this.colKey.OptionsColumn.AllowMove = false;
-            this.colKey.OptionsColumn.AllowShowHide = false;
-            this.colKey.OptionsColumn.ReadOnly = true;
-            this.colKey.OptionsColumn.ShowInCustomizationForm = false;
-            this.colKey.OptionsColumn.ShowInExpressionEditor = false;
-            this.colKey.Visible = true;
-            this.colKey.VisibleIndex = 0;
+            this.colGuid.Caption = "Лиценщионый ключ";
+            this.colGuid.ColumnEdit = this.textEditKey;
+            this.colGuid.FieldName = "Guid";
+            this.colGuid.Name = "colGuid";
+            this.colGuid.OptionsColumn.AllowEdit = false;
+            this.colGuid.OptionsColumn.AllowMove = false;
+            this.colGuid.OptionsColumn.AllowShowHide = false;
+            this.colGuid.OptionsColumn.ReadOnly = true;
+            this.colGuid.OptionsColumn.ShowInCustomizationForm = false;
+            this.colGuid.OptionsColumn.ShowInExpressionEditor = false;
+            this.colGuid.Visible = true;
+            this.colGuid.VisibleIndex = 0;
+            this.colGuid.Width = 231;
             // 
             // textEditKey
             // 
@@ -151,11 +154,24 @@ namespace Visa.LicenseManager
             this.colPcName.OptionsColumn.ShowInExpressionEditor = false;
             this.colPcName.Visible = true;
             this.colPcName.VisibleIndex = 1;
+            this.colPcName.Width = 195;
             // 
             // textEditPcName
             // 
             this.textEditPcName.AutoHeight = false;
             this.textEditPcName.Name = "textEditPcName";
+            // 
+            // colCustomerID
+            // 
+            this.colCustomerID.FieldName = "CustomerID";
+            this.colCustomerID.Name = "colCustomerID";
+            this.colCustomerID.OptionsColumn.AllowMove = false;
+            this.colCustomerID.OptionsColumn.AllowShowHide = false;
+            this.colCustomerID.OptionsColumn.ShowInCustomizationForm = false;
+            this.colCustomerID.OptionsColumn.ShowInExpressionEditor = false;
+            this.colCustomerID.Visible = true;
+            this.colCustomerID.VisibleIndex = 2;
+            this.colCustomerID.Width = 98;
             // 
             // panel2
             // 
@@ -173,6 +189,15 @@ namespace Visa.LicenseManager
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(165, 304);
             this.panel2.TabIndex = 1;
+            // 
+            // butUpdateNow
+            // 
+            this.butUpdateNow.Location = new System.Drawing.Point(0, 259);
+            this.butUpdateNow.Name = "butUpdateNow";
+            this.butUpdateNow.Size = new System.Drawing.Size(165, 45);
+            this.butUpdateNow.TabIndex = 9;
+            this.butUpdateNow.Text = "Обновить";
+            this.butUpdateNow.Click += new System.EventHandler(this.butUpdateNow_Click);
             // 
             // butCopyKey
             // 
@@ -253,15 +278,6 @@ namespace Visa.LicenseManager
             // 
             this.instancesTableAdapter.ClearBeforeFill = true;
             // 
-            // butUpdateNow
-            // 
-            this.butUpdateNow.Location = new System.Drawing.Point(0, 259);
-            this.butUpdateNow.Name = "butUpdateNow";
-            this.butUpdateNow.Size = new System.Drawing.Size(165, 45);
-            this.butUpdateNow.TabIndex = 9;
-            this.butUpdateNow.Text = "Обновить";
-            this.butUpdateNow.Click += new System.EventHandler(this.butUpdateNow_Click);
-            // 
             // LicenseRegManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -293,9 +309,7 @@ namespace Visa.LicenseManager
         private System.Windows.Forms.Panel panel1;
         private DevExpress.XtraGrid.GridControl gridControl2;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
-        private DevExpress.XtraGrid.Columns.GridColumn colKey;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit textEditKey;
-        private DevExpress.XtraGrid.Columns.GridColumn colPcName;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit textEditPcName;
         private System.Windows.Forms.Panel panel2;
         private LicenseDBDataSet licenseDBDataSet;
@@ -310,6 +324,9 @@ namespace Visa.LicenseManager
         private DevExpress.XtraEditors.SimpleButton butCopyKey;
         private System.Windows.Forms.Label lbCopy;
         private DevExpress.XtraEditors.SimpleButton butUpdateNow;
+        private DevExpress.XtraGrid.Columns.GridColumn colGuid;
+        private DevExpress.XtraGrid.Columns.GridColumn colPcName;
+        private DevExpress.XtraGrid.Columns.GridColumn colCustomerID;
     }
 }
 

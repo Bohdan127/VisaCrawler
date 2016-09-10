@@ -42,7 +42,7 @@ namespace Visa.LicenseManager
             EventArgs e)
         {
             instancesTableAdapter.Delete(
-                gridView2.GetFocusedDataRow()["Guid"].ToString());
+                gridView2.GetFocusedDataRow()["Guid"].ToString(), null);
             gridView2.GetFocusedDataRow().Delete();
             gridView2.RefreshData();
         }

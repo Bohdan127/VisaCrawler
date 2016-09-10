@@ -5,10 +5,10 @@
     <Setting Name="LicenseDBConnectionString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;Data Source=mssql2.gear.host;Initial Catalog=licensetest;User ID=licensetest; Password=Jo0u0Q?re-b0; MultipleActiveResultSets=True;&lt;/ConnectionString&gt;
+  &lt;ConnectionString&gt;workstation id=VisaLicenses.mssql.somee.com;packet size=4096;user id=visahelper_SQLLogin_1;pwd=l15cwln5jj;data source=VisaLicenses.mssql.somee.com;persist security info=False;initial catalog=VisaLicenses&lt;/ConnectionString&gt;
   &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Data Source=mssql2.gear.host;Initial Catalog=licensetest;User ID=licensetest; Password=Jo0u0Q?re-b0; MultipleActiveResultSets=True;</Value>
+      <Value Profile="(Default)">workstation id=VisaLicenses.mssql.somee.com;packet size=4096;user id=visahelper_SQLLogin_1;pwd=l15cwln5jj;data source=VisaLicenses.mssql.somee.com;persist security info=False;initial catalog=VisaLicenses</Value>
     </Setting>
   </Settings>
 </SettingsFile>

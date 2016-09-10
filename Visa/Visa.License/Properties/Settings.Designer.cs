@@ -26,8 +26,9 @@ namespace Visa.License.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=mssql2.gear.host;Initial Catalog=licensetest;User ID=licensetest; Pas" +
-            "sword=Jo0u0Q?re-b0; MultipleActiveResultSets=True;")]
+        [global::System.Configuration.DefaultSettingValueAttribute("workstation id=VisaLicenses.mssql.somee.com;packet size=4096;user id=visahelper_S" +
+            "QLLogin_1;pwd=l15cwln5jj;data source=VisaLicenses.mssql.somee.com;persist securi" +
+            "ty info=False;initial catalog=VisaLicenses")]
         public string LicenseDBConnectionString {
             get {
                 return ((string)(this["LicenseDBConnectionString"]));
