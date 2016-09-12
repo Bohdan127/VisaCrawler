@@ -104,5 +104,39 @@
         public const string NoDate_Message = "NoDate_Message";
 
         public const string DateSelected_Message = "DateSelected_Message";
+
+        public const string ValidationError_Message_Customer =
+            "ValidationError_Message_Customer";
+
+
+        public const string AddNewBarButton_Caption = "AddNewBarButton_Caption";
+        public const string CancelBarButton_Caption = "CancelBarButton_Caption";
+        public const string CopyBarButton_Caption = "CopyBarButton_Caption";
+        public const string CustomerBarEdit_Caption = "CustomerBarEdit_Caption";
+
+        public const string CustomersBarButton_Caption =
+            "CustomersBarButton_Caption";
+
+        public const string DeleteAllBarButton_Caption =
+            "DeleteAllBarButton_Caption";
+
+        public const string DeleteBarButton_Caption = "DeleteBarButton_Caption";
+        public const string EditGroup_title = "EditGroup_title";
+        public const string EditPage_Title = "EditPage_Title";
+
+        public const string LicensesBarButton_Caption =
+            "LicensesBarButton_Caption";
+
+        public const string MainGroup_Title = "MainGroup_Title";
+        public const string MainPage_Title = "MainPage_Title";
+        public const string OperationsGroup_Title = "OperationsGroup_Title";
+
+        public const string RefreshBarButton_Caption =
+            "RefreshBarButton_Caption";
+
+        public const string SaveBarButton_Caption = "SaveBarButton_Caption";
+        public const string SkinGroup_Title = "SkinGroup_Title";
+        public const string SkinPage_Title = "SkinPage_Title";
+
     }
 }

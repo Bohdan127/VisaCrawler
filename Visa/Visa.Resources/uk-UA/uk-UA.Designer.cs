@@ -61,6 +61,15 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Додати рядок.
+        /// </summary>
+        public static string AddNewBarButton_Caption {
+            get {
+                return ResourceManager.GetString("AddNewBarButton_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Нелогічна поведінка була знайдена в програмі
         ///Повідомлення вже вислано на пошту
         ///Будь-ласка перезапустіть програму!.
@@ -146,6 +155,15 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Відмінити.
+        /// </summary>
+        public static string CancelBarButton_Caption {
+            get {
+                return ResourceManager.GetString("CancelBarButton_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Дата народження.
         /// </summary>
         public static string colBirthday {
@@ -155,7 +173,7 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to К-ть дітей у паспорті батьків.
+        ///   Looks up a localized string similar to К-ть дітей вписаний у паспорт батьків.
         /// </summary>
         public static string colChildsCount {
             get {
@@ -164,7 +182,7 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата закінчення дії паспорту.
+        ///   Looks up a localized string similar to Дата закінчення терміну дії паспорту.
         /// </summary>
         public static string colEndPassportDate {
             get {
@@ -299,6 +317,33 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Скопіювати ключ.
+        /// </summary>
+        public static string CopyBarButton_Caption {
+            get {
+                return ResourceManager.GetString("CopyBarButton_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Замовник.
+        /// </summary>
+        public static string CustomerBarEdit_Caption {
+            get {
+                return ResourceManager.GetString("CustomerBarEdit_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Замовники.
+        /// </summary>
+        public static string CustomersBarButton_Caption {
+            get {
+                return ResourceManager.GetString("CustomersBarButton_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Дата не відповідає діапазону 
         ///{0}.
         /// </summary>
@@ -325,6 +370,42 @@ namespace Visa.Resources.uk_UA {
         public static string DateСorrect_Message {
             get {
                 return ResourceManager.GetString("DateСorrect_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Видалити всі рядки.
+        /// </summary>
+        public static string DeleteAllBarButton_Caption {
+            get {
+                return ResourceManager.GetString("DeleteAllBarButton_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Видалити рядок.
+        /// </summary>
+        public static string DeleteBarButton_Caption {
+            get {
+                return ResourceManager.GetString("DeleteBarButton_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Операції з базою.
+        /// </summary>
+        public static string EditGroup_title {
+            get {
+                return ResourceManager.GetString("EditGroup_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Команди.
+        /// </summary>
+        public static string EditPage_Title {
+            get {
+                return ResourceManager.GetString("EditPage_Title", resourceCulture);
             }
         }
         
@@ -462,6 +543,33 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ліцензії.
+        /// </summary>
+        public static string LicensesBarButton_Caption {
+            get {
+                return ResourceManager.GetString("LicensesBarButton_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Основні таблиці.
+        /// </summary>
+        public static string MainGroup_Title {
+            get {
+                return ResourceManager.GetString("MainGroup_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Таблиці.
+        /// </summary>
+        public static string MainPage_Title {
+            get {
+                return ResourceManager.GetString("MainPage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to -Оберіть Національніть-.
         /// </summary>
         public static string Nationality_NullText {
@@ -499,6 +607,15 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Операції з таблицьою.
+        /// </summary>
+        public static string OperationsGroup_Title {
+            get {
+                return ResourceManager.GetString("OperationsGroup_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Польський візовий центр доступний.
         /// </summary>
         public static string PageAvailable {
@@ -526,6 +643,15 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Оновити.
+        /// </summary>
+        public static string RefreshBarButton_Caption {
+            get {
+                return ResourceManager.GetString("RefreshBarButton_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to -Час Реєстрації-.
         /// </summary>
         public static string RegistryTime_NullText {
@@ -540,6 +666,15 @@ namespace Visa.Resources.uk_UA {
         public static string RepeatIfCrash_Text {
             get {
                 return ResourceManager.GetString("RepeatIfCrash_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Зберегти.
+        /// </summary>
+        public static string SaveBarButton_Caption {
+            get {
+                return ResourceManager.GetString("SaveBarButton_Caption", resourceCulture);
             }
         }
         
@@ -572,6 +707,24 @@ namespace Visa.Resources.uk_UA {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Доступні скіни до вибору.
+        /// </summary>
+        public static string SkinGroup_Title {
+            get {
+                return ResourceManager.GetString("SkinGroup_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Кастомізація.
+        /// </summary>
+        public static string SkinPage_Title {
+            get {
+                return ResourceManager.GetString("SkinPage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to -Оберіть Статус-.
         /// </summary>
         public static string Status_NullText {
@@ -595,6 +748,15 @@ namespace Visa.Resources.uk_UA {
         public static string ToggleSwitch_OnText {
             get {
                 return ResourceManager.GetString("ToggleSwitch_OnText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Будь-ласка виберіть замовника.
+        /// </summary>
+        public static string ValidationError_Message_Customer {
+            get {
+                return ResourceManager.GetString("ValidationError_Message_Customer", resourceCulture);
             }
         }
         

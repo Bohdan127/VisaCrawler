@@ -34,5 +34,16 @@ namespace Visa.License.Properties {
                 return ((string)(this["LicenseDBConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=VisaLicenses.mssql.somee.com;Initial Catalog=VisaLicenses;Persist Sec" +
+            "urity Info=True;User ID=visahelper_SQLLogin_1;Password=l15cwln5jj")]
+        public string VisaLicensesConnectionString {
+            get {
+                return ((string)(this["VisaLicensesConnectionString"]));
+            }
+        }
     }
 }

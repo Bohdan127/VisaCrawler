@@ -1,5 +1,4 @@
-﻿using DevExpress.LookAndFeel;
-using DevExpress.Skins;
+﻿using DevExpress.Skins;
 using DevExpress.UserSkins;
 using System;
 using System.Windows.Forms;
@@ -19,8 +18,7 @@ namespace Visa.LicenseManager
 
             BonusSkins.Register();
             SkinManager.EnableFormSkins();
-            UserLookAndFeel.Default.SetSkinStyle("DevExpress Style");
-            Application.Run(new LicenseRegManager());
+            Application.Run(new LicensesManager());
         }
     }
 }

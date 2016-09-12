@@ -336,4 +336,58 @@
     <value>Вибрано {0}
 як дату рестрації</value>
   </data>
+  <data name="AddNewBarButton_Caption" xml:space="preserve">
+    <value>Додати рядок</value>
+  </data>
+  <data name="CancelBarButton_Caption" xml:space="preserve">
+    <value>Відмінити</value>
+  </data>
+  <data name="CopyBarButton_Caption" xml:space="preserve">
+    <value>Скопіювати ключ</value>
+  </data>
+  <data name="CustomerBarEdit_Caption" xml:space="preserve">
+    <value>Замовник</value>
+  </data>
+  <data name="CustomersBarButton_Caption" xml:space="preserve">
+    <value>Замовники</value>
+  </data>
+  <data name="DeleteAllBarButton_Caption" xml:space="preserve">
+    <value>Видалити всі рядки</value>
+  </data>
+  <data name="DeleteBarButton_Caption" xml:space="preserve">
+    <value>Видалити рядок</value>
+  </data>
+  <data name="EditGroup_title" xml:space="preserve">
+    <value>Операції з базою</value>
+  </data>
+  <data name="EditPage_Title" xml:space="preserve">
+    <value>Команди</value>
+  </data>
+  <data name="LicensesBarButton_Caption" xml:space="preserve">
+    <value>Ліцензії</value>
+  </data>
+  <data name="MainGroup_Title" xml:space="preserve">
+    <value>Основні таблиці</value>
+  </data>
+  <data name="MainPage_Title" xml:space="preserve">
+    <value>Таблиці</value>
+  </data>
+  <data name="OperationsGroup_Title" xml:space="preserve">
+    <value>Операції з таблицьою</value>
+  </data>
+  <data name="RefreshBarButton_Caption" xml:space="preserve">
+    <value>Оновити</value>
+  </data>
+  <data name="SaveBarButton_Caption" xml:space="preserve">
+    <value>Зберегти</value>
+  </data>
+  <data name="SkinGroup_Title" xml:space="preserve">
+    <value>Доступні скіни до вибору</value>
+  </data>
+  <data name="SkinPage_Title" xml:space="preserve">
+    <value>Кастомізація</value>
+  </data>
+  <data name="ValidationError_Message_Customer" xml:space="preserve">
+    <value>Будь-ласка виберіть замовника</value>
+  </data>
 </root>

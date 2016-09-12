@@ -37,6 +37,8 @@
     <Reference Include="DevExpress.BonusSkins.v15.2" />
     <Reference Include="DevExpress.Charts.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Data.v15.2" />
+    <Reference Include="DevExpress.ExpressApp.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.ExpressApp.Win.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Office.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Printing.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.RichEdit.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -53,9 +55,20 @@
     <Reference Include="DevExpress.XtraRichEdit.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraSpreadsheet.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraTreeList.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -70,16 +83,39 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LicenseRegManager.cs">
+    <Compile Include="CustomersForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LicenseRegManager.Designer.cs">
-      <DependentUpon>LicenseRegManager.cs</DependentUpon>
+    <Compile Include="CustomersForm.Designer.cs">
+      <DependentUpon>CustomersForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LicensesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LicensesForm.Designer.cs">
+      <DependentUpon>LicensesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LicensesManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LicensesManager.Designer.cs">
+      <DependentUpon>LicensesManager.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="LicenseRegManager.resx">
-      <DependentUpon>LicenseRegManager.cs</DependentUpon>
+    <Compile Include="VisaLicensesDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VisaLicensesDataSet.xsd</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="CustomersForm.resx">
+      <DependentUpon>CustomersForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LicensesForm.resx">
+      <DependentUpon>LicensesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LicensesManager.resx">
+      <DependentUpon>LicensesManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -103,12 +139,30 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="VisaLicensesDataSet.xsc">
+      <DependentUpon>VisaLicensesDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="VisaLicensesDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>VisaLicensesDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="VisaLicensesDataSet.xss">
+      <DependentUpon>VisaLicensesDataSet.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Visa.License\Visa.License.csproj">
       <Project>{F2608D24-A0E2-4BF8-8E58-C3B931DF08A6}</Project>
       <Name>Visa.License</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Visa.Resources\Visa.Resources.csproj">
+      <Project>{C29283C8-3FA1-4B26-90BC-09B392E6678C}</Project>
+      <Name>Visa.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

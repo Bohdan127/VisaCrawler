@@ -22,5 +22,29 @@ namespace Visa.LicenseManager.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("workstation id=VisaLicenses.mssql.somee.com;packet size=4096;user id=visahelper_S" +
+            "QLLogin_1;pwd=l15cwln5jj;data source=VisaLicenses.mssql.somee.com;persist securi" +
+            "ty info=False;initial catalog=VisaLicenses")]
+        public string VisaLicensesConnectionString {
+            get {
+                return ((string)(this["VisaLicensesConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ApplicationSkinName {
+            get {
+                return ((string)(this["ApplicationSkinName"]));
+            }
+            set {
+                this["ApplicationSkinName"] = value;
+            }
+        }
     }
 }

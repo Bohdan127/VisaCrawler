@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="LicenseDB" Class="ModelLicenseDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="workstation id=VisaLicenses.mssql.somee.com;packet size=4096;user id=visahelper_SQLLogin_1;pwd=l15cwln5jj;data source=VisaLicenses.mssql.somee.com;persist security info=False;initial catalog=VisaLicenses" SettingsObjectName="Visa.License.Properties.Settings" SettingsPropertyName="LicenseDBConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.Instances" Member="Instances">
-    <Type Name="Instance">
-      <Column Name="Guid" Type="System.String" DbType="NVarChar(36) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="PcName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-    </Type>
-  </Table>
-</Database>

@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace Visa.License.DB {
+namespace Visa.LicenseManager {
     
     
     /// <summary>
@@ -20,13 +20,13 @@ namespace Visa.License.DB {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("LicenseDBDataSet")]
+    [global::System.Xml.Serialization.XmlRootAttribute("VisaLicensesDataSet")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class LicenseDBDataSet : global::System.Data.DataSet {
+    public partial class VisaLicensesDataSet : global::System.Data.DataSet {
         
-        private CustomerDataTable tableCustomer;
+        private CustomersDataTable tableCustomers;
         
-        private LicenseDataTable tableLicense;
+        private LicensesDataTable tableLicenses;
         
         private global::System.Data.DataRelation relationFK_Licenses_Customers;
         
@@ -34,7 +34,7 @@ namespace Visa.License.DB {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public LicenseDBDataSet() {
+        public VisaLicensesDataSet() {
             this.BeginInit();
             this.InitClass();
             global::System.ComponentModel.CollectionChangeEventHandler schemaChangedHandler = new global::System.ComponentModel.CollectionChangeEventHandler(this.SchemaChanged);
@@ -45,7 +45,7 @@ namespace Visa.License.DB {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected LicenseDBDataSet(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+        protected VisaLicensesDataSet(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
                 this.InitVars(false);
@@ -58,11 +58,11 @@ namespace Visa.License.DB {
             if ((this.DetermineSchemaSerializationMode(info, context) == global::System.Data.SchemaSerializationMode.IncludeSchema)) {
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXmlSchema(new global::System.Xml.XmlTextReader(new global::System.IO.StringReader(strSchema)));
-                if ((ds.Tables["Customer"] != null)) {
-                    base.Tables.Add(new CustomerDataTable(ds.Tables["Customer"]));
+                if ((ds.Tables["Customers"] != null)) {
+                    base.Tables.Add(new CustomersDataTable(ds.Tables["Customers"]));
                 }
-                if ((ds.Tables["License"] != null)) {
-                    base.Tables.Add(new LicenseDataTable(ds.Tables["License"]));
+                if ((ds.Tables["Licenses"] != null)) {
+                    base.Tables.Add(new LicensesDataTable(ds.Tables["Licenses"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -86,9 +86,9 @@ namespace Visa.License.DB {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public CustomerDataTable Customer {
+        public CustomersDataTable Customers {
             get {
-                return this.tableCustomer;
+                return this.tableCustomers;
             }
         }
         
@@ -96,9 +96,9 @@ namespace Visa.License.DB {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public LicenseDataTable License {
+        public LicensesDataTable Licenses {
             get {
-                return this.tableLicense;
+                return this.tableLicenses;
             }
         }
         
@@ -144,7 +144,7 @@ namespace Visa.License.DB {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            LicenseDBDataSet cln = ((LicenseDBDataSet)(base.Clone()));
+            VisaLicensesDataSet cln = ((VisaLicensesDataSet)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
             return cln;
@@ -169,11 +169,11 @@ namespace Visa.License.DB {
                 this.Reset();
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXml(reader);
-                if ((ds.Tables["Customer"] != null)) {
-                    base.Tables.Add(new CustomerDataTable(ds.Tables["Customer"]));
+                if ((ds.Tables["Customers"] != null)) {
+                    base.Tables.Add(new CustomersDataTable(ds.Tables["Customers"]));
                 }
-                if ((ds.Tables["License"] != null)) {
-                    base.Tables.Add(new LicenseDataTable(ds.Tables["License"]));
+                if ((ds.Tables["Licenses"] != null)) {
+                    base.Tables.Add(new LicensesDataTable(ds.Tables["Licenses"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -208,16 +208,16 @@ namespace Visa.License.DB {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         internal void InitVars(bool initTable) {
-            this.tableCustomer = ((CustomerDataTable)(base.Tables["Customer"]));
+            this.tableCustomers = ((CustomersDataTable)(base.Tables["Customers"]));
             if ((initTable == true)) {
-                if ((this.tableCustomer != null)) {
-                    this.tableCustomer.InitVars();
+                if ((this.tableCustomers != null)) {
+                    this.tableCustomers.InitVars();
                 }
             }
-            this.tableLicense = ((LicenseDataTable)(base.Tables["License"]));
+            this.tableLicenses = ((LicensesDataTable)(base.Tables["Licenses"]));
             if ((initTable == true)) {
-                if ((this.tableLicense != null)) {
-                    this.tableLicense.InitVars();
+                if ((this.tableLicenses != null)) {
+                    this.tableLicenses.InitVars();
                 }
             }
             this.relationFK_Licenses_Customers = this.Relations["FK_Licenses_Customers"];
@@ -226,30 +226,30 @@ namespace Visa.License.DB {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "LicenseDBDataSet";
+            this.DataSetName = "VisaLicensesDataSet";
             this.Prefix = "";
-            this.Namespace = "http://tempuri.org/LicenseDBDataSet.xsd";
+            this.Namespace = "http://tempuri.org/VisaLicensesDataSet.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
-            this.tableCustomer = new CustomerDataTable();
-            base.Tables.Add(this.tableCustomer);
-            this.tableLicense = new LicenseDataTable();
-            base.Tables.Add(this.tableLicense);
+            this.tableCustomers = new CustomersDataTable();
+            base.Tables.Add(this.tableCustomers);
+            this.tableLicenses = new LicensesDataTable();
+            base.Tables.Add(this.tableLicenses);
             this.relationFK_Licenses_Customers = new global::System.Data.DataRelation("FK_Licenses_Customers", new global::System.Data.DataColumn[] {
-                        this.tableCustomer.IDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableLicense.CustomerIDColumn}, false);
+                        this.tableCustomers.IDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableLicenses.CustomerIDColumn}, false);
             this.Relations.Add(this.relationFK_Licenses_Customers);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeCustomer() {
+        private bool ShouldSerializeCustomers() {
             return false;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeLicense() {
+        private bool ShouldSerializeLicenses() {
             return false;
         }
         
@@ -264,7 +264,7 @@ namespace Visa.License.DB {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            LicenseDBDataSet ds = new LicenseDBDataSet();
+            VisaLicensesDataSet ds = new VisaLicensesDataSet();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
@@ -309,17 +309,17 @@ namespace Visa.License.DB {
         }
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void CustomerRowChangeEventHandler(object sender, CustomerRowChangeEvent e);
+        public delegate void CustomersRowChangeEventHandler(object sender, CustomersRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void LicenseRowChangeEventHandler(object sender, LicenseRowChangeEvent e);
+        public delegate void LicensesRowChangeEventHandler(object sender, LicensesRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class CustomerDataTable : global::System.Data.TypedTableBase<CustomerRow> {
+        public partial class CustomersDataTable : global::System.Data.TypedTableBase<CustomersRow> {
             
             private global::System.Data.DataColumn columnID;
             
@@ -327,8 +327,8 @@ namespace Visa.License.DB {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public CustomerDataTable() {
-                this.TableName = "Customer";
+            public CustomersDataTable() {
+                this.TableName = "Customers";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -336,7 +336,7 @@ namespace Visa.License.DB {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal CustomerDataTable(global::System.Data.DataTable table) {
+            internal CustomersDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -353,7 +353,7 @@ namespace Visa.License.DB {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected CustomerDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected CustomersDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
@@ -385,53 +385,53 @@ namespace Visa.License.DB {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public CustomerRow this[int index] {
+            public CustomersRow this[int index] {
                 get {
-                    return ((CustomerRow)(this.Rows[index]));
+                    return ((CustomersRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event CustomerRowChangeEventHandler CustomerRowChanging;
+            public event CustomersRowChangeEventHandler CustomersRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event CustomerRowChangeEventHandler CustomerRowChanged;
+            public event CustomersRowChangeEventHandler CustomersRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event CustomerRowChangeEventHandler CustomerRowDeleting;
+            public event CustomersRowChangeEventHandler CustomersRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event CustomerRowChangeEventHandler CustomerRowDeleted;
+            public event CustomersRowChangeEventHandler CustomersRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddCustomerRow(CustomerRow row) {
+            public void AddCustomersRow(CustomersRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public CustomerRow AddCustomerRow(int ID, string Name) {
-                CustomerRow rowCustomerRow = ((CustomerRow)(this.NewRow()));
+            public CustomersRow AddCustomersRow(string Name) {
+                CustomersRow rowCustomersRow = ((CustomersRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        ID,
+                        null,
                         Name};
-                rowCustomerRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowCustomerRow);
-                return rowCustomerRow;
+                rowCustomersRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowCustomersRow);
+                return rowCustomersRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public CustomerRow FindByID(int ID) {
-                return ((CustomerRow)(this.Rows.Find(new object[] {
+            public CustomersRow FindByID(int ID) {
+                return ((CustomersRow)(this.Rows.Find(new object[] {
                             ID})));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                CustomerDataTable cln = ((CustomerDataTable)(base.Clone()));
+                CustomersDataTable cln = ((CustomersDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -439,7 +439,7 @@ namespace Visa.License.DB {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new CustomerDataTable();
+                return new CustomersDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -458,6 +458,8 @@ namespace Visa.License.DB {
                 base.Columns.Add(this.columnName);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID}, true));
+                this.columnID.AutoIncrement = true;
+                this.columnID.AutoIncrementSeed = 1;
                 this.columnID.AllowDBNull = false;
                 this.columnID.Unique = true;
                 this.columnName.AllowDBNull = false;
@@ -466,28 +468,28 @@ namespace Visa.License.DB {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public CustomerRow NewCustomerRow() {
-                return ((CustomerRow)(this.NewRow()));
+            public CustomersRow NewCustomersRow() {
+                return ((CustomersRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new CustomerRow(builder);
+                return new CustomersRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(CustomerRow);
+                return typeof(CustomersRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.CustomerRowChanged != null)) {
-                    this.CustomerRowChanged(this, new CustomerRowChangeEvent(((CustomerRow)(e.Row)), e.Action));
+                if ((this.CustomersRowChanged != null)) {
+                    this.CustomersRowChanged(this, new CustomersRowChangeEvent(((CustomersRow)(e.Row)), e.Action));
                 }
             }
             
@@ -495,8 +497,8 @@ namespace Visa.License.DB {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.CustomerRowChanging != null)) {
-                    this.CustomerRowChanging(this, new CustomerRowChangeEvent(((CustomerRow)(e.Row)), e.Action));
+                if ((this.CustomersRowChanging != null)) {
+                    this.CustomersRowChanging(this, new CustomersRowChangeEvent(((CustomersRow)(e.Row)), e.Action));
                 }
             }
             
@@ -504,8 +506,8 @@ namespace Visa.License.DB {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.CustomerRowDeleted != null)) {
-                    this.CustomerRowDeleted(this, new CustomerRowChangeEvent(((CustomerRow)(e.Row)), e.Action));
+                if ((this.CustomersRowDeleted != null)) {
+                    this.CustomersRowDeleted(this, new CustomersRowChangeEvent(((CustomersRow)(e.Row)), e.Action));
                 }
             }
             
@@ -513,14 +515,14 @@ namespace Visa.License.DB {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.CustomerRowDeleting != null)) {
-                    this.CustomerRowDeleting(this, new CustomerRowChangeEvent(((CustomerRow)(e.Row)), e.Action));
+                if ((this.CustomersRowDeleting != null)) {
+                    this.CustomersRowDeleting(this, new CustomersRowChangeEvent(((CustomersRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveCustomerRow(CustomerRow row) {
+            public void RemoveCustomersRow(CustomersRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -529,7 +531,7 @@ namespace Visa.License.DB {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                LicenseDBDataSet ds = new LicenseDBDataSet();
+                VisaLicensesDataSet ds = new VisaLicensesDataSet();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -547,7 +549,7 @@ namespace Visa.License.DB {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "CustomerDataTable";
+                attribute2.FixedValue = "CustomersDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -593,7 +595,7 @@ namespace Visa.License.DB {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class LicenseDataTable : global::System.Data.TypedTableBase<LicenseRow> {
+        public partial class LicensesDataTable : global::System.Data.TypedTableBase<LicensesRow> {
             
             private global::System.Data.DataColumn columnGuid;
             
@@ -603,8 +605,8 @@ namespace Visa.License.DB {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public LicenseDataTable() {
-                this.TableName = "License";
+            public LicensesDataTable() {
+                this.TableName = "Licenses";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -612,7 +614,7 @@ namespace Visa.License.DB {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal LicenseDataTable(global::System.Data.DataTable table) {
+            internal LicensesDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -629,7 +631,7 @@ namespace Visa.License.DB {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected LicenseDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected LicensesDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
@@ -669,57 +671,57 @@ namespace Visa.License.DB {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public LicenseRow this[int index] {
+            public LicensesRow this[int index] {
                 get {
-                    return ((LicenseRow)(this.Rows[index]));
+                    return ((LicensesRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event LicenseRowChangeEventHandler LicenseRowChanging;
+            public event LicensesRowChangeEventHandler LicensesRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event LicenseRowChangeEventHandler LicenseRowChanged;
+            public event LicensesRowChangeEventHandler LicensesRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event LicenseRowChangeEventHandler LicenseRowDeleting;
+            public event LicensesRowChangeEventHandler LicensesRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event LicenseRowChangeEventHandler LicenseRowDeleted;
+            public event LicensesRowChangeEventHandler LicensesRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddLicenseRow(LicenseRow row) {
+            public void AddLicensesRow(LicensesRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public LicenseRow AddLicenseRow(string Guid, string PcName, CustomerRow parentCustomerRowByFK_Licenses_Customers) {
-                LicenseRow rowLicenseRow = ((LicenseRow)(this.NewRow()));
+            public LicensesRow AddLicensesRow(string Guid, string PcName, CustomersRow parentCustomersRowByFK_Licenses_Customers) {
+                LicensesRow rowLicensesRow = ((LicensesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Guid,
                         PcName,
                         null};
-                if ((parentCustomerRowByFK_Licenses_Customers != null)) {
-                    columnValuesArray[2] = parentCustomerRowByFK_Licenses_Customers[0];
+                if ((parentCustomersRowByFK_Licenses_Customers != null)) {
+                    columnValuesArray[2] = parentCustomersRowByFK_Licenses_Customers[0];
                 }
-                rowLicenseRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowLicenseRow);
-                return rowLicenseRow;
+                rowLicensesRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowLicensesRow);
+                return rowLicensesRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public LicenseRow FindByGuid(string Guid) {
-                return ((LicenseRow)(this.Rows.Find(new object[] {
+            public LicensesRow FindByGuid(string Guid) {
+                return ((LicensesRow)(this.Rows.Find(new object[] {
                             Guid})));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                LicenseDataTable cln = ((LicenseDataTable)(base.Clone()));
+                LicensesDataTable cln = ((LicensesDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -727,7 +729,7 @@ namespace Visa.License.DB {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new LicenseDataTable();
+                return new LicensesDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -757,28 +759,28 @@ namespace Visa.License.DB {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public LicenseRow NewLicenseRow() {
-                return ((LicenseRow)(this.NewRow()));
+            public LicensesRow NewLicensesRow() {
+                return ((LicensesRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new LicenseRow(builder);
+                return new LicensesRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(LicenseRow);
+                return typeof(LicensesRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.LicenseRowChanged != null)) {
-                    this.LicenseRowChanged(this, new LicenseRowChangeEvent(((LicenseRow)(e.Row)), e.Action));
+                if ((this.LicensesRowChanged != null)) {
+                    this.LicensesRowChanged(this, new LicensesRowChangeEvent(((LicensesRow)(e.Row)), e.Action));
                 }
             }
             
@@ -786,8 +788,8 @@ namespace Visa.License.DB {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.LicenseRowChanging != null)) {
-                    this.LicenseRowChanging(this, new LicenseRowChangeEvent(((LicenseRow)(e.Row)), e.Action));
+                if ((this.LicensesRowChanging != null)) {
+                    this.LicensesRowChanging(this, new LicensesRowChangeEvent(((LicensesRow)(e.Row)), e.Action));
                 }
             }
             
@@ -795,8 +797,8 @@ namespace Visa.License.DB {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.LicenseRowDeleted != null)) {
-                    this.LicenseRowDeleted(this, new LicenseRowChangeEvent(((LicenseRow)(e.Row)), e.Action));
+                if ((this.LicensesRowDeleted != null)) {
+                    this.LicensesRowDeleted(this, new LicensesRowChangeEvent(((LicensesRow)(e.Row)), e.Action));
                 }
             }
             
@@ -804,14 +806,14 @@ namespace Visa.License.DB {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.LicenseRowDeleting != null)) {
-                    this.LicenseRowDeleting(this, new LicenseRowChangeEvent(((LicenseRow)(e.Row)), e.Action));
+                if ((this.LicensesRowDeleting != null)) {
+                    this.LicensesRowDeleting(this, new LicensesRowChangeEvent(((LicensesRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveLicenseRow(LicenseRow row) {
+            public void RemoveLicensesRow(LicensesRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -820,7 +822,7 @@ namespace Visa.License.DB {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                LicenseDBDataSet ds = new LicenseDBDataSet();
+                VisaLicensesDataSet ds = new VisaLicensesDataSet();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -838,7 +840,7 @@ namespace Visa.License.DB {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "LicenseDataTable";
+                attribute2.FixedValue = "LicensesDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -882,25 +884,25 @@ namespace Visa.License.DB {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class CustomerRow : global::System.Data.DataRow {
+        public partial class CustomersRow : global::System.Data.DataRow {
             
-            private CustomerDataTable tableCustomer;
+            private CustomersDataTable tableCustomers;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal CustomerRow(global::System.Data.DataRowBuilder rb) : 
+            internal CustomersRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableCustomer = ((CustomerDataTable)(this.Table));
+                this.tableCustomers = ((CustomersDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public int ID {
                 get {
-                    return ((int)(this[this.tableCustomer.IDColumn]));
+                    return ((int)(this[this.tableCustomers.IDColumn]));
                 }
                 set {
-                    this[this.tableCustomer.IDColumn] = value;
+                    this[this.tableCustomers.IDColumn] = value;
                 }
             }
             
@@ -908,21 +910,21 @@ namespace Visa.License.DB {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Name {
                 get {
-                    return ((string)(this[this.tableCustomer.NameColumn]));
+                    return ((string)(this[this.tableCustomers.NameColumn]));
                 }
                 set {
-                    this[this.tableCustomer.NameColumn] = value;
+                    this[this.tableCustomers.NameColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public LicenseRow[] GetLicenseRows() {
+            public LicensesRow[] GetLicensesRows() {
                 if ((this.Table.ChildRelations["FK_Licenses_Customers"] == null)) {
-                    return new LicenseRow[0];
+                    return new LicensesRow[0];
                 }
                 else {
-                    return ((LicenseRow[])(base.GetChildRows(this.Table.ChildRelations["FK_Licenses_Customers"])));
+                    return ((LicensesRow[])(base.GetChildRows(this.Table.ChildRelations["FK_Licenses_Customers"])));
                 }
             }
         }
@@ -930,25 +932,25 @@ namespace Visa.License.DB {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class LicenseRow : global::System.Data.DataRow {
+        public partial class LicensesRow : global::System.Data.DataRow {
             
-            private LicenseDataTable tableLicense;
+            private LicensesDataTable tableLicenses;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal LicenseRow(global::System.Data.DataRowBuilder rb) : 
+            internal LicensesRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableLicense = ((LicenseDataTable)(this.Table));
+                this.tableLicenses = ((LicensesDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Guid {
                 get {
-                    return ((string)(this[this.tableLicense.GuidColumn]));
+                    return ((string)(this[this.tableLicenses.GuidColumn]));
                 }
                 set {
-                    this[this.tableLicense.GuidColumn] = value;
+                    this[this.tableLicenses.GuidColumn] = value;
                 }
             }
             
@@ -957,14 +959,14 @@ namespace Visa.License.DB {
             public string PcName {
                 get {
                     try {
-                        return ((string)(this[this.tableLicense.PcNameColumn]));
+                        return ((string)(this[this.tableLicenses.PcNameColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'PcName\' in table \'License\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'PcName\' in table \'Licenses\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableLicense.PcNameColumn] = value;
+                    this[this.tableLicenses.PcNameColumn] = value;
                 }
             }
             
@@ -973,22 +975,22 @@ namespace Visa.License.DB {
             public int CustomerID {
                 get {
                     try {
-                        return ((int)(this[this.tableLicense.CustomerIDColumn]));
+                        return ((int)(this[this.tableLicenses.CustomerIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CustomerID\' in table \'License\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'CustomerID\' in table \'Licenses\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableLicense.CustomerIDColumn] = value;
+                    this[this.tableLicenses.CustomerIDColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public CustomerRow CustomerRow {
+            public CustomersRow CustomersRow {
                 get {
-                    return ((CustomerRow)(this.GetParentRow(this.Table.ParentRelations["FK_Licenses_Customers"])));
+                    return ((CustomersRow)(this.GetParentRow(this.Table.ParentRelations["FK_Licenses_Customers"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_Licenses_Customers"]);
@@ -998,25 +1000,25 @@ namespace Visa.License.DB {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsPcNameNull() {
-                return this.IsNull(this.tableLicense.PcNameColumn);
+                return this.IsNull(this.tableLicenses.PcNameColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetPcNameNull() {
-                this[this.tableLicense.PcNameColumn] = global::System.Convert.DBNull;
+                this[this.tableLicenses.PcNameColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsCustomerIDNull() {
-                return this.IsNull(this.tableLicense.CustomerIDColumn);
+                return this.IsNull(this.tableLicenses.CustomerIDColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetCustomerIDNull() {
-                this[this.tableLicense.CustomerIDColumn] = global::System.Convert.DBNull;
+                this[this.tableLicenses.CustomerIDColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -1024,22 +1026,22 @@ namespace Visa.License.DB {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class CustomerRowChangeEvent : global::System.EventArgs {
+        public class CustomersRowChangeEvent : global::System.EventArgs {
             
-            private CustomerRow eventRow;
+            private CustomersRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public CustomerRowChangeEvent(CustomerRow row, global::System.Data.DataRowAction action) {
+            public CustomersRowChangeEvent(CustomersRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public CustomerRow Row {
+            public CustomersRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -1058,22 +1060,22 @@ namespace Visa.License.DB {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class LicenseRowChangeEvent : global::System.EventArgs {
+        public class LicensesRowChangeEvent : global::System.EventArgs {
             
-            private LicenseRow eventRow;
+            private LicensesRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public LicenseRowChangeEvent(LicenseRow row, global::System.Data.DataRowAction action) {
+            public LicensesRowChangeEvent(LicensesRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public LicenseRow Row {
+            public LicensesRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -1089,7 +1091,7 @@ namespace Visa.License.DB {
         }
     }
 }
-namespace Visa.License.DB.LicenseDBDataSetTableAdapters {
+namespace Visa.LicenseManager.VisaLicensesDataSetTableAdapters {
     
     
     /// <summary>
@@ -1101,7 +1103,7 @@ namespace Visa.License.DB.LicenseDBDataSetTableAdapters {
     [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class CustomerTableAdapter : global::System.ComponentModel.Component {
+    public partial class CustomersTableAdapter : global::System.ComponentModel.Component {
         
         private global::System.Data.SqlClient.SqlDataAdapter _adapter;
         
@@ -1115,7 +1117,7 @@ namespace Visa.License.DB.LicenseDBDataSetTableAdapters {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public CustomerTableAdapter() {
+        public CustomersTableAdapter() {
             this.ClearBeforeFill = true;
         }
         
@@ -1212,28 +1214,29 @@ namespace Visa.License.DB.LicenseDBDataSetTableAdapters {
             this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "Customer";
+            tableMapping.DataSetTable = "Customers";
             tableMapping.ColumnMappings.Add("ID", "ID");
             tableMapping.ColumnMappings.Add("Name", "Name");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = "DELETE FROM [Customers] WHERE (([ID] = @Original_ID) AND ([Name] = @Original_Name" +
-                "))";
+            this._adapter.DeleteCommand.CommandText = "DELETE FROM [dbo].[Customers] WHERE (([ID] = @Original_ID) AND ([Name] = @Origina" +
+                "l_Name))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Name", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Name", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [Customers] ([ID], [Name]) VALUES (@ID, @Name);\r\nSELECT ID, Name FROM" +
-                " Customers WHERE (ID = @ID)";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[Customers] ([ID], [Name]) VALUES (@ID, @Name);\r\nSELECT ID, Nam" +
+                "e FROM Customers WHERE (ID = @ID)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Name", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = "UPDATE [Customers] SET [ID] = @ID, [Name] = @Name WHERE (([ID] = @Original_ID) AN" +
-                "D ([Name] = @Original_Name));\r\nSELECT ID, Name FROM Customers WHERE (ID = @ID)";
+            this._adapter.UpdateCommand.CommandText = "UPDATE [dbo].[Customers] SET [ID] = @ID, [Name] = @Name WHERE (([ID] = @Original_" +
+                "ID) AND ([Name] = @Original_Name));\r\nSELECT ID, Name FROM Customers WHERE (ID = " +
+                "@ID)";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Name", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -1245,7 +1248,7 @@ namespace Visa.License.DB.LicenseDBDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Visa.License.Properties.Settings.Default.LicenseDBConnectionString;
+            this._connection.ConnectionString = global::Visa.LicenseManager.Properties.Settings.Default.VisaLicensesConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1254,7 +1257,7 @@ namespace Visa.License.DB.LicenseDBDataSetTableAdapters {
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT        ID, Name\r\nFROM            Customers";
+            this._commandCollection[0].CommandText = "SELECT ID, Name FROM dbo.Customers";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -1262,7 +1265,7 @@ namespace Visa.License.DB.LicenseDBDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(LicenseDBDataSet.CustomerDataTable dataTable) {
+        public virtual int Fill(VisaLicensesDataSet.CustomersDataTable dataTable) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -1275,9 +1278,9 @@ namespace Visa.License.DB.LicenseDBDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual LicenseDBDataSet.CustomerDataTable GetData() {
+        public virtual VisaLicensesDataSet.CustomersDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            LicenseDBDataSet.CustomerDataTable dataTable = new LicenseDBDataSet.CustomerDataTable();
+            VisaLicensesDataSet.CustomersDataTable dataTable = new VisaLicensesDataSet.CustomersDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
@@ -1285,15 +1288,15 @@ namespace Visa.License.DB.LicenseDBDataSetTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(LicenseDBDataSet.CustomerDataTable dataTable) {
+        public virtual int Update(VisaLicensesDataSet.CustomersDataTable dataTable) {
             return this.Adapter.Update(dataTable);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(LicenseDBDataSet dataSet) {
-            return this.Adapter.Update(dataSet, "Customer");
+        public virtual int Update(VisaLicensesDataSet dataSet) {
+            return this.Adapter.Update(dataSet, "Customers");
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1420,7 +1423,7 @@ namespace Visa.License.DB.LicenseDBDataSetTableAdapters {
     [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class LicenseTableAdapter : global::System.ComponentModel.Component {
+    public partial class LicensesTableAdapter : global::System.ComponentModel.Component {
         
         private global::System.Data.SqlClient.SqlDataAdapter _adapter;
         
@@ -1434,7 +1437,7 @@ namespace Visa.License.DB.LicenseDBDataSetTableAdapters {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public LicenseTableAdapter() {
+        public LicensesTableAdapter() {
             this.ClearBeforeFill = true;
         }
         
@@ -1531,7 +1534,7 @@ namespace Visa.License.DB.LicenseDBDataSetTableAdapters {
             this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "License";
+            tableMapping.DataSetTable = "Licenses";
             tableMapping.ColumnMappings.Add("Guid", "Guid");
             tableMapping.ColumnMappings.Add("PcName", "PcName");
             tableMapping.ColumnMappings.Add("CustomerID", "CustomerID");
@@ -1570,7 +1573,7 @@ SELECT Guid, PcName, CustomerID FROM Licenses WHERE (Guid = @Guid)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Visa.License.Properties.Settings.Default.LicenseDBConnectionString;
+            this._connection.ConnectionString = global::Visa.LicenseManager.Properties.Settings.Default.VisaLicensesConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1587,7 +1590,7 @@ SELECT Guid, PcName, CustomerID FROM Licenses WHERE (Guid = @Guid)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(LicenseDBDataSet.LicenseDataTable dataTable) {
+        public virtual int Fill(VisaLicensesDataSet.LicensesDataTable dataTable) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -1600,9 +1603,9 @@ SELECT Guid, PcName, CustomerID FROM Licenses WHERE (Guid = @Guid)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual LicenseDBDataSet.LicenseDataTable GetData() {
+        public virtual VisaLicensesDataSet.LicensesDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            LicenseDBDataSet.LicenseDataTable dataTable = new LicenseDBDataSet.LicenseDataTable();
+            VisaLicensesDataSet.LicensesDataTable dataTable = new VisaLicensesDataSet.LicensesDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
@@ -1610,15 +1613,15 @@ SELECT Guid, PcName, CustomerID FROM Licenses WHERE (Guid = @Guid)";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(LicenseDBDataSet.LicenseDataTable dataTable) {
+        public virtual int Update(VisaLicensesDataSet.LicensesDataTable dataTable) {
             return this.Adapter.Update(dataTable);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(LicenseDBDataSet dataSet) {
-            return this.Adapter.Update(dataSet, "License");
+        public virtual int Update(VisaLicensesDataSet dataSet) {
+            return this.Adapter.Update(dataSet, "Licenses");
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1784,9 +1787,9 @@ SELECT Guid, PcName, CustomerID FROM Licenses WHERE (Guid = @Guid)";
         
         private UpdateOrderOption _updateOrder;
         
-        private CustomerTableAdapter _customerTableAdapter;
+        private CustomersTableAdapter _customersTableAdapter;
         
-        private LicenseTableAdapter _licenseTableAdapter;
+        private LicensesTableAdapter _licensesTableAdapter;
         
         private bool _backupDataSetBeforeUpdate;
         
@@ -1808,12 +1811,12 @@ SELECT Guid, PcName, CustomerID FROM Licenses WHERE (Guid = @Guid)";
         [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
             "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
             "a", "System.Drawing.Design.UITypeEditor")]
-        public CustomerTableAdapter CustomerTableAdapter {
+        public CustomersTableAdapter CustomersTableAdapter {
             get {
-                return this._customerTableAdapter;
+                return this._customersTableAdapter;
             }
             set {
-                this._customerTableAdapter = value;
+                this._customersTableAdapter = value;
             }
         }
         
@@ -1822,12 +1825,12 @@ SELECT Guid, PcName, CustomerID FROM Licenses WHERE (Guid = @Guid)";
         [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
             "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
             "a", "System.Drawing.Design.UITypeEditor")]
-        public LicenseTableAdapter LicenseTableAdapter {
+        public LicensesTableAdapter LicensesTableAdapter {
             get {
-                return this._licenseTableAdapter;
+                return this._licensesTableAdapter;
             }
             set {
-                this._licenseTableAdapter = value;
+                this._licensesTableAdapter = value;
             }
         }
         
@@ -1850,13 +1853,13 @@ SELECT Guid, PcName, CustomerID FROM Licenses WHERE (Guid = @Guid)";
                 if ((this._connection != null)) {
                     return this._connection;
                 }
-                if (((this._customerTableAdapter != null) 
-                            && (this._customerTableAdapter.Connection != null))) {
-                    return this._customerTableAdapter.Connection;
+                if (((this._customersTableAdapter != null) 
+                            && (this._customersTableAdapter.Connection != null))) {
+                    return this._customersTableAdapter.Connection;
                 }
-                if (((this._licenseTableAdapter != null) 
-                            && (this._licenseTableAdapter.Connection != null))) {
-                    return this._licenseTableAdapter.Connection;
+                if (((this._licensesTableAdapter != null) 
+                            && (this._licensesTableAdapter.Connection != null))) {
+                    return this._licensesTableAdapter.Connection;
                 }
                 return null;
             }
@@ -1871,10 +1874,10 @@ SELECT Guid, PcName, CustomerID FROM Licenses WHERE (Guid = @Guid)";
         public int TableAdapterInstanceCount {
             get {
                 int count = 0;
-                if ((this._customerTableAdapter != null)) {
+                if ((this._customersTableAdapter != null)) {
                     count = (count + 1);
                 }
-                if ((this._licenseTableAdapter != null)) {
+                if ((this._licensesTableAdapter != null)) {
                     count = (count + 1);
                 }
                 return count;
@@ -1886,23 +1889,23 @@ SELECT Guid, PcName, CustomerID FROM Licenses WHERE (Guid = @Guid)";
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private int UpdateUpdatedRows(LicenseDBDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateUpdatedRows(VisaLicensesDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
-            if ((this._customerTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.Customer.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+            if ((this._customersTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.Customers.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
-                    result = (result + this._customerTableAdapter.Update(updatedRows));
+                    result = (result + this._customersTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._licenseTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.License.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+            if ((this._licensesTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.Licenses.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
-                    result = (result + this._licenseTableAdapter.Update(updatedRows));
+                    result = (result + this._licensesTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -1914,21 +1917,21 @@ SELECT Guid, PcName, CustomerID FROM Licenses WHERE (Guid = @Guid)";
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private int UpdateInsertedRows(LicenseDBDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateInsertedRows(VisaLicensesDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
-            if ((this._customerTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.Customer.Select(null, null, global::System.Data.DataViewRowState.Added);
+            if ((this._customersTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.Customers.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
-                    result = (result + this._customerTableAdapter.Update(addedRows));
+                    result = (result + this._customersTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._licenseTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.License.Select(null, null, global::System.Data.DataViewRowState.Added);
+            if ((this._licensesTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.Licenses.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
-                    result = (result + this._licenseTableAdapter.Update(addedRows));
+                    result = (result + this._licensesTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -1940,21 +1943,21 @@ SELECT Guid, PcName, CustomerID FROM Licenses WHERE (Guid = @Guid)";
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private int UpdateDeletedRows(LicenseDBDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
+        private int UpdateDeletedRows(VisaLicensesDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
-            if ((this._licenseTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.License.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+            if ((this._licensesTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.Licenses.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
-                    result = (result + this._licenseTableAdapter.Update(deletedRows));
+                    result = (result + this._licensesTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
-            if ((this._customerTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.Customer.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+            if ((this._customersTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.Customers.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
-                    result = (result + this._customerTableAdapter.Update(deletedRows));
+                    result = (result + this._customersTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -1990,20 +1993,20 @@ SELECT Guid, PcName, CustomerID FROM Licenses WHERE (Guid = @Guid)";
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public virtual int UpdateAll(LicenseDBDataSet dataSet) {
+        public virtual int UpdateAll(VisaLicensesDataSet dataSet) {
             if ((dataSet == null)) {
                 throw new global::System.ArgumentNullException("dataSet");
             }
             if ((dataSet.HasChanges() == false)) {
                 return 0;
             }
-            if (((this._customerTableAdapter != null) 
-                        && (this.MatchTableAdapterConnection(this._customerTableAdapter.Connection) == false))) {
+            if (((this._customersTableAdapter != null) 
+                        && (this.MatchTableAdapterConnection(this._customersTableAdapter.Connection) == false))) {
                 throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
                         "tring.");
             }
-            if (((this._licenseTableAdapter != null) 
-                        && (this.MatchTableAdapterConnection(this._licenseTableAdapter.Connection) == false))) {
+            if (((this._licensesTableAdapter != null) 
+                        && (this.MatchTableAdapterConnection(this._licensesTableAdapter.Connection) == false))) {
                 throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
                         "tring.");
             }
@@ -2039,22 +2042,22 @@ SELECT Guid, PcName, CustomerID FROM Licenses WHERE (Guid = @Guid)";
             try {
                 // ---- Prepare for update -----------
                 //
-                if ((this._customerTableAdapter != null)) {
-                    revertConnections.Add(this._customerTableAdapter, this._customerTableAdapter.Connection);
-                    this._customerTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(workConnection));
-                    this._customerTableAdapter.Transaction = ((global::System.Data.SqlClient.SqlTransaction)(workTransaction));
-                    if (this._customerTableAdapter.Adapter.AcceptChangesDuringUpdate) {
-                        this._customerTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
-                        adaptersWithAcceptChangesDuringUpdate.Add(this._customerTableAdapter.Adapter);
+                if ((this._customersTableAdapter != null)) {
+                    revertConnections.Add(this._customersTableAdapter, this._customersTableAdapter.Connection);
+                    this._customersTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(workConnection));
+                    this._customersTableAdapter.Transaction = ((global::System.Data.SqlClient.SqlTransaction)(workTransaction));
+                    if (this._customersTableAdapter.Adapter.AcceptChangesDuringUpdate) {
+                        this._customersTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
+                        adaptersWithAcceptChangesDuringUpdate.Add(this._customersTableAdapter.Adapter);
                     }
                 }
-                if ((this._licenseTableAdapter != null)) {
-                    revertConnections.Add(this._licenseTableAdapter, this._licenseTableAdapter.Connection);
-                    this._licenseTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(workConnection));
-                    this._licenseTableAdapter.Transaction = ((global::System.Data.SqlClient.SqlTransaction)(workTransaction));
-                    if (this._licenseTableAdapter.Adapter.AcceptChangesDuringUpdate) {
-                        this._licenseTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
-                        adaptersWithAcceptChangesDuringUpdate.Add(this._licenseTableAdapter.Adapter);
+                if ((this._licensesTableAdapter != null)) {
+                    revertConnections.Add(this._licensesTableAdapter, this._licensesTableAdapter.Connection);
+                    this._licensesTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(workConnection));
+                    this._licensesTableAdapter.Transaction = ((global::System.Data.SqlClient.SqlTransaction)(workTransaction));
+                    if (this._licensesTableAdapter.Adapter.AcceptChangesDuringUpdate) {
+                        this._licensesTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
+                        adaptersWithAcceptChangesDuringUpdate.Add(this._licensesTableAdapter.Adapter);
                     }
                 }
                 // 
@@ -2115,13 +2118,13 @@ SELECT Guid, PcName, CustomerID FROM Licenses WHERE (Guid = @Guid)";
                 if (workConnOpened) {
                     workConnection.Close();
                 }
-                if ((this._customerTableAdapter != null)) {
-                    this._customerTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._customerTableAdapter]));
-                    this._customerTableAdapter.Transaction = null;
+                if ((this._customersTableAdapter != null)) {
+                    this._customersTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._customersTableAdapter]));
+                    this._customersTableAdapter.Transaction = null;
                 }
-                if ((this._licenseTableAdapter != null)) {
-                    this._licenseTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._licenseTableAdapter]));
-                    this._licenseTableAdapter.Transaction = null;
+                if ((this._licensesTableAdapter != null)) {
+                    this._licensesTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._licensesTableAdapter]));
+                    this._licensesTableAdapter.Transaction = null;
                 }
                 if ((0 < adaptersWithAcceptChangesDuringUpdate.Count)) {
                     global::System.Data.Common.DataAdapter[] adapters = new System.Data.Common.DataAdapter[adaptersWithAcceptChangesDuringUpdate.Count];

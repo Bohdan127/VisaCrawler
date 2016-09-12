@@ -2,6 +2,7 @@
 using NLog;
 using System;
 using System.Linq;
+using System.Management;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using ToolsPortable;
@@ -15,8 +16,8 @@ namespace Visa.License.Logic
         private static readonly Logger _logger =
             LogManager.GetCurrentClassLogger();
 
-        private readonly ModelLicenseDBDataContext _context =
-            new ModelLicenseDBDataContext();
+        private readonly LicenseDbClassesDataContext _context =
+            new LicenseDbClassesDataContext();
 
         public LicenseForm()
         {
@@ -56,7 +57,7 @@ namespace Visa.License.Logic
 
             if (isMatched)
             {
-                Instance inst = null;
+                DB.License inst = null;
 
                 for (var j = 0;
                     j < 3;
@@ -64,7 +65,7 @@ namespace Visa.License.Logic
                 {
                     try
                     {
-                        inst = _context.Instances
+                        inst = _context.Licenses
                             .FirstOrDefault(
                                 i => i.Guid == textEdit1.EditValue.ToString());
                         break;
@@ -80,10 +81,10 @@ namespace Visa.License.Logic
                 {
                     if (string.IsNullOrWhiteSpace(inst.PcName))
                     {
-                        inst.PcName = Environment.MachineName;
+                        inst.PcName = GetMotherBoardId();
                         _context.SubmitChanges();
                     }
-                    else if (inst.PcName != Environment.MachineName)
+                    else if (inst.PcName != GetMotherBoardId())
                     {
                         bRes = false;
                         XtraMessageBox.Show(
@@ -105,6 +106,17 @@ namespace Visa.License.Logic
             }
             IsRegistered = bRes;
             return bRes;
+        }
+
+        public static string GetMotherBoardId()
+        {
+            var scope = new ManagementScope("\\\\" + Environment.MachineName + "\\root\\cimv2");
+            scope.Connect();
+            var wmiClass = new ManagementObject(scope, new ManagementPath("Win32_BaseBoard.Tag=\"Base Board\""), new ObjectGetOptions());
+
+            var property = wmiClass.Properties.Cast<PropertyData>()
+                .FirstOrDefault(propData => propData.Name == "SerialNumber");
+            return $"{property?.Name,-25}{Convert.ToString(property?.Value)}";
         }
 
         private void applyButton_Click(object sender,
