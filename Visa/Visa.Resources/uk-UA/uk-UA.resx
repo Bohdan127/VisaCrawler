@@ -121,10 +121,10 @@
     <value>Дата народження</value>
   </data>
   <data name="colChildsCount" xml:space="preserve">
-    <value>К-ть дітей вписаний у паспорт батьків</value>
+    <value>К-ть дітей у паспорті батьків</value>
   </data>
   <data name="colEndPassportDate" xml:space="preserve">
-    <value>Дата закінчення терміну дії паспорту</value>
+    <value>Дата закінчення дії паспорту</value>
   </data>
   <data name="colLastName" xml:space="preserve">
     <value>Прізвище</value>
@@ -336,7 +336,13 @@
     <value>Вибрано {0}
 як дату рестрації</value>
   </data>
-  <data name="AddNewBarButton_Caption" xml:space="preserve">
+  <data name="ButtonLoadProxies_Text" xml:space="preserve">
+    <value>Завантажити проксі</value>
+  </data>
+  <data name="lblChooseProxies" xml:space="preserve">
+    <value>Виберіть проксі (Click)</value>
+  </data>
+ <data name="AddNewBarButton_Caption" xml:space="preserve">
     <value>Додати рядок</value>
   </data>
   <data name="CancelBarButton_Caption" xml:space="preserve">

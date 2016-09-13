@@ -44,6 +44,7 @@
         public const string lblCloseBrowser = "lblCloseBrowser";
         public const string lblAvailabilityUrl = "lblAvailabilityUrl";
         public const string lblEmail = "lblEmail";
+        public const string lblChooseProxies = "lblChooseProxies";
         public const string ButtonCancelAction_Text = "ButtonCancelAction_Text";
         public const string ToggleSwitch_OnText = "ToggleSwitch_OnText";
         public const string ToggleSwitch_OffText = "ToggleSwitch_OffText";
@@ -58,6 +59,7 @@
         public const string ApplicationMenu_Caption = "ApplicationMenu_Caption";
         public const string RepeatIfCrash_Text = "RepeatIfCrash_Text";
         public const string Password_Text = "Password_Text";
+        public const string ButtonLoadProxies_Text = "ButtonLoadProxies_Text";
         public const string ButtonOk_Text = "ButtonOk_Text";
         public const string ButtonCancel_Text = "ButtonCancel_Text";
         public const string OpenFileDialog_Title = "OpenFileDialog_Title";
