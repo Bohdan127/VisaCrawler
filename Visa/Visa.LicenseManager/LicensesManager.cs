@@ -27,6 +27,8 @@ namespace Visa.LicenseManager
             Closing += LicenseManager_FormClosing;
             IsMdiContainer = true;
             ribbonPageEdit.Visible = false;
+            Icon = Properties.Resources
+                .key_icon;
         }
 
         private void SetLabels()
@@ -35,21 +37,36 @@ namespace Visa.LicenseManager
                 uk_UA.ResourceManager);
             ribbonPageMain.Text = ResManager.GetString(ResKeys.MainPage_Title);
             ribbonPageEdit.Text = ResManager.GetString(ResKeys.EditPage_Title);
-            ribbonPageSkinGallery.Text = ResManager.GetString(ResKeys.SkinPage_Title);
-            ribbonPageGroupSkins.Text = ResManager.GetString(ResKeys.SkinGroup_Title);
-            ribbonPageGroupMain.Text = ResManager.GetString(ResKeys.MainGroup_Title);
-            barButtonLicense.Caption = ResManager.GetString(ResKeys.LicensesBarButton_Caption);
-            barButtonCustomer.Caption = ResManager.GetString(ResKeys.CustomersBarButton_Caption);
-            ribbonPageGroupEdit.Text = ResManager.GetString(ResKeys.EditGroup_title);
-            barButtonItemSave.Caption = ResManager.GetString(ResKeys.SaveBarButton_Caption);
-            barButtonItemCancel.Caption = ResManager.GetString(ResKeys.CancelBarButton_Caption);
-            barButtonItemRefresh.Caption = ResManager.GetString(ResKeys.RefreshBarButton_Caption);
-            ribbonPageGroupOperations.Text = ResManager.GetString(ResKeys.OperationsGroup_Title);
-            barButtonAddNew.Caption = ResManager.GetString(ResKeys.AddNewBarButton_Caption);
-            barEditItemCustomer.Caption = ResManager.GetString(ResKeys.CustomerBarEdit_Caption);
-            barButtonDelete.Caption = ResManager.GetString(ResKeys.DeleteBarButton_Caption);
-            barButtonDeleteAll.Caption = ResManager.GetString(ResKeys.DeleteAllBarButton_Caption);
-            barButtonCopy.Caption = ResManager.GetString(ResKeys.CopyBarButton_Caption);
+            ribbonPageSkinGallery.Text =
+                ResManager.GetString(ResKeys.SkinPage_Title);
+            ribbonPageGroupSkins.Text =
+                ResManager.GetString(ResKeys.SkinGroup_Title);
+            ribbonPageGroupMain.Text =
+                ResManager.GetString(ResKeys.MainGroup_Title);
+            barButtonLicense.Caption =
+                ResManager.GetString(ResKeys.LicensesBarButton_Caption);
+            barButtonCustomer.Caption =
+                ResManager.GetString(ResKeys.CustomersBarButton_Caption);
+            ribbonPageGroupEdit.Text =
+                ResManager.GetString(ResKeys.EditGroup_title);
+            barButtonItemSave.Caption =
+                ResManager.GetString(ResKeys.SaveBarButton_Caption);
+            barButtonItemCancel.Caption =
+                ResManager.GetString(ResKeys.CancelBarButton_Caption);
+            barButtonItemRefresh.Caption =
+                ResManager.GetString(ResKeys.RefreshBarButton_Caption);
+            ribbonPageGroupOperations.Text =
+                ResManager.GetString(ResKeys.OperationsGroup_Title);
+            barButtonAddNew.Caption =
+                ResManager.GetString(ResKeys.AddNewBarButton_Caption);
+            barEditItemCustomer.Caption =
+                ResManager.GetString(ResKeys.CustomerBarEdit_Caption);
+            barButtonDelete.Caption =
+                ResManager.GetString(ResKeys.DeleteBarButton_Caption);
+            barButtonDeleteAll.Caption =
+                ResManager.GetString(ResKeys.DeleteAllBarButton_Caption);
+            barButtonCopy.Caption =
+                ResManager.GetString(ResKeys.CopyBarButton_Caption);
         }
 
         private void LicenseManager_FormClosing(object sender,
