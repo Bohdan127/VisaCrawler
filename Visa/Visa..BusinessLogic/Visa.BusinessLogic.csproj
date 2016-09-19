@@ -72,11 +72,7 @@
     <Compile Include="Managers\SetupManager.cs" />
     <Compile Include="Managers\StateManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegistrationModule\Helpers\ClientEventArgs.cs" />
-    <Compile Include="RegistrationModule\Helpers\ServerAvailabilityEventArgs.cs" />
-    <Compile Include="RegistrationModule\Helpers\StateEventArgs.cs" />
-    <Compile Include="RegistrationModule\Interface\IRegistration.cs" />
-    <Compile Include="RegistrationModule\VisaRegistration.cs" />
+    <Compile Include="RegistrationModule\Helpers\ShowAlertMessageEventArgs.cs" />
     <Compile Include="SVN_Model\MonthChange.cs" />
     <Compile Include="SVN_Model\VisaPage.cs" />
     <Compile Include="SVN_Model\ProgressState.cs" />
