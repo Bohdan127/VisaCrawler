@@ -1,5 +1,8 @@
-﻿using NLog;
+﻿using DevExpress.XtraEditors;
+using DevExpress.XtraEditors.Controls;
+using NLog;
 using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using ToolsPortable;
@@ -13,6 +16,7 @@ namespace Visa.WinForms.Views
 {
     public partial class SetupForm : Form
     {
+        private static OpenFileDialog openFileDialog;
         private static readonly Logger _logger =
             LogManager.GetCurrentClassLogger();
 
@@ -46,6 +50,9 @@ namespace Visa.WinForms.Views
             spinEditChildCount.EditValue = options.ChildCount;
             textEditUrl.EditValue = options.AvailabilityUrl;
             textEditEmail.EditValue = options.Email;
+            listBoxControlProxies.Items.Clear();
+            listBoxControlProxies.Items.AddRange(options.Proxies);
+            listBoxControlProxies.SelectAll();
             _logger.Trace("End MapData");
         }
 
@@ -70,6 +77,8 @@ namespace Visa.WinForms.Views
                 ResManager.GetString(ResKeys.lblAvailabilityUrl);
             layoutControlItemEmail.Text =
                 ResManager.GetString(ResKeys.lblEmail);
+            layoutControlItemProxies.Text =
+                ResManager.GetString(ResKeys.lblChooseProxies); ;
 
             lookUpEditNationality.Properties.NullText =
                 ResManager.GetString(ResKeys.Nationality_NullText);
@@ -83,6 +92,8 @@ namespace Visa.WinForms.Views
             toggleSwitchRepeatIfCrash.Properties.OffText =
                 ResManager.GetString(ResKeys.ToggleSwitch_OffText);
 
+            simpleButtonLoadProxies.Text =
+                ResManager.GetString(ResKeys.ButtonLoadProxies_Text);
             simpleButtonOk.Text = ResManager.GetString(ResKeys.ButtonOk_Text);
             simpleButtonCancel.Text =
                 ResManager.GetString(ResKeys.ButtonCancel_Text);
@@ -117,11 +128,20 @@ namespace Visa.WinForms.Views
                 ChildCount =
                     spinEditChildCount.EditValue.ConvertToStringOrNull(),
                 AvailabilityUrl = textEditUrl.EditValue.ConvertToStringOrNull(),
-                Email = textEditEmail.EditValue.ConvertToStringOrNull()
+                Email = textEditEmail.EditValue.ConvertToStringOrNull(),
+                Proxies = ToStringList(listBoxControlProxies.SelectedItems)
             };
             SetupManager.SaveOptions(options);
             Close();
             _logger.Trace("End simpleButton1_Click");
+        }
+
+        private string[] ToStringList(BaseListBoxControl.SelectedItemCollection items)
+        {
+            string[] _out = new string[items.Count];
+            for (int i = 0; i < items.Count; i++)
+                    _out[i] = items[i].ConvertToStringOrNull();
+            return _out;
         }
 
         private void simpleButton2_Click(object sender,
@@ -130,6 +150,33 @@ namespace Visa.WinForms.Views
             _logger.Trace("Start simpleButton2_Click");
             Close();
             _logger.Trace("End simpleButton2_Click");
+        }
+
+        private void LoadProxies_Click(object sender, EventArgs e)
+        {
+            _logger.Trace("Start LoadProxies_Click");
+            openFileDialog = new OpenFileDialog
+            {
+                Title = ResManager.GetString(ResKeys.OpenFileDialog_Title),
+                Filter = "Text document|*.txt|All files|*.*",
+                CheckFileExists = true,
+                CheckPathExists = true
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    _logger.Info($"ImportProxies _openFileDialog.ShowDialog() == DialogResult.OK  _openFileDialog.FileName = {openFileDialog.FileName}");
+                    string[] filelines = File.ReadAllLines(openFileDialog.FileName);
+                    foreach(string s in filelines)
+                        listBoxControlProxies.Items.Add(s);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Can't read the file");
+                }
+            }
+            _logger.Trace("End LoadProxies_Click");
         }
     }
 }
