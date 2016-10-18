@@ -13,13 +13,14 @@ using System;
 using System.Collections.ObjectModel;
 using System.Drawing.Imaging;
 using System.Globalization;
+using System.Net;
 using System.Threading;
 using System.Windows.Forms;
+using GlobalResources;
 using ToolsPortable;
 using Visa.BusinessLogic.Managers;
 using Visa.BusinessLogic.SVN_Model;
 using Visa.Database;
-using Visa.Resources;
 using Visa.WebCrawler.Interfaces;
 
 #if UsePhantomJSDriver
@@ -991,6 +992,103 @@ namespace Visa.WebCrawler.SeleniumCrawler
             scr.SaveAsFile(fileName, ImageFormat.Jpeg);
             EmailManager.SendEmailWithPhoto(fileName);
             _logger.Trace($"End SelectRegistrationTime. Error = {Error}");
+        }
+
+        public string SendRecaptchav2Request(string goggleKey)
+        {
+            _logger.Trace($"Start SelectRegistrationTime");
+            //POST
+            try
+            {
+                System.Net.ServicePointManager.Expect100Continue = false;
+                var request = (HttpWebRequest)WebRequest.Create("http://rucaptcha.com/in.php"); // "http://2captcha.com/in.php");
+                var ruCaptchaID = SetupManager.GetOptions().RuCaptchaID;
+                var postData = "key=" + ruCaptchaID + "&method=userrecaptcha&googlekey=" + goggleKey;//&pageurl=yourpageurl";
+                var data = System.Text.Encoding.ASCII.GetBytes(postData);
+
+                request.Method = "POST";
+
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.ContentLength = data.Length;
+
+                using (var stream = request.GetRequestStream())
+                {
+                    stream.Write(data, 0, data.Length);
+                }
+
+                var response = (HttpWebResponse)request.GetResponse();
+
+                var readStream = new System.IO.StreamReader(response.GetResponseStream());
+                var responseString = readStream.ReadToEnd();
+                response.Close();
+                readStream.Close();
+                //  GET
+                if (responseString.Contains("OK|"))
+                {
+                    _logger.Trace($"responseString: {responseString}");
+                    var param = "?key=" + ruCaptchaID + "&action=get&id=" + responseString.Substring(3);
+                    string captchaResponse;
+                    int count = 0;
+                    (_driver as IJavaScriptExecutor).ExecuteScript(
+                        "document.getElementById('g-recaptcha-response').setAttribute('style', " +
+                        "document.getElementById('g-recaptcha-response').getAttribute('style').replace('display: none;',''))");
+                    var gRecaptchaResponse = FindElementWithChecking(By.Id("g-recaptcha-response"));
+                    do
+                    {
+                        Thread.Sleep(5000);
+                        var request2 = (HttpWebRequest)WebRequest.Create("http://rucaptcha.com/res.php" + param);
+                        {
+                            using (var response2 = (HttpWebResponse)request2.GetResponse())
+                            {
+                                System.IO.Stream receiveStream = response2.GetResponseStream();
+
+                                // Pipes the stream to a higher level stream reader with the required encoding format. 
+                                using (var readStream2 = new System.IO.StreamReader(receiveStream, System.Text.Encoding.UTF8))
+                                {
+                                    captchaResponse = readStream2.ReadToEnd();
+                                }
+                            }
+                        }
+                        if (captchaResponse.IsNotBlank()) _logger.Trace($"SelectRegistrationTime count == {count}, captchaResponse: {captchaResponse}");
+                        if (count > 30)
+                        {
+                            //response2.Close();
+                            _logger.Trace($"End SelectRegistrationTime with Error: count == {count} of try get response: {captchaResponse}");
+                            return "Error: Try count==" + count;
+                        }
+                        count++;
+                    } while (!captchaResponse.Contains("OK"));
+                    gRecaptchaResponse.SendKeys(captchaResponse.Substring(3));
+                    _logger.Trace($"End SelectRegistrationTime");
+                    return captchaResponse;
+                }
+                else
+                {
+                    _logger.Trace($"End SelectRegistrationTime with Error: {responseString}");
+                    return "Error: " + responseString;
+                }
+            }
+            catch (Exception ex)
+            {
+                string tt = ex.Message;
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
+                _logger.Trace($"End SelectRegistrationTime with Exception");
+                return tt;
+            }
+        }
+
+        public string GetRecaptchaResult(string captchaId)
+        {
+            string documentText = "";
+            do
+            {
+                Thread.Sleep(5000);
+                //HtmlDocument document = Jsoup.connect("http://rucaptcha.com/res.php?key=КЛЮЧ СЕРВИСА РУКАПЧИ&action=get&id=" + captchaId).get();
+                //documentText = document.text();
+            } while (!documentText.Contains("OK"));
+            string captchaResponse = documentText.Substring(3);
+            return captchaResponse;
         }
 
         public bool SpecialTmpCheckForCapchaError()

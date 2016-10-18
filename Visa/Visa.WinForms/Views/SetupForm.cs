@@ -5,12 +5,12 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using GlobalResources;
 using ToolsPortable;
 using Visa.BusinessLogic.Managers;
 using Visa.BusinessLogic.SVN_Model;
 using Visa.Database;
 using Visa.Database.Enums;
-using Visa.Resources;
 
 namespace Visa.WinForms.Views
 {
@@ -53,6 +53,7 @@ namespace Visa.WinForms.Views
             listBoxControlProxies.Items.Clear();
             listBoxControlProxies.Items.AddRange(options.Proxies);
             listBoxControlProxies.SelectAll();
+            textEditRuCaptchaID.Text = options.RuCaptchaID;
             _logger.Trace("End MapData");
         }
 
@@ -129,7 +130,8 @@ namespace Visa.WinForms.Views
                     spinEditChildCount.EditValue.ConvertToStringOrNull(),
                 AvailabilityUrl = textEditUrl.EditValue.ConvertToStringOrNull(),
                 Email = textEditEmail.EditValue.ConvertToStringOrNull(),
-                Proxies = ToStringList(listBoxControlProxies.SelectedItems)
+                Proxies = ToStringList(listBoxControlProxies.SelectedItems),
+                RuCaptchaID = textEditRuCaptchaID.EditValue.ConvertToStringOrNull()
             };
             SetupManager.SaveOptions(options);
             Close();

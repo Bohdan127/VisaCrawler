@@ -4,6 +4,9 @@ using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
+using GlobalResources;
+using GlobalResources.uk_UA;
+using License.Logic;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -21,9 +24,6 @@ using Visa.BusinessLogic.RegistrationModule.Helpers;
 using Visa.BusinessLogic.SVN_Model;
 using Visa.Database;
 using Visa.Database.Enums;
-using Visa.License.Logic;
-using Visa.Resources;
-using Visa.Resources.uk_UA;
 using Visa.WebCrawler.RegistrationModule;
 using Visa.WinForms.Views;
 
@@ -274,20 +274,17 @@ namespace Visa.WinForms
 
             if (gridView1.OptionsView.NewItemRowPosition
                 != NewItemRowPosition.Bottom)
-                return;//todo Bohdan127 07.09.2016 no free time, we should write logs for all my changes in 07.09.2016
+                return;//todo bbenetskyy 07.09.2016 no free time, we should write logs for all my changes in 07.09.2016
 
-            var dataRow =
-                (VisaDataSet.ClientDataRow)gridView1.GetFocusedDataRow();
-            if (dataRow == null)
-            {
-                gridView1.AddNewRow();
-                dataRow =
-                    (VisaDataSet.ClientDataRow)gridView1.GetFocusedDataRow();
-            }
+            gridView1.AddNewRow();
+            gridView1.FocusedRowHandle = gridView1.RowCount;
+            gridView1.Focus();
+            var dataRow = (VisaDataSet.ClientDataRow) gridView1.GetFocusedDataRow();
             var importedRow = ImportManager.ImportRowsFromExcel();
             if (importedRow == null)
             {
                 _logger.Warn("barButtonItem2_ItemClick importedRow == null");
+                dataRow.Delete();
                 return;
             }
             dataRow.Nationality =
@@ -384,7 +381,7 @@ namespace Visa.WinForms
                 rowId++)
             {
                 /*
-                 * Bohdan127 07.09.2016
+                 * bbenetskyy 07.09.2016
                  * we need to create new value instead of using global rowId,
                  * because it value will be calculate during execution 
                  */
@@ -713,7 +710,12 @@ namespace Visa.WinForms
             }
             else
             {
+                XtraMessageBox.Show(ResManager.GetString(ResKeys.Worker_IsBusy),
+                    ResManager.GetString(ResKeys.lblCancelGroup),
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
                 _logger.Warn("_crawlerWorker.IsBusy = true");
+                SetReadOnly(false);
             }
             _logger.Trace("End StartNewWorkRoundBase");
         }
@@ -723,7 +725,7 @@ namespace Visa.WinForms
 }
 
 /*
- * todo Bohdan127 07.09.2016
+ * todo bbenetskyy 07.09.2016
  * We need to add receipt validation
  * in multi thread program using
  * for be sure that same receipts 

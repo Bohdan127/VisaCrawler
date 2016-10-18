@@ -1,11 +1,11 @@
 ﻿using Excel;
+using GlobalResources;
 using NLog;
 using System;
 using System.IO;
 using System.Windows.Forms;
 using ToolsPortable;
 using Visa.Database;
-using Visa.Resources;
 
 namespace Visa.BusinessLogic.Managers
 {
@@ -21,8 +21,7 @@ namespace Visa.BusinessLogic.Managers
 
         static ImportManager()
         {
-            _logger.Trace("Start CTOR ImportManager");
-            OpenFileDialog = new OpenFileDialog
+            _logger.Trace("Start CTOR ImportManager");OpenFileDialog = new OpenFileDialog
             {
                 Title = ResManager.GetString(ResKeys.OpenFileDialog_Title),
                 Filter = _filter,

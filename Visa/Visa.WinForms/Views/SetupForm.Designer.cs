@@ -55,6 +55,8 @@
             this.layoutControlItemUrl = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItemProxies = new DevExpress.XtraLayout.LayoutControlItem();
+            this.textEditRuCaptchaID = new DevExpress.XtraEditors.TextEdit();
+            this.layoutControlItemRuCaptchaID = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listBoxControlProxies)).BeginInit();
@@ -79,10 +81,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemUrl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemProxies)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEditRuCaptchaID.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemRuCaptchaID)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
             // 
+            this.layoutControl1.Controls.Add(this.textEditRuCaptchaID);
             this.layoutControl1.Controls.Add(this.listBoxControlProxies);
             this.layoutControl1.Controls.Add(this.simpleButtonLoadProxies);
             this.layoutControl1.Controls.Add(this.textEditEmail);
@@ -99,7 +104,7 @@
             this.layoutControl1.Location = new System.Drawing.Point(0, 0);
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.Root = this.layoutControlGroup1;
-            this.layoutControl1.Size = new System.Drawing.Size(396, 361);
+            this.layoutControl1.Size = new System.Drawing.Size(396, 406);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
@@ -110,14 +115,14 @@
             this.listBoxControlProxies.Location = new System.Drawing.Point(173, 212);
             this.listBoxControlProxies.Name = "listBoxControlProxies";
             this.listBoxControlProxies.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.listBoxControlProxies.Size = new System.Drawing.Size(211, 95);
+            this.listBoxControlProxies.Size = new System.Drawing.Size(211, 116);
             this.listBoxControlProxies.StyleController = this.layoutControl1;
             this.listBoxControlProxies.TabIndex = 15;
             // 
             // simpleButtonLoadProxies
             // 
             this.simpleButtonLoadProxies.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonLoadProxies.Image")));
-            this.simpleButtonLoadProxies.Location = new System.Drawing.Point(12, 311);
+            this.simpleButtonLoadProxies.Location = new System.Drawing.Point(12, 356);
             this.simpleButtonLoadProxies.Name = "simpleButtonLoadProxies";
             this.simpleButtonLoadProxies.Size = new System.Drawing.Size(136, 38);
             this.simpleButtonLoadProxies.StyleController = this.layoutControl1;
@@ -142,7 +147,7 @@
             // 
             this.simpleButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.simpleButtonCancel.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonCancel.Image")));
-            this.simpleButtonCancel.Location = new System.Drawing.Point(262, 311);
+            this.simpleButtonCancel.Location = new System.Drawing.Point(262, 356);
             this.simpleButtonCancel.Name = "simpleButtonCancel";
             this.simpleButtonCancel.Size = new System.Drawing.Size(122, 38);
             this.simpleButtonCancel.StyleController = this.layoutControl1;
@@ -153,7 +158,7 @@
             // simpleButtonOk
             // 
             this.simpleButtonOk.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonOk.Image")));
-            this.simpleButtonOk.Location = new System.Drawing.Point(152, 311);
+            this.simpleButtonOk.Location = new System.Drawing.Point(152, 356);
             this.simpleButtonOk.Name = "simpleButtonOk";
             this.simpleButtonOk.Size = new System.Drawing.Size(106, 38);
             this.simpleButtonOk.StyleController = this.layoutControl1;
@@ -265,10 +270,11 @@
             this.layoutControlItemPassword,
             this.layoutControlItemUrl,
             this.layoutControlItem3,
-            this.layoutControlItemProxies});
+            this.layoutControlItemProxies,
+            this.layoutControlItemRuCaptchaID});
             this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlGroup1.Name = "Root";
-            this.layoutControlGroup1.Size = new System.Drawing.Size(396, 361);
+            this.layoutControlGroup1.Size = new System.Drawing.Size(396, 406);
             this.layoutControlGroup1.TextVisible = false;
             // 
             // layoutControlItemNationality
@@ -299,7 +305,7 @@
             // layoutControlItem1
             // 
             this.layoutControlItem1.Control = this.simpleButtonOk;
-            this.layoutControlItem1.Location = new System.Drawing.Point(140, 299);
+            this.layoutControlItem1.Location = new System.Drawing.Point(140, 344);
             this.layoutControlItem1.Name = "layoutControlItem1";
             this.layoutControlItem1.Size = new System.Drawing.Size(110, 42);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
@@ -308,7 +314,7 @@
             // layoutControlItem2
             // 
             this.layoutControlItem2.Control = this.simpleButtonCancel;
-            this.layoutControlItem2.Location = new System.Drawing.Point(250, 299);
+            this.layoutControlItem2.Location = new System.Drawing.Point(250, 344);
             this.layoutControlItem2.Name = "layoutControlItem2";
             this.layoutControlItem2.Size = new System.Drawing.Size(126, 42);
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
@@ -358,7 +364,7 @@
             // layoutControlItem3
             // 
             this.layoutControlItem3.Control = this.simpleButtonLoadProxies;
-            this.layoutControlItem3.Location = new System.Drawing.Point(0, 299);
+            this.layoutControlItem3.Location = new System.Drawing.Point(0, 344);
             this.layoutControlItem3.Name = "layoutControlItem3";
             this.layoutControlItem3.Size = new System.Drawing.Size(140, 42);
             this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
@@ -369,8 +375,24 @@
             this.layoutControlItemProxies.Control = this.listBoxControlProxies;
             this.layoutControlItemProxies.Location = new System.Drawing.Point(0, 200);
             this.layoutControlItemProxies.Name = "layoutControlItemProxies";
-            this.layoutControlItemProxies.Size = new System.Drawing.Size(376, 99);
+            this.layoutControlItemProxies.Size = new System.Drawing.Size(376, 120);
             this.layoutControlItemProxies.TextSize = new System.Drawing.Size(158, 13);
+            // 
+            // textEditRuCaptchaID
+            // 
+            this.textEditRuCaptchaID.Location = new System.Drawing.Point(173, 332);
+            this.textEditRuCaptchaID.Name = "textEditRuCaptchaID";
+            this.textEditRuCaptchaID.Size = new System.Drawing.Size(211, 20);
+            this.textEditRuCaptchaID.StyleController = this.layoutControl1;
+            this.textEditRuCaptchaID.TabIndex = 16;
+            // 
+            // layoutControlItemRuCaptchaID
+            // 
+            this.layoutControlItemRuCaptchaID.Control = this.textEditRuCaptchaID;
+            this.layoutControlItemRuCaptchaID.Location = new System.Drawing.Point(0, 320);
+            this.layoutControlItemRuCaptchaID.Name = "layoutControlItemRuCaptchaID";
+            this.layoutControlItemRuCaptchaID.Size = new System.Drawing.Size(376, 24);
+            this.layoutControlItemRuCaptchaID.TextSize = new System.Drawing.Size(158, 13);
             // 
             // SetupForm
             // 
@@ -378,7 +400,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.simpleButtonCancel;
-            this.ClientSize = new System.Drawing.Size(396, 361);
+            this.ClientSize = new System.Drawing.Size(396, 406);
             this.Controls.Add(this.layoutControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SetupForm";
@@ -408,6 +430,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemUrl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemProxies)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEditRuCaptchaID.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemRuCaptchaID)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -440,5 +464,7 @@
         private DevExpress.XtraEditors.SimpleButton simpleButtonLoadProxies;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItemProxies;
+        private DevExpress.XtraEditors.TextEdit textEditRuCaptchaID;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItemRuCaptchaID;
     }
 }

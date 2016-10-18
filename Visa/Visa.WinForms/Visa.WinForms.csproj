@@ -78,6 +78,22 @@
     <Reference Include="DevExpress.XtraGrid.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraLayout.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraPrinting.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GlobalResources, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GlobalResources.1.0.0.3\lib\net46\GlobalResources.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="License, Version=2.0.1.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\License.2.0.1.6\lib\net46\License.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.3.6\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
@@ -108,8 +124,8 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="ToolsPortable, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ToolsPortable.1.0.0.6\lib\portable45-net45+win8+wp8+wpa81\ToolsPortable.dll</HintPath>
+    <Reference Include="ToolsPortable, Version=1.0.0.10, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ToolsPortable.1.0.0.10\lib\portable45-net45+win8+wp8+wpa81\ToolsPortable.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="UIAutomationClient" />
@@ -187,14 +203,6 @@
     <ProjectReference Include="..\Visa.Database\Visa.Database.csproj">
       <Project>{4fac9364-ba83-43f8-aa95-57bbc8835f2c}</Project>
       <Name>Visa.Database</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Visa.License\Visa.License.csproj">
-      <Project>{f2608d24-a0e2-4bf8-8e58-c3b931df08a6}</Project>
-      <Name>Visa.License</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Visa.Resources\Visa.Resources.csproj">
-      <Project>{c29283c8-3fa1-4b26-90bc-09b392e6678c}</Project>
-      <Name>Visa.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\Visa.WebCrawler\Visa.WebCrawler.csproj">
       <Project>{CB18A2ED-776C-4271-A712-A5374B81213B}</Project>

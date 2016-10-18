@@ -1,8 +1,8 @@
 ﻿using DevExpress.XtraEditors;
 using System;
 using System.Windows.Forms;
+using GlobalResources;
 using Visa.BusinessLogic.Managers;
-using Visa.Resources;
 
 namespace Visa.WinForms.ErrorProvider
 {
