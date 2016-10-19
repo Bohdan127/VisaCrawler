@@ -991,6 +991,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             var fileName = $"{dataRow.Name}_{dataRow.LastName}.jpg";
             scr.SaveAsFile(fileName, ImageFormat.Jpeg);
             EmailManager.SendEmailWithPhoto(fileName);
+            EmailManager.SendEmailWithMoneyRequest();
             _logger.Trace($"End SelectRegistrationTime. Error = {Error}");
         }
 

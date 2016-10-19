@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 
@@ -61,6 +63,28 @@ namespace Visa.BusinessLogic.Managers
                 }
             }
             return sendErrorMailResult;
+        }
+
+        public static string SendEmailWithMoneyRequest()
+        {
+            const string filePath = @".\Visa.key";
+            var key = string.Empty;
+            try
+            {
+                key = "New client was registered by: ";
+                key += File.ReadAllLines(filePath).FirstOrDefault() ?? string.Empty;
+            }
+            catch (Exception ex)
+            {
+                key = "Exception during opening license key";
+                key += ex.Message;
+            }
+            var message = new MailMessage(Email, Email, Subject, "")
+            {
+                Priority = MailPriority.High,
+                Body = key
+            };
+            return SendEmailWithMessage(message);
         }
     }
 }

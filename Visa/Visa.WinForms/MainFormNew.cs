@@ -279,7 +279,7 @@ namespace Visa.WinForms
             gridView1.AddNewRow();
             gridView1.FocusedRowHandle = gridView1.RowCount;
             gridView1.Focus();
-            var dataRow = (VisaDataSet.ClientDataRow) gridView1.GetFocusedDataRow();
+            var dataRow = (VisaDataSet.ClientDataRow)gridView1.GetFocusedDataRow();
             var importedRow = ImportManager.ImportRowsFromExcel();
             if (importedRow == null)
             {
@@ -352,7 +352,7 @@ namespace Visa.WinForms
                 uk_UA.ResourceManager);
             _logger.Info("InitOtherComponentDetails. ResManager = uk_UA");
             //we can off checking just for off line testing:
-            //CheckLicense();
+            CheckLicense();
             InitOtherComponentDetails();
             SetDataSourceForLookUps();
             _logger.Trace("End MainForm_Load");
