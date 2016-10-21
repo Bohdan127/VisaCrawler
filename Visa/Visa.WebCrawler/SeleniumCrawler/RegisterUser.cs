@@ -1,7 +1,7 @@
 ﻿//#define GoWithoutDates
 //#define UseDefaultSelenium
 //#define UseSeleniumWithGeckodriver
-//#define UsePhantomJSDriver
+#define UsePhantomJSDriver
 //#define ClientPerformanceRequest
 
 #if UseDefaultSelenium
