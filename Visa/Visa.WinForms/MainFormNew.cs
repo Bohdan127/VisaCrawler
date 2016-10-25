@@ -362,10 +362,11 @@ namespace Visa.WinForms
             EventArgs e)
         {
             _logger.Info($"MainForm_Closed. State = {_progressState}.");
-            foreach (var vr in _visaRegistrations.Values)
-            {
-                vr.CancelRegistration();
-            }
+            if(_visaRegistrations != null)
+                foreach (var vr in _visaRegistrations.Values)
+                {
+                    vr.CancelRegistration();
+                }
         }
 
         private void _crawlerWorker_DoWork(object sender,
