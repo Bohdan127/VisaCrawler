@@ -1,7 +1,7 @@
 ﻿//#define GoWithoutDates
 //#define UseDefaultSelenium
 //#define UseSeleniumWithGeckodriver
-#define UsePhantomJSDriver
+//#define UsePhantomJSDriver
 //#define ClientPerformanceRequest
 
 #if UseDefaultSelenium
@@ -614,6 +614,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         /// </summary>
         public string GetCurrentPage()
         {
+            _logger.Trace($"Start GetCurrentPage. Error = {Error}");
             string vp = "", pp = "";
             try
             {
@@ -625,9 +626,11 @@ namespace Visa.WebCrawler.SeleniumCrawler
             {
                 var postPage = FindElementWithChecking(By.Id(AspnetForm));
                 pp = postPage.GetAttribute("action");
-                vp += pp.Substring(0, pp.IndexOf('.'));
+                pp = pp.Substring(0, pp.LastIndexOf('.'));
+                vp += pp.Substring(pp.LastIndexOf('/'));
             }
             catch { }
+            _logger.Trace($"End GetCurrentPage. Error = {Error}");
             return vp;
         }
 
@@ -1004,7 +1007,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 System.Net.ServicePointManager.Expect100Continue = false;
                 var request = (HttpWebRequest)WebRequest.Create("http://rucaptcha.com/in.php"); // "http://2captcha.com/in.php");
                 var ruCaptchaID = SetupManager.GetOptions().RuCaptchaID;
-                var postData = "key=" + ruCaptchaID + "&method=userrecaptcha&googlekey=" + goggleKey;//&pageurl=yourpageurl";
+                var pageUrl = _driver.Url;//Uri.EscapeUriString(_driver.Url) Uri.EscapeDataString(_driver.Url)
+                var postData = $"key={ruCaptchaID}&method=userrecaptcha&googlekey={goggleKey}&pageurl={pageUrl}";
                 var data = System.Text.Encoding.ASCII.GetBytes(postData);
 
                 request.Method = "POST";
