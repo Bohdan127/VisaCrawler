@@ -1572,6 +1572,12 @@ namespace Visa.Database
             _dataSet.Choice.AddChoiceRow(servCentRow);
 
             servCentRow = _dataSet.Choice.NewChoiceRow();
+            servCentRow.Name = "Польщі Тернопіль";
+            servCentRow.Value = "8";
+            servCentRow.Type = (short)ChoicesType.ServiceCenter;
+            _dataSet.Choice.AddChoiceRow(servCentRow);
+
+            servCentRow = _dataSet.Choice.NewChoiceRow();
             servCentRow.Name = "Польщі Рівне";
             servCentRow.Value = "9";
             servCentRow.Type = (short) ChoicesType.ServiceCenter;
