@@ -121,10 +121,10 @@ namespace Visa.WebCrawler.RegistrationModule
 #endif
                         case ProgressState.SubmitDate:
                         case ProgressState.SubmitClientData:
-                            SystemSounds.Beep.Play();
                             string sss = "";
-                            sss = _crawlerRegistry.SendRecaptchav2Request(
-                                "6Lc7lBATAAAAAG-R0DVv6sR4BJPtVLMFJf7YusKQ");
+                            if (SetupManager.GetOptions().RuCaptchaID.IsNotBlank())
+                                sss = _crawlerRegistry.SendRecaptchav2Request(
+                                    "6Lc7lBATAAAAAG-R0DVv6sR4BJPtVLMFJf7YusKQ");
                             if (sss.StartsWith("OK"))
                             {
                                 ShowAlert(
@@ -133,6 +133,7 @@ namespace Visa.WebCrawler.RegistrationModule
                             }
                             else
                             {
+                                SystemSounds.Beep.Play();
                                 ShowAlert(
                                     ResManager.GetString(ResKeys.FillCaptchaAndPress),
                                     false);
