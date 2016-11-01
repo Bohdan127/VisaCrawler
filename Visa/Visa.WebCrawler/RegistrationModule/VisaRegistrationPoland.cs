@@ -16,9 +16,9 @@ using Visa.WebCrawler.SeleniumCrawler;
 
 namespace Visa.WebCrawler.RegistrationModule
 {
-    public class VisaRegistration
+    public class VisaRegistrationPoland
     {
-        public VisaRegistration()
+        public VisaRegistrationPoland()
         {
             InitOtherComponentDetails();
         }
@@ -36,7 +36,7 @@ namespace Visa.WebCrawler.RegistrationModule
             private set;
         }
 
-        private RegisterUser _crawlerRegistry;
+        private RegisterUserPoland _crawlerRegistry;
 
         private static readonly Logger _logger =
             LogManager.GetCurrentClassLogger();
@@ -166,7 +166,7 @@ namespace Visa.WebCrawler.RegistrationModule
                             break;
                     }
             } while (!bBreak);
-
+            
             _logger.Trace(
                 $"End _crawlerWorker_DoWork. State = {_progressState}."
                 + $" _crawlerRegistry.Error = {_crawlerRegistry?.Error}");
@@ -185,7 +185,7 @@ namespace Visa.WebCrawler.RegistrationModule
             switch (_progressState)
             {
                 case ProgressState.Start:
-                    _crawlerRegistry = new RegisterUser();
+                    _crawlerRegistry = new RegisterUserPoland();
                     _crawlerRegistry.Canceled = Canceled;
                     _progressState = ProgressState.GoToUrl;
                     break;

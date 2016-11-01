@@ -32,11 +32,11 @@ using OpenQA.Selenium.Firefox;
 
 namespace Visa.WebCrawler.SeleniumCrawler
 {
-    public class RegisterUser : ICrawler
+    public class RegisterUserPoland : ICrawler
     {
-        public RegisterUser()
+        public RegisterUserPoland()
         {
-            _logger.Trace("Start RegisterUser constructor");
+            _logger.Trace("Start RegisterUserPoland constructor");
 #if UsePhantomJSDriver
             _driver = new PhantomJSDriver();
 #else
@@ -58,7 +58,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             int port = 4444; //2310;
             ISelenium selenium = new DefaultSelenium("localhost", port, "*firefox C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe", mainUrl);
 #endif
-            _logger.Trace("End RegisterUser constructor");
+            _logger.Trace("End RegisterUserPoland constructor");
         }
 
         public void GoToUrl()
@@ -1000,7 +1000,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
         public string SendRecaptchav2Request(string goggleKey)
         {
-            _logger.Trace($"Start SelectRegistrationTime");
+            _logger.Trace($"Start SendRecaptchav2Request");
             //POST
             try
             {
@@ -1054,22 +1054,21 @@ namespace Visa.WebCrawler.SeleniumCrawler
                                 }
                             }
                         }
-                        if (captchaResponse.IsNotBlank()) _logger.Trace($"SelectRegistrationTime count == {count}, captchaResponse: {captchaResponse}");
-                        if (count > 30)
+                        if (captchaResponse.IsNotBlank()) _logger.Trace($"GetCaptchaResponse count == {count}, captchaResponse: {captchaResponse}");
+                        if (count > 15)
                         {
-                            //response2.Close();
-                            _logger.Trace($"End SelectRegistrationTime with Error: count == {count} of try get response: {captchaResponse}");
+                            _logger.Trace($"End SendRecaptchav2Request with Error: count == {count} of try get response: {captchaResponse}");
                             return "Error: Try count==" + count;
                         }
                         count++;
                     } while (!captchaResponse.Contains("OK"));
                     gRecaptchaResponse.SendKeys(captchaResponse.Substring(3));
-                    _logger.Trace($"End SelectRegistrationTime");
+                    _logger.Trace($"End SendRecaptchav2Request");
                     return captchaResponse;
                 }
                 else
                 {
-                    _logger.Trace($"End SelectRegistrationTime with Error: {responseString}");
+                    _logger.Trace($"End SendRecaptchav2Request with Error: {responseString}");
                     return "Error: " + responseString;
                 }
             }
@@ -1078,7 +1077,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 string tt = ex.Message;
                 _logger.Error(ex.Message);
                 _logger.Error(ex.StackTrace);
-                _logger.Trace($"End SelectRegistrationTime with Exception");
+                _logger.Trace($"End SendRecaptchav2Request with Exception {tt}");
                 return tt;
             }
         }
