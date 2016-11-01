@@ -41,7 +41,7 @@ namespace Visa.WinForms
 
             Closed += MainForm_Closed;
             Load += MainForm_Load;
-            VisaRegistration.Canceled = false;
+            VisaRegistrationPoland.Canceled = false;
 
             _logger.Trace("End MainForm CTOR");
         }
@@ -55,7 +55,7 @@ namespace Visa.WinForms
         /// </summary>
         private BackgroundWorker _crawlerWorker;
 
-        private Dictionary<AlertControl, VisaRegistration> _visaRegistrations;
+        private Dictionary<AlertControl, VisaRegistrationPoland> _visaRegistrations;
 
         private static readonly Logger _logger =
             LogManager.GetCurrentClassLogger();
@@ -99,7 +99,7 @@ namespace Visa.WinForms
         /// </summary>
         /// <param name="sender"></param>
         /// <returns></returns>
-        private VisaRegistration GetVisaRegistration(object sender)
+        private VisaRegistrationPoland GetVisaRegistration(object sender)
         {
             var alertControl = _visaRegistrations.Keys.FirstOrDefault(
                alert => alert == sender as AlertControl);
@@ -331,7 +331,7 @@ namespace Visa.WinForms
         {
             _logger.Trace("Start simpleButtonCancelAction_Click");
 
-            VisaRegistration.Canceled = true;
+            VisaRegistrationPoland.Canceled = true;
             foreach (var vr in _visaRegistrations)
             {
                 vr.Value.CancelRegistration();
@@ -374,7 +374,7 @@ namespace Visa.WinForms
         {
             _logger.Trace("Start _crawlerWorker_DoWork.");
 
-            VisaRegistration.Canceled = false;
+            VisaRegistrationPoland.Canceled = false;
             _visaRegistrations.Clear();
             var taskList = new List<Task>();
             for (var rowId = 0;
@@ -387,7 +387,7 @@ namespace Visa.WinForms
                  * because it value will be calculate during execution 
                  */
                 var id = rowId;
-                var visaReg = new VisaRegistration();
+                var visaReg = new VisaRegistrationPoland();
                 visaReg.ShowAlertMessagEventHandler += ShowAlert;
                 taskList.Add(new Task(() => visaReg.StartWork(gridView1.GetDataRow(id) as VisaDataSet.ClientDataRow)));
 
@@ -579,7 +579,7 @@ namespace Visa.WinForms
             _crawlerWorker.DoWork += _crawlerWorker_DoWork;
 
             _visaRegistrations =
-                new Dictionary<AlertControl, VisaRegistration>();
+                new Dictionary<AlertControl, VisaRegistrationPoland>();
 
             clientDataRowBindingSource.DataSource =
                 InstanceProvider.DataSet.ClientData;
