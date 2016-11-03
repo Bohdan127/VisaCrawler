@@ -34,12 +34,12 @@ namespace Visa.WinForms
             CultureInfo.DefaultThreadCurrentCulture = culture;
             CultureInfo.DefaultThreadCurrentUICulture = culture;
 
-            //Application.ThreadException += Application_ThreadException;
+            Application.ThreadException += Application_ThreadException;
 
             // Set the unhandled exception mode to force all Windows Forms
             // errors to go through our handler.
-            //Application.SetUnhandledExceptionMode(
-            //    UnhandledExceptionMode.CatchException);
+            Application.SetUnhandledExceptionMode(
+                UnhandledExceptionMode.CatchException);
 
             Application.Run(new MainFormNew());
         }
