@@ -500,7 +500,7 @@ namespace Visa.WinForms
             _logger.Trace("Start CheckLicense");
             const string filePath = @".\Visa.key";
             var key = string.Empty;
-            var licenseForm = new LicenseForm();
+            var licenseForm = new LicenseForm("uk_UA", uk_UA.ResourceManager);
             var start = DateTime.Now;
             try
             {
