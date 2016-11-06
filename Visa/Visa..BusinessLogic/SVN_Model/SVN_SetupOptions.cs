@@ -13,7 +13,9 @@ namespace Visa.BusinessLogic.SVN_Model
         public bool RepeatIfCrash { get; set; }
         public string AvailabilityUrl { get; set; }
         public string Email { get; set; }
-        public string [] Proxies { get; set; }
+        public string[] Proxies { get; set; }
         public string RuCaptchaID { get; set; }
+        public bool CheckForUpdates { get; set; }
+        public bool AutoUpdates { get; set; }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using DevExpress.XtraEditors;
-using DevExpress.XtraEditors.Controls;
+using GlobalResources;
 using NLog;
 using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using GlobalResources;
 using ToolsPortable;
 using Visa.BusinessLogic.Managers;
 using Visa.BusinessLogic.SVN_Model;
@@ -51,9 +50,12 @@ namespace Visa.WinForms.Views
             textEditUrl.EditValue = options.AvailabilityUrl;
             textEditEmail.EditValue = options.Email;
             listBoxControlProxies.Items.Clear();
+            // ReSharper disable once CoVariantArrayConversion
             listBoxControlProxies.Items.AddRange(options.Proxies);
             listBoxControlProxies.SelectAll();
             textEditRuCaptchaID.Text = options.RuCaptchaID;
+            toggleSwitchCheckForUpdates.EditValue = options.CheckForUpdates;
+            toggleSwitchAutoUpdate.EditValue = options.AutoUpdates;
             _logger.Trace("End MapData");
         }
 
@@ -64,43 +66,75 @@ namespace Visa.WinForms.Views
 
             layoutControlItemPeopleCount.Text =
                 ResManager.GetString(ResKeys.colPeopleCount);
+
             layoutControlItemChildCount.Text =
                 ResManager.GetString(ResKeys.colChildsCount);
+
             layoutControlItemPassword.Text =
                 ResManager.GetString(ResKeys.Password_Text);
+
             layoutControlItemNationality.Text =
                 ResManager.GetString(ResKeys.Nationality_Text);
+
             layoutControlItemRepeatIfCrash.Text =
                 ResManager.GetString(ResKeys.RepeatIfCrash_Text);
+
             layoutControlItemCloseBrower.Text =
                 ResManager.GetString(ResKeys.lblCloseBrowser);
+
             layoutControlItemUrl.Text =
                 ResManager.GetString(ResKeys.lblAvailabilityUrl);
+
             layoutControlItemEmail.Text =
                 ResManager.GetString(ResKeys.lblEmail);
             layoutControlItemProxies.Text =
-                ResManager.GetString(ResKeys.lblChooseProxies); ;
+                ResManager.GetString(ResKeys.lblChooseProxies);
 
             lookUpEditNationality.Properties.NullText =
                 ResManager.GetString(ResKeys.Nationality_NullText);
 
             toggleSwitchCloseBrowser.Properties.OnText =
                 ResManager.GetString(ResKeys.ToggleSwitch_OnText);
+
             toggleSwitchCloseBrowser.Properties.OffText =
                 ResManager.GetString(ResKeys.ToggleSwitch_OffText);
+
             toggleSwitchRepeatIfCrash.Properties.OnText =
                 ResManager.GetString(ResKeys.ToggleSwitch_OnText);
+
             toggleSwitchRepeatIfCrash.Properties.OffText =
                 ResManager.GetString(ResKeys.ToggleSwitch_OffText);
 
             simpleButtonLoadProxies.Text =
                 ResManager.GetString(ResKeys.ButtonLoadProxies_Text);
-            simpleButtonOk.Text = ResManager.GetString(ResKeys.ButtonOk_Text);
+
+            simpleButtonOk.Text =
+                ResManager.GetString(ResKeys.ButtonOk_Text);
+
             simpleButtonCancel.Text =
                 ResManager.GetString(ResKeys.ButtonCancel_Text);
 
             lookUpEditNationality.Properties.NullText =
                 ResManager.GetString(ResKeys.Nationality_NullText);
+
+            toggleSwitchCheckForUpdates.Properties.OnText =
+                ResManager.GetString(ResKeys.ToggleSwitch_OnText);
+
+            toggleSwitchCheckForUpdates.Properties.OffText =
+                ResManager.GetString(ResKeys.ToggleSwitch_OffText);
+
+            toggleSwitchAutoUpdate.Properties.OnText =
+                ResManager.GetString(ResKeys.ToggleSwitch_OnText);
+
+            toggleSwitchAutoUpdate.Properties.OffText =
+                ResManager.GetString(ResKeys.ToggleSwitch_OffText);
+
+            toggleSwitchAutoUpdate.Properties.OnText =
+                ResManager.GetString(ResKeys.ToggleSwitch_OnText);
+
+            toggleSwitchAutoUpdate.Properties.OffText =
+                ResManager.GetString(ResKeys.ToggleSwitch_OffText);
+
             _logger.Trace("End InitNames");
         }
 
@@ -109,7 +143,7 @@ namespace Visa.WinForms.Views
             _logger.Trace("Start SetDataSourceForLookUps");
             lookUpEditNationality.Properties.DataSource =
                 InstanceProvider.DataSet.Choice.Where(
-                    c => c.Type == (short) ChoicesType.Country).ToList();
+                    c => c.Type == (short)ChoicesType.Country).ToList();
             _logger.Trace("End SetDataSourceForLookUps");
         }
 
@@ -121,17 +155,16 @@ namespace Visa.WinForms.Views
             {
                 CloseBrowser = toggleSwitchCloseBrowser.IsOn,
                 RepeatIfCrash = toggleSwitchRepeatIfCrash.IsOn,
-                Nationality =
-                    lookUpEditNationality.EditValue.ConvertToStringOrNull(),
+                Nationality = lookUpEditNationality.EditValue.ConvertToStringOrNull(),
                 Password = textEditPassword.Text,
-                PeopleCount =
-                    spinEditPeopleCount.EditValue.ConvertToStringOrNull(),
-                ChildCount =
-                    spinEditChildCount.EditValue.ConvertToStringOrNull(),
+                PeopleCount = spinEditPeopleCount.EditValue.ConvertToStringOrNull(),
+                ChildCount = spinEditChildCount.EditValue.ConvertToStringOrNull(),
                 AvailabilityUrl = textEditUrl.EditValue.ConvertToStringOrNull(),
                 Email = textEditEmail.EditValue.ConvertToStringOrNull(),
                 Proxies = ToStringList(listBoxControlProxies.SelectedItems),
-                RuCaptchaID = textEditRuCaptchaID.EditValue.ConvertToStringOrNull()
+                RuCaptchaID = textEditRuCaptchaID.EditValue.ConvertToStringOrNull(),
+                CheckForUpdates = (bool)toggleSwitchCheckForUpdates.EditValue,
+                AutoUpdates = (bool)toggleSwitchAutoUpdate.EditValue,
             };
             SetupManager.SaveOptions(options);
             Close();
@@ -140,9 +173,9 @@ namespace Visa.WinForms.Views
 
         private string[] ToStringList(BaseListBoxControl.SelectedItemCollection items)
         {
-            string[] _out = new string[items.Count];
+            var _out = new string[items.Count];
             for (int i = 0; i < items.Count; i++)
-                    _out[i] = items[i].ConvertToStringOrNull();
+                _out[i] = items[i].ConvertToStringOrNull();
             return _out;
         }
 
@@ -169,8 +202,8 @@ namespace Visa.WinForms.Views
                 try
                 {
                     _logger.Info($"ImportProxies _openFileDialog.ShowDialog() == DialogResult.OK  _openFileDialog.FileName = {openFileDialog.FileName}");
-                    string[] filelines = File.ReadAllLines(openFileDialog.FileName);
-                    foreach(string s in filelines)
+                    var filelines = File.ReadAllLines(openFileDialog.FileName);
+                    foreach (var s in filelines)
                         listBoxControlProxies.Items.Add(s);
                 }
                 catch (Exception ex)

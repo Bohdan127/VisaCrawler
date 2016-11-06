@@ -15,6 +15,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -353,16 +354,35 @@ namespace Visa.WinForms
             _logger.Info("InitOtherComponentDetails. ResManager = uk_UA");
             //we can off checking just for off line testing:
             CheckLicense();
+            CheckForUpdates();
             InitOtherComponentDetails();
             SetDataSourceForLookUps();
             _logger.Trace("End MainForm_Load");
+        }
+
+        private async void CheckForUpdates()
+        {
+            if (!SetupManager.GetOptions()
+                             .CheckForUpdates) return;
+
+            var updateManager = new UpdateManager();
+            var release = await updateManager.GetRelease();
+            if (!updateManager.NeedUpdate(Assembly.GetEntryAssembly(), release)) return;
+
+            if (SetupManager.GetOptions()
+                            .AutoUpdates)
+            {
+            }
+            else
+            { }
+
         }
 
         private void MainForm_Closed(object sender,
             EventArgs e)
         {
             _logger.Info($"MainForm_Closed. State = {_progressState}.");
-            if(_visaRegistrations != null)
+            if (_visaRegistrations != null)
                 foreach (var vr in _visaRegistrations.Values)
                 {
                     vr.CancelRegistration();
