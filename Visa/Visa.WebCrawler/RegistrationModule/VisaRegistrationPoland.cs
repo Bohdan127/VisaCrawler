@@ -132,14 +132,15 @@ namespace Visa.WebCrawler.RegistrationModule
                                     true);
                             }
                             else
-                            {
+                            {   // captcha is not resolved, maby rucaptcha key is not entered in setupSettings
                                 SystemSounds.Beep.Play();
                                 ShowAlert(
                                     ResManager.GetString(ResKeys.FillCaptchaAndPress),
                                     false);
-                                ShowAlert(
-                                    $"Error in response: \r\n{sss}", 
-                                    true);
+                                if(sss != "")
+                                    ShowAlert(
+                                        $"Error in response: \r\n{sss}", 
+                                        true);
                                 bBreak = true;
                             }
                             break;

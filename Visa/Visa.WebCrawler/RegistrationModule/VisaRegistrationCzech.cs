@@ -114,13 +114,13 @@ namespace Visa.WebCrawler.RegistrationModule
                             SetDefaultState();
                             break;
 
-                        case ProgressState.SelectVisaType:
+                        //case ProgressState.SelectVisaType:
                         case ProgressState.ShowMessage:
 #if (!GoWithoutDates)
                         case ProgressState.GetFirstDate:
 #endif
-                        case ProgressState.SubmitDate:
-                        case ProgressState.SubmitClientData:
+                        //case ProgressState.SubmitDate:
+                        //case ProgressState.SubmitClientData:
                             string sss = "";
                             if (SetupManager.GetOptions().RuCaptchaID.IsNotBlank())
                                 sss = _crawlerRegistry.SendRecaptchav2Request(
@@ -246,14 +246,14 @@ namespace Visa.WebCrawler.RegistrationModule
                     }
                     var isAvailableDate =
                         _crawlerRegistry.CheckDate(CurrentClientDataRow);
-                    if (_crawlerRegistry.FillCapchaFailed)
-                    {
-                        _crawlerRegistry.Error = false;
-                        _progressState = ProgressState.SelectVisaType;
-                        _logger.Warn("Fill Capcha Failed");
-                        _crawlerRegistry.FillCapchaFailed = false;
-                        return;
-                    }
+                    //if (_crawlerRegistry.FillCapchaFailed)
+                    //{
+                    //    _crawlerRegistry.Error = false;
+                    //    _progressState = ProgressState.SelectVisaType;
+                    //    _logger.Warn("Fill Capcha Failed");
+                    //    _crawlerRegistry.FillCapchaFailed = false;
+                    //    return;
+                    //}
                     if (!_crawlerRegistry.Error)
                     {
                         if (isAvailableDate)
@@ -312,7 +312,7 @@ namespace Visa.WebCrawler.RegistrationModule
                 case ProgressState.SubmitDate:
                     _crawlerRegistry.RunNextStep(
                         () => _crawlerRegistry.PressSubmitButton());
-                    _progressState = ProgressState.Receipt;
+                    _progressState = ProgressState.EmailAndPassword;
                     break;
 
                 case ProgressState.BackToCityAndReason:
@@ -328,23 +328,23 @@ namespace Visa.WebCrawler.RegistrationModule
                     _progressState = ProgressState.SelectCityAndReason;
                     break;
 
-                case ProgressState.Receipt:
-                    //todo bbenetskyy 26.08.2016 - this is temporary fix, should be reviewed and refactored
-                    if (_crawlerRegistry.SpecialTmpCheckForCapchaError())
-                    {
-                        _logger.Warn("Capcha was not fill!!!");
-                        _progressState = ProgressState.SubmitDate;
-                        return;
-                    }
-                    if (_crawlerRegistry.Error)
-                    {
-                        _progressState = ProgressState.SubmitReciept;
-                        return;
-                    }
-                    _crawlerRegistry.RunNextStep(
-                        () => _crawlerRegistry.Receipt(CurrentClientDataRow));
-                    _progressState = ProgressState.SubmitReciept;
-                    break;
+                //case ProgressState.Receipt:
+                //    //todo bbenetskyy 26.08.2016 - this is temporary fix, should be reviewed and refactored
+                //    if (_crawlerRegistry.SpecialTmpCheckForCapchaError())
+                //    {
+                //        _logger.Warn("Capcha was not fill!!!");
+                //        _progressState = ProgressState.SubmitDate;
+                //        return;
+                //    }
+                //    if (_crawlerRegistry.Error)
+                //    {
+                //        _progressState = ProgressState.SubmitReciept;
+                //        return;
+                //    }
+                //    _crawlerRegistry.RunNextStep(
+                //        () => _crawlerRegistry.Receipt(CurrentClientDataRow));
+                //    _progressState = ProgressState.SubmitReciept;
+                //    break;
 
                 case ProgressState.SubmitReciept:
                     _crawlerRegistry.RunNextStep(
