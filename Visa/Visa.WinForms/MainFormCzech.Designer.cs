@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFormCzech));
             this.dataLayoutControl1 = new DevExpress.XtraDataLayout.DataLayoutControl();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -37,7 +36,7 @@
             this.importButton = new DevExpress.XtraEditors.SimpleButton();
             this.cancelButton = new DevExpress.XtraEditors.SimpleButton();
             this.gridControl2 = new DevExpress.XtraGrid.GridControl();
-            this.clientDataRowBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.clientDataRowBindingSource = new System.Windows.Forms.BindingSource();
             this.layoutView1 = new DevExpress.XtraGrid.Views.Layout.LayoutView();
             this.lViewColPeopleCount = new DevExpress.XtraGrid.Columns.LayoutViewColumn();
             this.repositoryItemSpinEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemSpinEdit();
@@ -98,6 +97,10 @@
             this.colRegistryTo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colVisaCity = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colVisaType = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colPassportNumber = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemTextEditPassportNumber = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.colCellNumber = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemTextEditCellNumber = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.repositoryItemTextEditEmail = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.repositoryItemTextEditPassword = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.repositoryItemLookUpEditRegistryTime = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
@@ -105,8 +108,12 @@
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlGroupClientData = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItemClientRegistry = new DevExpress.XtraLayout.LayoutControlItem();
-            this.imageCollection1 = new DevExpress.Utils.ImageCollection(this.components);
-            this.applicationMenu1 = new DevExpress.XtraBars.Ribbon.ApplicationMenu(this.components);
+            this.imageCollection1 = new DevExpress.Utils.ImageCollection();
+            this.applicationMenu1 = new DevExpress.XtraBars.Ribbon.ApplicationMenu();
+            this.lViewColCellNumber = new DevExpress.XtraGrid.Columns.LayoutViewColumn();
+            this.layoutViewField_colCellNumber1 = new DevExpress.XtraGrid.Views.Layout.LayoutViewField();
+            this.lViewColPassportNumber = new DevExpress.XtraGrid.Columns.LayoutViewColumn();
+            this.layoutViewField_colPassportNumber1 = new DevExpress.XtraGrid.Views.Layout.LayoutViewField();
             ((System.ComponentModel.ISupportInitialize)(this.dataLayoutControl1)).BeginInit();
             this.dataLayoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -149,6 +156,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEditDateOnly)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEditDateOnly.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditNotNull)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditPassportNumber)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditCellNumber)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditEmail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditPassword)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditRegistryTime)).BeginInit();
@@ -158,6 +167,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemClientRegistry)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageCollection1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.applicationMenu1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutViewField_colCellNumber1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutViewField_colPassportNumber1)).BeginInit();
             this.SuspendLayout();
             // 
             // dataLayoutControl1
@@ -279,7 +290,9 @@
             this.lViewColRegistryFom,
             this.lViewColRegistryTo,
             this.lViewColVisaCity,
-            this.lViewColVisaType});
+            this.lViewColVisaType,
+            this.lViewColPassportNumber,
+            this.lViewColCellNumber});
             this.layoutView1.GridControl = this.gridControl2;
             this.layoutView1.Name = "layoutView1";
             this.layoutView1.OptionsCustomization.AllowFilter = false;
@@ -313,7 +326,7 @@
             this.layoutViewField_colPeopleCount.EditorPreferredWidth = 138;
             this.layoutViewField_colPeopleCount.Location = new System.Drawing.Point(0, 0);
             this.layoutViewField_colPeopleCount.Name = "layoutViewField_colPeopleCount";
-            this.layoutViewField_colPeopleCount.Size = new System.Drawing.Size(185, 24);
+            this.layoutViewField_colPeopleCount.Size = new System.Drawing.Size(242, 24);
             this.layoutViewField_colPeopleCount.TextSize = new System.Drawing.Size(95, 13);
             // 
             // lViewColChildsCount
@@ -329,7 +342,7 @@
             this.layoutViewField_colChildsCount.EditorPreferredWidth = 138;
             this.layoutViewField_colChildsCount.Location = new System.Drawing.Point(0, 24);
             this.layoutViewField_colChildsCount.Name = "layoutViewField_colChildsCount";
-            this.layoutViewField_colChildsCount.Size = new System.Drawing.Size(185, 24);
+            this.layoutViewField_colChildsCount.Size = new System.Drawing.Size(242, 24);
             this.layoutViewField_colChildsCount.TextSize = new System.Drawing.Size(95, 13);
             // 
             // lViewColNumberOfReceipt
@@ -356,7 +369,7 @@
             this.layoutViewField_colNumberOfReceipt.EditorPreferredWidth = 138;
             this.layoutViewField_colNumberOfReceipt.Location = new System.Drawing.Point(0, 48);
             this.layoutViewField_colNumberOfReceipt.Name = "layoutViewField_colNumberOfReceipt";
-            this.layoutViewField_colNumberOfReceipt.Size = new System.Drawing.Size(185, 24);
+            this.layoutViewField_colNumberOfReceipt.Size = new System.Drawing.Size(242, 24);
             this.layoutViewField_colNumberOfReceipt.TextSize = new System.Drawing.Size(95, 13);
             // 
             // lViewColEndPassportDate
@@ -383,7 +396,7 @@
             this.layoutViewField_colEndPassportDate.EditorPreferredWidth = 138;
             this.layoutViewField_colEndPassportDate.Location = new System.Drawing.Point(0, 72);
             this.layoutViewField_colEndPassportDate.Name = "layoutViewField_colEndPassportDate";
-            this.layoutViewField_colEndPassportDate.Size = new System.Drawing.Size(185, 24);
+            this.layoutViewField_colEndPassportDate.Size = new System.Drawing.Size(242, 24);
             this.layoutViewField_colEndPassportDate.TextSize = new System.Drawing.Size(95, 13);
             // 
             // lViewColStatus
@@ -412,7 +425,7 @@
             this.layoutViewField_colStatus.EditorPreferredWidth = 138;
             this.layoutViewField_colStatus.Location = new System.Drawing.Point(0, 96);
             this.layoutViewField_colStatus.Name = "layoutViewField_colStatus";
-            this.layoutViewField_colStatus.Size = new System.Drawing.Size(185, 24);
+            this.layoutViewField_colStatus.Size = new System.Drawing.Size(242, 24);
             this.layoutViewField_colStatus.TextSize = new System.Drawing.Size(95, 13);
             // 
             // lViewColName
@@ -434,7 +447,7 @@
             this.layoutViewField_colName.EditorPreferredWidth = 138;
             this.layoutViewField_colName.Location = new System.Drawing.Point(0, 120);
             this.layoutViewField_colName.Name = "layoutViewField_colName";
-            this.layoutViewField_colName.Size = new System.Drawing.Size(185, 24);
+            this.layoutViewField_colName.Size = new System.Drawing.Size(242, 24);
             this.layoutViewField_colName.TextSize = new System.Drawing.Size(95, 13);
             // 
             // lViewColLastName
@@ -450,7 +463,7 @@
             this.layoutViewField_colLastName.EditorPreferredWidth = 138;
             this.layoutViewField_colLastName.Location = new System.Drawing.Point(0, 144);
             this.layoutViewField_colLastName.Name = "layoutViewField_colLastName";
-            this.layoutViewField_colLastName.Size = new System.Drawing.Size(185, 24);
+            this.layoutViewField_colLastName.Size = new System.Drawing.Size(242, 24);
             this.layoutViewField_colLastName.TextSize = new System.Drawing.Size(95, 13);
             // 
             // lViewColBirthday
@@ -466,7 +479,7 @@
             this.layoutViewField_colBirthday.EditorPreferredWidth = 138;
             this.layoutViewField_colBirthday.Location = new System.Drawing.Point(0, 168);
             this.layoutViewField_colBirthday.Name = "layoutViewField_colBirthday";
-            this.layoutViewField_colBirthday.Size = new System.Drawing.Size(185, 24);
+            this.layoutViewField_colBirthday.Size = new System.Drawing.Size(242, 24);
             this.layoutViewField_colBirthday.TextSize = new System.Drawing.Size(95, 13);
             // 
             // lViewColReturnData
@@ -482,7 +495,7 @@
             this.layoutViewField_colReturnData.EditorPreferredWidth = 138;
             this.layoutViewField_colReturnData.Location = new System.Drawing.Point(0, 192);
             this.layoutViewField_colReturnData.Name = "layoutViewField_colReturnData";
-            this.layoutViewField_colReturnData.Size = new System.Drawing.Size(185, 24);
+            this.layoutViewField_colReturnData.Size = new System.Drawing.Size(242, 24);
             this.layoutViewField_colReturnData.TextSize = new System.Drawing.Size(95, 13);
             // 
             // lViewColNationality
@@ -511,7 +524,7 @@
             this.layoutViewField_colNationality.EditorPreferredWidth = 138;
             this.layoutViewField_colNationality.Location = new System.Drawing.Point(0, 216);
             this.layoutViewField_colNationality.Name = "layoutViewField_colNationality";
-            this.layoutViewField_colNationality.Size = new System.Drawing.Size(185, 24);
+            this.layoutViewField_colNationality.Size = new System.Drawing.Size(242, 24);
             this.layoutViewField_colNationality.TextSize = new System.Drawing.Size(95, 13);
             // 
             // lViewColRegistryFom
@@ -527,7 +540,7 @@
             this.layoutViewField_colRegistryFom.EditorPreferredWidth = 138;
             this.layoutViewField_colRegistryFom.Location = new System.Drawing.Point(0, 240);
             this.layoutViewField_colRegistryFom.Name = "layoutViewField_colRegistryFom";
-            this.layoutViewField_colRegistryFom.Size = new System.Drawing.Size(185, 24);
+            this.layoutViewField_colRegistryFom.Size = new System.Drawing.Size(242, 24);
             this.layoutViewField_colRegistryFom.TextSize = new System.Drawing.Size(95, 13);
             // 
             // lViewColRegistryTo
@@ -543,7 +556,7 @@
             this.layoutViewField_colRegistryTo.EditorPreferredWidth = 138;
             this.layoutViewField_colRegistryTo.Location = new System.Drawing.Point(0, 264);
             this.layoutViewField_colRegistryTo.Name = "layoutViewField_colRegistryTo";
-            this.layoutViewField_colRegistryTo.Size = new System.Drawing.Size(185, 24);
+            this.layoutViewField_colRegistryTo.Size = new System.Drawing.Size(242, 24);
             this.layoutViewField_colRegistryTo.TextSize = new System.Drawing.Size(95, 13);
             // 
             // lViewColVisaCity
@@ -571,7 +584,7 @@
             this.layoutViewField_colVisaCity.EditorPreferredWidth = 138;
             this.layoutViewField_colVisaCity.Location = new System.Drawing.Point(0, 288);
             this.layoutViewField_colVisaCity.Name = "layoutViewField_colVisaCity";
-            this.layoutViewField_colVisaCity.Size = new System.Drawing.Size(185, 24);
+            this.layoutViewField_colVisaCity.Size = new System.Drawing.Size(242, 24);
             this.layoutViewField_colVisaCity.TextSize = new System.Drawing.Size(95, 13);
             // 
             // lViewColVisaType
@@ -599,7 +612,7 @@
             this.layoutViewField_colVisaType.EditorPreferredWidth = 138;
             this.layoutViewField_colVisaType.Location = new System.Drawing.Point(0, 312);
             this.layoutViewField_colVisaType.Name = "layoutViewField_colVisaType";
-            this.layoutViewField_colVisaType.Size = new System.Drawing.Size(185, 24);
+            this.layoutViewField_colVisaType.Size = new System.Drawing.Size(242, 24);
             this.layoutViewField_colVisaType.TextSize = new System.Drawing.Size(95, 13);
             // 
             // layoutViewCard1
@@ -620,7 +633,9 @@
             this.layoutViewField_colRegistryFom,
             this.layoutViewField_colRegistryTo,
             this.layoutViewField_colVisaCity,
-            this.layoutViewField_colVisaType});
+            this.layoutViewField_colVisaType,
+            this.layoutViewField_colCellNumber1,
+            this.layoutViewField_colPassportNumber1});
             this.layoutViewCard1.Name = "layoutViewCard1";
             this.layoutViewCard1.OptionsItemText.TextToControlDistance = 5;
             this.layoutViewCard1.Text = "TemplateCard";
@@ -658,7 +673,9 @@
             this.repositoryItemLookUpEditNationality,
             this.repositoryItemLookUpEditRegistryTime,
             this.repositoryItemLookUpEditVisaType,
-            this.repositoryItemLookUpEditVisaCity});
+            this.repositoryItemLookUpEditVisaCity,
+            this.repositoryItemTextEditPassportNumber,
+            this.repositoryItemTextEditCellNumber});
             this.gridControl1.Size = new System.Drawing.Size(907, 172);
             this.gridControl1.TabIndex = 4;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -681,7 +698,9 @@
             this.colRegistryFom,
             this.colRegistryTo,
             this.colVisaCity,
-            this.colVisaType});
+            this.colVisaType,
+            this.colPassportNumber,
+            this.colCellNumber});
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.Name = "gridView1";
             this.gridView1.OptionsCustomization.AllowSort = false;
@@ -844,6 +863,41 @@
             this.colVisaType.Visible = true;
             this.colVisaType.VisibleIndex = 13;
             // 
+            // colPassportNumber
+            // 
+            this.colPassportNumber.Caption = "PassportNumber";
+            this.colPassportNumber.ColumnEdit = this.repositoryItemTextEditPassportNumber;
+            this.colPassportNumber.FieldName = "PassportNumber";
+            this.colPassportNumber.Name = "colPassportNumber";
+            this.colPassportNumber.Visible = true;
+            this.colPassportNumber.VisibleIndex = 14;
+            // 
+            // repositoryItemTextEditPassportNumber
+            // 
+            this.repositoryItemTextEditPassportNumber.AutoHeight = false;
+            this.repositoryItemTextEditPassportNumber.Mask.BeepOnError = true;
+            this.repositoryItemTextEditPassportNumber.Mask.EditMask = "[A-Z0-9]+";
+            this.repositoryItemTextEditPassportNumber.Mask.IgnoreMaskBlank = false;
+            this.repositoryItemTextEditPassportNumber.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.repositoryItemTextEditPassportNumber.Name = "repositoryItemTextEditPassportNumber";
+            // 
+            // colCellNumber
+            // 
+            this.colCellNumber.Caption = "CellNumber";
+            this.colCellNumber.ColumnEdit = this.repositoryItemTextEditCellNumber;
+            this.colCellNumber.FieldName = "CellNumber";
+            this.colCellNumber.Name = "colCellNumber";
+            this.colCellNumber.Visible = true;
+            this.colCellNumber.VisibleIndex = 15;
+            // 
+            // repositoryItemTextEditCellNumber
+            // 
+            this.repositoryItemTextEditCellNumber.AutoHeight = false;
+            this.repositoryItemTextEditCellNumber.Mask.BeepOnError = true;
+            this.repositoryItemTextEditCellNumber.Mask.EditMask = "\\+?[0-9]+";
+            this.repositoryItemTextEditCellNumber.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.repositoryItemTextEditCellNumber.Name = "repositoryItemTextEditCellNumber";
+            // 
             // repositoryItemTextEditEmail
             // 
             this.repositoryItemTextEditEmail.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
@@ -927,14 +981,42 @@
             // 
             this.applicationMenu1.Name = "applicationMenu1";
             // 
-            // MainFormNew
+            // lViewColCellNumber
+            // 
+            this.lViewColCellNumber.FieldName = "CellNumber";
+            this.lViewColCellNumber.LayoutViewField = this.layoutViewField_colCellNumber1;
+            this.lViewColCellNumber.Name = "lViewColCellNumber";
+            // 
+            // layoutViewField_colCellNumber1
+            // 
+            this.layoutViewField_colCellNumber1.EditorPreferredWidth = 100;
+            this.layoutViewField_colCellNumber1.Location = new System.Drawing.Point(0, 336);
+            this.layoutViewField_colCellNumber1.Name = "layoutViewField_colCellNumber1";
+            this.layoutViewField_colCellNumber1.Size = new System.Drawing.Size(242, 20);
+            this.layoutViewField_colCellNumber1.TextSize = new System.Drawing.Size(95, 13);
+            // 
+            // lViewColPassportNumber
+            // 
+            this.lViewColPassportNumber.FieldName = "PassportNumber";
+            this.lViewColPassportNumber.LayoutViewField = this.layoutViewField_colPassportNumber1;
+            this.lViewColPassportNumber.Name = "lViewColPassportNumber";
+            // 
+            // layoutViewField_colPassportNumber1
+            // 
+            this.layoutViewField_colPassportNumber1.EditorPreferredWidth = 100;
+            this.layoutViewField_colPassportNumber1.Location = new System.Drawing.Point(0, 356);
+            this.layoutViewField_colPassportNumber1.Name = "layoutViewField_colPassportNumber1";
+            this.layoutViewField_colPassportNumber1.Size = new System.Drawing.Size(242, 20);
+            this.layoutViewField_colPassportNumber1.TextSize = new System.Drawing.Size(95, 13);
+            // 
+            // MainFormCzech
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(955, 612);
             this.Controls.Add(this.dataLayoutControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "MainFormNew";
+            this.Name = "MainFormCzech";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Fast Visa";
             ((System.ComponentModel.ISupportInitialize)(this.dataLayoutControl1)).EndInit();
@@ -979,6 +1061,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEditDateOnly.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEditDateOnly)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditNotNull)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditPassportNumber)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditCellNumber)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditEmail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditPassword)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEditRegistryTime)).EndInit();
@@ -988,6 +1072,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemClientRegistry)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageCollection1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.applicationMenu1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutViewField_colCellNumber1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutViewField_colPassportNumber1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1076,6 +1162,14 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit4;
         //private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repositoryItemLookUpEdit5;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
+        private DevExpress.XtraGrid.Columns.GridColumn colPassportNumber;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEditPassportNumber;
+        private DevExpress.XtraGrid.Columns.GridColumn colCellNumber;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEditCellNumber;
+        private DevExpress.XtraGrid.Columns.LayoutViewColumn lViewColPassportNumber;
+        private DevExpress.XtraGrid.Views.Layout.LayoutViewField layoutViewField_colPassportNumber1;
+        private DevExpress.XtraGrid.Columns.LayoutViewColumn lViewColCellNumber;
+        private DevExpress.XtraGrid.Views.Layout.LayoutViewField layoutViewField_colCellNumber1;
     }
 }
 
