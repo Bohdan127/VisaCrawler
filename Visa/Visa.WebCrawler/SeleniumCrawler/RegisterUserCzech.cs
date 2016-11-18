@@ -98,11 +98,11 @@ namespace Visa.WebCrawler.SeleniumCrawler
             _logger.Info(
                 $"SelectCityAndReason. visaCity option[value={dataRow.VisaCity}]  Click");
             //always be 1 - Подача документів
-            FindElementWithChecking(By.Id(Reason))
-                .FindElement(By.CssSelector("option[value='1']"))
-                .Click();
-            _logger.Info(
-                "SelectCityAndReason. reason option[value='1'] Click");
+            //FindElementWithChecking(By.Id(Reason))
+            //    .FindElement(By.CssSelector("option[value='1']"))
+            //    .Click();
+            //_logger.Info(
+            //    "SelectCityAndReason. reason option[value='1'] Click");
             _logger.Info($"End SelectCityAndReason. Error = {Error}. ");
         }
 
@@ -122,15 +122,15 @@ namespace Visa.WebCrawler.SeleniumCrawler
                 query.SendKeys(dataRow.PeopleCount);
             }
 
-            query = FindElementWithChecking(By.Id(NumOfChildrens));
-            _logger.Info(
-                $"ProvidePeopleCount. numOfChildrens Clear and set {dataRow.ChildsCount}");
+            //query = FindElementWithChecking(By.Id(NumOfChildrens));
+            //_logger.Info(
+            //    $"ProvidePeopleCount. numOfChildrens Clear and set {dataRow.ChildsCount}");
 
-            if (dataRow.ChildsCount != "0")
-            {
-                query.Clear();
-                query.SendKeys(dataRow.ChildsCount);
-            }
+            //if (dataRow.ChildsCount != "0")
+            //{
+            //    query.Clear();
+            //    query.SendKeys(dataRow.ChildsCount);
+            //}
             _logger.Info($"End ProvidePeopleCount. Error = {Error}");
         }
 
@@ -142,14 +142,14 @@ namespace Visa.WebCrawler.SeleniumCrawler
             VisaDataSet.ClientDataRow dataRow)
         {
             _logger.Trace($"Start SelectVisaType. Error = {Error}. ReEnterCaptcha = {ReEnterCaptcha}");
-            ReEnterCaptcha = false;
+            //ReEnterCaptcha = false;
             var visaCat = FindElementWithChecking(By.Id(VisaCategory))
                  .FindElement(
                      By.CssSelector($"option[value=\"{dataRow.VisaType}\"]"));
 
             if (visaCat.Selected)
             {
-                ReEnterCaptcha = true;
+                //ReEnterCaptcha = true;
                 //-Оберіть візову категорію-
                 FindElementWithChecking(By.Id(VisaCategory))
                     .FindElement(
@@ -171,19 +171,20 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public bool CheckDate(VisaDataSet.ClientDataRow dataRow)
         {
             _logger.Info($"Start CheckDate. Error = {Error}. ");
-            ReEnterCaptcha = false;
+            //ReEnterCaptcha = false;
             var bRes = false;
             try
             {
                 var infoText = FindElementWithChecking(By.Id(ErrorMessage)).Text;
-                if (infoText.Contains(CapchaNotFilledMessage)) //"The image you selected not match"
-                {
-                    FillCapchaFailed = true;
-                    return false;
-                }
+                //if (infoText.Contains(CapchaNotFilledMessage)) //"The image you selected not match"
+                //{
+                //    FillCapchaFailed = true;
+                //    return false;
+                //}
 
                 try
                 {
+                    infoText = infoText.Substring(infoText.Length - 11);
                     var availableDate = DateTime.ParseExact(infoText,
                         "d.MMM.yyyy",
                         CultureInfo.CurrentCulture);
@@ -351,7 +352,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
         //Візовий Сервіс Центр i Пункт Прийому Візових Анкетx
 
         private const string MainUrl =
-            "https://polandonline.vfsglobal.com/poland-ukraine-appointment/%28S%28vvzibb45kxnimzfrnhuavib1%29%29/AppScheduling/AppWelcome.aspx?P=s2x6znRcBRv7WQQK7h4MTjZiPRbOsXKqJzddYBh3qCA=";
+            "https://www.vfsvisaonline.com/czech-ukraine-app/AppScheduling/AppWelcome.aspx?p=ri7FHohe3VirNKmyLaRu34LwQqySyHA1BJbq9qOXYNc=";
 
         private const string RegistryId = "ctl00_plhMain_lnkSchApp";
         // Призначити дату подачі документів
@@ -457,9 +458,9 @@ namespace Visa.WebCrawler.SeleniumCrawler
                         _logger.Error("IsServerDown => True. Title.Contains(\"Session Expired\")");
                         return true;
                     }
-                    if (_driver.Title.IsNotNullOrEmpty() && !_driver.Title.Contains("Poland Visa"))
+                    if (_driver.Title.IsNotNullOrEmpty() && !_driver.Title.Contains("Czech Visa"))
                     {
-                        _logger.Error("IsServerDown => True. Title not Contains(\"Poland Visa\")");
+                        _logger.Error("IsServerDown => True. Title not Contains(\"Czech Visa\")");
                         return true;
                     }
                     var pageBody = _driver.FindElement(By.TagName("body"));
@@ -675,8 +676,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
             var bRes = element != null;
             bRes = bRes && element.Text.IsNotBlank();
-            bRes = bRes && !DateTime.TryParse(element.Text,
-                out dateValue);
+            bRes = bRes && !DateTime.TryParse(element.Text.Substring(element.Text.Length - 11),
+                out dateValue);	// last 11 char may be date
             bRes = bRes && element.Text != CapchaNotFilledMessage; // it is available date shown - not error
             return bRes;
         }
