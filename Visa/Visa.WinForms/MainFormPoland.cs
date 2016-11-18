@@ -30,11 +30,11 @@ using Visa.WinForms.Views;
 
 namespace Visa.WinForms
 {
-    public partial class MainFormNew : Form
+    public partial class MainFormPoland : Form
     {
         #region CTOR
 
-        public MainFormNew()
+        public MainFormPoland()
         {
             _logger.Trace("Start MainForm CTOR");
 

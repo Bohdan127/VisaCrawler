@@ -1,6 +1,6 @@
 ﻿namespace Visa.WinForms
 {
-    partial class MainFormNew
+    partial class MainFormPoland
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFormNew));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFormPoland));
             this.dataLayoutControl1 = new DevExpress.XtraDataLayout.DataLayoutControl();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.registryButton = new DevExpress.XtraEditors.SimpleButton();

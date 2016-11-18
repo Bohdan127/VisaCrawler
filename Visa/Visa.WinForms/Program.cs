@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿#define CzechVisa
+using NLog;
 using System;
 using System.Globalization;
 using System.Threading;
@@ -40,8 +41,11 @@ namespace Visa.WinForms
             // errors to go through our handler.
             Application.SetUnhandledExceptionMode(
                 UnhandledExceptionMode.CatchException);
-
-            Application.Run(new MainFormNew());
+            #if CzechVisa
+                Application.Run(new MainFormCzech());
+            #else
+                Application.Run(new MainFormPoland());
+            #endif
         }
 
         private static void Application_ThreadException(object sender,

@@ -64,7 +64,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
@@ -142,11 +142,17 @@
     <Compile Include="ErrorProvider\ExceptionHandlerForm.Designer.cs">
       <DependentUpon>ExceptionHandlerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainFormNew.cs">
+    <Compile Include="MainFormCzech.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainFormNew.Designer.cs">
-      <DependentUpon>MainFormNew.cs</DependentUpon>
+    <Compile Include="MainFormCzech.designer.cs">
+      <DependentUpon>MainFormCzech.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainFormPoland.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainFormPoland.Designer.cs">
+      <DependentUpon>MainFormPoland.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -159,8 +165,11 @@
     <EmbeddedResource Include="ErrorProvider\ExceptionHandlerForm.resx">
       <DependentUpon>ExceptionHandlerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainFormNew.resx">
-      <DependentUpon>MainFormNew.cs</DependentUpon>
+    <EmbeddedResource Include="MainFormCzech.resx">
+      <DependentUpon>MainFormCzech.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainFormPoland.resx">
+      <DependentUpon>MainFormPoland.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
