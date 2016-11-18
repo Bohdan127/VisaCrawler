@@ -623,6 +623,10 @@ namespace Visa.Database {
             
             private global::System.Data.DataColumn columnVisaCity;
             
+            private global::System.Data.DataColumn columnPassportNumber;
+            
+            private global::System.Data.DataColumn columnCellNumber;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public ClientDataDataTable() {
@@ -794,6 +798,22 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn PassportNumberColumn {
+                get {
+                    return this.columnPassportNumber;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn CellNumberColumn {
+                get {
+                    return this.columnCellNumber;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -846,7 +866,9 @@ namespace Visa.Database {
                         System.DateTime RegistryTo, 
                         byte RegistryState, 
                         string VisaType, 
-                        string VisaCity) {
+                        string VisaCity, 
+                        string PassportNumber, 
+                        string CellNumber) {
                 ClientDataRow rowClientDataRow = ((ClientDataRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         PeopleCount,
@@ -865,7 +887,9 @@ namespace Visa.Database {
                         RegistryTo,
                         RegistryState,
                         VisaType,
-                        VisaCity};
+                        VisaCity,
+                        PassportNumber,
+                        CellNumber};
                 rowClientDataRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowClientDataRow);
                 return rowClientDataRow;
@@ -905,6 +929,8 @@ namespace Visa.Database {
                 this.columnRegistryState = base.Columns["RegistryState"];
                 this.columnVisaType = base.Columns["VisaType"];
                 this.columnVisaCity = base.Columns["VisaCity"];
+                this.columnPassportNumber = base.Columns["PassportNumber"];
+                this.columnCellNumber = base.Columns["CellNumber"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -944,6 +970,10 @@ namespace Visa.Database {
                 base.Columns.Add(this.columnVisaType);
                 this.columnVisaCity = new global::System.Data.DataColumn("VisaCity", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnVisaCity);
+                this.columnPassportNumber = new global::System.Data.DataColumn("PassportNumber", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPassportNumber);
+                this.columnCellNumber = new global::System.Data.DataColumn("CellNumber", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCellNumber);
                 this.columnPeopleCount.AllowDBNull = false;
                 this.columnChildsCount.AllowDBNull = false;
                 this.columnNumberOfReceipt.AllowDBNull = false;
@@ -1407,6 +1437,38 @@ namespace Visa.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string PassportNumber {
+                get {
+                    try {
+                        return ((string)(this[this.tableClientData.PassportNumberColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PassportNumber\' in table \'ClientData\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableClientData.PassportNumberColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string CellNumber {
+                get {
+                    try {
+                        return ((string)(this[this.tableClientData.CellNumberColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CellNumber\' in table \'ClientData\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableClientData.CellNumberColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsEmailNull() {
                 return this.IsNull(this.tableClientData.EmailColumn);
             }
@@ -1451,6 +1513,30 @@ namespace Visa.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetVisaCityNull() {
                 this[this.tableClientData.VisaCityColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsPassportNumberNull() {
+                return this.IsNull(this.tableClientData.PassportNumberColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetPassportNumberNull() {
+                this[this.tableClientData.PassportNumberColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsCellNumberNull() {
+                return this.IsNull(this.tableClientData.CellNumberColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetCellNumberNull() {
+                this[this.tableClientData.CellNumberColumn] = global::System.Convert.DBNull;
             }
         }
         

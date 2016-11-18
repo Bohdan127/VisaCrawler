@@ -12,7 +12,7 @@
   <xs:element name="VisaDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="VisaDataSet" msprop:Generator_UserDSName="VisaDataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="Choice" msprop:Generator_TableClassName="ChoiceDataTable" msprop:Generator_TableVarName="tableChoice" msprop:Generator_TablePropName="Choice" msprop:Generator_RowDeletingName="ChoiceRowDeleting" msprop:Generator_RowChangingName="ChoiceRowChanging" msprop:Generator_RowEvHandlerName="ChoiceRowChangeEventHandler" msprop:Generator_RowDeletedName="ChoiceRowDeleted" msprop:Generator_UserTableName="Choice" msprop:Generator_RowChangedName="ChoiceRowChanged" msprop:Generator_RowEvArgName="ChoiceRowChangeEvent" msprop:Generator_RowClassName="ChoiceRow">
+        <xs:element name="Choice" msprop:Generator_TableClassName="ChoiceDataTable" msprop:Generator_TableVarName="tableChoice" msprop:Generator_RowChangedName="ChoiceRowChanged" msprop:Generator_TablePropName="Choice" msprop:Generator_RowDeletingName="ChoiceRowDeleting" msprop:Generator_RowChangingName="ChoiceRowChanging" msprop:Generator_RowEvHandlerName="ChoiceRowChangeEventHandler" msprop:Generator_RowDeletedName="ChoiceRowDeleted" msprop:Generator_RowClassName="ChoiceRow" msprop:Generator_UserTableName="Choice" msprop:Generator_RowEvArgName="ChoiceRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
@@ -21,7 +21,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="ClientData" msprop:Generator_TableClassName="ClientDataDataTable" msprop:Generator_TableVarName="tableClientData" msprop:Generator_RowChangedName="ClientDataRowChanged" msprop:Generator_TablePropName="ClientData" msprop:Generator_RowDeletingName="ClientDataRowDeleting" msprop:Generator_RowChangingName="ClientDataRowChanging" msprop:Generator_RowEvHandlerName="ClientDataRowChangeEventHandler" msprop:Generator_RowDeletedName="ClientDataRowDeleted" msprop:Generator_RowClassName="ClientDataRow" msprop:Generator_UserTableName="ClientData" msprop:Generator_RowEvArgName="ClientDataRowChangeEvent">
+        <xs:element name="ClientData" msprop:Generator_TableClassName="ClientDataDataTable" msprop:Generator_TableVarName="tableClientData" msprop:Generator_TablePropName="ClientData" msprop:Generator_RowDeletingName="ClientDataRowDeleting" msprop:Generator_RowChangingName="ClientDataRowChanging" msprop:Generator_RowEvHandlerName="ClientDataRowChangeEventHandler" msprop:Generator_RowDeletedName="ClientDataRowDeleted" msprop:Generator_UserTableName="ClientData" msprop:Generator_RowChangedName="ClientDataRowChanged" msprop:Generator_RowEvArgName="ClientDataRowChangeEvent" msprop:Generator_RowClassName="ClientDataRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="PeopleCount" msprop:Generator_ColumnVarNameInTable="columnPeopleCount" msprop:Generator_ColumnPropNameInRow="PeopleCount" msprop:Generator_ColumnPropNameInTable="PeopleCountColumn" msprop:Generator_UserColumnName="PeopleCount" type="xs:string" />
@@ -41,6 +41,8 @@
               <xs:element name="RegistryState" msprop:Generator_ColumnVarNameInTable="columnRegistryState" msprop:Generator_ColumnPropNameInRow="RegistryState" msprop:Generator_ColumnPropNameInTable="RegistryStateColumn" msprop:Generator_UserColumnName="RegistryState" type="xs:unsignedByte" default="0" />
               <xs:element name="VisaType" msprop:Generator_ColumnVarNameInTable="columnVisaType" msprop:Generator_ColumnPropNameInRow="VisaType" msprop:Generator_ColumnPropNameInTable="VisaTypeColumn" msprop:Generator_UserColumnName="VisaType" type="xs:string" minOccurs="0" />
               <xs:element name="VisaCity" msprop:Generator_ColumnVarNameInTable="columnVisaCity" msprop:Generator_ColumnPropNameInRow="VisaCity" msprop:Generator_ColumnPropNameInTable="VisaCityColumn" msprop:Generator_UserColumnName="VisaCity" type="xs:string" minOccurs="0" />
+              <xs:element name="PassportNumber" msprop:Generator_ColumnVarNameInTable="columnPassportNumber" msprop:Generator_ColumnPropNameInRow="PassportNumber" msprop:Generator_ColumnPropNameInTable="PassportNumberColumn" msprop:Generator_UserColumnName="PassportNumber" type="xs:string" minOccurs="0" />
+              <xs:element name="CellNumber" msprop:Generator_ColumnVarNameInTable="columnCellNumber" msprop:Generator_ColumnPropNameInRow="CellNumber" msprop:Generator_ColumnPropNameInTable="CellNumberColumn" msprop:Generator_UserColumnName="CellNumber" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
