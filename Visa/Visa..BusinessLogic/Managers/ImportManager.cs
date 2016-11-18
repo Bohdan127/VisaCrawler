@@ -72,6 +72,8 @@ namespace Visa.BusinessLogic.Managers
                     resRow.Birthday = Convert.ToDateTime(resDataRow[8]);
                     resRow.RegistryFom = Convert.ToDateTime(resDataRow[9]);
                     resRow.RegistryTo = Convert.ToDateTime(resDataRow[10]);
+                    resRow.PassportNumber = resDataRow[11].ConvertToStringOrNull();
+                    resRow.CellNumber = resDataRow[12].ConvertToStringOrNull();
                 }
             }
             _logger.Trace(

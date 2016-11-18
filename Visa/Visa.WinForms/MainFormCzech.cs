@@ -314,6 +314,8 @@ namespace Visa.WinForms
             dataRow.Birthday = importedRow.Birthday;
             dataRow.RegistryFom = importedRow.RegistryFom;
             dataRow.RegistryTo = importedRow.RegistryTo;
+            dataRow.PassportNumber = importedRow.PassportNumber;
+            dataRow.CellNumber = importedRow.CellNumber;
             gridView1.RefreshData();
             _logger.Info("End barButtonItem2_ItemClick");
         }
