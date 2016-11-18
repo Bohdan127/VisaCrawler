@@ -5,10 +5,12 @@ namespace Visa.Database
     public static class InstanceProvider
     {
         private static readonly VisaDataSet _dataSet;
+        public static string VisaCountry { get; set; }
 
         static InstanceProvider()
         {
             _dataSet = new VisaDataSet();
+            VisaCountry = "Poland";
         }
 
         public static bool Initialized { get; private set; }
@@ -18,16 +20,30 @@ namespace Visa.Database
             get
             {
                 if (!Initialized)
-                    InitDefaults();
+                    if (VisaCountry == "Poland")
+                        InitDefaultsPoland();
+                    else if(VisaCountry == "Czech")
+                        InitDefaultsCzech();
 
                 return _dataSet;
             }
         }
 
-        private static void InitDefaults()
+        private static void InitDefaultsPoland()
         {
-            InitServiceCenters();
-            InitVicaCategories();
+            InitServiceCentersPoland();
+            InitVisaCategoriesPoland();
+            InitReasonType();
+            InitStatusType();
+            InitCountries();
+            InitRegistryTime();
+            Initialized = true;
+        }
+
+        private static void InitDefaultsCzech()
+        {
+            InitServiceCentersCzech();
+            InitVisaCategoriesCzech();
             InitReasonType();
             InitStatusType();
             InitCountries();
@@ -1531,7 +1547,7 @@ namespace Visa.Database
         /// <summary>
         ///     Insert into dataset all default Visa Categories
         /// </summary>
-        private static void InitVicaCategories()
+        private static void InitVisaCategoriesPoland()
         {
             var catRow = _dataSet.Choice.NewChoiceRow();
             catRow.Name = "Місцевий Прикордонний Рух";
@@ -1567,9 +1583,89 @@ namespace Visa.Database
         }
 
         /// <summary>
+        ///     Insert into dataset all default Visa Categories
+        /// </summary>
+        private static void InitVisaCategoriesCzech()
+        {
+            var catRow = _dataSet.Choice.NewChoiceRow();
+            catRow.Name = "Туризм";
+            catRow.Value = "23";
+            catRow.Type = (short)ChoicesType.VisaCategory;
+            _dataSet.Choice.AddChoiceRow(catRow);
+
+            catRow = _dataSet.Choice.NewChoiceRow();
+            catRow.Name = "Employment up to 90 days";
+            catRow.Value = "46";
+            catRow.Type = (short)ChoicesType.VisaCategory;
+            _dataSet.Choice.AddChoiceRow(catRow);
+
+            catRow = _dataSet.Choice.NewChoiceRow();
+            catRow.Name = "Бізнес";
+            catRow.Value = "24";
+            catRow.Type = (short)ChoicesType.VisaCategory;
+            _dataSet.Choice.AddChoiceRow(catRow);
+
+            catRow = _dataSet.Choice.NewChoiceRow();
+            catRow.Name = "Візит до родичів або друзів";
+            catRow.Value = "26";
+            catRow.Type = (short)ChoicesType.VisaCategory;
+            _dataSet.Choice.AddChoiceRow(catRow);
+
+            catRow = _dataSet.Choice.NewChoiceRow();
+            catRow.Name = "Навчання";
+            catRow.Value = "29";
+            catRow.Type = (short)ChoicesType.VisaCategory;
+            _dataSet.Choice.AddChoiceRow(catRow);
+
+            catRow = _dataSet.Choice.NewChoiceRow();
+            catRow.Name = "Спорт";
+            catRow.Value = "28";
+            catRow.Type = (short)ChoicesType.VisaCategory;
+            _dataSet.Choice.AddChoiceRow(catRow);
+
+            catRow = _dataSet.Choice.NewChoiceRow();
+            catRow.Name = "Культурні, наукові чи мистецькі заходи";
+            catRow.Value = "27";
+            catRow.Type = (short)ChoicesType.VisaCategory;
+            _dataSet.Choice.AddChoiceRow(catRow);
+
+            catRow = _dataSet.Choice.NewChoiceRow();
+            catRow.Name = "Офіційний візит";
+            catRow.Value = "25";
+            catRow.Type = (short)ChoicesType.VisaCategory;
+            _dataSet.Choice.AddChoiceRow(catRow);
+
+            catRow = _dataSet.Choice.NewChoiceRow();
+            catRow.Name = "Лікування";
+            catRow.Value = "30";
+            catRow.Type = (short)ChoicesType.VisaCategory;
+            _dataSet.Choice.AddChoiceRow(catRow);
+
+            catRow = _dataSet.Choice.NewChoiceRow();
+            catRow.Name = "Водії";
+            catRow.Value = "31";
+            catRow.Type = (short)ChoicesType.VisaCategory;
+            _dataSet.Choice.AddChoiceRow(catRow);
+
+            catRow = _dataSet.Choice.NewChoiceRow();
+            catRow.Name = "Журналісти";
+            catRow.Value = "32";
+            catRow.Type = (short)ChoicesType.VisaCategory;
+            _dataSet.Choice.AddChoiceRow(catRow);
+
+            catRow = _dataSet.Choice.NewChoiceRow();
+            catRow.Name = "Чеські співвітчизники";
+            catRow.Value = "33";
+            catRow.Type = (short)ChoicesType.VisaCategory;
+            _dataSet.Choice.AddChoiceRow(catRow);
+
+            _dataSet.AcceptChanges();
+        }
+
+        /// <summary>
         ///     Insert into dataset all default Service Centers
         /// </summary>
-        private static void InitServiceCenters()
+        private static void InitServiceCentersPoland()
         {
             var servCentRow = _dataSet.Choice.NewChoiceRow();
             servCentRow.Name = "Польщі Івано-Франківськ";
@@ -1653,6 +1749,55 @@ namespace Visa.Database
             servCentRow.Name = "Польщі Чернівці";
             servCentRow.Value = "21";
             servCentRow.Type = (short) ChoicesType.ServiceCenter;
+            _dataSet.Choice.AddChoiceRow(servCentRow);
+
+            _dataSet.AcceptChanges();
+        }
+        /// <summary>
+        ///     Insert into dataset all default Service Centers
+        /// </summary>
+        private static void InitServiceCentersCzech()
+        {
+            var servCentRow = _dataSet.Choice.NewChoiceRow();
+            servCentRow.Name = "Чехії Київ";
+            servCentRow.Value = "1";
+            servCentRow.Type = (short)ChoicesType.ServiceCenter;
+            _dataSet.Choice.AddChoiceRow(servCentRow);
+
+            servCentRow = _dataSet.Choice.NewChoiceRow();
+            servCentRow.Name = "Чехії Львів";
+            servCentRow.Value = "2";
+            servCentRow.Type = (short)ChoicesType.ServiceCenter;
+            _dataSet.Choice.AddChoiceRow(servCentRow);
+
+            servCentRow = _dataSet.Choice.NewChoiceRow();
+            servCentRow.Name = "Чехії Одеса";
+            servCentRow.Value = "3";
+            servCentRow.Type = (short)ChoicesType.ServiceCenter;
+            _dataSet.Choice.AddChoiceRow(servCentRow);
+
+            servCentRow = _dataSet.Choice.NewChoiceRow();
+            servCentRow.Name = "Чехії Дніпропетровськ";
+            servCentRow.Value = "5";
+            servCentRow.Type = (short)ChoicesType.ServiceCenter;
+            _dataSet.Choice.AddChoiceRow(servCentRow);
+
+            servCentRow = _dataSet.Choice.NewChoiceRow();
+            servCentRow.Name = "Чехії Ужгород";
+            servCentRow.Value = "6";
+            servCentRow.Type = (short)ChoicesType.ServiceCenter;
+            _dataSet.Choice.AddChoiceRow(servCentRow);
+
+            servCentRow = _dataSet.Choice.NewChoiceRow();
+            servCentRow.Name = "Чехії Ivano Frankivsk";
+            servCentRow.Value = "7";
+            servCentRow.Type = (short)ChoicesType.ServiceCenter;
+            _dataSet.Choice.AddChoiceRow(servCentRow);
+
+            servCentRow = _dataSet.Choice.NewChoiceRow();
+            servCentRow.Name = "Чехії Харків";
+            servCentRow.Value = "8";
+            servCentRow.Type = (short)ChoicesType.ServiceCenter;
             _dataSet.Choice.AddChoiceRow(servCentRow);
 
             _dataSet.AcceptChanges();
