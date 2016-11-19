@@ -246,14 +246,6 @@ namespace Visa.WebCrawler.RegistrationModule
                     }
                     var isAvailableDate =
                         _crawlerRegistry.CheckDate(CurrentClientDataRow);
-                    //if (_crawlerRegistry.FillCapchaFailed)
-                    //{
-                    //    _crawlerRegistry.Error = false;
-                    //    _progressState = ProgressState.SelectVisaType;
-                    //    _logger.Warn("Fill Capcha Failed");
-                    //    _crawlerRegistry.FillCapchaFailed = false;
-                    //    return;
-                    //}
                     if (!_crawlerRegistry.Error)
                     {
                         if (isAvailableDate)
@@ -326,30 +318,6 @@ namespace Visa.WebCrawler.RegistrationModule
                     }
                     _crawlerRegistry.BackToCityAndReason();
                     _progressState = ProgressState.SelectCityAndReason;
-                    break;
-
-                //case ProgressState.Receipt:
-                //    //todo bbenetskyy 26.08.2016 - this is temporary fix, should be reviewed and refactored
-                //    if (_crawlerRegistry.SpecialTmpCheckForCapchaError())
-                //    {
-                //        _logger.Warn("Capcha was not fill!!!");
-                //        _progressState = ProgressState.SubmitDate;
-                //        return;
-                //    }
-                //    if (_crawlerRegistry.Error)
-                //    {
-                //        _progressState = ProgressState.SubmitReciept;
-                //        return;
-                //    }
-                //    _crawlerRegistry.RunNextStep(
-                //        () => _crawlerRegistry.Receipt(CurrentClientDataRow));
-                //    _progressState = ProgressState.SubmitReciept;
-                //    break;
-
-                case ProgressState.SubmitReciept:
-                    _crawlerRegistry.RunNextStep(
-                        () => _crawlerRegistry.PressSubmitButton());
-                    _progressState = ProgressState.EmailAndPassword;
                     break;
 
                 case ProgressState.EmailAndPassword:

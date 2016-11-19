@@ -289,7 +289,13 @@ namespace Visa.WebCrawler.SeleniumCrawler
         public void ClientData(VisaDataSet.ClientDataRow dataRow)
         {
             _logger.Trace($"Start ClientData. Error = {Error}");
-            var txtBox = FindElementWithChecking(By.Id(EndPassportDate));
+            var txtBox = FindElementWithChecking(By.Id(PassportNumber));
+            txtBox.Clear();
+            txtBox.SendKeys(dataRow.PassportNumber);
+            _logger.Info(
+                $"ClientData. PassportNumber set text {dataRow.PassportNumber}");
+
+            txtBox = FindElementWithChecking(By.Id(EndPassportDate));
             txtBox.Clear();
             txtBox.SendKeys(
                     dataRow.EndPassportDate.ToShortDateString().Replace(".",
@@ -319,7 +325,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             txtBox.Clear();
             txtBox.SendKeys(dataRow.Birthday.ToShortDateString().Replace(".",
                    "/"));
-            _logger.Info(
+            _logger.Info( //.ToString("dd/MM/yy")
                 $"ClientData. personBirthday set text {dataRow.Birthday.ToShortDateString().Replace(".", "/")}");
 
             txtBox = FindElementWithChecking(By.Id(ReturnDate));
@@ -329,6 +335,12 @@ namespace Visa.WebCrawler.SeleniumCrawler
                     "/"));
             _logger.Info(
                 $"ClientData. returnDate set text {dataRow.ReturnData.ToShortDateString().Replace(".", "/")}");
+
+            txtBox = FindElementWithChecking(By.Id(CellNumber));
+            txtBox.Clear();
+            txtBox.SendKeys(dataRow.CellNumber);
+            _logger.Info(
+                $"ClientData. CellNumber set text {dataRow.CellNumber}");
 
             FindElementWithChecking(By.Id(Nationality))
                 .FindElement(
@@ -379,25 +391,34 @@ namespace Visa.WebCrawler.SeleniumCrawler
         private const string ErrorMessage = "ctl00_plhMain_lblMsg";
         //Ок текст - на коли можна зареєструватись
 
+        private const string PassportNumber =
+            "ctl00_plhMain_repAppVisaDetails_ctl01_tbxPassportNo";
+        //номер закордонного паспорта (лише цифри RegularExpression "^([\\w]|[ ])*$")
+
         private const string EndPassportDate =
             "ctl00_plhMain_repAppVisaDetails_ctl01_tbxPPTEXPDT";
-
         //Дата закінчення терміну дії паспорту
 
         private const string StatusField =
             "ctl00_plhMain_repAppVisaDetails_ctl01_cboTitle"; //Статус
 
         private const string PersonName =
-            "ctl00_plhMain_repAppVisaDetails_ctl01_tbxFName"; //Ім'я
+            "ctl00_plhMain_repAppVisaDetails_ctl01_tbxFName";
+        //Ім'я (тільки букви RegularExpression "^([a-zA-Z])+$")
 
         private const string PersonLastName =
-            "ctl00_plhMain_repAppVisaDetails_ctl01_tbxLName"; //Прізвище
+            "ctl00_plhMain_repAppVisaDetails_ctl01_tbxLName";
+        //Прізвище (тільки букви RegularExpression "^([a-zA-Z])+$")
 
         private const string PersonBirthday =
             "ctl00_plhMain_repAppVisaDetails_ctl01_tbxDOB"; //Дата народження
 
         private const string ReturnDate =
             "ctl00_plhMain_repAppVisaDetails_ctl01_tbxReturn"; //Дата повернення
+
+        private const string CellNumber =
+            "ctl00_plhMain_repAppVisaDetails_ctl01_tbxContactNumber";
+        //Контактний номер телефону (RegularExpression "^([0-9]|[-])+$")
 
         private const string Nationality =
             "ctl00_plhMain_repAppVisaDetails_ctl01_cboNationality";

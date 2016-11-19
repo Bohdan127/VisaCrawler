@@ -1366,6 +1366,15 @@ namespace Visa.Database
             _dataSet.Choice.AddChoiceRow(countryRow);
 
             countryRow = _dataSet.Choice.NewChoiceRow();
+            if (VisaCountry == "Poland")
+                countryRow.Name = "Ukrainians";
+            else
+                countryRow.Name = "TURKS AND CAICOS ISLANDS";
+            countryRow.Value = "216";
+            countryRow.Type = (short) ChoicesType.Country;
+            _dataSet.Choice.AddChoiceRow(countryRow);
+
+            countryRow = _dataSet.Choice.NewChoiceRow();
             countryRow.Name = "TUVALU";
             countryRow.Value = "217";
             countryRow.Type = (short) ChoicesType.Country;
@@ -1380,12 +1389,6 @@ namespace Visa.Database
             countryRow = _dataSet.Choice.NewChoiceRow();
             countryRow.Name = "UKRAINE";
             countryRow.Value = "219";
-            countryRow.Type = (short) ChoicesType.Country;
-            _dataSet.Choice.AddChoiceRow(countryRow);
-
-            countryRow = _dataSet.Choice.NewChoiceRow();
-            countryRow.Name = "Ukrainians";
-            countryRow.Value = "216";
             countryRow.Type = (short) ChoicesType.Country;
             _dataSet.Choice.AddChoiceRow(countryRow);
 
