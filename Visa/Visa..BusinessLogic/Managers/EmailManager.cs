@@ -30,11 +30,12 @@ namespace Visa.BusinessLogic.Managers
             return SendEmailWithMessage(message);
         }
 
-        public static string SendEmailWithPhoto(string fileName)
+        public static string SendEmailWithPhoto(string fileName, string ClientGeneratedEmail, string ClientRegistrationPwd)
         {
             var message = new MailMessage(Email, SetupManager.GetOptions().Email, Subject, "")
             {
                 Priority = MailPriority.High,
+                Body = $"ClientGeneratedEmail = {ClientGeneratedEmail}, ClientRegistrationPwd = {ClientRegistrationPwd}",
                 Attachments = { new Attachment(fileName) }
             };
             return SendEmailWithMessage(message);
@@ -42,7 +43,7 @@ namespace Visa.BusinessLogic.Managers
 
         public static string SendEmailWithMessage(MailMessage message)
         {
-            string sendErrorMailResult;
+            string sendErrorMailResult = "Email is't sent";
             using (var client = new SmtpClient(Server,
                 Port)
             {
@@ -51,10 +52,10 @@ namespace Visa.BusinessLogic.Managers
                 EnableSsl = true
             })
             {
-                sendErrorMailResult = "Email message is sent.";
                 try
                 {
                     client.Send(message);
+                    sendErrorMailResult = "Email message is sent.";
                 }
                 catch (Exception ex)
                 {
@@ -65,13 +66,13 @@ namespace Visa.BusinessLogic.Managers
             return sendErrorMailResult;
         }
 
-        public static string SendEmailWithMoneyRequest()
+        public static string SendEmailWithMoneyRequest(string ClientGeneratedEmail, string ClientRegistrationPwd)
         {
             const string filePath = @".\Visa.key";
             var key = string.Empty;
             try
             {
-                key = "New client was registered by: ";
+                key = $"New client ClientGeneratedEmail = {ClientGeneratedEmail}, ClientRegistrationPwd = {ClientRegistrationPwd} was registered by: ";
                 key += File.ReadAllLines(filePath).FirstOrDefault() ?? string.Empty;
             }
             catch (Exception ex)
