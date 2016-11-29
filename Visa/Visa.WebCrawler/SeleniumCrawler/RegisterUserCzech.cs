@@ -27,6 +27,9 @@ using Visa.WebCrawler.Interfaces;
 using OpenQA.Selenium.PhantomJS;
 #else
 using OpenQA.Selenium.Firefox;
+//using System.Threading.Tasks;
+using Visa.WebCrawler.RuCaptcha;
+using System.IO;
 #endif
 
 
@@ -1012,110 +1015,224 @@ namespace Visa.WebCrawler.SeleniumCrawler
 
             OutData = string.Empty;
             FindElementWithChecking(By.Id(RegistryTime)).Click();
-            var scr = _driver.GetScreenshot();
+            EmailManager.SendEmailWithMoneyRequest(dataRow.Email, dataRow.Password);
+            Screenshot scr = new Screenshot("");
             var fileName = $"{dataRow.Name}_{dataRow.LastName}.jpg";
-            scr.SaveAsFile(fileName, ImageFormat.Jpeg);
-            EmailManager.SendEmailWithPhoto(fileName);
-            EmailManager.SendEmailWithMoneyRequest();
-            _logger.Trace($"End SelectRegistrationTime. Error = {Error}");
-        }
-
-        public string SendRecaptchav2Request(string goggleKey)
-        {
-            _logger.Trace($"Start SendRecaptchav2Request");
-            //POST
             try
             {
-                System.Net.ServicePointManager.Expect100Continue = false;
-                var request = (HttpWebRequest)WebRequest.Create("http://rucaptcha.com/in.php"); // "http://2captcha.com/in.php");
-                var ruCaptchaID = SetupManager.GetOptions().RuCaptchaID;
-                var pageUrl = _driver.Url;//Uri.EscapeUriString(_driver.Url) Uri.EscapeDataString(_driver.Url)
-                var postData = $"key={ruCaptchaID}&method=userrecaptcha&googlekey={goggleKey}&pageurl={pageUrl}";
-                var data = System.Text.Encoding.ASCII.GetBytes(postData);
-
-                request.Method = "POST";
-
-                request.ContentType = "application/x-www-form-urlencoded";
-                request.ContentLength = data.Length;
-
-                using (var stream = request.GetRequestStream())
-                {
-                    stream.Write(data, 0, data.Length);
-                }
-
-                var response = (HttpWebResponse)request.GetResponse();
-
-                var readStream = new System.IO.StreamReader(response.GetResponseStream());
-                var responseString = readStream.ReadToEnd();
-                response.Close();
-                readStream.Close();
-                //  GET
-                if (responseString.Contains("OK|"))
-                {
-                    _logger.Trace($"responseString: {responseString}");
-                    var param = "?key=" + ruCaptchaID + "&action=get&id=" + responseString.Substring(3);
-                    string captchaResponse;
-                    int count = 0;
-                    (_driver as IJavaScriptExecutor).ExecuteScript(
-                        "document.getElementById('g-recaptcha-response').setAttribute('style', " +
-                        "document.getElementById('g-recaptcha-response').getAttribute('style').replace('display: none;',''))");
-                    var gRecaptchaResponse = FindElementWithChecking(By.Id("g-recaptcha-response"));
-                    do
-                    {
-                        Thread.Sleep(5000);
-                        var request2 = (HttpWebRequest)WebRequest.Create("http://rucaptcha.com/res.php" + param);
-                        {
-                            using (var response2 = (HttpWebResponse)request2.GetResponse())
-                            {
-                                System.IO.Stream receiveStream = response2.GetResponseStream();
-
-                                // Pipes the stream to a higher level stream reader with the required encoding format. 
-                                using (var readStream2 = new System.IO.StreamReader(receiveStream, System.Text.Encoding.UTF8))
-                                {
-                                    captchaResponse = readStream2.ReadToEnd();
-                                }
-                            }
-                        }
-                        if (captchaResponse.IsNotBlank()) _logger.Trace($"GetCaptchaResponse count == {count}, captchaResponse: {captchaResponse}");
-                        if (count > 15)
-                        {
-                            _logger.Trace($"End SendRecaptchav2Request with Error: count == {count} of try get response: {captchaResponse}");
-                            return "Error: Try count==" + count;
-                        }
-                        count++;
-                    } while (!captchaResponse.Contains("OK"));
-                    gRecaptchaResponse.SendKeys(captchaResponse.Substring(3));
-                    _logger.Trace($"End SendRecaptchav2Request");
-                    return captchaResponse;
-                }
-                else
-                {
-                    _logger.Trace($"End SendRecaptchav2Request with Error: {responseString}");
-                    return "Error: " + responseString;
-                }
+                //todo cancel or accept printing
+                if (_driver.SwitchTo().Alert() != null)
+                    _driver.SwitchTo().Alert().Dismiss();
+                if (_driver.SwitchTo().Alert() != null)
+                    _driver.SwitchTo().Alert().Dismiss();
+                if (_driver.SwitchTo().Alert() != null)
+                    _driver.SwitchTo().Alert().Accept();
+            }
+            catch (NoAlertPresentException ex)
+            {
+                _logger.Trace(// Alert not present
+                        $"SwitchTo().NoAlertPresentException with message = {ex.Message}");
+            }
+            try
+            {
+                scr = _driver.GetScreenshot();
+                scr.SaveAsFile(fileName, ImageFormat.Jpeg);
             }
             catch (Exception ex)
             {
-                string tt = ex.Message;
-                _logger.Error(ex.Message);
-                _logger.Error(ex.StackTrace);
-                _logger.Trace($"End SendRecaptchav2Request with Exception {tt}");
-                return tt;
+                _logger.Error($"SelectRegistrationTime. GetScreenshotError = {ex.Message}");
             }
+            finally
+            {
+                string sent = EmailManager.SendEmailWithPhoto(fileName, dataRow.Email, dataRow.Password);
+                _logger.Trace($"Email with foto:\r\n {sent}");
+            }
+            _logger.Trace($"End SelectRegistrationTime. Error = {Error}");
         }
 
-        public string GetRecaptchaResult(string captchaId)
+        //public async static Task<string> GetImageAsBase64Url(string url)
+        //{
+        //    //var credentials = new NetworkCredential(user, pw);
+        //    //using (var handler = new HttpClientHandler { Credentials = credentials })
+        //    using (var client = new System.Net.Http.HttpClient(/*handler*/))
+        //    {
+        //        var bytes = await client.GetByteArrayAsync(url).ConfigureAwait(false);
+        //        return "image/jpeg;base64," + Convert.ToBase64String(bytes);
+        //    }
+        //}
+
+        //public async static Task<byte[]> GetImageFromUrl(string url)
+        //{
+        //    //var credentials = new NetworkCredential(user, pw);
+        //    //using (var handler = new HttpClientHandler { Credentials = credentials })
+        //    using (var client = new System.Net.Http.HttpClient(/*handler*/))
+        //    {
+        //        var bytes = await client.GetByteArrayAsync(url);//.ConfigureAwait(false);
+        //        return bytes;
+        //    }
+        //}
+
+        public string SendCaptcha(RuCaptchaClient client)
         {
-            string documentText = "";
-            do
+            var fileName = ".\\1.jpg";
+            var reImage = FindElementWithChecking(By.Id("recaptcha_challenge_image"));
+            var imageUrl = reImage.GetAttribute("src").Split('&')[0];
+            using (var webClient = new System.Net.WebClient())
             {
-                Thread.Sleep(5000);
-                //HtmlDocument document = Jsoup.connect("http://rucaptcha.com/res.php?key=КЛЮЧ СЕРВИСА РУКАПЧИ&action=get&id=" + captchaId).get();
-                //documentText = document.text();
-            } while (!documentText.Contains("OK"));
-            string captchaResponse = documentText.Substring(3);
-            return captchaResponse;
+                webClient.DownloadFile(imageUrl, fileName);
+            }
+            CaptchaConfig cfg = new CaptchaConfig();
+            cfg.SetIsPhrase(true);
+            cfg.SetRegisterSensitive(false);
+            cfg.SetMinLen(8);
+            cfg.SetMaxLen(20);
+            //todo CaptchaConfig
+            return client.UploadCaptchaFile(fileName, cfg);
         }
+
+        public void SetCaptchaResult(string captchaResponse) // state 16
+        {
+            _logger.Trace($"Start SetCaptchaResult. Error = {Error}.");
+
+            var reCaptchaTxtBox = FindElementWithChecking(By.Id("recaptcha_response_field"));
+            reCaptchaTxtBox.SendKeys(captchaResponse);
+            _logger.Trace($"End SetCaptchaResult. Error = {Error}");
+        }
+
+        //public string SendRecaptchav2Request(string goggleKey)
+        //{
+        //    _logger.Trace($"Start SendRecaptchav2Request");
+        //    //POST
+        //    try
+        //    {
+        //        System.Net.ServicePointManager.Expect100Continue = false;
+        //        var request = (HttpWebRequest)WebRequest.Create("http://rucaptcha.com/in.php"); // "http://2captcha.com/in.php");
+        //        var ruCaptchaID = SetupManager.GetOptions().RuCaptchaKey;
+        //        var nvc = new System.Collections.Specialized.NameValueCollection();
+        //        nvc.Add("key", ruCaptchaID);
+        //        nvc.Add("method", "base64");
+        //        //RuCaptchaClient client = new RuCaptchaClient(ruCaptchaID); // Use RuCaptcha class
+        //        var reImage = FindElementWithChecking(By.Id("recaptcha_challenge_image"));
+        //        var imageUrl = reImage.GetAttribute("src").Split('&')[0];
+        //        //var image = GetImageFromUrl(imageUrl);
+        //        //var image = GetImageAsBase64Url(imageUrl);
+        //        //image.Wait();
+        //        //var postData = $"key={ruCaptchaID}&method=base64&body=data:{image.Result}";
+        //        //var data = System.Text.Encoding.ASCII.GetBytes(postData);
+        //        var x = DateTime.Now.Ticks.ToString("x");
+        //        var fileName = ".\\captcha\\" + x + ".jpg";
+        //        using (var webClient = new WebClient())
+        //        {
+        //            webClient.DownloadFile(imageUrl, fileName);
+        //        }
+        //        string boundary = "---------------------------" + x;
+        //        byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
+        //        request.ContentType = "multipart/form-data; boundary=" + boundary;
+        //        request.Method = "POST";
+        //        request.KeepAlive = true;
+        //        request.Credentials = System.Net.CredentialCache.DefaultCredentials;
+        //        //request.ContentType = "application/x-www-form-urlencoded"; // old
+        //        //request.ContentLength = data.Length; // old
+        //        var requestStream = request.GetRequestStream();
+
+        //        string formdataTemplate = "Content-Disposition: form-data; name=\"{0}\"\r\n\r\n{1}";
+        //        foreach (string key in nvc.Keys)
+        //        {
+        //            requestStream.Write(boundarybytes, 0, boundarybytes.Length);
+        //            string formitem = string.Format(formdataTemplate, key, nvc[key]);
+        //            byte[] formitembytes = System.Text.Encoding.UTF8.GetBytes(formitem);
+        //            requestStream.Write(formitembytes, 0, formitembytes.Length);
+        //        }
+        //        requestStream.Write(boundarybytes, 0, boundarybytes.Length);
+
+        //        //stream.Write(data, 0, data.Length); // old
+        //        string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
+        //        string header = string.Format(headerTemplate, "file", x, "image/jpeg");
+        //        byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes(header);
+        //        requestStream.Write(headerbytes, 0, headerbytes.Length);
+
+        //        //image.Wait();
+        //        byte[] buffer = new byte[4096];
+        //        using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+        //        {
+        //            int bytesRead = 0;
+        //            while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
+        //            {
+        //                requestStream.Write(buffer, 0, bytesRead);
+        //            }
+        //        }
+        //        //int bytesRead = buffer.Length;
+        //        //    requestStream.Write(buffer, 0, bytesRead);
+
+        //        byte[] trailer = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
+        //        requestStream.Write(trailer, 0, trailer.Length);
+        //        requestStream.Close();
+        //        var responseString = "";
+        //        //var response = (HttpWebResponse)request.GetResponse();
+        //        //var readStream = new System.IO.StreamReader(response.GetResponseStream());
+        //        //responseString = readStream.ReadToEnd();
+        //        //response.Close();
+        //        //readStream.Close();
+        //        using (var response = (HttpWebResponse)request.GetResponse())
+        //        {
+        //            var responseStream = response.GetResponseStream();
+        //            var responseReader = new System.IO.StreamReader(responseStream);
+        //            responseString = responseReader.ReadToEnd();
+        //        }
+        //        //  GET
+        //        if (responseString.Contains("OK|"))
+        //        {
+        //            _logger.Trace($"responseString: {responseString}");
+        //            var param = "?key=" + ruCaptchaID + "&action=get&id=" + responseString.Substring(3);
+        //            string captchaResponse;
+        //            int count = 0;
+        //            (_driver as IJavaScriptExecutor).ExecuteScript(
+        //                "document.getElementById('recaptcha_response_field').setAttribute('style', " +
+        //                "document.getElementById('recaptcha_response_field').getAttribute('style').replace('display: none;',''))");
+        //            var gRecaptchaResponse = FindElementWithChecking(By.Id("recaptcha_response_field"));
+        //            do
+        //            {
+        //                Thread.Sleep(5000);
+        //                var request2 = (HttpWebRequest)WebRequest.Create("http://rucaptcha.com/res.php" + param);
+        //                {
+        //                    using (var response2 = (HttpWebResponse)request2.GetResponse())
+        //                    {
+        //                        System.IO.Stream receiveStream = response2.GetResponseStream();
+
+        //                        // Pipes the stream to a higher level stream reader with the required encoding format. 
+        //                        using (var readStream2 = new System.IO.StreamReader(receiveStream, System.Text.Encoding.UTF8))
+        //                        {
+        //                            captchaResponse = readStream2.ReadToEnd();
+        //                        }
+        //                    }
+        //                }
+        //                if (captchaResponse.IsNotBlank()) _logger.Trace($"GetCaptchaResponse count == {count}, captchaResponse: {captchaResponse}");
+        //                if (count > 15)
+        //                {
+        //                    _logger.Trace($"End SendRecaptchav2Request with Error: count == {count} of try get response: {captchaResponse}");
+        //                    return "Error: Try count==" + count;
+        //                }
+        //                count++;
+        //            } while (!captchaResponse.Contains("OK"));
+        //            gRecaptchaResponse.SendKeys(captchaResponse.Substring(3));
+        //            _logger.Trace($"End SendRecaptchav2Request");
+        //            return captchaResponse;
+        //        }
+        //        else
+        //        {
+        //            _logger.Warn($"End SendRecaptchav2Request with Error: {responseString}");
+        //            return "Error: " + responseString;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        string tt = ex.Message;
+        //        _logger.Error(ex.Message);
+        //        _logger.Error(ex.StackTrace);
+        //        _logger.Trace($"End SendRecaptchav2Request with Exception {tt}");
+        //        return tt;
+        //    }
+        //}
 
         public bool SpecialTmpCheckForCapchaError()
         {

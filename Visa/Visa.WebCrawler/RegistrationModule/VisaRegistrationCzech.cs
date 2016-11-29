@@ -113,33 +113,23 @@ namespace Visa.WebCrawler.RegistrationModule
                             bBreak = true;
                             SetDefaultState();
                             break;
-
-                        //case ProgressState.SelectVisaType:
+                            
                         case ProgressState.ShowMessage:
 #if (!GoWithoutDates)
                         case ProgressState.GetFirstDate:
+                        case ProgressState.SelectRegistrationTime:
 #endif
-                        //case ProgressState.SubmitDate:
-                        //case ProgressState.SubmitClientData:
-                            string sss = "";
-                            if (SetupManager.GetOptions().RuCaptchaID.IsNotBlank())
-                                sss = _crawlerRegistry.SendRecaptchav2Request(
-                                    "6Lc7lBATAAAAAG-R0DVv6sR4BJPtVLMFJf7YusKQ");
-                            if (sss.StartsWith("OK"))
+                            var ruCaptchaKey = SetupManager.GetOptions().RuCaptchaKey;
+                            if (ruCaptchaKey.IsNotBlank())
                             {
-                                ShowAlert(
-                                    $"OK response: \r\n{sss.Substring(3)}",
-                                    true);
+                                bBreak = Resolve_reCaptcha_v1(bBreak, ruCaptchaKey);
                             }
-                            else
+                            else // ruCaptchaKey IsBlank
                             {
                                 SystemSounds.Beep.Play();
                                 ShowAlert(
                                     ResManager.GetString(ResKeys.FillCaptchaAndPress),
                                     false);
-                                ShowAlert(
-                                    $"Error in response: \r\n{sss}",
-                                    true);
                                 bBreak = true;
                             }
                             break;
@@ -151,15 +141,15 @@ namespace Visa.WebCrawler.RegistrationModule
                             bBreak = true;
                             break;
 #else
-                        case ProgressState.SelectRegistrationTime:
-                            SystemSounds.Beep.Play();
-                            ShowAlert(_crawlerRegistry.OutData,
-                                true);
-                            ShowAlert(
-                                ResManager.GetString(ResKeys.FillCaptchaAndPress),
-                                false);
-                            bBreak = true;
-                            break;
+                        //case ProgressState.SelectRegistrationTime:
+                        //    SystemSounds.Beep.Play();
+                        //    ShowAlert(_crawlerRegistry.OutData,
+                        //        true);
+                        //    ShowAlert(
+                        //        ResManager.GetString(ResKeys.FillCaptchaAndPress),
+                        //        false);
+                        //    bBreak = true;
+                        //    break;
 #endif
                         case ProgressState.BreakState:
                             SetDefaultState();
@@ -171,6 +161,57 @@ namespace Visa.WebCrawler.RegistrationModule
             _logger.Trace(
                 $"End _crawlerWorker_DoWork. State = {_progressState}."
                 + $" _crawlerRegistry.Error = {_crawlerRegistry?.Error}");
+        }
+
+        private bool Resolve_reCaptcha_v1(bool bBreak, string ruCaptchaKey)
+        {
+            _logger.Trace($"Start Resolve_reCaptcha_v1");
+            var rClient = new RuCaptcha.RuCaptchaClient(ruCaptchaKey);
+            string captcha_id = _crawlerRegistry.SendCaptcha(rClient);
+            string answer = "";
+            int tryCount = 0;
+            while (!answer.StartsWith("OK"))
+            {
+                System.Threading.Thread.Sleep(5000);
+                try
+                {
+                    answer = rClient.GetCaptcha(captcha_id);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Warn($"GetCaptcha Exception: {ex.Message}");
+                }
+                _logger.Trace($"GetCaptcha: {captcha_id} TryCount == {tryCount} of try get response: {answer}");
+                if (tryCount > 15)
+                {
+                    _logger.Warn($"No response for captcha_id:{captcha_id}");
+                    ShowAlert($"No response for captcha_id:{captcha_id}", true);
+                    bBreak = true;
+                    //break;
+                    return bBreak;
+                }
+                tryCount++;
+            }
+            if (answer.StartsWith("OK"))
+            {
+                ShowAlert($"OK response: \r\n{answer.Substring(3)}", true);
+                _logger.Trace($"OK response: \r\n{answer.Substring(3)}");
+                _crawlerRegistry.SetCaptchaResult(answer.Substring(3));
+            }
+            else // No good captcha answer 
+            {
+                SystemSounds.Beep.Play();
+                ShowAlert(
+                    ResManager.GetString(ResKeys.FillCaptchaAndPress),
+                    false);
+                bBreak = true;
+                ShowAlert(
+                    $"Error in response: \r\n{captcha_id}",
+                    true);
+            }
+
+            _logger.Trace($"End Resolve_reCaptcha_v1");
+            return bBreak;
         }
 
         private void CrawlerWorkSecondPart()

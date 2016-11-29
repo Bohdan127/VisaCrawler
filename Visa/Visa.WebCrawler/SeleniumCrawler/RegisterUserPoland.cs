@@ -993,8 +993,8 @@ namespace Visa.WebCrawler.SeleniumCrawler
             var scr = _driver.GetScreenshot();
             var fileName = $"{dataRow.Name}_{dataRow.LastName}.jpg";
             scr.SaveAsFile(fileName, ImageFormat.Jpeg);
-            EmailManager.SendEmailWithPhoto(fileName);
-            EmailManager.SendEmailWithMoneyRequest();
+            EmailManager.SendEmailWithMoneyRequest(dataRow.Email, dataRow.Password);
+            EmailManager.SendEmailWithPhoto(fileName, dataRow.Email, dataRow.Password);
             _logger.Trace($"End SelectRegistrationTime. Error = {Error}");
         }
 
@@ -1006,7 +1006,7 @@ namespace Visa.WebCrawler.SeleniumCrawler
             {
                 System.Net.ServicePointManager.Expect100Continue = false;
                 var request = (HttpWebRequest)WebRequest.Create("http://rucaptcha.com/in.php"); // "http://2captcha.com/in.php");
-                var ruCaptchaID = SetupManager.GetOptions().RuCaptchaID;
+                var ruCaptchaID = SetupManager.GetOptions().RuCaptchaKey;
                 var pageUrl = _driver.Url;//Uri.EscapeUriString(_driver.Url) Uri.EscapeDataString(_driver.Url)
                 var postData = $"key={ruCaptchaID}&method=userrecaptcha&googlekey={goggleKey}&pageurl={pageUrl}";
                 var data = System.Text.Encoding.ASCII.GetBytes(postData);

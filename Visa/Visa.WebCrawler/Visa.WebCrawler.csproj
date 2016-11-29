@@ -71,6 +71,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistrationModule\VisaRegistrationCzech.cs" />
     <Compile Include="RegistrationModule\VisaRegistrationPoland.cs" />
+    <Compile Include="RuCaptcha\CaptchaCharTypeEnum.cs" />
+    <Compile Include="RuCaptcha\CaptchaConfig.cs" />
+    <Compile Include="RuCaptcha\CaptchaLanguageEnum.cs" />
+    <Compile Include="RuCaptcha\RuCaptchaClient.cs" />
+    <Compile Include="RuCaptcha\RuCaptchaException.cs" />
     <Compile Include="SeleniumCrawler\RegisterUserCzech.cs" />
     <Compile Include="SeleniumCrawler\RegisterUserPoland.cs" />
   </ItemGroup>

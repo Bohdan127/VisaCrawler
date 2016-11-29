@@ -122,7 +122,7 @@ namespace Visa.WebCrawler.RegistrationModule
                         case ProgressState.SubmitDate:
                         case ProgressState.SubmitClientData:
                             string sss = "";
-                            if (SetupManager.GetOptions().RuCaptchaID.IsNotBlank())
+                            if (SetupManager.GetOptions().RuCaptchaKey.IsNotBlank())
                                 sss = _crawlerRegistry.SendRecaptchav2Request(
                                     "6Lc7lBATAAAAAG-R0DVv6sR4BJPtVLMFJf7YusKQ");
                             if (sss.StartsWith("OK"))
