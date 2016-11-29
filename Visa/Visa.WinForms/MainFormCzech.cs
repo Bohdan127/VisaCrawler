@@ -88,9 +88,12 @@ namespace Visa.WinForms
         {
             _logger.Info(
                 $"Start _alertControl_AlertClick. Alert Text - {e.AlertForm.Text}. State - {_progressState}");
-
-            GetVisaRegistration(sender).StartWork(null);
             e.AlertForm.Close();
+            GetVisaRegistration(sender).StartWork(null);
+            //e.AlertForm.Close();
+            //todo this do not close Alert in time, 
+            //but after second fillcaptcha is shown/ So you can't press on it
+            //need test
             _logger.Trace(
                 $"End _alertControl_AlertClick. e.AlertForm.IsAccessible = {e.AlertForm.IsAccessible}.");
         }

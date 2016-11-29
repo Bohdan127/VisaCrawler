@@ -53,7 +53,7 @@ namespace Visa.WinForms.Views
             // ReSharper disable once CoVariantArrayConversion
             listBoxControlProxies.Items.AddRange(options.Proxies);
             listBoxControlProxies.SelectAll();
-            textEditRuCaptchaID.Text = options.RuCaptchaID;
+            textEditRuCaptchaID.Text = options.RuCaptchaKey;
             toggleSwitchCheckForUpdates.EditValue = options.CheckForUpdates;
             toggleSwitchAutoUpdate.EditValue = options.AutoUpdates;
             _logger.Trace("End MapData");
@@ -162,7 +162,7 @@ namespace Visa.WinForms.Views
                 AvailabilityUrl = textEditUrl.EditValue.ConvertToStringOrNull(),
                 Email = textEditEmail.EditValue.ConvertToStringOrNull(),
                 Proxies = ToStringList(listBoxControlProxies.SelectedItems),
-                RuCaptchaID = textEditRuCaptchaID.EditValue.ConvertToStringOrNull(),
+                RuCaptchaKey = textEditRuCaptchaID.EditValue.ConvertToStringOrNull(),
                 CheckForUpdates = (bool)toggleSwitchCheckForUpdates.EditValue,
                 AutoUpdates = (bool)toggleSwitchAutoUpdate.EditValue,
             };
