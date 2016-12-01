@@ -58,7 +58,7 @@
             this.layoutControlItemUrl = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItemProxies = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItemRuCaptchaID = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItemRuCaptchaKey = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItemCheckForUpdates = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItemAutoUpdates = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
@@ -88,7 +88,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemUrl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemProxies)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemRuCaptchaID)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemRuCaptchaKey)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemCheckForUpdates)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemAutoUpdates)).BeginInit();
             this.SuspendLayout();
@@ -309,7 +309,7 @@
             this.layoutControlItemUrl,
             this.layoutControlItem3,
             this.layoutControlItemProxies,
-            this.layoutControlItemRuCaptchaID,
+            this.layoutControlItemRuCaptchaKey,
             this.layoutControlItemCheckForUpdates,
             this.layoutControlItemAutoUpdates});
             this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
@@ -418,13 +418,13 @@
             this.layoutControlItemProxies.Size = new System.Drawing.Size(376, 105);
             this.layoutControlItemProxies.TextSize = new System.Drawing.Size(172, 13);
             // 
-            // layoutControlItemRuCaptchaID
+            // layoutControlItemRuCaptchaKey
             // 
-            this.layoutControlItemRuCaptchaID.Control = this.textEditRuCaptchaID;
-            this.layoutControlItemRuCaptchaID.Location = new System.Drawing.Point(0, 305);
-            this.layoutControlItemRuCaptchaID.Name = "layoutControlItemRuCaptchaID";
-            this.layoutControlItemRuCaptchaID.Size = new System.Drawing.Size(376, 24);
-            this.layoutControlItemRuCaptchaID.TextSize = new System.Drawing.Size(172, 13);
+            this.layoutControlItemRuCaptchaKey.Control = this.textEditRuCaptchaID;
+            this.layoutControlItemRuCaptchaKey.Location = new System.Drawing.Point(0, 305);
+            this.layoutControlItemRuCaptchaKey.Name = "layoutControlItemRuCaptchaID";
+            this.layoutControlItemRuCaptchaKey.Size = new System.Drawing.Size(376, 24);
+            this.layoutControlItemRuCaptchaKey.TextSize = new System.Drawing.Size(172, 13);
             // 
             // layoutControlItemCheckForUpdates
             // 
@@ -481,7 +481,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemUrl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemProxies)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemRuCaptchaID)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemRuCaptchaKey)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemCheckForUpdates)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItemAutoUpdates)).EndInit();
             this.ResumeLayout(false);
@@ -517,7 +517,7 @@
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItemProxies;
         private DevExpress.XtraEditors.TextEdit textEditRuCaptchaID;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItemRuCaptchaID;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItemRuCaptchaKey;
         private DevExpress.XtraEditors.ToggleSwitch toggleSwitchAutoUpdate;
         private DevExpress.XtraEditors.ToggleSwitch toggleSwitchCheckForUpdates;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItemCheckForUpdates;

@@ -87,8 +87,18 @@ namespace Visa.WinForms.Views
 
             layoutControlItemEmail.Text =
                 ResManager.GetString(ResKeys.lblEmail);
+
             layoutControlItemProxies.Text =
                 ResManager.GetString(ResKeys.lblChooseProxies);
+
+            layoutControlItemRuCaptchaKey.Text =
+                ResManager.GetString(ResKeys.lblRuCaptchaKey);
+
+            layoutControlItemCheckForUpdates.Text =
+                ResManager.GetString(ResKeys.lblCheckForUpdates);
+
+            layoutControlItemAutoUpdates.Text =
+                ResManager.GetString(ResKeys.lblAutoUpdates);
 
             lookUpEditNationality.Properties.NullText =
                 ResManager.GetString(ResKeys.Nationality_NullText);
