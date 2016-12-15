@@ -31,11 +31,12 @@ namespace Visa.BusinessLogic.Managers
             _logger.Trace("End CTOR ImportManager");
         }
 
-        public static VisaDataSet.ClientDataRow ImportRowsFromExcel()
+        public static VisaDataSet.ClientDataRow[] ImportRowsFromExcel()
         {
             _logger.Trace("Start ImportRowsFromExcel");
-            VisaDataSet.ClientDataRow resRow = null;
+            VisaDataSet.ClientDataRow[] resRow = null;
             var visaDataSet = new VisaDataSet();
+            int rowsCount = 0;
             if (OpenFileDialog.ShowDialog() == DialogResult.OK)
             {
                 _logger.Info(
@@ -52,35 +53,54 @@ namespace Visa.BusinessLogic.Managers
                 excelReader.IsFirstRowAsColumnNames = true;
                 var result = excelReader.AsDataSet();
                 var sheetOne = result?.Tables[0];
-                var resDataRow = sheetOne?.Rows[0];
-
-                if (resDataRow == null)
-                    _logger.Error(
-                        $"ImportRowsFromExcel resDataRow == null. _openFileDialog.FileName = {OpenFileDialog.FileName}");
-                else
+                for (int i = 0; i < sheetOne?.Rows.Count; i++)
                 {
-                    resRow = visaDataSet.ClientData.NewClientDataRow();
-                    resRow.Nationality = resDataRow[0].ConvertToStringOrNull();
-                    resRow.VisaCity = resDataRow[1].ConvertToStringOrNull();
-                    resRow.VisaType = resDataRow[2].ConvertToStringOrNull();
-                    resRow.NumberOfReceipt =
-                        resDataRow[3].ConvertToStringOrNull();
-                    resRow.EndPassportDate = Convert.ToDateTime(resDataRow[4]);
-                    resRow.Status = resDataRow[5].ConvertToStringOrNull();
-                    resRow.Name = resDataRow[6].ConvertToStringOrNull();
-                    resRow.LastName = resDataRow[7].ConvertToStringOrNull();
-                    resRow.Birthday = Convert.ToDateTime(resDataRow[8]);
-                    resRow.RegistryFom = Convert.ToDateTime(resDataRow[9]);
-                    resRow.RegistryTo = Convert.ToDateTime(resDataRow[10]);
-                    if (resDataRow.Table.Columns.Count > 11)
+                    if (sheetOne?.Rows[i][0].ConvertToStringOrNull() != null)
+                        rowsCount = i + 1;
+                    else break;
+                }
+                if (rowsCount == 0)
+                {
+                    _logger.Trace($"End ImportRowsFromExcel. no one row imported");
+                    return null;
+                }
+                else
+                    resRow = new VisaDataSet.ClientDataRow[rowsCount];
+                for (int i = 0; i < rowsCount; i++)
+                {
+                    var resDataRow = sheetOne?.Rows[i];
+
+                    if (resDataRow == null)
+                        _logger.Error(
+                            $"ImportRowsFromExcel resDataRow == null. _openFileDialog.FileName = {OpenFileDialog.FileName}");
+                    else
                     {
-                        resRow.PassportNumber = resDataRow[11].ConvertToStringOrNull();
-                        resRow.CellNumber = resDataRow[12].ConvertToStringOrNull();
+                        resRow[i] = visaDataSet.ClientData.NewClientDataRow();
+                        resRow[i].Nationality = resDataRow[0].ConvertToStringOrNull();
+                        resRow[i].VisaCity = resDataRow[1].ConvertToStringOrNull();
+                        resRow[i].VisaType = resDataRow[2].ConvertToStringOrNull();
+                        resRow[i].NumberOfReceipt =
+                            resDataRow[3].ConvertToStringOrNull();
+                        resRow[i].EndPassportDate = Convert.ToDateTime(resDataRow[4]);
+                        resRow[i].Status = resDataRow[5].ConvertToStringOrNull();
+                        resRow[i].Name = resDataRow[6].ConvertToStringOrNull();
+                        resRow[i].LastName = resDataRow[7].ConvertToStringOrNull();
+                        resRow[i].Birthday = Convert.ToDateTime(resDataRow[8]);
+                        resRow[i].RegistryFom = Convert.ToDateTime(resDataRow[9]);
+                        resRow[i].RegistryTo = Convert.ToDateTime(resDataRow[10]);
+                        if (resDataRow.Table.Columns.Count > 11)
+                        {
+                            resRow[i].PassportNumber = resDataRow[11].ConvertToStringOrNull();
+                            resRow[i].CellNumber = resDataRow[12].ConvertToStringOrNull();
+                        }
                     }
                 }
             }
+            for (int i = 0; i < rowsCount; i++)
+                _logger.Trace(
+                    $"ImportRowsFromExcel. resRow[{i}].NumberOfReceipt = {resRow[i]?.NumberOfReceipt}");
             _logger.Trace(
-                    $"End ImportRowsFromExcel. resRow.NumberOfReceipt = {resRow?.NumberOfReceipt}");
+                   $"End ImportRowsFromExcel. rowsCount = {rowsCount}");
             return resRow;
         }
     }

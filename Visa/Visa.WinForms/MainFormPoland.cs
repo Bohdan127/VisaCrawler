@@ -277,44 +277,48 @@ namespace Visa.WinForms
                 != NewItemRowPosition.Bottom)
                 return;//todo bbenetskyy 07.09.2016 no free time, we should write logs for all my changes in 07.09.2016
 
-            gridView1.AddNewRow();
-            gridView1.FocusedRowHandle = gridView1.RowCount;
-            gridView1.Focus();
-            var dataRow = (VisaDataSet.ClientDataRow)gridView1.GetFocusedDataRow();
-            var importedRow = ImportManager.ImportRowsFromExcel();
-            if (importedRow == null)
+
+            var importedRows = ImportManager.ImportRowsFromExcel();
+            if (importedRows == null)
             {
                 _logger.Warn("barButtonItem2_ItemClick importedRow == null");
-                dataRow.Delete();
+                //dataRow.Delete();
                 return;
             }
-            dataRow.Nationality =
+            for (int i = 0; i < importedRows.Length; i++)
+            {
+                gridView1.AddNewRow();
+                gridView1.FocusedRowHandle = gridView1.RowCount;
+                gridView1.Focus();
+                var dataRow = (VisaDataSet.ClientDataRow)gridView1.GetFocusedDataRow();
+                dataRow.Nationality =
                 InstanceProvider.DataSet.Choice.FirstOrDefault(c =>
                     c.Type == (short)ChoicesType.Country
                     && Extentions.GetStringSimilarityInPercent(c.Name,
-                        importedRow.Nationality,
+                        importedRows[i].Nationality,
                         false) > 80)?.Value;
-            dataRow.VisaCity =
-                InstanceProvider.DataSet.Choice.FirstOrDefault(c =>
-                    c.Type == (short)ChoicesType.ServiceCenter
-                    && Extentions.GetStringSimilarityInPercent(c.Name,
-                        importedRow.VisaCity,
-                        false) > 80)?.Value;
-            dataRow.VisaType =
-                InstanceProvider.DataSet.Choice.FirstOrDefault(c =>
-                    c.Type == (short)ChoicesType.VisaCategory
-                    && Extentions.GetStringSimilarityInPercent(c.Name,
-                        importedRow.VisaType,
-                        false) > 80)?.Value;
-            dataRow.NumberOfReceipt = importedRow.NumberOfReceipt;
-            dataRow.EndPassportDate = importedRow.EndPassportDate;
-            dataRow.Status = importedRow.Status;
-            dataRow.Name = importedRow.Name;
-            dataRow.LastName = importedRow.LastName;
-            dataRow.Birthday = importedRow.Birthday;
-            dataRow.RegistryFom = importedRow.RegistryFom;
-            dataRow.RegistryTo = importedRow.RegistryTo;
-            gridView1.RefreshData();
+                dataRow.VisaCity =
+                    InstanceProvider.DataSet.Choice.FirstOrDefault(c =>
+                        c.Type == (short)ChoicesType.ServiceCenter
+                        && Extentions.GetStringSimilarityInPercent(c.Name,
+                            importedRows[i].VisaCity,
+                            false) > 80)?.Value;
+                dataRow.VisaType =
+                    InstanceProvider.DataSet.Choice.FirstOrDefault(c =>
+                        c.Type == (short)ChoicesType.VisaCategory
+                        && Extentions.GetStringSimilarityInPercent(c.Name,
+                            importedRows[i].VisaType,
+                            false) > 80)?.Value;
+                dataRow.NumberOfReceipt = importedRows[i].NumberOfReceipt;
+                dataRow.EndPassportDate = importedRows[i].EndPassportDate;
+                dataRow.Status = importedRows[i].Status;
+                dataRow.Name = importedRows[i].Name;
+                dataRow.LastName = importedRows[i].LastName;
+                dataRow.Birthday = importedRows[i].Birthday;
+                dataRow.RegistryFom = importedRows[i].RegistryFom;
+                dataRow.RegistryTo = importedRows[i].RegistryTo;
+                gridView1.RefreshData();
+            }
             _logger.Info("End barButtonItem2_ItemClick");
         }
 
