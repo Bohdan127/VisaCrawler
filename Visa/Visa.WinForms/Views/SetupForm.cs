@@ -213,8 +213,23 @@ namespace Visa.WinForms.Views
                 {
                     _logger.Info($"ImportProxies _openFileDialog.ShowDialog() == DialogResult.OK  _openFileDialog.FileName = {openFileDialog.FileName}");
                     var filelines = File.ReadAllLines(openFileDialog.FileName);
+                    string outtext = "";
+                    string regex = @"(\w+:\w+@)?(\d{1,3}\.){3}\d{1,3}(:\d{1,5})?";
                     foreach (var s in filelines)
-                        listBoxControlProxies.Items.Add(s);
+                    {
+                        string s1=s;
+                        if (s.StartsWith("http://"))
+                             s1 = s.Substring(7);
+                        if (System.Text.RegularExpressions.Regex.IsMatch(s1, regex))
+                            listBoxControlProxies.Items.Add(s1);
+                        else
+                        {
+                            outtext += $"\n{s} is not valid user:pass@ip:port";
+                            _logger.Trace($"{s} is not valid user:pass@ip:port");
+                        }
+                    }
+                    if (outtext.IsNotBlank())
+                        MessageBox.Show(outtext);
                 }
                 catch (Exception ex)
                 {
