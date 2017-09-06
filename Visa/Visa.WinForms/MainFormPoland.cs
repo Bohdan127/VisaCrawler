@@ -356,8 +356,6 @@ namespace Visa.WinForms
             ResManager.RegisterResource("uk_UA",
                 uk_UA.ResourceManager);
             _logger.Info("InitOtherComponentDetails. ResManager = uk_UA");
-            //we can off checking just for off line testing:
-            CheckLicense();
             CheckForUpdates();
             InitOtherComponentDetails();
             SetDataSourceForLookUps();
@@ -517,57 +515,6 @@ namespace Visa.WinForms
                     ResManager.GetString(ResKeys.colRegistryTo_ValidationError));
             }
             return bRes;
-        }
-
-        private void CheckLicense()
-        {
-            _logger.Trace("Start CheckLicense");
-            const string filePath = @".\Visa.key";
-            var key = string.Empty;
-            var licenseForm = new LicenseForm("uk_UA", uk_UA.ResourceManager);
-            var start = DateTime.Now;
-            try
-            {
-                key = File.ReadAllLines(filePath).FirstOrDefault() ?? string.Empty;
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("Exception during opening license key");
-                _logger.Error(ex.Message);
-            }
-            finally
-            {
-                if (!licenseForm.CheckInstance(key))
-                {
-                    _logger.Info($"Time for CheckLicense = {DateTime.Now - start}");
-                    licenseForm.ShowDialog();
-                }
-                else
-                {
-                    _logger.Info($"Time for CheckLicense = {DateTime.Now - start}");
-                }
-                if (!licenseForm.IsRegistered
-                    || licenseForm.LicenseKey.IsBlank())
-                    Close();
-            }
-            if (licenseForm.LicenseKey == key)
-                return;
-
-            try
-            {
-                _logger.Info($"Save new license key = {licenseForm.LicenseKey}");
-                if (File.Exists(filePath))
-                    File.Delete(filePath);
-                File.WriteAllText(filePath,
-                    licenseForm.LicenseKey,
-                    Encoding.UTF8);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("Exception during saving license key");
-                _logger.Error(ex.Message);
-            }
-            _logger.Trace("End CheckLicense");
         }
 
         private void SetDataSourceForLookUps()

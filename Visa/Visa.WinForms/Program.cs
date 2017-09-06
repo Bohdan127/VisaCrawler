@@ -1,4 +1,4 @@
-﻿#define CzechVisa
+﻿//#define CzechVisa
 using NLog;
 using System;
 using System.Globalization;
